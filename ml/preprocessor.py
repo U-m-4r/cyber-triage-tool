@@ -56,9 +56,9 @@ class ForensicPreprocessor:
     
     def run_pipeline(self, filepath):
         print("\n=== Starting Preprocessing Pipeline ===")
-        df_raw = self.load_data(filepath)
-        df_clean = self.clean_data(df_raw)
+        df_raw = self.load_data(filepath)          # truly raw, unmodified
+        df_clean = self.clean_data(df_raw)         # cleaned version
         df_features = self.extract_features(df_clean)
         df_scaled = self.scale_features(df_features)
         print(f"\n=== Pipeline Complete | Output shape: {df_scaled.shape} ===")
-        return df_scaled, df_clean
+        return df_scaled, df_raw, df_clean         # return all three clearly
