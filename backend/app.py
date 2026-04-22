@@ -14,6 +14,7 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
     roc_auc_score,
+    precision_recall_fscore_support,
 )
 from werkzeug.utils import secure_filename
 
@@ -68,14 +69,49 @@ def _api_error(message, status_code, code):
 
 
 def _extract_binary_ground_truth(df):
-    label_col = next((c for c in LABEL_COLUMN_CANDIDATES if c in df.columns), None)
+    override = request.args.get("label_column")
+    if override and override in df.columns:
+        label_col = override
+    else:
+        label_col = next((c for c in LABEL_COLUMN_CANDIDATES if c in df.columns), None)
+
+    if override and override not in df.columns:
+        return None, None
+
     if not label_col:
         return None, None
 
     labels = df[label_col].astype(str).str.strip().str.lower()
-    # CICIDS2017 uses "BENIGN" vs attack family labels.
+    # CICIDS2017-style labels: benign/normal/0 -> normal, everything else -> attack.
     y_true = np.where(labels.isin(["benign", "normal", "0"]), 0, 1)
     return y_true, label_col
+
+
+def _compute_top_k_metrics(y_true, decision_scores, ks=(10, 25)):
+    if len(y_true) == 0:
+        return {}
+
+    # Higher anomaly_score (-decision_function) means more anomalous.
+    anomaly_scores = -decision_scores
+    ranked_idx = np.argsort(-anomaly_scores)
+    total_attacks = int((y_true == 1).sum())
+    metrics = {}
+
+    for k in ks:
+        k_count = max(1, int(len(y_true) * (k / 100.0)))
+        top_idx = ranked_idx[:k_count]
+        top_hits = int((y_true[top_idx] == 1).sum())
+        precision_at_k = top_hits / k_count if k_count else 0.0
+        recall_at_k = top_hits / total_attacks if total_attacks else 0.0
+
+        metrics[f"top_{k}_percent"] = {
+            "records_considered": int(k_count),
+            "attack_hits": int(top_hits),
+            "precision": round(float(precision_at_k), 4),
+            "recall": round(float(recall_at_k), 4),
+        }
+
+    return metrics
 
 
 def _evaluate_predictions(y_true, predictions, decision_scores):
@@ -86,6 +122,23 @@ def _evaluate_predictions(y_true, predictions, decision_scores):
         "precision": round(float(precision_score(y_true, y_pred, zero_division=0)), 4),
         "recall": round(float(recall_score(y_true, y_pred, zero_division=0)), 4),
         "f1_score": round(float(f1_score(y_true, y_pred, zero_division=0)), 4),
+    }
+
+    # Per-class performance helps explain false positives/false negatives in viva.
+    p, r, f, s = precision_recall_fscore_support(y_true, y_pred, labels=[0, 1], zero_division=0)
+    metrics["class_metrics"] = {
+        "normal_0": {
+            "precision": round(float(p[0]), 4),
+            "recall": round(float(r[0]), 4),
+            "f1_score": round(float(f[0]), 4),
+            "support": int(s[0]),
+        },
+        "attack_1": {
+            "precision": round(float(p[1]), 4),
+            "recall": round(float(r[1]), 4),
+            "f1_score": round(float(f[1]), 4),
+            "support": int(s[1]),
+        },
     }
 
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
@@ -104,6 +157,7 @@ def _evaluate_predictions(y_true, predictions, decision_scores):
     else:
         metrics["roc_auc"] = None
 
+    metrics["triage_top_k"] = _compute_top_k_metrics(y_true, decision_scores, ks=(10, 25))
     return metrics
 
 
