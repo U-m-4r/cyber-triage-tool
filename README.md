@@ -28,7 +28,7 @@ npm start
 
 This project uses the CICIDS2017 dataset.
 
-1. Download from Kaggle:
+1. Download from Kaggle:-
    https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed
 
 2. Place the file in the data/ folder:
