@@ -31,7 +31,7 @@ This project uses the CICIDS2017 dataset.
 1. Download from Kaggle:-
    https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed
 
-2. Place the file in the data/ folder:
+2. Place the file in the data/ folder:-
    cyber-triage-tool/data/cicids2017_cleaned.csv
 
 3. The data/ folder is gitignored — never commit CSV files to this repo
