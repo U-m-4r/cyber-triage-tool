@@ -12,7 +12,15 @@ models/*.joblib
 reports/*.pdf
 node_modules/
 frontend/build/
+frontend/dist/
 .DS_Store
 temp/
 *.tmp
 *.log
+
+# Local editor/agent tooling
+.claude/
+
+# Third-party design reference used while building the landing page.
+# Kept local: it describes another product's page and pins an external CDN asset.
+frontend/landingpage.md

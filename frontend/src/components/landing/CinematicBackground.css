@@ -1,0 +1,78 @@
+/* Background stack for the cinematic routes. See CinematicBackground.jsx for
+   the layer order. All layers are pointer-transparent. */
+
+.cinematic-field,
+.cinematic-video,
+.cinematic-vignette,
+.cinematic-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Painted fallback: a slow cold-teal field so the composition still reads if the
+   video is blocked, offline, or replaced. */
+.cinematic-field {
+  z-index: -4;
+  background:
+    radial-gradient(ellipse 70% 55% at 22% 78%, rgba(21, 63, 72, 0.62), transparent 62%),
+    radial-gradient(ellipse 58% 48% at 76% 26%, rgba(14, 44, 58, 0.55), transparent 66%),
+    radial-gradient(ellipse 44% 40% at 62% 82%, rgba(58, 34, 24, 0.34), transparent 70%),
+    linear-gradient(168deg, #05080a 0%, #070d10 46%, #04070a 100%);
+  animation: field-drift 34s ease-in-out infinite alternate;
+}
+
+@keyframes field-drift {
+  from {
+    transform: scale(1.04) translate3d(-1.1%, -0.7%, 0);
+  }
+  to {
+    transform: scale(1.1) translate3d(1.1%, 0.9%, 0);
+  }
+}
+
+.cinematic-video {
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: none;
+}
+
+/* Reference vignette: top/bottom edge falloff plus a centre-weighted ellipse. */
+.cinematic-vignette {
+  z-index: -2;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.03),
+      transparent 24%,
+      transparent 82%,
+      rgba(0, 0, 0, 0.05)
+    ),
+    radial-gradient(ellipse at 44% 54%, transparent 30%, rgba(0, 0, 0, 0.055) 100%);
+}
+
+/* Login route only (`dim`): drops the whole field to a deep neutral charcoal,
+   weighted darkest at the centre so the form sits on near-black while the warm
+   footage still shows at the edges. No colour is added here — the ember tone
+   comes from the video itself. */
+.cinematic-scrim {
+  z-index: -1;
+  background:
+    radial-gradient(
+      ellipse 48% 52% at 50% 50%,
+      rgba(0, 0, 0, 0.62),
+      rgba(0, 0, 0, 0.4) 74%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    linear-gradient(180deg, rgba(5, 5, 6, 0.58), rgba(4, 4, 5, 0.66));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-field {
+    animation: none;
+  }
+}

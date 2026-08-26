@@ -1,0 +1,72 @@
+/* Sections are defined by a hairline and a change of value, not by shadow. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+}
+
+.panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.panel__titles {
+  min-width: 0;
+}
+
+.panel__title {
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: 0.005em;
+}
+
+.panel__subtitle {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 430;
+  line-height: 1.4;
+}
+
+.panel__action {
+  flex: none;
+}
+
+.panel__body {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+
+.panel__body--flush {
+  padding: 0;
+}
+
+/* Small text button used in panel headers. */
+.panel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 7px;
+  margin: -3px -7px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 480;
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.panel-link:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}

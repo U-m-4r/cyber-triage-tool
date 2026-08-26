@@ -1,0 +1,148 @@
+/**
+ * Shared foundation for the cinematic routes (landing + login).
+ *
+ * Layout tokens follow frontend/landingpage.md. Two deliberate deviations:
+ *
+ *  1. `--display-size` / `--display-leading` carry a `min(..., vw)` guard. The
+ *     reference sizes the headline off viewport *height* only, which is safe for
+ *     its short copy ("Stop Digging"). Our longest line — "Clear Answers.
+ *     Faster." — is wider and overflows on tall-narrow viewports (e.g. portrait
+ *     tablets) without a width term.
+ *
+ *  2. Headline letter-spacing is `-0.024em` rather than a fixed `-2.1px`, so the
+ *     tracking stays proportional as the size clamps down. At the reference's
+ *     88px this resolves to ~-2.1px.
+ */
+
+.viewport {
+  position: fixed;
+  inset: 0;
+  isolation: isolate;
+  background: #000;
+}
+
+.screen {
+  --gutter-start: clamp(28px, 4.177vw, 96px);
+  --gutter-end: clamp(28px, 4.04vw, 96px);
+  --header-top: clamp(20px, 2.264vh, 30px);
+  --hero-bottom: clamp(34px, 5.19vh, 64px);
+
+  --display-size: clamp(40px, min(7.64vh, 8vw), 88px);
+  --display-leading: clamp(48px, min(9.34vh, 9.6vw), 106px);
+  --copy-size: clamp(14px, 1.7vh, 19px);
+  --copy-leading: clamp(19px, 2.17vh, 24px);
+
+  --title-copy-gap: clamp(15px, 2.08vh, 24px);
+  --copy-cta-gap: clamp(24px, 3.11vh, 36px);
+  --cta-width: clamp(148px, 15.09vh, 172px);
+  --cta-height: clamp(38px, 3.96vh, 44px);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ---- Glass language ----------------------------------------------------- */
+
+.glass {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+}
+
+.glass-cool {
+  border: 1px solid var(--glass-border-strong);
+  background: var(--glass-fill-cool);
+  backdrop-filter: blur(16px) saturate(110%);
+}
+
+/* ---- Interaction -------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .screen button,
+  .screen a {
+    transition:
+      filter 140ms ease,
+      opacity 140ms ease;
+  }
+
+  .screen button:hover,
+  .screen a:hover {
+    filter: brightness(1.08);
+  }
+}
+
+/* ---- Entrance choreography --------------------------------------------- */
+/* Delays and easings follow the reference timeline table. Pre-animation offsets
+   are applied via [data-motion='pending'] in the route stylesheets. */
+
+@keyframes entrance-brand {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 7px, 0) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrance-nav {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrance-action {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entrance-line {
+  from {
+    transform: translate3d(0, 110%, 0) skewY(2deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes entrance-copy {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Used by the login panel. */
+@keyframes entrance-card {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.968);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

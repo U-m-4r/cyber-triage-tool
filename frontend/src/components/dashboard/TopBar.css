@@ -1,0 +1,325 @@
+.app-topbar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-right: var(--app-gutter);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-sunken);
+}
+
+/* ---- Brand slot (aligned over the sidebar column) ---------------------- */
+
+.app-topbar__brand-slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  width: var(--sidebar-width);
+  height: 100%;
+  padding-left: 16px;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.app-topbar__nav-toggle {
+  display: none;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin-left: -4px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.app-topbar__nav-toggle:hover {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+}
+
+.app-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.app-topbar__word {
+  display: inline-flex;
+  gap: 0.32em;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 570;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.app-topbar__word-accent {
+  color: rgba(226, 233, 234, 0.56);
+  font-weight: 420;
+}
+
+/* ---- Search ------------------------------------------------------------- */
+
+.app-topbar__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  max-width: 480px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.app-topbar__search:focus-within {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.app-topbar__search-icon {
+  flex: none;
+  color: var(--text-muted);
+}
+
+.app-topbar__search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 8px;
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  letter-spacing: 0.005em;
+}
+
+.app-topbar__search input::placeholder {
+  color: var(--text-faint);
+}
+
+.app-topbar__search input:focus {
+  outline: none;
+}
+
+/* Chrome/Safari clear button clashes with the dark field. */
+.app-topbar__search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.app-topbar__kbd {
+  flex: none;
+  padding: 2px 5px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  background: var(--bg-inset);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Right cluster ------------------------------------------------------ */
+
+.app-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  margin-left: auto;
+}
+
+.app-topbar__notify {
+  position: relative;
+}
+
+.app-topbar__icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.app-topbar__icon-button:hover {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+}
+
+.app-topbar__badge {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: var(--radius-pill);
+  background: var(--sev-critical);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Notifications panel ------------------------------------------------ */
+
+.notify-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  width: 320px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel-raised);
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+  animation: notify-in 160ms var(--ease-out-expo) both;
+}
+
+@keyframes notify-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.notify-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notify-panel__count {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.notify-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+}
+
+.notify-item + .notify-item {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.notify-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.notify-item__title {
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 450;
+  line-height: 1.35;
+}
+
+.notify-item__meta {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+/* ---- Session indicator -------------------------------------------------- */
+
+.app-topbar__session {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 11px 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+}
+
+/* Session presence, not a severity — plain and unlit. */
+.app-topbar__session-dot {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--marker-dim);
+}
+
+.app-topbar__session-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.app-topbar__session-id {
+  color: var(--text-primary);
+  font-size: 11.5px;
+  font-weight: 520;
+}
+
+.app-topbar__session-role {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .app-topbar__brand-slot {
+    width: auto;
+    border-right: none;
+    padding-left: 12px;
+  }
+
+  .app-topbar__nav-toggle {
+    display: grid;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-topbar {
+    gap: 10px;
+  }
+
+  .app-topbar__word {
+    display: none;
+  }
+
+  .app-topbar__kbd {
+    display: none;
+  }
+
+  .app-topbar__session-meta {
+    display: none;
+  }
+
+  .app-topbar__session {
+    padding: 0 9px;
+  }
+}

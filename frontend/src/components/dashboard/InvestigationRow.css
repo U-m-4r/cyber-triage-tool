@@ -1,0 +1,282 @@
+/* Rows in the primary panel: a little more room and a little more contrast than
+   the surrounding sections, since this is where triage decisions get made. */
+.inv-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 104px 104px auto 92px;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 16px;
+  transition: background-color 130ms ease;
+}
+
+.inv-row + .inv-row {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Severity rail on the leading edge. Always visible — scanning severity down the
+   list is the point of the column, so it does not wait for a hover. */
+.inv-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rail, transparent);
+}
+
+.inv-row--critical {
+  --rail: var(--sev-critical);
+  --meter: var(--sev-critical);
+}
+.inv-row--high {
+  --rail: var(--sev-high);
+  --meter: var(--sev-high);
+}
+.inv-row--medium {
+  --rail: var(--sev-medium);
+  --meter: var(--sev-medium);
+}
+.inv-row--low {
+  --rail: var(--sev-low);
+  --meter: var(--sev-low);
+}
+
+.inv-row:hover {
+  background: var(--bg-panel-raised);
+}
+
+.inv-row--selected {
+  background: var(--bg-panel-raised);
+}
+
+/* Selection widens the severity rail rather than adding a second colour to it —
+   the row stays readable as "critical", just also as "the one being viewed". */
+.inv-row--selected::before {
+  width: 3px;
+}
+
+/* Full-row click target sitting behind the content. */
+.inv-row__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.inv-row > *:not(.inv-row__hit) {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---- Identity ----------------------------------------------------------- */
+
+.inv-row__identity {
+  min-width: 0;
+}
+
+.inv-row__id-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inv-row__id {
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+}
+
+/* The case description is what an investigator actually reads down the list, so
+   it carries the primary weight and the ID becomes the reference beside it. */
+.inv-row__title {
+  margin-top: 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 490;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inv-row__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 7px;
+}
+
+.inv-row__fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+}
+
+.inv-row__fact svg {
+  color: var(--text-faint);
+}
+
+/* ---- Threat score ------------------------------------------------------- */
+
+.inv-row__score {
+  min-width: 0;
+}
+
+.inv-row__score-line {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.inv-row__score-value {
+  color: var(--text-primary);
+  font-size: 19px;
+  font-weight: 560;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+.inv-row__score-max {
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 450;
+}
+
+.inv-row__score-label {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 460;
+}
+
+.inv-row__meter {
+  margin-top: 7px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.inv-row__meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--meter, var(--marker-dim));
+}
+
+/* ---- Severity + progress ------------------------------------------------ */
+
+.inv-row__severity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.inv-row__progress-label {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 450;
+}
+
+/* ---- Stats -------------------------------------------------------------- */
+
+.inv-row__stats {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+}
+
+.inv-row__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.inv-row__stat dt {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 460;
+}
+
+.inv-row__stat dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 520;
+}
+
+.inv-row__stat--critical dd {
+  color: var(--sev-critical);
+}
+
+/* ---- Tail --------------------------------------------------------------- */
+
+.inv-row__tail {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  text-align: right;
+}
+
+.inv-row__activity {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+  white-space: nowrap;
+}
+
+.inv-row__chevron {
+  flex: none;
+  color: var(--text-faint);
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 1439px) {
+  .inv-row {
+    grid-template-columns: minmax(0, 1fr) 96px auto;
+    gap: 14px;
+  }
+
+  .inv-row__severity {
+    display: none;
+  }
+
+  .inv-row__tail {
+    grid-column: 3;
+  }
+
+  .inv-row__stats {
+    grid-column: 1 / -1;
+    padding-top: 4px;
+    border-top: 1px dashed var(--border-subtle);
+  }
+}
+
+@media (max-width: 767px) {
+  .inv-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .inv-row__title {
+    white-space: normal;
+  }
+
+  .inv-row__tail {
+    grid-column: 2;
+  }
+
+  .inv-row__stats {
+    flex-wrap: wrap;
+    gap: 12px 18px;
+  }
+}

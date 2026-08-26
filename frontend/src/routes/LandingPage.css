@@ -1,0 +1,205 @@
+/* Landing composition: bottom-left hero stack over the cinematic background.
+   Layout tokens come from cinematic.css. */
+
+.hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero > * {
+  pointer-events: auto;
+}
+
+/* ---- Hero stack --------------------------------------------------------- */
+
+.hero-content {
+  position: absolute;
+  left: var(--gutter-start);
+  bottom: var(--hero-bottom);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: calc(100% - var(--gutter-start) - var(--gutter-end));
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: var(--display-size);
+  font-weight: 500;
+  line-height: var(--display-leading);
+  letter-spacing: -0.024em;
+  white-space: nowrap;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.44);
+  -webkit-text-stroke: 0.12px currentColor;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  transform-origin: left center;
+}
+
+.line-reveal {
+  display: block;
+  will-change: transform;
+}
+
+.line-one {
+  color: #fff;
+  transform: scaleX(0.775);
+}
+
+.line-two {
+  color: rgba(211, 207, 207, 0.78);
+  transform: scaleX(0.793);
+}
+
+.hero-copy {
+  position: relative;
+  left: 1px;
+  width: clamp(340px, 42vw, 575px);
+  max-width: 100%;
+  margin-top: var(--title-copy-gap);
+  color: rgba(226, 229, 228, 0.84);
+  font-size: var(--copy-size);
+  font-weight: 350;
+  line-height: var(--copy-leading);
+  letter-spacing: 0.13px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  margin-top: var(--copy-cta-gap);
+}
+
+/* ---- Primary CTA (white pill + dark arrow box) -------------------------- */
+/* The only call to action on the page. Login is reached through it, not beside
+   it, so there is a single entry path into the application. */
+
+.primary-cta {
+  position: relative;
+  flex: none;
+  width: var(--cta-width);
+  height: var(--cta-height);
+  border-radius: 7px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.38);
+}
+
+.primary-cta__label {
+  position: absolute;
+  left: 8.125%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(11px, 1.24vh, 13px);
+  font-weight: 560;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.primary-cta__arrow {
+  position: absolute;
+  right: 3.125%;
+  top: 14.286%;
+  display: grid;
+  place-items: center;
+  width: 20.625%;
+  height: 71.429%;
+  border-radius: 7px;
+  background: #070909;
+  color: #fff;
+}
+
+/* ---- Entrance ----------------------------------------------------------- */
+
+[data-motion='pending'] .line-reveal {
+  transform: translate3d(0, 110%, 0) skewY(2deg);
+}
+
+[data-motion='pending'] .hero-copy,
+[data-motion='pending'] .hero-actions {
+  opacity: 0;
+}
+
+.line-one .line-reveal {
+  animation: entrance-line 800ms var(--ease-out-quint) 300ms both;
+}
+
+.line-two .line-reveal {
+  animation: entrance-line 850ms var(--ease-out-quint) 440ms both;
+}
+
+.hero-copy {
+  animation: entrance-copy 620ms var(--ease-out-expo) 740ms both;
+}
+
+.hero-actions {
+  animation: entrance-action 560ms var(--ease-out-expo) 960ms both;
+}
+
+/* ---- Collapsed breakpoints --------------------------------------------- */
+
+/* Below the desktop breakpoint the hard line breaks in the body copy fight the
+   narrower measure, so natural wrapping takes over (as in the reference). */
+@media (max-width: 1100px) {
+  .hero-copy {
+    width: min(520px, 62vw);
+  }
+
+  .hero-copy br {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .hero-title {
+    letter-spacing: -0.02em;
+  }
+
+  .hero-copy {
+    width: min(460px, 74vw);
+  }
+}
+
+/* Mobile: the headline wraps instead of squashing. */
+@media (max-width: 619px) {
+  .screen.landing {
+    --display-size: clamp(30px, 8.7vw, 48px);
+    --display-leading: clamp(36px, 10.4vw, 56px);
+    --hero-bottom: max(28px, env(safe-area-inset-bottom, 0px) + 24px);
+  }
+
+  .hero-title {
+    white-space: normal;
+  }
+
+  .line-one {
+    transform: scaleX(0.94);
+  }
+
+  .line-two {
+    transform: scaleX(0.95);
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: 92vw;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .primary-cta {
+    flex: 1 1 auto;
+    min-width: 160px;
+    max-width: 260px;
+  }
+}

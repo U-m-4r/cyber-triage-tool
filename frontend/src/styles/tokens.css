@@ -1,0 +1,104 @@
+/**
+ * Cyber Triage design tokens.
+ *
+ * Two visual registers share one palette:
+ *   - the cinematic landing/login composition (near-black, glass, white CTA)
+ *   - the investigator application shell (layered charcoal panels, no accent hue)
+ *
+ * Colour policy for the application shell: hue carries severity and nothing
+ * else. Interaction states, active markers, focus rings and progress meters are
+ * neutral, so a red or orange element on screen always means "this finding is
+ * more serious", never "this thing is clickable".
+ *
+ * Severity colours are deliberately desaturated. A forensic tool has to read as
+ * an instrument, not an alarm panel, so CRITICAL is a deep brick red rather than
+ * a saturated #ff0000. LOW and INFO carry no hue at all — nothing to decide.
+ */
+
+:root {
+  /* ---- Typography -------------------------------------------------------- */
+  /* The reference names two proprietary variable faces. They are listed first
+     so a licensed install is picked up automatically; otherwise we fall back to
+     the platform's variable UI face (Segoe UI Variable on Windows, SF on mac). */
+  --font-sans: 'Reference Sans', 'Segoe UI Variable Text', 'Segoe UI', -apple-system,
+    BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Reference Display', 'Segoe UI Variable Display', 'Segoe UI',
+    -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Cascadia Mono', 'SF Mono', 'Consolas', 'Roboto Mono', ui-monospace, monospace;
+
+  /* ---- Application surfaces --------------------------------------------- */
+  --bg-base: #07090b;
+  --bg-sunken: #050708;
+  --bg-panel: #0d1114;
+  --bg-panel-raised: #11161a;
+  --bg-panel-hover: #151b20;
+  --bg-inset: #0a0e11;
+
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.11);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --text-primary: #e7ecee;
+  --text-secondary: rgba(231, 236, 238, 0.66);
+  --text-muted: rgba(231, 236, 238, 0.42);
+  --text-faint: rgba(231, 236, 238, 0.26);
+  --text-inverse: #0a0c0d;
+
+  /* ---- Neutral interaction (no hue: colour is reserved for severity) ----- */
+  --marker: rgba(231, 236, 238, 0.7);
+  --marker-dim: rgba(231, 236, 238, 0.34);
+  --focus-ring: rgba(255, 255, 255, 0.12);
+  --surface-tint: rgba(255, 255, 255, 0.045);
+
+  /* ---- Severity scale ---------------------------------------------------- */
+  /* CRITICAL red · HIGH orange · MEDIUM amber · LOW and INFO neutral. */
+  --sev-critical: #d9484c;
+  --sev-critical-bg: rgba(217, 72, 76, 0.13);
+  --sev-critical-border: rgba(217, 72, 76, 0.36);
+
+  --sev-high: #d9843c;
+  --sev-high-bg: rgba(217, 132, 60, 0.13);
+  --sev-high-border: rgba(217, 132, 60, 0.34);
+
+  --sev-medium: #cdae42;
+  --sev-medium-bg: rgba(205, 174, 66, 0.12);
+  --sev-medium-border: rgba(205, 174, 66, 0.32);
+
+  --sev-low: rgba(231, 236, 238, 0.6);
+  --sev-low-bg: rgba(255, 255, 255, 0.045);
+  --sev-low-border: rgba(255, 255, 255, 0.13);
+
+  --sev-info: rgba(231, 236, 238, 0.46);
+  --sev-info-bg: rgba(255, 255, 255, 0.035);
+  --sev-info-border: rgba(255, 255, 255, 0.1);
+
+  /* ---- Glass language (shared with the landing composition) ------------- */
+  --glass-border: rgba(255, 255, 255, 0.13);
+  --glass-border-strong: rgba(255, 255, 255, 0.21);
+  --glass-fill: linear-gradient(145deg, rgba(24, 22, 20, 0.8), rgba(5, 12, 14, 0.86));
+  --glass-fill-cool: linear-gradient(145deg, rgba(26, 34, 36, 0.86), rgba(16, 29, 33, 0.9));
+  --glass-shadow: 0 2px 10px rgba(0, 0, 0, 0.44), 0 0 0 3px rgba(255, 255, 255, 0.035) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.9);
+  --glass-blur: blur(14px) saturate(108%);
+
+  /* ---- Radii / elevation ------------------------------------------------- */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  --shadow-raised: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  /* ---- Application layout ------------------------------------------------ */
+  --sidebar-width: 232px;
+  --sidebar-width-collapsed: 64px;
+  --topbar-height: 56px;
+  --app-gutter: 24px;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+  font-family: var(--font-sans);
+}
