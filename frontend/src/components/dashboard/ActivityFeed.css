@@ -1,0 +1,84 @@
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 16px;
+  transition: background-color 130ms ease;
+}
+
+.activity + .activity {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.activity:hover {
+  background: var(--bg-panel-raised);
+}
+
+.activity__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--text-muted);
+}
+
+/* Only the two severities that change an investigator's priorities are tinted,
+   and by outline rather than fill — a feed of coloured chips reads as noise. */
+.activity__icon--critical {
+  border-color: var(--sev-critical-border);
+  color: var(--sev-critical);
+}
+
+.activity__icon--high {
+  border-color: var(--sev-high-border);
+  color: var(--sev-high);
+}
+
+.activity__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity__message {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 440;
+  line-height: 1.4;
+}
+
+.activity__meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+}
+
+.activity__case {
+  color: var(--text-secondary);
+}
+
+.activity__dot {
+  color: var(--text-faint);
+}
+
+.activity__time {
+  flex: none;
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 450;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

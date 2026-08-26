@@ -1,0 +1,77 @@
+/* Supporting metric strip. Sized and toned down so the eye lands on the case
+   list below rather than here — no sparkline, no tone rail, no severity fill. */
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 11px 13px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+}
+
+.stat-card__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 480;
+  letter-spacing: 0.005em;
+}
+
+.stat-card__figure {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat-card__value {
+  color: var(--text-primary);
+  font-size: 22px;
+  font-weight: 520;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* Direction is carried by the arrow, not by colour — a rising artifact count is
+   not a severity signal. */
+.stat-card__delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 470;
+}
+
+.stat-card__delta-icon {
+  align-self: center;
+  color: var(--text-faint);
+  transform: rotate(-45deg);
+}
+
+.stat-card__delta--down .stat-card__delta-icon {
+  transform: rotate(45deg);
+}
+
+.stat-card__delta-period {
+  color: var(--text-faint);
+  font-weight: 430;
+}
+
+.stat-card__detail {
+  min-width: 0;
+  margin-top: auto;
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 430;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  .stat-card__value {
+    font-size: 20px;
+  }
+}

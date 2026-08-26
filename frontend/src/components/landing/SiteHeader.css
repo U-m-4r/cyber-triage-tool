@@ -1,0 +1,259 @@
+/* Landing header. Positioned absolutely inside .screen and driven by the
+   --header-top / --gutter-* tokens from cinematic.css. */
+
+.header {
+  position: absolute;
+  inset: var(--header-top) var(--gutter-end) auto var(--gutter-start);
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  height: 48px;
+  white-space: nowrap;
+}
+
+/* ---- Brand -------------------------------------------------------------- */
+
+.brand {
+  position: relative;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.brand__mark {
+  flex: none;
+}
+
+.brand__word {
+  display: inline-flex;
+  gap: 0.34em;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 570;
+  letter-spacing: 0.13em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+.brand__word-accent {
+  color: rgba(226, 233, 234, 0.62);
+  font-weight: 420;
+}
+
+/* ---- Header actions cluster -------------------------------------------- */
+
+.header__actions {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---- Section labels ----------------------------------------------------- */
+
+.nav {
+  position: relative;
+  top: 9px;
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 2.9vw, 43px);
+  margin-left: clamp(30px, 3.03vw, 48px);
+}
+
+.nav__link {
+  position: relative;
+  color: rgba(229, 229, 230, 0.77);
+  font-size: 15px;
+  font-weight: 430;
+  letter-spacing: -0.022em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+.nav__link--active {
+  color: #fff;
+}
+
+.nav__link--active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 44px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+/* Non-interactive labels: no pointer affordance, slightly recessed. */
+.nav__link--upcoming {
+  color: rgba(229, 229, 230, 0.5);
+  cursor: default;
+}
+
+/* ---- System time panel -------------------------------------------------- */
+
+.status-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: none;
+  margin-left: auto;
+  width: 226px;
+  height: 48px;
+  padding-left: 9px;
+  border-left: 2px solid rgba(230, 230, 230, 0.52);
+}
+
+.status-panel__label {
+  color: rgba(240, 240, 240, 0.77);
+  font-size: 13px;
+  font-weight: 420;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+.status-panel__value {
+  color: rgba(255, 255, 255, 0.93);
+  font-size: 13px;
+  font-weight: 440;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- Menu toggle (collapsed breakpoints only) --------------------------- */
+
+.menu-toggle {
+  display: none;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  margin-left: auto;
+  border-radius: 11px;
+  color: rgba(240, 244, 245, 0.9);
+}
+
+/* ---- Entrance ----------------------------------------------------------- */
+
+[data-motion='pending'] .brand,
+[data-motion='pending'] .nav__link,
+[data-motion='pending'] .status-panel,
+[data-motion='pending'] .menu-toggle {
+  opacity: 0;
+}
+
+.brand {
+  animation: entrance-brand 580ms var(--ease-out-expo) 60ms both;
+}
+
+.nav__link {
+  animation: entrance-nav 480ms var(--ease-out-expo) both;
+}
+
+.nav__link:nth-child(1) {
+  animation-delay: 130ms;
+}
+.nav__link:nth-child(2) {
+  animation-delay: 175ms;
+}
+.nav__link:nth-child(3) {
+  animation-delay: 220ms;
+}
+.nav__link:nth-child(4) {
+  animation-delay: 265ms;
+}
+
+.status-panel {
+  animation: entrance-nav 520ms var(--ease-out-expo) 180ms both;
+}
+
+.menu-toggle {
+  animation: entrance-action 520ms var(--ease-out-expo) 140ms both;
+}
+
+/* ---- Collapsed layout (tablet + mobile) -------------------------------- */
+
+@media (max-width: 1100px) {
+  .menu-toggle {
+    display: grid;
+  }
+
+  .header__actions {
+    position: absolute;
+    right: 0;
+    top: 58px;
+    z-index: 4;
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    width: min(340px, calc(100vw - var(--gutter-start) - var(--gutter-end)));
+    padding: 20px;
+    border: 1px solid var(--glass-border-strong);
+    border-radius: 16px;
+    background: var(--glass-fill-cool);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(18px) saturate(110%);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.985);
+    transition:
+      opacity 200ms var(--ease-out-expo),
+      transform 240ms var(--ease-out-expo),
+      visibility 240ms;
+  }
+
+  .header--menu-open .header__actions {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav {
+    top: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-left: 0;
+  }
+
+  .nav__link {
+    font-size: 16px;
+  }
+
+  .nav__link--active::after {
+    bottom: -5px;
+  }
+
+  .status-panel {
+    margin-left: 0;
+    width: auto;
+    height: auto;
+    padding: 10px 0 10px 10px;
+    border-top: 1px solid var(--border-subtle);
+    border-left: 2px solid rgba(230, 230, 230, 0.4);
+    border-radius: 0;
+  }
+
+  /* Inside the dropdown the items animate with the panel, not on load. */
+  .nav__link,
+  .status-panel {
+    animation: none;
+  }
+
+  [data-motion='pending'] .nav__link,
+  [data-motion='pending'] .status-panel {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 619px) {
+  .brand__word {
+    font-size: 13px;
+    letter-spacing: 0.11em;
+  }
+
+  .header__actions {
+    width: min(340px, calc(100vw - var(--gutter-start) - var(--gutter-end)));
+  }
+}

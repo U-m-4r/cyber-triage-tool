@@ -1,0 +1,201 @@
+.app-sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  padding: 14px 0 0;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-sunken);
+}
+
+/* ---- Navigation --------------------------------------------------------- */
+
+.sidebar-nav {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 10px;
+}
+
+.sidebar-nav__section {
+  display: block;
+  padding: 0 8px 8px;
+}
+
+.sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 460;
+  letter-spacing: 0.005em;
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.sidebar-link + .sidebar-link,
+.app-sidebar li + li .sidebar-link {
+  margin-top: 1px;
+}
+
+.sidebar-link:hover {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+}
+
+.sidebar-link--active {
+  background: var(--bg-panel-raised);
+  color: var(--text-primary);
+  font-weight: 520;
+}
+
+/* Active marker on the sunken rail. Neutral: navigation state is not severity. */
+.sidebar-link--active::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 18px;
+  border-radius: 0 2px 2px 0;
+  background: var(--marker);
+}
+
+.sidebar-link--active svg {
+  color: var(--text-primary);
+}
+
+.sidebar-link__label {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Marks a destination whose module is a later phase. */
+.sidebar-link__pending {
+  flex: none;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.sidebar-foot {
+  flex: none;
+  padding: 12px 10px;
+}
+
+.sidebar-case {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 11px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+}
+
+.sidebar-case__id {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 520;
+  letter-spacing: 0.01em;
+}
+
+.sidebar-case__host {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 9px 6px 2px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.sidebar-user__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel-raised);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 560;
+}
+
+.sidebar-user__meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.sidebar-user__id {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 520;
+}
+
+.sidebar-user__role {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 440;
+}
+
+.sidebar-user__signout {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.sidebar-user__signout:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
+/* ---- Drawer behaviour --------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .app-sidebar {
+    position: fixed;
+    left: 0;
+    top: var(--topbar-height);
+    bottom: 0;
+    z-index: 19;
+    width: var(--sidebar-width);
+    transform: translateX(-100%);
+    transition: transform 240ms var(--ease-out-expo);
+  }
+
+  .app-shell--drawer-open .app-sidebar {
+    transform: none;
+    box-shadow: var(--shadow-raised);
+  }
+}

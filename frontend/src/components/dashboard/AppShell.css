@@ -1,0 +1,48 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: var(--topbar-height) minmax(0, 1fr);
+  height: 100%;
+  background: var(--bg-base);
+}
+
+.app-main {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  overflow-y: auto;
+  background: var(--bg-base);
+}
+
+/* Overlay behind the small-screen navigation drawer. */
+.app-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 18;
+  background: rgba(2, 4, 5, 0.62);
+  backdrop-filter: blur(2px);
+  cursor: default;
+}
+
+/* ---- Drawer breakpoint -------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-main {
+    grid-column: 1;
+  }
+
+  .app-shell--drawer-open .app-scrim {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-shell {
+    --app-gutter: 16px;
+  }
+}

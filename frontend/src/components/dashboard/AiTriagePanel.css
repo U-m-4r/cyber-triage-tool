@@ -1,0 +1,378 @@
+/* AI Triage summary. Colour appears in exactly two places — the severity meter
+   under the score and the rail on the recommended action — so both read as
+   information rather than styling. */
+
+.triage-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+  overflow: hidden;
+}
+
+.triage-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.triage-panel__title {
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 560;
+}
+
+.triage-panel__case {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 450;
+}
+
+/* ---- Score readout ------------------------------------------------------ */
+
+.triage-summary {
+  padding: 14px 16px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-inset);
+}
+
+.triage-summary__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 480;
+}
+
+.triage-score {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.triage-score__value {
+  color: var(--text-primary);
+  font-size: 34px;
+  font-weight: 520;
+  letter-spacing: -0.028em;
+  line-height: 1;
+}
+
+.triage-score__max {
+  color: var(--text-faint);
+  font-size: 13px;
+  font-weight: 450;
+}
+
+/* Severity of the case, resolved once and used by the meter below. The band name
+   itself is not repeated here — it is already on the badge in the panel head. */
+.triage-summary--critical {
+  --sev: var(--sev-critical);
+}
+.triage-summary--high {
+  --sev: var(--sev-high);
+}
+.triage-summary--medium {
+  --sev: var(--sev-medium);
+}
+.triage-summary--low {
+  --sev: var(--sev-low);
+}
+
+.triage-score__meter {
+  height: 4px;
+  margin-top: 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.triage-score__meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sev, var(--marker));
+}
+
+.triage-summary__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  min-width: 0;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.triage-stat dt {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 470;
+  line-height: 1.3;
+}
+
+.triage-stat dd {
+  margin: 3px 0 0;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 530;
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+}
+
+.triage-stat--critical dd {
+  color: var(--sev-critical);
+}
+
+/* ---- Recommended next action -------------------------------------------- */
+
+/* Prominence comes from position and weight; the rail carries the urgency. */
+.triage-action {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: 2px solid var(--urgency, var(--marker-dim));
+}
+
+.triage-action--critical {
+  --urgency: var(--sev-critical);
+}
+.triage-action--high {
+  --urgency: var(--sev-high);
+}
+.triage-action--medium {
+  --urgency: var(--sev-medium);
+}
+
+.triage-action__label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 480;
+}
+
+.triage-action__headline {
+  margin-top: 5px;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-weight: 520;
+  line-height: 1.35;
+}
+
+.triage-action__detail {
+  margin-top: 5px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 430;
+  line-height: 1.45;
+}
+
+/* ---- Findings ----------------------------------------------------------- */
+
+.triage-findings__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 9px;
+}
+
+.triage-findings__count {
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+.finding {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 16px;
+  border-top: 1px solid var(--border-subtle);
+  transition: background-color 130ms ease;
+}
+
+.finding:hover {
+  background: var(--bg-panel-raised);
+}
+
+/* Artifact type, not severity — the badge next to the title carries that. */
+.finding__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel);
+  color: var(--text-muted);
+}
+
+.finding__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.finding__title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.finding__title {
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 520;
+}
+
+.finding__rationale {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 420;
+  line-height: 1.45;
+}
+
+.finding__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  margin-top: 6px;
+}
+
+.finding__source,
+.finding__technique,
+.finding__observed {
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 440;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finding__technique {
+  padding: 1px 5px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  color: var(--text-secondary);
+}
+
+.finding__observed {
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+}
+
+.finding__score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: none;
+}
+
+.finding__score-label {
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 450;
+}
+
+.finding__score-value {
+  margin-top: 1px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 540;
+  line-height: 1.1;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.triage-panel__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: auto;
+  padding: 11px 16px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 430;
+  line-height: 1.45;
+}
+
+.triage-panel__disclaimer {
+  color: var(--text-faint);
+}
+
+/* ---- Pending state ------------------------------------------------------ */
+
+.triage-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 9px;
+  padding: 38px 26px 42px;
+  text-align: center;
+}
+
+.triage-pending__icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  background: var(--bg-inset);
+  color: var(--text-muted);
+}
+
+.triage-pending__headline {
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 520;
+}
+
+.triage-pending__detail {
+  max-width: 300px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 430;
+  line-height: 1.5;
+}
+
+.triage-pending__meter {
+  width: min(220px, 100%);
+  height: 3px;
+  margin-top: 5px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.triage-pending__meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--marker-dim);
+}
+
+.triage-pending__progress {
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 470;
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 519px) {
+  .triage-summary__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

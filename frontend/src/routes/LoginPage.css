@@ -1,0 +1,279 @@
+/**
+ * Investigator sign-in.
+ *
+ * Same background footage and type system as the landing route, held back: the
+ * video is darkened and de-saturated, and the panel is a charcoal surface with a
+ * neutral hairline border — no coloured glow, no accent tinting, no HUD framing.
+ * The only bright element on the screen is the submit button, which is the same
+ * white pill as the landing CTA.
+ *
+ * The overrides below are scoped to `.screen.login`, so the landing composition
+ * is untouched.
+ */
+
+/* ---- Background: darker and quieter than the landing route --------------- */
+
+.screen.login .cinematic-video {
+  /* Pulled well down and de-saturated so the footage reads as atmosphere behind
+     the form rather than as the subject. Slight scale hides the blur edge. */
+  filter: brightness(0.62) saturate(0.8) contrast(0.94) blur(2px);
+  transform: scale(1.05);
+}
+
+/* Fallback field (only visible if the video is blocked): warm neutral, matching
+   the footage's ember tone instead of the landing fallback's cold cast. */
+.screen.login .cinematic-field {
+  background:
+    radial-gradient(ellipse 68% 54% at 50% 64%, rgba(72, 30, 16, 0.46), transparent 68%),
+    radial-gradient(ellipse 52% 44% at 26% 22%, rgba(38, 22, 16, 0.4), transparent 70%),
+    linear-gradient(172deg, #0a0908 0%, #0c0a09 48%, #060606 100%);
+  animation-duration: 58s;
+}
+
+/* ---- Layout ------------------------------------------------------------- */
+
+.login-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ---- Panel -------------------------------------------------------------- */
+
+.login-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 396px;
+  padding: 28px 30px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 12px;
+  background: rgba(17, 17, 18, 0.86);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.035) inset,
+    0 20px 48px rgba(0, 0, 0, 0.52),
+    0 2px 8px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(10px);
+  animation: entrance-card 720ms var(--ease-out-quint) 120ms both;
+}
+
+/* ---- Brand lockup ------------------------------------------------------- */
+
+.login-panel__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.login-panel__word {
+  display: inline-flex;
+  gap: 0.34em;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 570;
+  letter-spacing: 0.13em;
+}
+
+.login-panel__word-accent {
+  color: rgba(226, 233, 234, 0.58);
+  font-weight: 420;
+}
+
+/* ---- Heading ------------------------------------------------------------ */
+
+.login-panel__heading {
+  margin-top: 22px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.16;
+}
+
+.login-panel__sub {
+  margin-top: 7px;
+  color: rgba(226, 229, 228, 0.66);
+  font-size: 13px;
+  font-weight: 350;
+  line-height: 1.45;
+}
+
+/* ---- Form --------------------------------------------------------------- */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.login-field {
+  display: block;
+}
+
+.login-field + .login-field {
+  margin-top: 15px;
+}
+
+.login-field__label {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(230, 233, 232, 0.72);
+  font-size: 12px;
+  font-weight: 480;
+  letter-spacing: 0.005em;
+}
+
+.login-field__input {
+  width: 100%;
+  height: 43px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.32);
+  color: var(--text-primary);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.login-field__input::placeholder {
+  color: rgba(232, 236, 238, 0.28);
+  letter-spacing: 0.06em;
+}
+
+/* Neutral focus treatment — a brighter hairline, not a coloured ring. */
+.login-field__input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.42);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.045);
+}
+
+.login-field__input:disabled {
+  opacity: 0.6;
+}
+
+.login-form__error {
+  min-height: 17px;
+  margin: 10px 0 4px;
+  color: #e2686b;
+  font-size: 11.5px;
+  font-weight: 450;
+  line-height: 1.35;
+}
+
+/* ---- Submit: the landing page's white CTA, full width -------------------- */
+
+.login-submit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 7px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.38);
+  transition: filter 140ms ease;
+}
+
+.login-submit__label {
+  font-size: 12.5px;
+  font-weight: 560;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.login-submit__arrow {
+  position: absolute;
+  right: 5px;
+  top: 6px;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  border-radius: 7px;
+  background: #070909;
+  color: #fff;
+}
+
+.login-submit:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.login-submit:disabled {
+  cursor: progress;
+  opacity: 0.84;
+}
+
+.login-submit__spinner {
+  width: 13px;
+  height: 13px;
+  border: 1.8px solid rgba(255, 255, 255, 0.26);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: login-spin 620ms linear infinite;
+}
+
+@keyframes login-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.login-panel__foot {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.login-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(226, 229, 228, 0.62);
+  font-size: 12px;
+  font-weight: 450;
+  letter-spacing: 0.02em;
+  transition: color 150ms ease;
+}
+
+.login-back:hover {
+  color: #fff;
+}
+
+/* Reuse the arrow glyph pointing back. */
+.login-back__icon {
+  transform: rotate(180deg);
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 479px) {
+  .login-layout {
+    padding: 18px;
+    place-items: center stretch;
+  }
+
+  .login-panel {
+    max-width: none;
+    padding: 24px 22px 20px;
+  }
+
+  .login-panel__heading {
+    font-size: 22px;
+  }
+}

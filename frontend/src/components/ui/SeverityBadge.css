@@ -1,0 +1,98 @@
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  padding: 2px 7px 2px 6px;
+  border: 1px solid var(--border, var(--border-default));
+  border-radius: var(--radius-sm);
+  background: var(--fill, transparent);
+  color: var(--ink, var(--text-secondary));
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.severity-badge--sm {
+  padding: 1px 5px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.severity-badge__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.severity-badge--critical {
+  --ink: var(--sev-critical);
+  --fill: var(--sev-critical-bg);
+  --border: var(--sev-critical-border);
+}
+
+.severity-badge--high {
+  --ink: var(--sev-high);
+  --fill: var(--sev-high-bg);
+  --border: var(--sev-high-border);
+}
+
+.severity-badge--medium {
+  --ink: var(--sev-medium);
+  --fill: var(--sev-medium-bg);
+  --border: var(--sev-medium-border);
+}
+
+.severity-badge--low {
+  --ink: var(--sev-low);
+  --fill: var(--sev-low-bg);
+  --border: var(--sev-low-border);
+}
+
+.severity-badge--info {
+  --ink: var(--sev-info);
+  --fill: var(--sev-info-bg);
+  --border: var(--sev-info-border);
+}
+
+/* ---- Case status ------------------------------------------------------- */
+/* Pipeline state is not severity. ANALYZING, CORRELATING and INGESTING all read
+   as the same quiet neutral chip — no accent hue, no pulse. ESCALATED is the one
+   status that changes what an investigator does next, so it keeps the red. */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 2px 7px 2px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-tint);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 520;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-badge__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+.status-badge--escalated {
+  border-color: var(--sev-critical-border);
+  background: var(--sev-critical-bg);
+  color: var(--sev-critical);
+}
+
+.status-badge--escalated .status-badge__dot {
+  background: var(--sev-critical);
+}
