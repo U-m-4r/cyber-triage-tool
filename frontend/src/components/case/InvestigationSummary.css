@@ -1,0 +1,37 @@
+.case-summary__narrative {
+  max-width: 104ch;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 430;
+  line-height: 1.68;
+}
+
+/* Case metadata belongs in a dense two-column grid, not in prose — an examiner
+   scans for one value at a time. */
+.case-summary__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.case-summary__fact {
+  padding: 7px 0;
+}
+
+.case-summary__fact dt {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 520;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.case-summary__fact dd {
+  margin-top: 4px;
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 480;
+}

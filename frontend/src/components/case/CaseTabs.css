@@ -1,0 +1,81 @@
+/* Tab strip. The active tab is marked by a neutral underline and a value change,
+   never by hue — hue is reserved for severity across the application. */
+.case-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.case-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.case-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  padding: 9px 12px 10px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 470;
+  white-space: nowrap;
+  transition:
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.case-tab::after {
+  content: '';
+  position: absolute;
+  inset: auto 8px -1px;
+  height: 1px;
+  background: transparent;
+}
+
+.case-tab:not(:disabled):hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
+.case-tab--active {
+  color: var(--text-primary);
+  font-weight: 520;
+}
+
+.case-tab--active::after {
+  background: var(--marker);
+}
+
+.case-tab--pending {
+  color: var(--text-faint);
+  cursor: not-allowed;
+}
+
+/* Reads as metadata, not as a badge — an unbuilt tab should be quiet. */
+.case-tab__flag {
+  padding: 2px 5px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-faint);
+  font-size: 9px;
+  font-weight: 520;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .case-tab {
+    padding: 9px 10px 10px;
+  }
+
+  /* On a narrow strip the label matters more than the annotation. */
+  .case-tab__flag {
+    display: none;
+  }
+}

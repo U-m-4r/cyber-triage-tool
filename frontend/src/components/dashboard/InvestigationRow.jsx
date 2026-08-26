@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Icon from '../ui/Icon.jsx'
 import SeverityBadge, { StatusBadge } from '../ui/SeverityBadge.jsx'
 import { formatCount, formatDate } from '../../utils/format.js'
@@ -15,6 +16,11 @@ const SEVERITY_CLASS = {
  *
  * Reads left to right as the questions an investigator opens the dashboard with:
  * which case, how serious, how far along, what evidence is attached.
+ *
+ * Two targets, deliberately: the full-row hit area selects the case so its triage
+ * summary loads beside the list without leaving the dashboard, while the case ID
+ * and the row tail link through to the case workspace. Selecting is the cheap,
+ * reversible action, so it keeps the large target.
  *
  * @param {object} props
  * @param {object} props.investigation
@@ -55,7 +61,9 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
 
       <div className="inv-row__identity">
         <div className="inv-row__id-line">
-          <span className="inv-row__id mono">{id}</span>
+          <Link className="inv-row__id mono" to={`/cases/${id}`}>
+            {id}
+          </Link>
           <StatusBadge status={status} />
         </div>
         <p className="inv-row__title">{title}</p>
@@ -116,7 +124,10 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
 
       <div className="inv-row__tail">
         <span className="inv-row__activity">{lastActivity}</span>
-        <Icon name="chevronRight" size={15} className="inv-row__chevron" />
+        <Link className="inv-row__open" to={`/cases/${id}`} aria-label={`Open case ${id}`}>
+          Open
+          <Icon name="chevronRight" size={14} className="inv-row__chevron" />
+        </Link>
       </div>
     </article>
   )

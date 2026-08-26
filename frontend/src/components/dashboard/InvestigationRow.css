@@ -70,6 +70,13 @@
   pointer-events: none;
 }
 
+/* The two links to the case workspace have to opt back in: the rule above
+   deliberately lets clicks fall through the content to the row-wide hit area. */
+.inv-row__id,
+.inv-row__open {
+  pointer-events: auto;
+}
+
 /* ---- Identity ----------------------------------------------------------- */
 
 .inv-row__identity {
@@ -87,6 +94,13 @@
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0.015em;
+  transition: color 130ms ease;
+}
+
+.inv-row__id:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* The case description is what an investigator actually reads down the list, so
@@ -234,9 +248,40 @@
   white-space: nowrap;
 }
 
+/* Explicit route into the workspace. Quiet by default so the list still reads as
+   a list, and neutral in colour like every other interactive affordance. */
+.inv-row__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  padding: 4px 6px 4px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 480;
+  white-space: nowrap;
+  transition:
+    border-color 130ms ease,
+    background-color 130ms ease,
+    color 130ms ease;
+}
+
+.inv-row:hover .inv-row__open {
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.inv-row__open:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+
 .inv-row__chevron {
   flex: none;
-  color: var(--text-faint);
+  color: currentColor;
 }
 
 /* ---- Responsive --------------------------------------------------------- */

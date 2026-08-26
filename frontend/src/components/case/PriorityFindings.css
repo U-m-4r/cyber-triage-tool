@@ -1,0 +1,165 @@
+/* One finding per row, separated by a hairline rather than a card — a ranked list
+   should read as a continuous ordering, not as a set of tiles. */
+.case-finding {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 62px;
+  align-items: start;
+  gap: 11px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-finding:last-child {
+  border-bottom: none;
+}
+
+.case-finding__icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--text-muted);
+}
+
+.case-finding__title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.case-finding__id {
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.case-finding__title {
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 520;
+}
+
+/* Review state is workflow bookkeeping, not a severity. */
+.case-finding__reviewed {
+  padding: 2px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 9.5px;
+  font-weight: 520;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.case-finding__rationale {
+  max-width: 92ch;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 430;
+  line-height: 1.55;
+}
+
+.case-finding__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 450;
+}
+
+.case-finding__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.case-finding__source {
+  max-width: 46ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+/* Score column: a bare number, deliberately. The severity chip states the band;
+   repeating it here in colour would double-encode the same fact. */
+.case-finding__score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  padding-top: 1px;
+}
+
+.case-finding__score-label {
+  color: var(--text-faint);
+  font-size: 9.5px;
+  font-weight: 520;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-finding__score-value {
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 520;
+  line-height: 1.1;
+}
+
+.case-finding__score-confidence {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 450;
+  white-space: nowrap;
+}
+
+/* ---- Nothing ranked yet ------------------------------------------------- */
+
+.case-findings__empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+}
+
+.case-findings__empty-icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-muted);
+}
+
+.case-findings__empty-copy {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 440;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .case-finding {
+    grid-template-columns: 26px minmax(0, 1fr);
+  }
+
+  .case-finding__score {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 7px;
+    margin-top: 7px;
+  }
+
+  .case-finding__score-value {
+    font-size: 14px;
+  }
+}

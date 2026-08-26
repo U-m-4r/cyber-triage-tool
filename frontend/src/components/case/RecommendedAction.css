@@ -1,0 +1,152 @@
+/* The banner is the one place on the Overview where urgency is stated as a
+   decision, so it carries the severity tint. Everything below it is neutral. */
+.case-action__banner {
+  padding: 11px 13px 12px;
+  border: 1px solid var(--border-subtle);
+  border-left: 2px solid var(--marker-dim);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+}
+
+.case-action__banner--critical {
+  border-left-color: var(--sev-critical);
+  background: var(--sev-critical-bg);
+}
+
+.case-action__banner--high {
+  border-left-color: var(--sev-high);
+  background: var(--sev-high-bg);
+}
+
+.case-action__banner--medium {
+  border-left-color: var(--sev-medium);
+  background: var(--sev-medium-bg);
+}
+
+.case-action__banner--low {
+  border-left-color: var(--sev-low);
+  background: var(--sev-low-bg);
+}
+
+.case-action__banner-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.case-action__urgency {
+  font-size: 10px;
+  font-weight: 540;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.case-action__banner--critical .case-action__urgency {
+  color: var(--sev-critical);
+}
+
+.case-action__banner--high .case-action__urgency {
+  color: var(--sev-high);
+}
+
+.case-action__banner--medium .case-action__urgency {
+  color: var(--sev-medium);
+}
+
+.case-action__banner--low .case-action__urgency {
+  color: var(--sev-low);
+}
+
+.case-action__window {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 470;
+}
+
+.case-action__owner {
+  color: var(--text-faint);
+}
+
+.case-action__headline {
+  margin-top: 7px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 520;
+  letter-spacing: -0.008em;
+  line-height: 1.4;
+}
+
+/* ---- What / why --------------------------------------------------------- */
+
+.case-action__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.case-action__steps {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.case-action__step {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+}
+
+.case-action__step-index {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 520;
+}
+
+.case-action__step-copy {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 440;
+  line-height: 1.55;
+}
+
+.case-action__rationale {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 430;
+  line-height: 1.68;
+}
+
+.case-action__foot {
+  display: block;
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-faint);
+  font-size: 10.5px;
+  font-weight: 440;
+  line-height: 1.5;
+}
+
+@media (max-width: 1023px) {
+  .case-action__split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}

@@ -1,0 +1,65 @@
+/* Two-column reading order: narrative left, quantified assessment right, with the
+   recommendation and the custody table spanning both because neither is a
+   sidebar concern. */
+.case-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 26vw, 420px);
+  grid-template-areas:
+    'summary  assessment'
+    'action   action'
+    'findings activity'
+    'evidence evidence';
+  gap: 16px;
+  align-items: start;
+}
+
+.case-overview__summary {
+  grid-area: summary;
+}
+
+.case-overview__assessment {
+  grid-area: assessment;
+}
+
+.case-overview__action {
+  grid-area: action;
+}
+
+.case-overview__findings {
+  grid-area: findings;
+}
+
+.case-overview__activity {
+  grid-area: activity;
+}
+
+.case-overview__evidence {
+  grid-area: evidence;
+}
+
+/* Panels stretch to their row so a short section does not leave a ragged edge
+   beside a tall one. */
+.case-overview > * {
+  min-width: 0;
+}
+
+/* Below the two-column threshold the areas collapse to DOM order, which is
+   already the priority order. */
+@media (max-width: 1279px) {
+  .case-overview {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'summary'
+      'assessment'
+      'action'
+      'findings'
+      'activity'
+      'evidence';
+  }
+}
+
+@media (max-width: 767px) {
+  .case-overview {
+    gap: 14px;
+  }
+}

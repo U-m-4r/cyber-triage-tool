@@ -1,7 +1,8 @@
 # CLAUDE_CONTEXT.md
 
 Handoff notes for a fresh Claude Code session. Written 2026-08-26 after building
-the Phase 1 frontend. Read this instead of re-scanning the repo.
+the Phase 1 frontend; updated 2026-08-27 after building the case workspace. Read
+this instead of re-scanning the repo.
 
 ---
 
@@ -57,12 +58,13 @@ There is no `backend/tests/`, no pytest config and no ESLint config — see §4.
 | Path | Contents |
 |---|---|
 | `App.jsx` | All routes |
-| `routes/` | `LandingPage`, `LoginPage`, `DashboardPage`, `ModulePlaceholder` (+ co-located CSS) |
+| `routes/` | `LandingPage`, `LoginPage`, `DashboardPage`, `CaseWorkspacePage`, `ModulePlaceholder` (+ co-located CSS) |
 | `components/dashboard/` | `AppShell`, `Sidebar`, `TopBar`, `Panel`, `StatCard`, `InvestigationRow`, `AiTriagePanel`, `ActivityFeed` |
+| `components/case/` | `CaseHeader`, `CaseTabs`, `CaseOverview`, `InvestigationSummary`, `ThreatAssessment`, `PriorityFindings`, `RecommendedAction`, `EvidenceStatus` |
 | `components/landing/` | `SiteHeader`, `CinematicBackground` |
 | `components/ui/` | `Icon` (hand-rolled SVG set), `SeverityBadge` |
-| `services/` | `apiClient` + `authService`, `dashboardService`, `triageService` |
-| `data/` | `mockDashboard.js` (sample fixtures), `navigation.js` (sidebar items) |
+| `services/` | `apiClient` + `authService`, `dashboardService`, `triageService`, `caseService` |
+| `data/` | `mockDashboard.js` (dashboard fixtures), `mockCases.js` (case-workspace fixtures), `navigation.js` (`NAV_ITEMS` sidebar + `CASE_TABS` workspace tabs) |
 | `styles/` | `tokens.css`, `global.css`, `page.css`, `cinematic.css` |
 | `hooks/` | `useEntranceMotion`, `useRouteMode` |
 | `config/media.js` | Background video URL — see known issues |
@@ -109,9 +111,37 @@ whatever subset happens to match — generalizing this is a known TODO.
 Sidebar destinations other than `/dashboard` render a shared `ModulePlaceholder`
 that names the phase which will fill it. Unknown paths redirect to `/`.
 
+`/dashboard` → click a case ID or the row-tail **Open** control in Active
+Investigations → `/cases/:caseId` (`CaseWorkspacePage`) → **Back to Dashboard**.
+Clicking anywhere else in an `InvestigationRow` still only *selects* the case so
+`AiTriagePanel` loads beside the list — the row therefore has two targets, and the
+`/cases/:caseId` route is declared **before** the `NAV_ITEMS` placeholder routes in
+`App.jsx` so it wins over the `/cases` placeholder.
+
+Inside the workspace the tab is local component state, not a nested route, because
+only `Overview` exists. When the other tabs are built they should become child
+routes so a specific tab can be linked.
+
 Components never call `fetch` directly: **components → services → `apiClient`**.
 `apiClient` normalizes both backend error shapes (`{error: {code, message}}` and
 `{error: "string"}`) into an `ApiError`.
+
+### Case workspace data
+
+`caseService.fetchCase(caseId)` resolves a record out of `CASES_BY_ID` in
+`data/mockCases.js` and returns `null` for an unknown ID, which the page renders as
+a "no case matches" dead end. The function is shaped so the body becomes
+`apiClient.get(\`/api/cases/${caseId}\`)` when that endpoint exists — **it does not
+exist yet, and nothing was added to Flask for it.**
+
+Each record carries: identity + counts (mirroring `ACTIVE_INVESTIGATIONS` so the
+dashboard row and the workspace header can never disagree), `summary`,
+`assessment`, `findings`, `recommendation`, `activity` (same shape `ActivityFeed`
+consumes) and `evidence.sources` / `evidence.pending`.
+
+Cases the sample data marks `INGESTING` or `CORRELATING` carry `assessment: null`
+and `findings: []` on purpose, matching how `AiTriagePanel` already refuses to
+invent results — the workspace renders honest pending states instead.
 
 ---
 
@@ -166,12 +196,18 @@ database, no threat-intel API. The dataset is downloaded manually from Kaggle.
 - Full preprocessing → detection → scoring pipeline for network-flow CSVs.
 - Phase 1 frontend: landing, login, dashboard, module placeholders, service
   layer, design-token system. Verified end to end in the browser.
+- Case workspace at `/cases/:caseId` — header, eight-tab strip, and the
+  **Overview** tab (Investigation Summary, Threat Assessment, Priority Findings,
+  Recommended Next Action, Recent Activity, Evidence Status). Reached from the
+  dashboard; `Back to Dashboard` returns.
 
 ### Not implemented (deliberately deferred)
 
-`/api/report` returns 501 · no RAW/E01 disk imaging · no EVTX, registry or PCAP
-parsing · no IOC feeds or YARA · no real auth · no PDF/JSON/CSV export · no graph
-database · no MongoDB persistence.
+`/api/report` returns 501 · **`GET /api/cases/:caseId` does not exist** · the
+workspace's Evidence, Artifacts, Analysis, AI Triage, Timeline, IOC Graph and
+Reports tabs are disabled placeholders · no RAW/E01 disk imaging · no EVTX,
+registry or PCAP parsing · no IOC feeds or YARA · no real auth · no PDF/JSON/CSV
+export · no graph database · no MongoDB persistence.
 
 ### Known issues
 
@@ -203,7 +239,23 @@ database · no MongoDB persistence.
 - **Sample data must stay labelled as such.** The header comment in
   `mockDashboard.js`, the `AiTriagePanel` footer disclaimer, and the dashboard
   page notice ("Sample data — no evidence has been parsed") are all intentional.
-  Never present fixtures as real model output.
+  Never present fixtures as real model output. The case workspace adds three more:
+  the header comment in `mockCases.js`, the same notice in `CaseHeader`, and the
+  `RecommendedAction` footer stating the recommendation was written by hand. The
+  recommendations in particular must never be described as AI-generated.
+- **A case's `severity` is the examiner's classification of the whole case, not a
+  band derived from its score.** That is why `CASE-2026-0147` reads HIGH at a score
+  of 87. The `ml/risk_scorer.py` thresholds apply to *individual artifacts*, which
+  is where `assessment.artifactPriorities` uses them. Findings show risk as a bare
+  number with no on-screen claim that the band follows from it, and they are sorted
+  by severity rank first so no band inversion is ever visible. Do not "fix" this by
+  rebanding the case fixtures.
+- **`InvestigationRow` has two click targets on purpose.** The full-row hit area
+  selects the case (cheap, reversible, keeps the big target); the case ID and the
+  row-tail Open link navigate to the workspace. `InvestigationRow.css` sets
+  `pointer-events: none` on all row content so clicks fall through to that hit
+  area, so any new link inside a row must set `pointer-events: auto` or it will be
+  dead.
 - The landing page deliberately has **exactly one CTA** (GET STARTED) and no
   fake dashboard preview, fake metrics or second login link.
 - `--sev-low` and `--sev-info` are intentionally colourless — nothing to decide.
@@ -252,6 +304,7 @@ database · no MongoDB persistence.
 | New artifact types / features | `ml/preprocessor.py`, `docs/preprocessing.md`, then `RiskScorer.detect_artifact_type` |
 | Metrics / evaluation | `_evaluate_predictions` in `app.py`, `docs/evaluation_metrics.md` |
 | Frontend feature | `frontend/src/App.jsx`, the relevant `routes/` file, then `services/` |
+| Case workspace work | `routes/CaseWorkspacePage.jsx`, `data/mockCases.js`, `components/case/CaseOverview.jsx` |
 | Frontend styling | `frontend/src/styles/tokens.css` first — it documents the colour policy |
 | Connecting UI to backend | `services/apiClient.js`, `services/dashboardService.js`, `vite.config.js` |
 | Planning next phase | `plan.md` §2 (workstreams) and §4 (sequencing) |
@@ -263,9 +316,29 @@ Skip `backend/report_generator.py` and `evaluation/evaluate.py` — both are emp
 ## 9. Git / Workflow
 
 - Single `main` branch; PRs merge into it.
-- **The entire `frontend/` directory is still untracked** — it has never been
-  committed. `git status` will show it as one `??` entry.
+- `frontend/` **is** tracked — it was committed in `7822302` (PR #19). An earlier
+  version of this file claimed it was still untracked; that was stale.
 - Never commit datasets, `.pkl` models, or generated PDFs. `.gitignore` covers
   `data/*.csv`, `models/*.pkl`, `reports/*.pdf`, `temp/`, `node_modules/`.
 - Before committing frontend changes, run `cd frontend && npm run build` — the
   only automated check in the repo.
+
+---
+
+## 10. Next Planned Phase
+
+The workspace shell now exists, so the next phase fills its tabs rather than adding
+more screens. In order of dependency:
+
+1. **`GET /api/cases/:caseId` in Flask**, returning the `CaseRecord` shape
+   `mockCases.js` documents, so `caseService.fetchCase` can drop its fixture import.
+   This needs somewhere to persist cases — see `plan.md` §3 on MongoDB.
+2. **Evidence tab** — evidence intake and the chain-of-custody records the Overview
+   already displays read-only (`plan.md` requirement #1).
+3. **Artifacts tab** — filterable explorer over scored records, backed by
+   `GET /api/artifacts` (`plan.md` requirement #2).
+4. **AI Triage tab** — the full ranked-findings view the Overview currently
+   previews, wired to real `/api/analyze` output.
+5. **Timeline, IOC Graph, Reports** — requirements #5 and #3, in that order.
+
+Convert the tabs to nested routes as part of step 2, so a tab becomes linkable.

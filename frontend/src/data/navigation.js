@@ -56,3 +56,62 @@ export const NAV_ITEMS = [
     phase: 'PDF, JSON and CSV export of triage findings',
   },
 ]
+
+/**
+ * Investigation tabs inside a case workspace (/cases/:caseId).
+ *
+ * Only Overview is implemented. The rest are listed because an investigator
+ * needs to see the full shape of the workflow, but `available: false` keeps them
+ * visibly disabled rather than pretending to work — `phase` says what each one
+ * is waiting on.
+ */
+export const CASE_TABS = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    available: true,
+    phase: null,
+  },
+  {
+    id: 'evidence',
+    label: 'Evidence',
+    available: false,
+    phase: 'Disk image, log, registry and PCAP ingestion',
+  },
+  {
+    id: 'artifacts',
+    label: 'Artifacts',
+    available: false,
+    phase: 'Filterable artifact explorer over scored records',
+  },
+  {
+    id: 'analysis',
+    label: 'Analysis',
+    available: false,
+    phase: 'Correlation and per-feature score breakdown',
+  },
+  {
+    id: 'ai-triage',
+    label: 'AI Triage',
+    available: false,
+    phase: 'Ranked findings with per-artifact scoring rationale',
+  },
+  {
+    id: 'timeline',
+    label: 'Timeline',
+    available: false,
+    phase: 'Interactive event timeline with zoom-to-second',
+  },
+  {
+    id: 'ioc-graph',
+    label: 'IOC Graph',
+    available: false,
+    phase: 'Indicator relationship graph and threat-intel enrichment',
+  },
+  {
+    id: 'reports',
+    label: 'Reports',
+    available: false,
+    phase: 'PDF, JSON and CSV export of triage findings',
+  },
+]

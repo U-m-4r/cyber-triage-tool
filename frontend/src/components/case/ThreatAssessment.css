@@ -1,0 +1,340 @@
+/* ---- Verdict line ------------------------------------------------------- */
+
+.case-assess__verdict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-assess__verdict-main {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.case-assess__verdict-copy {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 440;
+}
+
+.case-assess__confidence {
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 470;
+}
+
+/* ---- Blocks ------------------------------------------------------------- */
+
+.case-assess__block + .case-assess__block,
+.case-assess__split {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.case-assess__split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Nested blocks inside the split already sit under one rule. */
+.case-assess__split .case-assess__block + .case-assess__block,
+.case-assess__split .case-assess__block {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* ---- Score composition -------------------------------------------------- */
+
+.case-assess__composition {
+  display: grid;
+  gap: 12px;
+  margin-top: 11px;
+}
+
+.case-assess__term-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.case-assess__term-label {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.case-assess__term-weight {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 470;
+}
+
+.case-assess__term-detail {
+  margin-top: 2px;
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 430;
+  line-height: 1.45;
+}
+
+/* Composition bars measure a contribution, not a severity, so they stay grey. */
+.case-assess__term-bar {
+  display: block;
+  height: 3px;
+  margin-top: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-tint);
+  overflow: hidden;
+}
+
+.case-assess__term-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--marker-dim);
+}
+
+.case-assess__term-values {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 460;
+}
+
+.case-assess__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 9px 11px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 470;
+}
+
+.case-assess__total-value {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 540;
+}
+
+/* ---- Priority distribution ---------------------------------------------- */
+
+.case-assess__bands {
+  display: grid;
+  gap: 7px;
+  margin-top: 11px;
+}
+
+.case-assess__band {
+  display: grid;
+  grid-template-columns: 74px 62px minmax(60px, 1fr) 52px;
+  align-items: center;
+  gap: 10px;
+}
+
+.case-assess__band-label {
+  font-size: 10px;
+  font-weight: 540;
+  letter-spacing: 0.08em;
+}
+
+.case-assess__band-count {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 490;
+  text-align: right;
+}
+
+.case-assess__band-bar {
+  display: block;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-tint);
+  overflow: hidden;
+}
+
+.case-assess__band-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.case-assess__band-share {
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 460;
+  text-align: right;
+}
+
+/* These bars do carry hue: each one is a severity band. */
+.case-assess__band--critical .case-assess__band-label {
+  color: var(--sev-critical);
+}
+
+.case-assess__band--critical .case-assess__band-fill {
+  background: var(--sev-critical);
+}
+
+.case-assess__band--high .case-assess__band-label {
+  color: var(--sev-high);
+}
+
+.case-assess__band--high .case-assess__band-fill {
+  background: var(--sev-high);
+}
+
+.case-assess__band--medium .case-assess__band-label {
+  color: var(--sev-medium);
+}
+
+.case-assess__band--medium .case-assess__band-fill {
+  background: var(--sev-medium);
+}
+
+.case-assess__band--low .case-assess__band-label {
+  color: var(--sev-low);
+}
+
+.case-assess__band--low .case-assess__band-fill {
+  background: var(--sev-low);
+}
+
+/* ---- Indicators --------------------------------------------------------- */
+
+.case-assess__iocs {
+  margin-top: 10px;
+}
+
+.case-assess__ioc {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-assess__ioc:last-child {
+  border-bottom: none;
+}
+
+.case-assess__ioc dt {
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 450;
+}
+
+.case-assess__ioc dd {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 520;
+}
+
+/* ---- Tactic coverage ---------------------------------------------------- */
+
+.case-assess__coverage {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* Coverage is completeness, not severity — the marker only varies in value. */
+.case-assess__tactic {
+  display: grid;
+  grid-template-columns: 7px minmax(88px, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+}
+
+.case-assess__tactic-mark {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--marker-dim);
+  border-radius: 50%;
+  transform: translateY(1px);
+}
+
+.case-assess__tactic--observed .case-assess__tactic-mark {
+  border-color: var(--marker);
+  background: var(--marker);
+}
+
+.case-assess__tactic--partial .case-assess__tactic-mark {
+  border-color: var(--marker);
+  background: linear-gradient(to right, var(--marker) 50%, transparent 50%);
+}
+
+.case-assess__tactic-name {
+  color: var(--text-primary);
+  font-size: 11.5px;
+  font-weight: 480;
+}
+
+.case-assess__tactic--none .case-assess__tactic-name {
+  color: var(--text-muted);
+}
+
+.case-assess__tactic-note {
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 430;
+}
+
+/* ---- Unscored case ------------------------------------------------------ */
+
+.case-assess__pending {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+}
+
+.case-assess__pending-icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-muted);
+}
+
+.case-assess__pending-copy {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 440;
+  line-height: 1.6;
+}
+
+.case-assess__pending-state {
+  color: var(--text-primary);
+  font-weight: 520;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 479px) {
+  .case-assess__band {
+    grid-template-columns: 68px 56px minmax(0, 1fr);
+  }
+
+  .case-assess__band-share {
+    display: none;
+  }
+}
