@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-08-27T17:16:52.108930+00:00",
+  "dataset": {
+    "source": "Kaggle: ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+    "path": "data/cicids2017_cleaned.csv",
+    "label_column": "Attack Type",
+    "total_rows_loaded": 2520751,
+    "rows_after_clean": 1829580,
+    "class_distribution": {
+      "benign": 1503049,
+      "attack": 326531
+    }
+  },
+  "config": {
+    "model": "IsolationForest",
+    "n_estimators": 100,
+    "contamination": 0.1,
+    "random_state": 42,
+    "test_size": 0.3,
+    "scaler": "StandardScaler (z-score)"
+  },
+  "records": {
+    "train": 1280706,
+    "test": 548874
+  },
+  "metrics": {
+    "accuracy": 0.7458,
+    "precision": 0.1217,
+    "recall": 0.0683,
+    "f1_score": 0.0875,
+    "class_metrics": {
+      "normal_0": {
+        "precision": 0.8152,
+        "recall": 0.8929,
+        "f1_score": 0.8523,
+        "support": 450915
+      },
+      "attack_1": {
+        "precision": 0.1217,
+        "recall": 0.0683,
+        "f1_score": 0.0875,
+        "support": 97959
+      }
+    },
+    "confusion_matrix": {
+      "true_negative": 402643,
+      "false_positive": 48272,
+      "false_negative": 91270,
+      "true_positive": 6689
+    },
+    "roc_auc": 0.6195,
+    "triage_top_k": {
+      "top_10_percent": {
+        "records_considered": 54887,
+        "attack_hits": 6642,
+        "precision": 0.121,
+        "recall": 0.0678
+      },
+      "top_25_percent": {
+        "records_considered": 137218,
+        "attack_hits": 29767,
+        "precision": 0.2169,
+        "recall": 0.3039
+      }
+    }
+  },
+  "artifacts": [
+    "evaluation/artifacts/confusion_matrix.png",
+    "evaluation/artifacts/roc_curve.png",
+    "evaluation/artifacts/topk_recall_curve.png"
+  ]
+}

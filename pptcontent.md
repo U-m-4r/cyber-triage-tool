@@ -158,22 +158,23 @@ flowchart TD
 ### Theoretical & Implementation Details
 - **Noise & Edge-Case Sanitization:**
   - Forensic dumps often contain division-by-zero artifacts resulting in $+\infty$, $-\infty$, and corrupted string values.
-  - Implemented `clean_data()`: Converts infinite floats to `NaN`, clips extreme values, and replaces missing entries with robust column medians:
-    $$\tilde{x}_{ij} = \begin{cases} \text{median}(X_j) & \text{if } x_{ij} \in \{\text{NaN}, +\infty, -\infty\} \\ x_{ij} & \text{otherwise} \end{cases}$$
+  - Implemented `clean_data()`: converts infinite floats to `NaN`, then **drops corrupted/incomplete rows and removes duplicates** via `dropna()` + `drop_duplicates()`. Rows are discarded rather than imputed, so no fabricated values can mask or manufacture anomalies:
+    $$X_{clean} = \text{drop\_duplicates}\big(\{\, x_i \in X : x_i \text{ has no } \text{NaN}/\pm\infty \,\}\big)$$
 - **Feature Extraction & Dimensionality Normalization:**
-  - Extracts key traffic and host flow metrics: `Flow Duration`, `Total Fwd Packets`, `Total Backward Packets`, `Flow Packets/s`, `Flow Bytes/s`, `Fwd Packet Length Mean`, `Bwd Packet Length Mean`, `Packet Length Mean`, `FIN/SYN/RST Flag Counts`.
+  - Extracts 11 key traffic/host flow metrics: `Flow Duration`, `Total Fwd Packets`, `Total Length of Fwd Packets`, `Fwd Packet Length Max/Min/Mean`, `Bwd Packet Length Max/Min`, `Flow Bytes/s`, `Flow Packets/s`, `Packet Length Mean`.
 - **Scaling Transformation:**
-  - Standardizes data using Scikit-Learn `MinMaxScaler` bounded within $[0, 1]$:
-    $$x_{scaled} = \frac{x - x_{min}}{x_{max} - x_{min}}$$
-  - Prevents high-magnitude attributes (e.g., Flow Duration in microseconds) from dominating low-magnitude flags (e.g., TCP SYN count).
+  - Standardizes each feature with Scikit-Learn `StandardScaler` (z-score standardization):
+    $$z = \frac{x - \mu}{\sigma}$$
+  - Produces zero-mean, unit-variance features so high-magnitude attributes (e.g. Flow Duration in microseconds) do not dominate low-magnitude flags (e.g. TCP SYN count). Z-score is preferred over min-max here because forensic flow features are heavy-tailed: min-max would compress genuine outliers — the anomalies we want to surface — into a narrow band. *(Ref: Han, Kamber & Pei §3.5.)*
 
 ```mermaid
 graph TD
     A[Raw Forensic CSV / Dump] --> B[Header Normalization & Strip Whitespace]
     B --> C[Replace ±Infinity with NaN]
-    C --> D[Median Imputation for Corrupted Values]
+    D[Drop NaN Rows + De-duplicate]
+    C --> D
     D --> E[Domain Feature Selector (11 Key Flow Vectors)]
-    E --> F[MinMax Scaler: Normalize to [0, 1]]
+    E --> F["StandardScaler: z = (x - μ) / σ"]
     F --> G[Processed Tensor (df_scaled, df_raw, df_clean)]
     style G fill:#064e3b,stroke:#059669,stroke-width:2px,color:#fff
 ```
@@ -200,8 +201,10 @@ graph TD
     Where average path length $c(n)$ of unsuccessful searches in a Binary Search Tree is:
     $$c(n) = 2\left(\ln(n - 1) + 0.5772156649\right) - \frac{2(n - 1)}{n}$$
 - **Score Normalization to $[0, 100]$:**
-  - The raw decision function $d(x)$ is inverted and mapped through a scaled sigmoid:
-    $$S_{anomaly}(x) = \frac{1}{1 + e^{10 \cdot d(x)}} \times 100$$
+  - The per-instance anomaly score $s(x,n) = 2^{-E(h(x))/c(n)}$ (higher = more anomalous) is surfaced by scikit-learn as `decision_function` $d(x)$ (higher = more normal).
+  - We negate $d(x)$ and apply **batch min-max normalization** so scores are relative to the score distribution of the current analysis batch:
+    $$S_{anomaly}(x) = \frac{-d(x) - \min_i(-d(x_i))}{\max_i(-d(x_i)) - \min_i(-d(x_i))} \times 100$$
+  - This replaces the earlier fixed sigmoid mapping and keeps the most-normal record at 0 and the most-anomalous at 100 within each batch.
 
 ```mermaid
 graph TD

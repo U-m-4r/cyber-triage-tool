@@ -3,8 +3,15 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 class ForensicPreprocessor:
-    
+
     def __init__(self):
+        # Z-score standardization: z = (x - mu) / sigma.
+        # Chosen over min-max because forensic flow features are heavy-tailed and
+        # contain extreme outliers (the very anomalies we want to preserve); z-score
+        # keeps outlier separation instead of compressing it into [0, 1].
+        # Ref: Han, Kamber & Pei, "Data Mining: Concepts and Techniques" (3rd ed.),
+        #      §3.5 Data Transformation (z-score normalization); and
+        #      sklearn.preprocessing.StandardScaler.
         self.scaler = StandardScaler()
     
     def load_data(self, filepath):
@@ -17,6 +24,10 @@ class ForensicPreprocessor:
     def clean_data(self, df):
         print("[+] Cleaning data...")
         before = len(df)
+        # Rows with NaN or +/-inf (e.g. divide-by-zero packet-rate artifacts) are
+        # dropped rather than imputed: for unsupervised anomaly detection we prefer
+        # to discard corrupted records than to fabricate median values that could
+        # mask or manufacture anomalies.
         df = df.replace([np.inf, -np.inf], np.nan)
         df = df.dropna()
         df = df.drop_duplicates()
@@ -49,6 +60,8 @@ class ForensicPreprocessor:
     
     def scale_features(self, df):
         print("[+] Scaling features...")
+        # StandardScaler applies z = (x - mu) / sigma per column (mean 0, unit variance).
+        # See __init__ for rationale / references (Han, Kamber & Pei §3.5).
         scaled = self.scaler.fit_transform(df)
         df_scaled = pd.DataFrame(scaled, columns=df.columns)
         print("[+] Scaling complete")

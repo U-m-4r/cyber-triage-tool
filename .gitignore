@@ -4,6 +4,7 @@ venv/
 env/
 .env
 data/*.csv
+data/*.zip
 data/*.pcap
 data/*.json
 *.evtx
