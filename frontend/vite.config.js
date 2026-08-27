@@ -9,7 +9,7 @@ export default defineConfig({
     // once the two are wired together. Flask runs on :5000 (backend/app.py).
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:5001',
         changeOrigin: true,
       },
     },

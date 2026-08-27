@@ -1,24 +1,25 @@
 import { CASES_BY_ID } from '../data/mockCases.js'
+import * as apiClient from './apiClient.js'
 
 /**
  * Case workspace data access.
  *
- * Reads from the mock fixtures in data/mockCases.js. When the backend grows a
- * case endpoint this becomes:
- *
- *   export function fetchCase(caseId) {
- *     return apiClient.get(`/api/cases/${encodeURIComponent(caseId)}`)
- *   }
- *
- * Components already treat the return value as a promise and handle a null
- * record as "not found", so nothing above this layer has to change.
+ * Tries the backend API first (MongoDB-backed). Falls back to the local mock
+ * fixtures when the backend is unreachable or returns an error, so the UI
+ * always renders something.
  */
 
 /**
  * @param {string} caseId
  * @returns {Promise<import('../data/mockCases.js').CaseRecord|null>} null when
- *   the case ID is unknown, mirroring a 404 from the future endpoint.
+ *   the case ID is unknown, mirroring a 404.
  */
-export function fetchCase(caseId) {
-  return Promise.resolve(CASES_BY_ID[caseId] ?? null)
+export async function fetchCase(caseId) {
+  try {
+    const data = await apiClient.get(`/cases/${encodeURIComponent(caseId)}`)
+    return data ?? null
+  } catch {
+    // Fallback to mock data if API is unavailable
+    return CASES_BY_ID[caseId] ?? null
+  }
 }

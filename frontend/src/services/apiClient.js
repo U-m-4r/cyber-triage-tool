@@ -81,9 +81,14 @@ export function postJson(path, data, options) {
 }
 
 /** Multipart upload. The backend reads the part named `file`. */
-export function postFile(path, file, options) {
+export function postFile(path, file, options = {}) {
   const form = new FormData()
   form.append('file', file)
+  if (options.data) {
+    for (const [key, value] of Object.entries(options.data)) {
+      form.append(key, value)
+    }
+  }
   return request(path, { method: 'POST', body: form, ...options })
 }
 
