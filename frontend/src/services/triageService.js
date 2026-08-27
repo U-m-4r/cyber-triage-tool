@@ -1,14 +1,10 @@
 /**
  * Backend endpoints exposed by backend/app.py.
- *
- * Phase 1 does not call these from the UI yet — the dashboard renders mock data.
- * They are defined now so the wiring is a matter of swapping the data source in
- * `dashboardService`, not of rewriting components.
  */
 
-import { get, postFile } from './apiClient.js'
+import { get, postFile, postJson, BASE_URL } from './apiClient.js'
 
-/** GET /api/health -> { status, service } */
+/** GET /api/health -> { status, service, mongo } */
 export function checkHealth(options) {
   return get('/health', options)
 }
@@ -21,7 +17,7 @@ export function checkHealth(options) {
  * where each artifact carries record_id, artifact_type, anomaly_score,
  * rule_score, risk_score, priority and matched_rules.
  */
-export function analyzeDataset(file, options) {
+export function analyzeDataset(file, options = {}) {
   return postFile('/analyze', file, options)
 }
 
@@ -36,12 +32,39 @@ export function evaluateModel(file, options) {
 }
 
 /**
- * POST /api/report
+ * POST /api/report — generate a PDF report for a case.
  *
- * Currently a 501 stub on the backend (report generation is a later phase).
+ * @param {string} caseId
+ * @returns {Promise<Blob>} PDF blob for download.
  */
-export function generateReport(payload, options) {
-  return postFile('/report', payload, options)
+export async function generateReport(caseId) {
+  const response = await fetch(`${BASE_URL}/report`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ caseId }),
+  })
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(body?.error?.message ?? `Report generation failed (${response.status})`)
+  }
+
+  return response.blob()
+}
+
+/**
+ * GET /api/report/:caseId — direct download link for a report.
+ * Returns the URL string (not a fetch — use as href or window.open target).
+ */
+export function getReportDownloadUrl(caseId) {
+  return `${BASE_URL}/report/${encodeURIComponent(caseId)}`
+}
+
+/**
+ * GET /api/reports/:caseId — list previously generated reports.
+ */
+export function listReports(caseId, options) {
+  return get(`/reports/${encodeURIComponent(caseId)}`, options)
 }
 
 /**

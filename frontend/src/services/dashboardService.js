@@ -1,12 +1,11 @@
 /**
  * Dashboard data source.
  *
- * Phase 1 resolves the static mock fixtures. When the backend grows case
- * persistence and artifact retrieval, replace each function body with the
- * corresponding call from `triageService` — the component contracts do not
- * change, because they already consume these promises.
+ * Tries the backend API first (MongoDB-backed). Falls back to the static mock
+ * fixtures when the backend is unreachable so the UI always renders.
  */
 
+import * as apiClient from './apiClient.js'
 import {
   ACTIVE_INVESTIGATIONS,
   AI_TRIAGE,
@@ -15,26 +14,51 @@ import {
   TRIAGE_BY_CASE,
 } from '../data/mockDashboard.js'
 
-export function fetchDashboardMetrics() {
-  return Promise.resolve(DASHBOARD_METRICS)
+let _cachedDashboard = null
+
+async function _fetchDashboard() {
+  if (_cachedDashboard) return _cachedDashboard
+  try {
+    _cachedDashboard = await apiClient.get('/dashboard')
+    return _cachedDashboard
+  } catch {
+    return null
+  }
 }
 
-export function fetchActiveInvestigations() {
-  return Promise.resolve(ACTIVE_INVESTIGATIONS)
+export async function fetchDashboardMetrics() {
+  const data = await _fetchDashboard()
+  return data?.metrics ?? DASHBOARD_METRICS
+}
+
+export async function fetchActiveInvestigations() {
+  const data = await _fetchDashboard()
+  return data?.investigations ?? ACTIVE_INVESTIGATIONS
 }
 
 /**
- * Mock triage summary. These findings are authored UI fixtures — no model
- * produced them. The real version will be derived from /api/analyze output
- * plus the rule hits already emitted by ml/risk_scorer.py.
- *
- * Resolves `null` for cases the pipeline has not scored yet.
+ * Triage summary for a case. Returns null for cases the pipeline has not
+ * scored yet.
  */
-export function fetchTriageSummary(caseId) {
-  if (!caseId) return Promise.resolve(AI_TRIAGE)
-  return Promise.resolve(TRIAGE_BY_CASE[caseId] ?? null)
+export async function fetchTriageSummary(caseId) {
+  const data = await _fetchDashboard()
+  const summaries = data?.triageSummaries ?? TRIAGE_BY_CASE
+
+  if (!caseId) {
+    // Default: return first available summary (CASE-2026-0147)
+    return summaries['CASE-2026-0147'] ?? AI_TRIAGE
+  }
+  return summaries[caseId] ?? null
 }
 
-export function fetchRecentActivity() {
-  return Promise.resolve(RECENT_ACTIVITY)
+export async function fetchRecentActivity() {
+  const data = await _fetchDashboard()
+  return data?.recentActivity ?? RECENT_ACTIVITY
+}
+
+/**
+ * Invalidate the cached dashboard data so the next call refetches from the API.
+ */
+export function invalidateDashboardCache() {
+  _cachedDashboard = null
 }

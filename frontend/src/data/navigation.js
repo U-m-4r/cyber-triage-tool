@@ -111,7 +111,7 @@ export const CASE_TABS = [
   {
     id: 'reports',
     label: 'Reports',
-    available: false,
-    phase: 'PDF, JSON and CSV export of triage findings',
+    available: true,
+    phase: null,
   },
 ]

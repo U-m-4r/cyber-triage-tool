@@ -1,0 +1,179 @@
+/* ---------------------------------------------------------------------------
+   CaseReports — Reports tab in the case workspace
+   --------------------------------------------------------------------------- */
+
+.case-reports {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 0;
+}
+
+/* Section containers */
+.case-reports__generate,
+.case-reports__history {
+  background: var(--color-card, #1c1f26);
+  border: 1px solid var(--color-border, #2a2d35);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+/* Headings */
+.case-reports__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--color-text, #e8e9ec);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.case-reports__description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-secondary, #9ca0ab);
+  margin: 0 0 20px;
+}
+
+/* Action buttons */
+.case-reports__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.case-reports__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s, transform 0.15s;
+}
+
+.case-reports__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.case-reports__btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.case-reports__btn--primary {
+  background: var(--color-accent, #e8732a);
+  color: #fff;
+}
+
+.case-reports__btn--primary:not(:disabled):hover {
+  background: #d4621f;
+}
+
+.case-reports__btn--secondary {
+  background: var(--color-card-raised, #252830);
+  color: var(--color-text, #e8e9ec);
+  border: 1px solid var(--color-border, #2a2d35);
+}
+
+.case-reports__btn--secondary:not(:disabled):hover {
+  background: var(--color-border, #2a2d35);
+}
+
+/* Spinner */
+.case-reports__spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: reports-spin 0.6s linear infinite;
+}
+
+@keyframes reports-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Feedback messages */
+.case-reports__feedback {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.case-reports__feedback--error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+.case-reports__feedback--success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+}
+
+/* Empty state */
+.case-reports__empty {
+  font-size: 13px;
+  color: var(--color-text-muted, #6b7080);
+  padding: 16px 0;
+  margin: 0;
+}
+
+/* Report history table */
+.case-reports__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.case-reports__table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted, #6b7080);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border, #2a2d35);
+}
+
+.case-reports__table tbody td {
+  padding: 10px 12px;
+  color: var(--color-text-secondary, #9ca0ab);
+  border-bottom: 1px solid var(--color-border-subtle, #22252b);
+}
+
+.case-reports__table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Download button inside the table */
+.case-reports__download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border, #2a2d35);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-accent, #e8732a);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.case-reports__download-btn:hover {
+  background: rgba(232, 115, 42, 0.1);
+}

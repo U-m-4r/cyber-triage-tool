@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import CaseHeader from '../components/case/CaseHeader.jsx'
 import CaseTabs from '../components/case/CaseTabs.jsx'
 import CaseOverview from '../components/case/CaseOverview.jsx'
+import CaseReports from '../components/case/CaseReports.jsx'
+import CaseAnalysis from '../components/case/CaseAnalysis.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import { CASE_TABS } from '../data/navigation.js'
 import { fetchCase } from '../services/caseService.js'
@@ -81,6 +83,15 @@ export default function CaseWorkspacePage() {
 
       {activeTab === 'overview' ? (
         <CaseOverview caseRecord={caseRecord} />
+      ) : activeTab === 'reports' ? (
+        <CaseReports caseRecord={caseRecord} />
+      ) : activeTab === 'analysis' ? (
+        <CaseAnalysis
+          caseRecord={caseRecord}
+          onAnalysisComplete={() => {
+            fetchCase(caseId).then(setCaseRecord)
+          }}
+        />
       ) : (
         // Unreachable while every other tab is disabled, but the workspace should
         // not render a blank panel if one is ever enabled before it is built.
