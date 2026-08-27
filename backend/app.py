@@ -1,22 +1,13 @@
 import os
 import sys
 import uuid
+import hashlib
 import logging
 from datetime import datetime, timezone
 
-import numpy as np
+import numpy as np  # noqa: F401  (kept for downstream numeric helpers)
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import (
-    accuracy_score,
-    confusion_matrix,
-    f1_score,
-    precision_score,
-    recall_score,
-    roc_auc_score,
-    precision_recall_fscore_support,
-)
 from werkzeug.utils import secure_filename
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -28,6 +19,20 @@ from ml.preprocessor import ForensicPreprocessor
 from ml.risk_scorer import RiskScorer
 from backend.db import init_db, seed_if_empty, get_db, check_connection
 from backend.report_generator import generate_case_report
+from evaluation.evaluate import (
+    extract_binary_ground_truth,
+    evaluate_predictions,
+    run_split_evaluation,
+)
+# PART C forensic parsers. Each self-guards its optional native dependency and
+# exposes an ``AVAILABLE`` flag, so importing the package never breaks app boot.
+from forensics import (
+    evtx_parser,
+    registry_parser,
+    yara_scanner,
+    disk_image,
+    threat_intel,
+)
 
 app = Flask(__name__)
 CORS(app)
@@ -43,7 +48,6 @@ detector = AnomalyDetector(contamination=0.1)
 scorer = RiskScorer()
 DETECTOR_READY = False
 
-LABEL_COLUMN_CANDIDATES = ["Label", "label", "Class", "class", "Target", "target"]
 
 # ---------------------------------------------------------------------------
 # MongoDB init
@@ -63,13 +67,32 @@ except Exception:
 # Helpers
 # ---------------------------------------------------------------------------
 
+HASH_CHUNK_SIZE = 1024 * 1024  # 1 MiB streaming read to bound memory on large images
+
+
+def compute_sha256(filepath):
+    """Compute the SHA-256 digest of a file for chain-of-custody integrity.
+
+    The file is opened strictly read-only ("rb") and read in fixed-size chunks so
+    the original evidence is never modified and arbitrarily large images do not have
+    to be loaded into memory at once. SHA-256 is the cryptographic hash mandated by
+    NIST FIPS 180-4 (Secure Hash Standard); a matching digest on re-read proves the
+    evidence has not been altered since intake.
+    """
+    digest = hashlib.sha256()
+    with open(filepath, "rb") as handle:  # read-only: source evidence stays immutable
+        for chunk in iter(lambda: handle.read(HASH_CHUNK_SIZE), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _save_uploaded_file():
     if "file" not in request.files:
-        return None, (jsonify({"error": "No file uploaded"}), 400)
+        return None, None, (jsonify({"error": "No file uploaded"}), 400)
 
     uploaded_file = request.files["file"]
     if uploaded_file.filename == "":
-        return None, (jsonify({"error": "Uploaded filename is empty"}), 400)
+        return None, None, (jsonify({"error": "Uploaded filename is empty"}), 400)
 
     # Sanitize incoming filename before writing to disk.
     safe_name = secure_filename(uploaded_file.filename)
@@ -81,7 +104,16 @@ def _save_uploaded_file():
 
     filepath = os.path.join(TEMP_DIR, filename)
     uploaded_file.save(filepath)
-    return filepath, None
+
+    # Chain of custody: hash the evidence immediately on intake, before any parsing.
+    custody = {
+        "original_filename": uploaded_file.filename,
+        "algorithm": "SHA-256",  # NIST FIPS 180-4
+        "sha256": compute_sha256(filepath),
+        "size_bytes": os.path.getsize(filepath),
+        "ingested_at": datetime.now(timezone.utc).isoformat(),
+    }
+    return filepath, custody, None
 
 
 def _api_error(message, status_code, code):
@@ -100,96 +132,10 @@ def _clean_mongo_docs(docs):
 
 
 def _extract_binary_ground_truth(df):
+    """Flask wrapper: read an optional ?label_column override from the request,
+    then delegate to the pure evaluation helper."""
     override = request.args.get("label_column")
-    if override and override in df.columns:
-        label_col = override
-    else:
-        label_col = next((c for c in LABEL_COLUMN_CANDIDATES if c in df.columns), None)
-
-    if override and override not in df.columns:
-        return None, None
-
-    if not label_col:
-        return None, None
-
-    labels = df[label_col].astype(str).str.strip().str.lower()
-    # CICIDS2017-style labels: benign/normal/0 -> normal, everything else -> attack.
-    y_true = np.where(labels.isin(["benign", "normal", "0"]), 0, 1)
-    return y_true, label_col
-
-
-def _compute_top_k_metrics(y_true, decision_scores, ks=(10, 25)):
-    if len(y_true) == 0:
-        return {}
-
-    # Higher anomaly_score (-decision_function) means more anomalous.
-    anomaly_scores = -decision_scores
-    ranked_idx = np.argsort(-anomaly_scores)
-    total_attacks = int((y_true == 1).sum())
-    metrics = {}
-
-    for k in ks:
-        k_count = max(1, int(len(y_true) * (k / 100.0)))
-        top_idx = ranked_idx[:k_count]
-        top_hits = int((y_true[top_idx] == 1).sum())
-        precision_at_k = top_hits / k_count if k_count else 0.0
-        recall_at_k = top_hits / total_attacks if total_attacks else 0.0
-
-        metrics[f"top_{k}_percent"] = {
-            "records_considered": int(k_count),
-            "attack_hits": int(top_hits),
-            "precision": round(float(precision_at_k), 4),
-            "recall": round(float(recall_at_k), 4),
-        }
-
-    return metrics
-
-
-def _evaluate_predictions(y_true, predictions, decision_scores):
-    # IsolationForest returns -1 for anomaly and 1 for normal.
-    y_pred = np.where(predictions == -1, 1, 0)
-    metrics = {
-        "accuracy": round(float(accuracy_score(y_true, y_pred)), 4),
-        "precision": round(float(precision_score(y_true, y_pred, zero_division=0)), 4),
-        "recall": round(float(recall_score(y_true, y_pred, zero_division=0)), 4),
-        "f1_score": round(float(f1_score(y_true, y_pred, zero_division=0)), 4),
-    }
-
-    # Per-class performance helps explain false positives/false negatives in viva.
-    p, r, f, s = precision_recall_fscore_support(y_true, y_pred, labels=[0, 1], zero_division=0)
-    metrics["class_metrics"] = {
-        "normal_0": {
-            "precision": round(float(p[0]), 4),
-            "recall": round(float(r[0]), 4),
-            "f1_score": round(float(f[0]), 4),
-            "support": int(s[0]),
-        },
-        "attack_1": {
-            "precision": round(float(p[1]), 4),
-            "recall": round(float(r[1]), 4),
-            "f1_score": round(float(f[1]), 4),
-            "support": int(s[1]),
-        },
-    }
-
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
-    metrics["confusion_matrix"] = {
-        "true_negative": int(tn),
-        "false_positive": int(fp),
-        "false_negative": int(fn),
-        "true_positive": int(tp),
-    }
-
-    if len(np.unique(y_true)) > 1:
-        # IsolationForest decision_function: higher = more normal.
-        # Negate so higher means more likely attack/anomaly.
-        auc_score = roc_auc_score(y_true, -decision_scores)
-        metrics["roc_auc"] = round(float(auc_score), 4)
-    else:
-        metrics["roc_auc"] = None
-
-    metrics["triage_top_k"] = _compute_top_k_metrics(y_true, decision_scores, ks=(10, 25))
-    return metrics
+    return extract_binary_ground_truth(df, override=override)
 
 
 def _ensure_detector_loaded_or_trained(df_scaled):
@@ -224,7 +170,7 @@ def health():
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
     """Main analysis endpoint."""
-    filepath, error_response = _save_uploaded_file()
+    filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
 
@@ -245,13 +191,15 @@ def analyze():
             "low": int((results_df["priority"] == "LOW").sum()),
         }
 
-        response_payload = {"summary": summary, "artifacts": top_results}
+        # Chain-of-custody digest is returned so the investigator can verify the
+        # exact evidence file that produced these results (NIST FIPS 180-4).
+        response_payload = {"summary": summary, "artifacts": top_results, "evidence": custody}
         # Add metrics when a supported label column is available.
         y_true, label_column = _extract_binary_ground_truth(df_clean)
         if y_true is not None:
             response_payload["evaluation"] = {
                 "label_column": label_column,
-                "metrics": _evaluate_predictions(y_true, predictions, scores),
+                "metrics": evaluate_predictions(y_true, predictions, scores),
             }
 
         # Persist analysis results to MongoDB if available
@@ -262,12 +210,13 @@ def analyze():
                     "created_at": datetime.now(timezone.utc).isoformat(),
                     "summary": summary,
                     "top_artifacts_count": len(top_results),
+                    "evidence_custody": custody,
                 }
 
                 case_id = request.form.get("caseId")
                 if case_id:
                     analysis_doc["case_id"] = case_id
-                    
+
                     case = db.cases.find_one({"id": case_id})
                     if case:
                         # Map top results to findings schema
@@ -309,11 +258,17 @@ def analyze():
                         elif threat_score >= 50: severity = "HIGH"
                         elif threat_score >= 25: severity = "MEDIUM"
                         
+                        # Chain-of-custody ledger: append this evidence intake
+                        # record (filename + SHA-256 + timestamp) to the case.
+                        custody_chain = case.get("custody", [])
+                        custody_chain = [custody] + custody_chain
+
                         db.cases.update_one(
                             {"id": case_id},
                             {"$set": {
                                 "findings": updated_findings,
                                 "counts": counts,
+                                "custody": custody_chain,
                                 "threatScore": threat_score,
                                 "severity": severity,
                                 "status": "ANALYZING" if case.get("status") == "INGESTING" else case.get("status")
@@ -339,7 +294,7 @@ def evaluate_model():
     Evaluate anomaly model using uploaded labeled dataset.
     Returns classic classification metrics for project reporting.
     """
-    filepath, error_response = _save_uploaded_file()
+    filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
 
@@ -353,33 +308,16 @@ def evaluate_model():
                 "MISSING_LABEL_COLUMN",
             )
 
-        indices = np.arange(len(df_scaled))
-        stratify = y_true if len(np.unique(y_true)) > 1 else None
-        train_idx, test_idx = train_test_split(
-            indices,
-            test_size=0.3,
-            random_state=42,
-            stratify=stratify,
-        )
-
-        X_train = df_scaled.iloc[train_idx]
-        X_test = df_scaled.iloc[test_idx]
-        y_test = y_true[test_idx]
-
-        detector.train(X_train)
-        predictions, scores = detector.predict(X_test)
-        metrics = _evaluate_predictions(y_test, predictions, scores)
+        # Stratified 70/30 split + fit + evaluate (shared with scripts/run_evaluation.py).
+        result = run_split_evaluation(df_scaled, y_true, detector, test_size=0.3, random_state=42)
 
         return jsonify(
             {
                 "status": "ok",
                 "label_column": label_column,
-                "records": {
-                    "total": int(len(df_clean)),
-                    "train": int(len(train_idx)),
-                    "test": int(len(test_idx)),
-                },
-                "metrics": metrics,
+                "evidence": custody,
+                "records": result["records"],
+                "metrics": result["metrics"],
             }
         )
     except Exception:
@@ -628,6 +566,138 @@ def get_triage_summary(case_id):
     if summary is None:
         return jsonify(None)
     return jsonify(summary)
+
+
+# ---------------------------------------------------------------------------
+# PART C — forensic artifact ingestion (EVTX / registry / disk image / YARA IOC)
+# ---------------------------------------------------------------------------
+
+# Map file extension -> (parser callable, human artifact label). Registry hives
+# are extension-less on disk (SYSTEM, NTUSER.DAT); ".dat"/".hiv" cover exports.
+_DISK_EXTS = {".dd", ".raw", ".img", ".e01", ".001"}
+_REGISTRY_EXTS = {".dat", ".hiv", ".hive", ".reg"}
+
+
+def _dispatch_forensic_parser(filepath, ext):
+    """Return (kind, DataFrame) for a supported forensic file, or (None, None)."""
+    if ext == ".evtx":
+        return "evtx", evtx_parser.parse_evtx(filepath)
+    if ext in _REGISTRY_EXTS:
+        return "registry", registry_parser.parse_registry_hive(filepath)
+    if ext in _DISK_EXTS:
+        return "disk_image", disk_image.ingest_disk_image(filepath)
+    return None, None
+
+
+@app.route("/api/forensics/capabilities", methods=["GET"])
+def forensics_capabilities():
+    """Report which optional forensic parsers/providers are available on this host.
+
+    The frontend uses this to enable/disable ingestion options rather than letting
+    an upload fail on a missing native dependency.
+    """
+    return jsonify({
+        "evtx": {"available": evtx_parser.AVAILABLE, "reason": evtx_parser.UNAVAILABLE_REASON},
+        "registry": {"available": registry_parser.AVAILABLE, "reason": registry_parser.UNAVAILABLE_REASON},
+        "yara": {"available": yara_scanner.AVAILABLE, "reason": yara_scanner.UNAVAILABLE_REASON},
+        "disk_image": {"available": disk_image.AVAILABLE, "reason": disk_image.UNAVAILABLE_REASON},
+        "threat_intel": threat_intel.providers_available(),
+    })
+
+
+@app.route("/api/forensics/ingest", methods=["POST"])
+def forensics_ingest():
+    """Ingest a non-network forensic artifact (EVTX / registry hive / disk image).
+
+    Hashes the evidence on intake (chain of custody, NIST FIPS 180-4), parses it
+    into normalized records, scores those records with the rule engine, and runs
+    YARA over the raw file to surface IOCs. The heavy ML anomaly detector is only
+    meaningful for numeric network flows, so parsed host artifacts are scored by
+    the domain rules (see ml/risk_scorer.py) which already model system_log / file
+    / registry artifact types.
+    """
+    filepath, custody, error_response = _save_uploaded_file()
+    if error_response:
+        return error_response
+
+    ext = os.path.splitext(custody["original_filename"])[1].lower()
+    try:
+        try:
+            kind, df = _dispatch_forensic_parser(filepath, ext)
+        except RuntimeError as exc:
+            # Parser's optional dependency is unavailable on this host.
+            return _api_error(str(exc), 503, "PARSER_UNAVAILABLE")
+
+        if kind is None:
+            return _api_error(
+                f"Unsupported forensic file type '{ext}'. Supported: .evtx, "
+                "registry hive (.dat/.hiv/.reg), disk image (.dd/.raw/.img/.e01).",
+                400, "UNSUPPORTED_FILE_TYPE",
+            )
+
+        records = df.head(500).to_dict(orient="records")
+
+        # Rule-based scoring over the parsed records (no ML anomaly component).
+        scored = []
+        for i, row in enumerate(df.to_dict(orient="records")):
+            artifact_type = scorer.detect_artifact_type(row)
+            rule_score, matched = scorer.apply_rules(row, artifact_type)
+            risk = scorer.compute_risk_score(0.0, rule_score)
+            if matched:
+                scored.append({
+                    "record_id": i,
+                    "artifact_type": artifact_type,
+                    "rule_score": round(rule_score * 100, 2),
+                    "risk_score": risk,
+                    "priority": scorer.assign_priority(risk),
+                    "matched_rules": ", ".join(matched),
+                })
+        scored.sort(key=lambda r: r["risk_score"], reverse=True)
+
+        # IOC surfacing: YARA-scan the raw evidence file if the engine is present.
+        iocs = []
+        if yara_scanner.AVAILABLE:
+            try:
+                iocs = yara_scanner.scan_file(filepath)
+            except Exception:
+                logger.exception("YARA scan failed")
+
+        # Optional threat-intel enrichment on the evidence file hash (no-op w/o keys).
+        intel = threat_intel.check_indicator(custody["sha256"], kind="hash")
+
+        response_payload = {
+            "kind": kind,
+            "record_count": int(len(df)),
+            "columns": list(df.columns),
+            "records": records,
+            "flagged_artifacts": scored[:100],
+            "iocs": iocs,
+            "threat_intel": intel,
+            "evidence": custody,
+        }
+
+        if MONGO_AVAILABLE:
+            case_id = request.form.get("caseId")
+            if case_id:
+                try:
+                    db = get_db()
+                    case = db.cases.find_one({"id": case_id})
+                    if case:
+                        custody_chain = [custody] + case.get("custody", [])
+                        db.cases.update_one(
+                            {"id": case_id},
+                            {"$set": {"custody": custody_chain}},
+                        )
+                except Exception:
+                    logger.exception("Failed to persist forensic custody to MongoDB")
+
+        return jsonify(response_payload)
+    except Exception:
+        logger.exception("Forensic ingestion failed")
+        return _api_error("Forensic ingestion failed. Check the file and try again.", 500, "INGEST_FAILED")
+    finally:
+        if os.path.exists(filepath):
+            os.remove(filepath)
 
 
 if __name__ == "__main__":
