@@ -81,8 +81,8 @@ export const CASE_TABS = [
   {
     id: 'artifacts',
     label: 'Artifacts',
-    available: false,
-    phase: 'Filterable artifact explorer over scored records',
+    available: true,
+    phase: null,
   },
   {
     id: 'analysis',

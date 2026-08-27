@@ -110,14 +110,17 @@ class RiskScorer:
         return rule_score, matched_rules
 
     def get_anomaly_score_normalized(self, raw_score):
+        # Formula: Anomaly-score normalization (logistic squash) | Ref: logistic function, gain project-tuned | see FORMULAS.md#anomaly-normalization
         normalized = 1 / (1 + np.exp(raw_score * 10))
         return normalized * 100
 
     def compute_risk_score(self, anomaly_score, rule_score):
+        # Formula: Risk-score fusion (weighted sum) | Ref: Ross2016 (method); 60/40 project-tuned | see FORMULAS.md#risk-fusion
         risk = (anomaly_score * 0.6) + (rule_score * 100 * 0.4)
         return round(min(risk, 100), 2)
 
     def assign_priority(self, risk_score):
+        # Formula: Priority bands | Ref: project-defined operational thresholds | see FORMULAS.md#priority-bands
         if risk_score >= 75:
             return 'CRITICAL'
         elif risk_score >= 50:
@@ -170,3 +173,35 @@ class RiskScorer:
         df_results = df_results.sort_values('risk_score', ascending=False)
         print("[+] Scoring complete")
         return df_results
+
+    def score_records(self, records, anomaly_scores=None):
+        """Score a list of artifact dicts (from the ingestion parsers).
+
+        When `anomaly_scores` is provided (one raw IsolationForest score per record,
+        available once ml/preprocessor.py generalizes per-type features in Phase B),
+        the full 60/40 fusion applies. Until then, scoring is rule-engine only and
+        risk == rule_score on a 0-100 scale.
+        # Formula: Rules-only interim risk | Ref: rule engine, see FORMULAS.md#rules-only-risk
+        """
+        scored = []
+        for i, row in enumerate(records):
+            artifact_type = self.detect_artifact_type(row)
+            r_score, rules = self.apply_rules(row, artifact_type)
+            if anomaly_scores is not None:
+                a_score = self.get_anomaly_score_normalized(anomaly_scores[i])
+                risk = self.compute_risk_score(a_score, r_score)
+                anomaly_out = round(a_score, 2)
+            else:
+                anomaly_out = None
+                risk = round(min(r_score * 100, 100), 2)
+            scored.append({
+                **row,
+                "artifact_type": artifact_type,
+                "anomaly_score": anomaly_out,
+                "rule_score": round(r_score * 100, 2),
+                "risk_score": risk,
+                "priority": self.assign_priority(risk),
+                "matched_rules": ', '.join(rules) if rules else 'None',
+            })
+        scored.sort(key=lambda a: a["risk_score"], reverse=True)
+        return scored

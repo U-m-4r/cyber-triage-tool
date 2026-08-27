@@ -29,6 +29,7 @@ class AnomalyDetector:
         return predictions, scores
     
     def get_anomaly_score_normalized(self, raw_score):
+        # Formula: Anomaly-score normalization (logistic squash) | Ref: logistic function, gain project-tuned | see FORMULAS.md#anomaly-normalization
         normalized = 1 / (1 + np.exp(raw_score * 10))
         return round(normalized * 100, 2)
     

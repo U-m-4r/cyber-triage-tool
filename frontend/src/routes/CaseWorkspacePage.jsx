@@ -5,6 +5,7 @@ import CaseTabs from '../components/case/CaseTabs.jsx'
 import CaseOverview from '../components/case/CaseOverview.jsx'
 import CaseReports from '../components/case/CaseReports.jsx'
 import CaseAnalysis from '../components/case/CaseAnalysis.jsx'
+import CaseArtifacts from '../components/case/CaseArtifacts.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import { CASE_TABS } from '../data/navigation.js'
 import { fetchCase } from '../services/caseService.js'
@@ -83,6 +84,8 @@ export default function CaseWorkspacePage() {
 
       {activeTab === 'overview' ? (
         <CaseOverview caseRecord={caseRecord} />
+      ) : activeTab === 'artifacts' ? (
+        <CaseArtifacts caseRecord={caseRecord} />
       ) : activeTab === 'reports' ? (
         <CaseReports caseRecord={caseRecord} />
       ) : activeTab === 'analysis' ? (

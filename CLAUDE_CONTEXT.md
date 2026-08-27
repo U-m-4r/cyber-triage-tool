@@ -1,8 +1,8 @@
 # CLAUDE_CONTEXT.md
 
 Handoff notes for a fresh Claude Code session. Written 2026-08-26 after building
-the Phase 1 frontend; updated 2026-08-27 after building the case workspace. Read
-this instead of re-scanning the repo.
+the Phase 1 frontend; updated 2026-08-27 after building the case workspace,
+MongoDB integration, and PDF reporting. Read this instead of re-scanning the repo.
 
 ---
 
@@ -16,7 +16,7 @@ An investigator uploads forensic data; the tool ranks artifacts by risk so the
 highest-value evidence is looked at first.
 
 **Stack:** Python (scikit-learn, pandas) + Flask backend · React 19 + Vite
-frontend · plain CSS. No TypeScript, no Tailwind, no MongoDB in use.
+frontend · plain CSS · MongoDB (persistence) · ReportLab (PDFs). No TypeScript, no Tailwind.
 
 **Architecture:**
 
@@ -41,7 +41,8 @@ breakdown.
 | Path | Contents |
 |---|---|
 | `backend/app.py` | **Entry point.** Entire Flask API in one file. |
-| `backend/report_generator.py` | **Empty file.** PDF reporting stub. |
+| `backend/db.py` | MongoDB integration (cases, reports, activity feed). |
+| `backend/report_generator.py` | PDF generation using ReportLab. |
 | `ml/preprocessor.py` | `ForensicPreprocessor` — load, clean, extract features, scale |
 | `ml/detector.py` | `AnomalyDetector` — IsolationForest wrapper + joblib persistence |
 | `ml/risk_scorer.py` | `RiskScorer` — rule engine, risk score, priority bands |
@@ -128,11 +129,10 @@ Components never call `fetch` directly: **components → services → `apiClient
 
 ### Case workspace data
 
-`caseService.fetchCase(caseId)` resolves a record out of `CASES_BY_ID` in
-`data/mockCases.js` and returns `null` for an unknown ID, which the page renders as
-a "no case matches" dead end. The function is shaped so the body becomes
-`apiClient.get(\`/api/cases/${caseId}\`)` when that endpoint exists — **it does not
-exist yet, and nothing was added to Flask for it.**
+`caseService.fetchCase(caseId)` now attempts to hit the backend API
+(`apiClient.get(\`/cases/${caseId}\`)`) backed by MongoDB, and falls back to
+`data/mockCases.js` fixtures if the API is unreachable. This ensures the UI
+always renders something.
 
 Each record carries: identity + counts (mirroring `ACTIVE_INVESTIGATIONS` so the
 dashboard row and the workspace header can never disagree), `summary`,
@@ -155,7 +155,7 @@ cd backend && pip install -r requirements.txt && python app.py
 cd frontend && npm install && npm run dev
 ```
 
-Backend on `:5000`, frontend on `:5173`. Frontend build: `npm run build`.
+Backend on `:5001` (see `app.py:634`), frontend on `:5173`. Frontend build: `npm run build`.
 Preview a build: `npm run preview`.
 
 **There are no test, lint or type-check commands.** Nothing to run before
@@ -177,12 +177,13 @@ The only env var in the project is frontend-side:
 
 | Variable | Purpose |
 |---|---|
-| `VITE_API_BASE_URL` | Overrides the API base. Defaults to `/api`, which Vite proxies to `http://localhost:5000`. |
+| `VITE_API_BASE_URL` | Overrides the API base. Defaults to `/api`, which Vite proxies to `http://localhost:5001`. |
 
 **Config files:** `frontend/vite.config.js` — sets the port and the `/api` proxy.
 
-**External services:** none active. CORS is wide open (`CORS(app)`). No auth, no
-database, no threat-intel API. The dataset is downloaded manually from Kaggle.
+**External services:** MongoDB is now integrated as the primary data store. CORS is
+wide open (`CORS(app)`). No auth, no threat-intel API. The dataset is downloaded
+manually from Kaggle.
 
 ---
 
@@ -200,14 +201,17 @@ database, no threat-intel API. The dataset is downloaded manually from Kaggle.
   **Overview** tab (Investigation Summary, Threat Assessment, Priority Findings,
   Recommended Next Action, Recent Activity, Evidence Status). Reached from the
   dashboard; `Back to Dashboard` returns.
+- **MongoDB persistence**: Implemented in `backend/db.py` for cases, analysis
+  results, reports, and activity feed.
+- **PDF Reporting**: Implemented via `backend/report_generator.py` using ReportLab,
+  accessible via `/api/report` (or similar endpoints).
 
 ### Not implemented (deliberately deferred)
 
-`/api/report` returns 501 · **`GET /api/cases/:caseId` does not exist** · the
-workspace's Evidence, Artifacts, Analysis, AI Triage, Timeline, IOC Graph and
-Reports tabs are disabled placeholders · no RAW/E01 disk imaging · no EVTX,
-registry or PCAP parsing · no IOC feeds or YARA · no real auth · no PDF/JSON/CSV
-export · no graph database · no MongoDB persistence.
+The workspace's Evidence, Artifacts, Analysis, AI Triage, Timeline, IOC Graph and
+Reports tabs are disabled placeholders (though report generation exists on the backend) ·
+no RAW/E01 disk imaging · no EVTX, registry or PCAP parsing · no IOC feeds or YARA
+· no real auth · no graph database.
 
 ### Known issues
 
@@ -309,7 +313,7 @@ export · no graph database · no MongoDB persistence.
 | Connecting UI to backend | `services/apiClient.js`, `services/dashboardService.js`, `vite.config.js` |
 | Planning next phase | `plan.md` §2 (workstreams) and §4 (sequencing) |
 
-Skip `backend/report_generator.py` and `evaluation/evaluate.py` — both are empty.
+Skip `evaluation/evaluate.py` — it is an empty stub. `backend/report_generator.py` is fully implemented.
 
 ---
 
@@ -327,18 +331,19 @@ Skip `backend/report_generator.py` and `evaluation/evaluate.py` — both are emp
 
 ## 10. Next Planned Phase
 
-The workspace shell now exists, so the next phase fills its tabs rather than adding
-more screens. In order of dependency:
+The foundational end-to-end flow is complete (React UI → Flask API → ML Analysis
+→ MongoDB → PDF Report). The next phase involves extending ingestion beyond network
+CSV flows to unlock new artifact types. In order of priority:
 
-1. **`GET /api/cases/:caseId` in Flask**, returning the `CaseRecord` shape
-   `mockCases.js` documents, so `caseService.fetchCase` can drop its fixture import.
-   This needs somewhere to persist cases — see `plan.md` §3 on MongoDB.
-2. **Evidence tab** — evidence intake and the chain-of-custody records the Overview
-   already displays read-only (`plan.md` requirement #1).
-3. **Artifacts tab** — filterable explorer over scored records, backed by
-   `GET /api/artifacts` (`plan.md` requirement #2).
-4. **AI Triage tab** — the full ranked-findings view the Overview currently
-   previews, wired to real `/api/analyze` output.
-5. **Timeline, IOC Graph, Reports** — requirements #5 and #3, in that order.
+1. **Log/registry/PCAP parsing**: Add `python-evtx`, `python-registry`, `pyshark`/`scapy`
+   to feed more artifact types into the existing scorer.
+2. **IOC matching**: Integrate YARA and a threat-intel API for file and network indicators.
+3. **Evidence & Artifacts tabs**: Build out the frontend data tables for the newly
+   ingested multi-format data.
+4. **Disk image ingestion (pytsk3)**: Raw image mount and read-only extraction (often
+   time-consuming, sequence near the end).
+5. **Timeline and Graph visualizations**: Polish the UI with temporal and relationship
+   views.
 
-Convert the tabs to nested routes as part of step 2, so a tab becomes linkable.
+Make sure to generalize `ml/preprocessor.py` to handle non-network features as part
+of step 1.

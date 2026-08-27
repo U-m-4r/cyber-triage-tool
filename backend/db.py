@@ -62,6 +62,13 @@ def init_db():
     db.reports.create_index("case_id")
     db.reports.create_index([("generated_at", DESCENDING)])
 
+    # Ingested artifacts (from /api/ingest — Requirement #2)
+    db.artifacts.create_index("case_id")
+    db.artifacts.create_index("artifact_type")
+    db.artifacts.create_index("priority")
+    db.artifacts.create_index([("risk_score", DESCENDING)])
+    db.artifacts.create_index([("ingested_at", DESCENDING)])
+
     logger.info("MongoDB indexes ensured on database '%s'", DB_NAME)
 
 
