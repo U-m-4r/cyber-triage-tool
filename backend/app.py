@@ -3,6 +3,7 @@ import sys
 import uuid
 import hashlib
 import logging
+from functools import wraps
 from datetime import datetime, timezone
 
 import numpy as np  # noqa: F401  (kept for downstream numeric helpers)
@@ -17,6 +18,7 @@ if ROOT_DIR not in sys.path:
 from ml.detector import AnomalyDetector
 from ml.preprocessor import ForensicPreprocessor
 from ml.risk_scorer import RiskScorer
+from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
 from backend.db import init_db, seed_if_empty, get_db, check_connection
 from backend.report_generator import generate_case_report
 from evaluation.evaluate import (
@@ -35,7 +37,21 @@ from forensics import (
 )
 
 app = Flask(__name__)
-CORS(app)
+
+# --- Security config (cross-cutting) ------------------------------------------
+# CORS is locked to an allowlist from CORS_ALLOWED_ORIGINS (comma-separated).
+# Default "*" preserves the original wide-open dev behavior; set the env var to
+# lock it down for any shared/demo deployment.
+_cors_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "*")
+_origins = "*" if _cors_origins.strip() == "*" else [o.strip() for o in _cors_origins.split(",") if o.strip()]
+CORS(app, origins=_origins)
+
+# When CYBER_TRIAGE_API_TOKEN is set, protected endpoints require a matching
+# bearer token / X-API-Key. When unset, auth is disabled (dev mode) and a warning
+# is logged — evidence-handling endpoints must never ship unauthenticated silently.
+API_TOKEN = os.environ.get("CYBER_TRIAGE_API_TOKEN", "").strip()
+DEBUG_MODE = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true", "yes")
+
 TEMP_DIR = os.path.join(ROOT_DIR, "temp")
 os.makedirs(TEMP_DIR, exist_ok=True)
 MODEL_PATH = os.path.join(ROOT_DIR, "models", "isolation_forest.pkl")
@@ -61,6 +77,12 @@ try:
 except Exception:
     MONGO_AVAILABLE = False
     logger.warning("MongoDB unavailable — API will still serve analysis endpoints")
+
+if not API_TOKEN:
+    logger.warning(
+        "AUTH DISABLED: CYBER_TRIAGE_API_TOKEN is not set — evidence endpoints are "
+        "open. Set it (and CORS_ALLOWED_ORIGINS) before any shared/demo deployment."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -120,6 +142,29 @@ def _api_error(message, status_code, code):
     return jsonify({"error": {"code": code, "message": message}}), status_code
 
 
+def _request_token():
+    """Extract a token from Authorization: Bearer <t> or the X-API-Key header."""
+    auth = request.headers.get("Authorization", "")
+    if auth.lower().startswith("bearer "):
+        return auth[7:].strip()
+    return request.headers.get("X-API-Key", "").strip()
+
+
+def require_auth(view):
+    """Gate an endpoint behind the shared API token when one is configured.
+
+    No-op when CYBER_TRIAGE_API_TOKEN is unset (dev mode) so local runs and the
+    existing regression tests keep working; enforced the moment a token is set.
+    """
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        if API_TOKEN:
+            if _request_token() != API_TOKEN:
+                return _api_error("Missing or invalid API token.", 401, "UNAUTHORIZED")
+        return view(*args, **kwargs)
+    return wrapper
+
+
 def _clean_mongo_doc(doc):
     """Remove MongoDB's _id field so the doc is JSON-serialisable."""
     if doc and "_id" in doc:
@@ -168,6 +213,7 @@ def health():
 
 
 @app.route("/api/analyze", methods=["POST"])
+@require_auth
 def analyze():
     """Main analysis endpoint."""
     filepath, custody, error_response = _save_uploaded_file()
@@ -289,6 +335,7 @@ def analyze():
 
 
 @app.route("/api/evaluate", methods=["POST"])
+@require_auth
 def evaluate_model():
     """
     Evaluate anomaly model using uploaded labeled dataset.
@@ -329,6 +376,130 @@ def evaluate_model():
 
 
 # ---------------------------------------------------------------------------
+# Ingestion & artifacts endpoints (NEW — Requirement #2)
+# ---------------------------------------------------------------------------
+
+def _persist_artifacts(db, scored, case_id, source_name, kind):
+    """Store scored artifacts in the `artifacts` collection and return their docs."""
+    now = datetime.now(timezone.utc).isoformat()
+    docs = []
+    for art in scored:
+        doc = dict(art)
+        doc["artifact_id"] = f"ART-{uuid.uuid4().hex[:10].upper()}"
+        doc["case_id"] = case_id
+        doc["source_kind"] = kind
+        doc["ingested_at"] = now
+        docs.append(doc)
+    if docs:
+        db.artifacts.insert_many(docs)
+    return docs
+
+
+@app.route("/api/ingest", methods=["POST"])
+@require_auth
+def ingest():
+    """Parse a forensic source (log / registry / pcap / file listing), score the
+    artifacts, and persist them. Form fields: `file` (required), `kind`
+    (evtx|registry|pcap|file, optional — sniffed from extension otherwise),
+    `caseId` (optional — links artifacts to a case and updates its counts)."""
+    filepath, error_response = _save_uploaded_file()
+    if error_response:
+        return error_response
+
+    kind = (request.form.get("kind") or "").strip().lower() or None
+    case_id = request.form.get("caseId")
+    try:
+        try:
+            records = parse_file(filepath, kind=kind)
+        except ParserError as exc:
+            return _api_error(str(exc), 400, "PARSE_FAILED")
+
+        # Phase A: rule-engine scoring (anomaly component wired in Phase B once the
+        # preprocessor generalizes per-type features).
+        scored = scorer.score_records(records)
+        summary = {
+            "total_records": len(scored),
+            "critical": sum(1 for a in scored if a["priority"] == "CRITICAL"),
+            "high": sum(1 for a in scored if a["priority"] == "HIGH"),
+            "medium": sum(1 for a in scored if a["priority"] == "MEDIUM"),
+            "low": sum(1 for a in scored if a["priority"] == "LOW"),
+        }
+
+        stored = 0
+        if MONGO_AVAILABLE:
+            try:
+                db = get_db()
+                source_name = secure_filename(os.path.basename(filepath))
+                docs = _persist_artifacts(db, scored, case_id, source_name, kind)
+                stored = len(docs)
+                if case_id:
+                    case = db.cases.find_one({"id": case_id})
+                    if case:
+                        counts = case.get("counts", {})
+                        counts["artifacts"] = counts.get("artifacts", 0) + len(scored)
+                        db.cases.update_one({"id": case_id}, {"$set": {"counts": counts}})
+            except Exception:
+                logger.exception("Failed to persist ingested artifacts")
+
+        return jsonify({
+            "kind": kind or "auto",
+            "summary": summary,
+            "stored": stored,
+            "artifacts": [
+                {k: v for k, v in a.items()} for a in scored[:100]
+            ],
+        })
+    except Exception:
+        logger.exception("Ingestion failed")
+        return _api_error("Ingestion failed. Check the file format and kind.", 500, "INGEST_FAILED")
+    finally:
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+
+@app.route("/api/artifacts", methods=["GET"])
+@require_auth
+def list_artifacts():
+    """Filterable artifact retrieval. Query params: type, severity, case_id (or
+    caseId), from, to (ISO timestamps on ingested_at), limit (default 100)."""
+    if not MONGO_AVAILABLE:
+        return _api_error("Database not available", 503, "DB_UNAVAILABLE")
+
+    query = {}
+    artifact_type = request.args.get("type")
+    if artifact_type:
+        query["artifact_type"] = artifact_type
+    severity = request.args.get("severity")
+    if severity:
+        query["priority"] = severity.upper()
+    case_id = request.args.get("case_id") or request.args.get("caseId")
+    if case_id:
+        query["case_id"] = case_id
+
+    time_filter = {}
+    if request.args.get("from"):
+        time_filter["$gte"] = request.args.get("from")
+    if request.args.get("to"):
+        time_filter["$lte"] = request.args.get("to")
+    if time_filter:
+        query["ingested_at"] = time_filter
+
+    try:
+        limit = max(1, min(int(request.args.get("limit", 100)), 1000))
+    except ValueError:
+        limit = 100
+
+    db = get_db()
+    total = db.artifacts.count_documents(query)
+    artifacts = list(
+        db.artifacts.find(query, {"_id": 0})
+        .sort("risk_score", -1)
+        .limit(limit)
+    )
+    return jsonify({"total": total, "returned": len(artifacts), "artifacts": artifacts})
+
+
+# ---------------------------------------------------------------------------
 # Case endpoints (NEW — MongoDB-backed)
 # ---------------------------------------------------------------------------
 
@@ -358,6 +529,7 @@ def get_case(case_id):
 
 
 @app.route("/api/cases", methods=["POST"])
+@require_auth
 def create_case():
     """Create a new case."""
     if not MONGO_AVAILABLE:
@@ -392,6 +564,7 @@ def create_case():
 
 
 @app.route("/api/cases/<case_id>", methods=["PUT"])
+@require_auth
 def update_case(case_id):
     """Update an existing case."""
     if not MONGO_AVAILABLE:
@@ -474,6 +647,7 @@ def dashboard():
 # ---------------------------------------------------------------------------
 
 @app.route("/api/report", methods=["POST"])
+@require_auth
 def generate_report_post():
     """Generate a PDF report for a case (POST with JSON body)."""
     data = request.get_json(silent=True)
@@ -701,4 +875,5 @@ def forensics_ingest():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    # debug defaults OFF (safe for demo/deploy); enable locally with FLASK_DEBUG=1.
+    app.run(host="0.0.0.0", port=5001, debug=DEBUG_MODE)

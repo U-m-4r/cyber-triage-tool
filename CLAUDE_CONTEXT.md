@@ -1,10 +1,10 @@
 # CLAUDE_CONTEXT.md
 
 Handoff notes for a fresh Claude Code session. Written 2026-08-26 after building
-the Phase 1 frontend; updated 2026-08-27 after building the case workspace;
-updated again 2026-08-27 after **PARTS A–D** (formula/reference cleanup, SHA-256
-chain of custody, forensic parsers, and reproducible evaluation). Read this
-instead of re-scanning the repo.
+the Phase 1 frontend; updated 2026-08-27 after building the case workspace,
+MongoDB integration, and PDF reporting; updated again 2026-08-27 after
+**PARTS A–D** (formula/reference cleanup, SHA-256 chain of custody, forensic
+parsers, and reproducible evaluation). Read this instead of re-scanning the repo.
 
 ---
 
@@ -182,11 +182,10 @@ Components never call `fetch` directly: **components → services → `apiClient
 
 ### Case workspace data
 
-`caseService.fetchCase(caseId)` resolves a record out of `CASES_BY_ID` in
-`data/mockCases.js` and returns `null` for an unknown ID, which the page renders as
-a "no case matches" dead end. The function is shaped so the body becomes
-`apiClient.get(\`/api/cases/${caseId}\`)` when that endpoint exists — **it does not
-exist yet, and nothing was added to Flask for it.**
+`caseService.fetchCase(caseId)` now attempts to hit the backend API
+(`apiClient.get(\`/cases/${caseId}\`)`) backed by MongoDB, and falls back to
+`data/mockCases.js` fixtures if the API is unreachable. This ensures the UI
+always renders something.
 
 Each record carries: identity + counts (mirroring `ACTIVE_INVESTIGATIONS` so the
 dashboard row and the workspace header can never disagree), `summary`,
@@ -274,7 +273,9 @@ Kaggle.
   `evaluation/artifacts/{confusion_matrix,roc_curve,topk_recall_curve}.png`.
 - Full preprocessing → detection → scoring pipeline for network-flow CSVs.
 - Phase 1 frontend + case workspace. The **Overview**, **Reports**, **Evidence**,
-  **Timeline** and **IOC** tabs are built.
+  **Artifacts**, **Timeline** and **IOC** tabs are built. MongoDB persistence
+  (`backend/db.py`) and ReportLab PDF reporting (`backend/report_generator.py`,
+  `/api/report`) back the workspace.
 - pytest suite (27 tests) covering ML core, chain of custody, forensics, evaluation.
 
 ### Not implemented (deliberately deferred)
@@ -405,18 +406,19 @@ parsing · real auth · graph database for IOC relationships · CSV/JSON export.
 
 ## 10. Next Planned Phase
 
-The workspace shell now exists, so the next phase fills its tabs rather than adding
-more screens. In order of dependency:
+The foundational end-to-end flow is complete (React UI → Flask API → ML Analysis
+→ MongoDB → PDF Report). The next phase involves extending ingestion beyond network
+CSV flows to unlock new artifact types. In order of priority:
 
-1. **`GET /api/cases/:caseId` in Flask**, returning the `CaseRecord` shape
-   `mockCases.js` documents, so `caseService.fetchCase` can drop its fixture import.
-   This needs somewhere to persist cases — see `plan.md` §3 on MongoDB.
-2. **Evidence tab** — evidence intake and the chain-of-custody records the Overview
-   already displays read-only (`plan.md` requirement #1).
-3. **Artifacts tab** — filterable explorer over scored records, backed by
-   `GET /api/artifacts` (`plan.md` requirement #2).
-4. **AI Triage tab** — the full ranked-findings view the Overview currently
-   previews, wired to real `/api/analyze` output.
-5. **Timeline, IOC Graph, Reports** — requirements #5 and #3, in that order.
+1. **Log/registry/PCAP parsing**: Add `python-evtx`, `python-registry`, `pyshark`/`scapy`
+   to feed more artifact types into the existing scorer.
+2. **IOC matching**: Integrate YARA and a threat-intel API for file and network indicators.
+3. **Evidence & Artifacts tabs**: Build out the frontend data tables for the newly
+   ingested multi-format data.
+4. **Disk image ingestion (pytsk3)**: Raw image mount and read-only extraction (often
+   time-consuming, sequence near the end).
+5. **Timeline and Graph visualizations**: Polish the UI with temporal and relationship
+   views.
 
-Convert the tabs to nested routes as part of step 2, so a tab becomes linkable.
+Make sure to generalize `ml/preprocessor.py` to handle non-network features as part
+of step 1.

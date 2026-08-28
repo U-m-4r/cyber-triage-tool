@@ -1,0 +1,166 @@
+/* Artifacts tab — filterable explorer + ingest control.
+   Follows the severity-only colour policy: all interactive chrome is neutral;
+   hue appears only via SeverityBadge. */
+
+.case-artifacts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.artifacts-ingest,
+.artifacts-explorer {
+  background: var(--surface-1, rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-1, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.artifacts-ingest__title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.artifacts-ingest__copy {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--text-2, rgba(231, 236, 238, 0.6));
+  max-width: 62ch;
+}
+
+.artifacts-ingest__controls,
+.artifacts-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.artifacts-select {
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--border-1, rgba(255, 255, 255, 0.12));
+  color: var(--text-1, #e7ecee);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.artifacts-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.artifacts-file-label {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px dashed var(--border-1, rgba(255, 255, 255, 0.18));
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-2, rgba(231, 236, 238, 0.7));
+  cursor: pointer;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artifacts-ingest__btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-2, rgba(255, 255, 255, 0.22));
+  background: var(--surface-3, rgba(255, 255, 255, 0.08));
+  color: var(--text-1, #e7ecee);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.artifacts-ingest__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.artifacts-notice {
+  margin: 14px 0 0;
+  font-size: 13px;
+}
+
+.artifacts-notice--ok {
+  color: var(--text-1, #e7ecee);
+}
+
+.artifacts-notice--error {
+  color: var(--sev-critical, #d9484c);
+}
+
+.artifacts-toolbar {
+  margin-bottom: 14px;
+}
+
+.artifacts-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-2, rgba(231, 236, 238, 0.55));
+}
+
+.artifacts-empty {
+  font-size: 13px;
+  color: var(--text-2, rgba(231, 236, 238, 0.6));
+  padding: 24px 0;
+  text-align: center;
+}
+
+.artifacts-table-wrap {
+  overflow-x: auto;
+}
+
+.artifacts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.artifacts-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-2, rgba(231, 236, 238, 0.55));
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-1, rgba(255, 255, 255, 0.1));
+  white-space: nowrap;
+}
+
+.artifacts-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-1, rgba(255, 255, 255, 0.06));
+  vertical-align: top;
+}
+
+.artifacts-risk {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.artifacts-type {
+  color: var(--text-2, rgba(231, 236, 238, 0.7));
+}
+
+.artifacts-detail,
+.artifacts-source {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artifacts-rules {
+  color: var(--text-2, rgba(231, 236, 238, 0.75));
+  max-width: 260px;
+}
+
+.mono {
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
