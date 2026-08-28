@@ -6,6 +6,35 @@ Cyber Triage Tool for Digital Forensic Investigation
 (National Investigation Agency, Anti-Cyber Terrorism Division). See
 [plan.md](plan.md) for the full requirement breakdown and roadmap.
 
+## Codebase Verification & Testing Suite
+
+All machine learning algorithms, forensic parsers, risk scoring models, chain-of-custody hashing, and backend API endpoints are actively covered and validated with a comprehensive test suite.
+
+### Quick Verification Commands
+
+```bash
+# 1. Full Verification: Live pytest execution + Live in-memory triage demo + Model evaluation audit
+python scripts/verify_results.py
+
+# 2. Run only live unit and integration tests across all Python modules
+python scripts/verify_results.py --tests-only
+
+# 3. Direct pytest execution across the 45-item test suite
+python -m pytest -v
+```
+
+### Tested Modules & Behaviors
+
+| Test Module | Component Description & Verified Behaviors |
+| :--- | :--- |
+| [`tests/test_ml_core.py`](tests/test_ml_core.py) | **ML Pipeline Core**: `ForensicPreprocessor` NaN/inf drop and StandardScaler z-score normalization; `AnomalyDetector` batch min-max score mapping to [0, 100]; `RiskScorer` 60/40 ML-rule weighted fusion; CVSS v3.1 qualitative priority banding (LOW / MEDIUM / HIGH / CRITICAL). |
+| [`tests/test_parsers.py`](tests/test_parsers.py) | **Forensic Artifact Parsers**: Windows EVTX logs (Event ID 4625 brute force aggregation), Windows Registry `.reg` hives & hex data, Network flow CSV column mappings, File system directory listings (CSV/JSON), and parser dispatcher auto-sniffing. |
+| [`tests/test_scoring.py`](tests/test_scoring.py) | **Risk Scoring Engine**: Priority triage ranking, 0–100 risk score bounds enforcement, sorting by descending risk, and rule-only fallback scoring. |
+| [`tests/test_chain_of_custody.py`](tests/test_chain_of_custody.py) | **Forensic Chain of Custody**: SHA-256 evidence hashing (NIST FIPS 180-4), chunked streaming, deterministic re-reads, tamper verification, and hash injection into analysis responses. |
+| [`tests/test_forensics.py`](tests/test_forensics.py) | **Forensics Capabilities & Reputation**: Threat-intel provider fallbacks (OTX/VirusTotal), rule weight bumping on malicious reputation verdicts, EVTX flattening, and `/api/forensics/capabilities` reporting. |
+| [`tests/test_evaluation.py`](tests/test_evaluation.py) | **Evaluation Mathematics**: Ground truth extraction for CICIDS2017 schema, Top-K triage lift calculation, confusion matrix precision/recall/F1/accuracy recomputation, and ROC-AUC curve generation. |
+| [`tests/test_endpoints.py`](tests/test_endpoints.py) | **Backend REST API**: Flask `/api/ingest`, `/api/analyze`, `/api/health`, `/api/cases`, authentication token validation, and MongoDB artifact persistence. |
+
 ## Tech Stack
 
 **Implemented**

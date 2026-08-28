@@ -402,7 +402,7 @@ def ingest():
     artifacts, and persist them. Form fields: `file` (required), `kind`
     (evtx|registry|pcap|file, optional — sniffed from extension otherwise),
     `caseId` (optional — links artifacts to a case and updates its counts)."""
-    filepath, error_response = _save_uploaded_file()
+    filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
 
