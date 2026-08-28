@@ -5,6 +5,12 @@ flask
 flask-cors
 pymongo
 reportlab
+matplotlib
+requests
 python-evtx
 xmltodict
+python-registry
+yara-python
+pytsk3
 joblib
+pytest

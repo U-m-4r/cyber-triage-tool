@@ -1,0 +1,235 @@
+/* ---------------------------------------------------------------------------
+   CaseIoc — IOC Graph tab in the case workspace
+
+   Hue policy: only indicator markers/severity badges carry colour. Hosts, edges,
+   filters and grouping are neutral slate.
+   --------------------------------------------------------------------------- */
+
+.case-ioc {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- Controls ------------------------------------------------------------ */
+
+.case-ioc__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+
+.case-ioc__count {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 440;
+}
+
+.case-ioc__count strong {
+  color: var(--text-primary);
+  font-weight: 560;
+}
+
+.case-ioc__count-note {
+  color: var(--text-faint);
+}
+
+.case-ioc__chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.case-ioc__chip {
+  padding: 3px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background-color 130ms ease, color 130ms ease, border-color 130ms ease;
+}
+
+.case-ioc__chip:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-default);
+}
+
+.case-ioc__chip--active {
+  background: var(--surface-tint);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* ---- Layout -------------------------------------------------------------- */
+
+.case-ioc__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1023px) {
+  .case-ioc__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- Indicator groups ---------------------------------------------------- */
+
+.case-ioc__groups {
+  display: flex;
+  flex-direction: column;
+}
+
+.ioc-group + .ioc-group {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ioc-group__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 16px 8px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.ioc-group__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ioc-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ioc-item__value {
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 11.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ioc-item__hosts {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ioc-item__refs {
+  color: var(--text-faint);
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+/* ---- Relationship graph -------------------------------------------------- */
+
+.case-ioc__graph {
+  overflow-x: auto;
+}
+
+.case-ioc__svg {
+  display: block;
+  min-width: 420px;
+}
+
+.ioc-edge {
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.ioc-host__dot {
+  fill: var(--bg-inset);
+  stroke: var(--marker);
+  stroke-width: 1.5;
+}
+
+.ioc-host__label {
+  fill: var(--text-secondary);
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.ioc-node__dot {
+  fill: var(--marker-dim);
+  stroke: var(--border-default);
+  stroke-width: 1;
+}
+
+.ioc-node__dot--critical {
+  fill: var(--sev-critical);
+  stroke: var(--sev-critical-border);
+}
+.ioc-node__dot--high {
+  fill: var(--sev-high);
+  stroke: var(--sev-high-border);
+}
+.ioc-node__dot--medium {
+  fill: var(--sev-medium);
+  stroke: var(--sev-medium-border);
+}
+
+.ioc-node__label {
+  fill: var(--text-muted);
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+}
+
+.case-ioc__graph-empty {
+  padding: 12px 2px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---- Empty --------------------------------------------------------------- */
+
+.case-ioc__empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+}
+
+.case-ioc__empty-icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-muted);
+}
+
+.case-ioc__empty-copy {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 440;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .ioc-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 4px;
+  }
+
+  .ioc-item__hosts {
+    grid-column: 1;
+  }
+}

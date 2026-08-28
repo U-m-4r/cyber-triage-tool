@@ -6,6 +6,9 @@ import CaseOverview from '../components/case/CaseOverview.jsx'
 import CaseReports from '../components/case/CaseReports.jsx'
 import CaseAnalysis from '../components/case/CaseAnalysis.jsx'
 import CaseArtifacts from '../components/case/CaseArtifacts.jsx'
+import CaseEvidence from '../components/case/CaseEvidence.jsx'
+import CaseTimeline from '../components/case/CaseTimeline.jsx'
+import CaseIoc from '../components/case/CaseIoc.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import { CASE_TABS } from '../data/navigation.js'
 import { fetchCase } from '../services/caseService.js'
@@ -86,6 +89,12 @@ export default function CaseWorkspacePage() {
         <CaseOverview caseRecord={caseRecord} />
       ) : activeTab === 'artifacts' ? (
         <CaseArtifacts caseRecord={caseRecord} />
+      ) : activeTab === 'evidence' ? (
+        <CaseEvidence caseRecord={caseRecord} />
+      ) : activeTab === 'timeline' ? (
+        <CaseTimeline caseRecord={caseRecord} />
+      ) : activeTab === 'ioc-graph' ? (
+        <CaseIoc caseRecord={caseRecord} />
       ) : activeTab === 'reports' ? (
         <CaseReports caseRecord={caseRecord} />
       ) : activeTab === 'analysis' ? (

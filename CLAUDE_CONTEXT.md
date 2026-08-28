@@ -2,7 +2,9 @@
 
 Handoff notes for a fresh Claude Code session. Written 2026-08-26 after building
 the Phase 1 frontend; updated 2026-08-27 after building the case workspace,
-MongoDB integration, and PDF reporting. Read this instead of re-scanning the repo.
+MongoDB integration, and PDF reporting; updated again 2026-08-27 after
+**PARTS A–D** (formula/reference cleanup, SHA-256 chain of custody, forensic
+parsers, and reproducible evaluation). Read this instead of re-scanning the repo.
 
 ---
 
@@ -16,23 +18,29 @@ An investigator uploads forensic data; the tool ranks artifacts by risk so the
 highest-value evidence is looked at first.
 
 **Stack:** Python (scikit-learn, pandas) + Flask backend · React 19 + Vite
-frontend · plain CSS · MongoDB (persistence) · ReportLab (PDFs). No TypeScript, no Tailwind.
+frontend · plain CSS · MongoDB (via pymongo, graceful-degradation) · ReportLab
+(PDF). Forensic parsers use python-evtx + xmltodict, python-registry,
+yara-python and pytsk3 (all optional / self-guarded). No TypeScript, no Tailwind.
 
 **Architecture:**
 
 ```
-CSV upload → ForensicPreprocessor → IsolationForest (AnomalyDetector)
-           → RiskScorer (ML score 60% + rule score 40%) → ranked artifacts + priority band
+Network CSV  → ForensicPreprocessor → IsolationForest (AnomalyDetector)
+             → RiskScorer (ML 60% + rule 40%) → ranked artifacts + priority band
+EVTX/hive/   → forensics parser       → normalized DataFrame
+disk image   → RiskScorer rule engine → flagged artifacts + YARA IOCs + threat intel
 ```
 
-Flask is a thin HTTP layer; all real logic lives in `ml/`. Processing is
-per-request and stateless — nothing is persisted between calls except the
-trained model pickle.
+Flask is a thin HTTP layer; all real logic lives in `ml/`, `evaluation/` and
+`forensics/`. Analysis is per-request; MongoDB persists cases, findings, the
+chain-of-custody ledger and analysis results when reachable.
 
-**Scope reality check:** the repo currently satisfies only requirement #4
-(AI/ML anomaly scoring) against network-flow CSVs. Disk imaging, log/registry/
-PCAP parsing, IOC matching and reporting are unbuilt. `plan.md` has the full
-breakdown.
+**Scope reality check:** network-flow anomaly scoring is the mature path
+(requirement #4). PARTS A–D added SHA-256 chain of custody, EVTX / registry /
+disk-image parsing, YARA IOC scanning, OTX/VirusTotal threat intel, and a
+committed reproducible-evaluation harness on the real CICIDS2017 dataset. The
+frontend Evidence / Timeline / IOC tabs exist; live wiring of disk-image upload
+is still pending. `plan.md` has the full breakdown.
 
 ---
 
@@ -41,18 +49,22 @@ breakdown.
 | Path | Contents |
 |---|---|
 | `backend/app.py` | **Entry point.** Entire Flask API in one file. |
-| `backend/db.py` | MongoDB integration (cases, reports, activity feed). |
-| `backend/report_generator.py` | PDF generation using ReportLab. |
-| `ml/preprocessor.py` | `ForensicPreprocessor` — load, clean, extract features, scale |
-| `ml/detector.py` | `AnomalyDetector` — IsolationForest wrapper + joblib persistence |
-| `ml/risk_scorer.py` | `RiskScorer` — rule engine, risk score, priority bands |
+| `backend/report_generator.py` | ReportLab PDF report generator. |
+| `backend/db.py` | MongoDB helper (init/seed/get_db/check_connection). |
+| `ml/preprocessor.py` | `ForensicPreprocessor` — load, clean, extract features, scale (z-score) |
+| `ml/detector.py` | `AnomalyDetector` — IsolationForest wrapper + `minmax_normalize_scores` + joblib persistence |
+| `ml/risk_scorer.py` | `RiskScorer` — rule engine, configurable-weight risk score, CVSS priority bands |
+| `evaluation/evaluate.py` | **Pure metric logic** — ground-truth extraction, P/R/F1, ROC-AUC, top-K triage; shared by `/api/evaluate` and the offline script |
+| `forensics/` | Optional parsers: `evtx_parser`, `registry_parser`, `yara_scanner`, `threat_intel`, `disk_image` (each self-guards its native dep) |
+| `rules/` | YARA rule files (`*.yar`) compiled by `yara_scanner` |
+| `scripts/run_evaluation.py` | Offline reproducible evaluation on the real CICIDS2017 dataset → `evaluation/results.json` + PNG artifacts |
+| `tests/` | pytest suite (`test_ml_core`, `test_chain_of_custody`, `test_forensics`, `test_evaluation`) + `conftest.py` |
 | `frontend/src/` | **Entry point** `main.jsx` → `App.jsx` (routes) |
-| `evaluation/evaluate.py` | **Empty file.** |
 | `docs/*.md` | Per-module design notes — read before changing `ml/` |
 | `plan.md` | Roadmap + requirement-by-requirement TODO list |
-| `data/`, `models/`, `reports/`, `temp/` | Gitignored working dirs (`.gitkeep` only) |
+| `data/`, `models/`, `reports/`, `temp/` | Gitignored working dirs (dataset CSV/zip also gitignored) |
 
-There is no `backend/tests/`, no pytest config and no ESLint config — see §4.
+pytest is now wired up (see §4).
 
 ### Frontend layout (`frontend/src/`)
 
@@ -89,16 +101,57 @@ There is no `backend/tests/`, no pytest config and no ESLint config — see §4.
 
 ### Scoring specifics
 
-- Anomaly score normalized via `1 / (1 + exp(raw * 10)) * 100`.
-- `risk = anomaly * 0.6 + rule_score * 100 * 0.4`, capped at 100.
-- Priority bands: **CRITICAL ≥ 75 · HIGH ≥ 50 · MEDIUM ≥ 25 · LOW below.**
-  The frontend severity colours mirror these exact thresholds — change one, change both.
+- Anomaly scores are normalized **per analysis batch** with min-max to [0, 100]
+  (`minmax_normalize_scores` in `ml/detector.py`), replacing the old fixed
+  sigmoid `1/(1+e^{10·d(x)})`. See the formulae in §3a.
+- `risk = anomaly·w_ml + rule_score·100·w_rule`, capped at 100. Weights are
+  **configurable** constructor params on `RiskScorer` (default 0.6 / 0.4).
+- Priority bands: **CRITICAL ≥ 75 · HIGH ≥ 50 · MEDIUM ≥ 25 · LOW below**,
+  aligned to the CVSS v3.1 qualitative severity scale. The frontend severity
+  colours mirror these exact thresholds — change one, change both.
 - Artifact type is sniffed from column names (`Flow Duration` → network,
   `EventID` → system_log, `FileName` → file, `RegistryKey` → registry), defaulting
   to `network`. Rule weights live in the `RULES` dict at the top of `risk_scorer.py`.
 - IsolationForest convention: `predict` returns `-1` for anomaly, `1` for normal;
   `decision_function` is **higher = more normal**, so the code negates it for
   ranking and ROC AUC. Easy to get backwards.
+
+### 3a. Formulae and references
+
+| Stage | Formula | Reference |
+|---|---|---|
+| Feature scaling (z-score) | `z = (x − μ) / σ` per column (mean 0, unit variance) | Han, Kamber & Pei §3.5; sklearn `StandardScaler` |
+| IsolationForest anomaly score (canonical) | `s(x, n) = 2^(−E(h(x)) / c(n))` — `E(h(x))` mean path length over iTrees, `c(n)` avg unsuccessful-BST-search length; `s→1` anomalous | Liu, Ting, Zhou, "Isolation Forest", ICDM 2008 |
+| Batch score normalization | `a = −d(x)`; `score = (a − min a)/(max a − min a) · 100` (0 if degenerate batch) | this repo (`ml/detector.py`) |
+| Hybrid risk fusion | `Risk = w_ml·anomaly + w_rule·(rule_score·100)`, capped at 100; default `w_ml=0.6, w_rule=0.4` | Kittler et al. 1998 (classifier combination); NIST SP 800-30 |
+| Priority band | 0–100 risk → CRITICAL ≥75 / HIGH ≥50 / MEDIUM ≥25 / LOW | CVSS v3.1 §5 qualitative severity |
+| Precision / Recall / F1 | `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2PR/(P+R)` | Sokolova & Lapalme 2009 |
+| Accuracy | `(TP+TN)/(TP+TN+FP+FN)` | — |
+| ROC-AUC | area under TPR-vs-FPR, computed on `−d(x)` | Fawcett 2006 |
+| Top-K triage | `precision@k = hits/k_count`, `recall@k = hits/total_attacks` over the anomaly-ranked queue at k=10%,25% | IR precision@k / recall@k |
+| Chain of custody | `SHA-256` digest of each uploaded file, streamed in 1 MiB chunks, read-only open | NIST FIPS 180-4 |
+
+### 3b. Extracted network-flow features (11)
+
+`ForensicPreprocessor.extract_features` hardcodes these CICIDS2017 columns and
+silently drops any that are missing. All are numeric flow statistics:
+
+| Feature | Brief description |
+|---|---|
+| `Flow Duration` | Total lifetime of the bidirectional flow (microseconds). |
+| `Total Fwd Packets` | Number of packets sent in the forward (client→server) direction. |
+| `Total Length of Fwd Packets` | Sum of payload bytes across all forward packets. |
+| `Fwd Packet Length Max` | Largest forward-packet size (bytes). |
+| `Fwd Packet Length Min` | Smallest forward-packet size (bytes). |
+| `Fwd Packet Length Mean` | Mean forward-packet size (bytes). |
+| `Bwd Packet Length Max` | Largest backward-packet (server→client) size (bytes). |
+| `Bwd Packet Length Min` | Smallest backward-packet size (bytes). |
+| `Flow Bytes/s` | Byte throughput = total bytes / flow duration. |
+| `Flow Packets/s` | Packet rate = total packets / flow duration. |
+| `Packet Length Mean` | Mean size of all packets (both directions) in the flow. |
+
+Rows with `NaN`/`±inf` (e.g. divide-by-zero rate artifacts) are dropped, not
+imputed, then de-duplicated (`dropna()` + `drop_duplicates()`).
 
 ### Feature coupling
 
@@ -155,35 +208,44 @@ cd backend && pip install -r requirements.txt && python app.py
 cd frontend && npm install && npm run dev
 ```
 
-Backend on `:5001` (see `app.py:634`), frontend on `:5173`. Frontend build: `npm run build`.
+Backend on `:5001`, frontend on `:5173`. Frontend build: `npm run build`.
 Preview a build: `npm run preview`.
 
-**There are no test, lint or type-check commands.** Nothing to run before
-committing except the frontend build, which is the only automated check that
-exists. Do not tell the user tests pass — there are none.
+**Tests exist now** (they did not in earlier phases). Run the Python suite from
+the repo root:
+
+```bash
+python -m pytest -q
+```
+
+27 tests cover the ML core, chain of custody, forensic parsers, and evaluation
+metrics. Forensic tests that need an optional native library skip themselves if
+it is absent. Before committing frontend changes also run
+`cd frontend && npm run build`.
 
 Two requirements files: `backend/requirements.txt` is the minimal runtime set;
-root `requirements.txt` adds pymongo, reportlab, python-evtx, xmltodict for
-unbuilt phases.
+root `requirements.txt` now includes matplotlib, requests, python-evtx,
+xmltodict, python-registry, yara-python, pytsk3 and pytest.
 
 ---
 
 ## 5. Configuration
 
-**Environment variables:** the Python side reads **none** — no `os.getenv`,
-`os.environ` or dotenv usage anywhere. `.env.example` exists but is empty.
+**Environment variables:**
 
-The only env var in the project is frontend-side:
-
-| Variable | Purpose |
-|---|---|
-| `VITE_API_BASE_URL` | Overrides the API base. Defaults to `/api`, which Vite proxies to `http://localhost:5001`. |
+| Variable | Side | Purpose |
+|---|---|---|
+| `MONGO_URI` | backend | MongoDB connection string. Defaults to `mongodb://localhost:27017`. If unreachable, the API still serves analysis endpoints (`MONGO_AVAILABLE=False`). |
+| `OTX_API_KEY` | backend | AlienVault OTX key for threat-intel lookups. Unset → OTX skipped (no-op). |
+| `VT_API_KEY` | backend | VirusTotal key for threat-intel lookups. Unset → VirusTotal skipped (no-op). |
+| `VITE_API_BASE_URL` | frontend | Overrides the API base. Defaults to `/api`, which Vite proxies to `http://localhost:5001`. |
 
 **Config files:** `frontend/vite.config.js` — sets the port and the `/api` proxy.
 
-**External services:** MongoDB is now integrated as the primary data store. CORS is
-wide open (`CORS(app)`). No auth, no threat-intel API. The dataset is downloaded
-manually from Kaggle.
+**External services:** MongoDB (optional, graceful degradation). OTX / VirusTotal
+threat intel (optional, env-keyed, no-op without keys). CORS is wide open
+(`CORS(app)`). No auth on any endpoint. The dataset is downloaded manually from
+Kaggle.
 
 ---
 
@@ -193,25 +255,33 @@ manually from Kaggle.
 
 - Working `/api/health`, `/api/analyze`, `/api/evaluate` with real metrics
   (accuracy, precision, recall, F1, per-class, confusion matrix, ROC AUC, and
-  top-10%/top-25% triage precision/recall).
+  top-10%/top-25% triage precision/recall). Evaluation logic now lives in
+  `evaluation/evaluate.py` and is shared with the offline script.
+- `/api/cases` (list/get/create/update), `/api/dashboard`, `/api/report`,
+  `/api/reports/:caseId`, `/api/triage/:caseId` — backed by MongoDB when reachable.
+- **SHA-256 chain of custody (PART B):** every upload is hashed on intake
+  (`compute_sha256`, read-only, 1 MiB chunks), returned in the `/api/analyze`
+  response as `evidence`, and appended to the case's `custody` ledger in MongoDB.
+- **Forensic parsers (PART C)** in `forensics/`, wired via two new endpoints:
+  `GET /api/forensics/capabilities` (reports which optional libs are available)
+  and `POST /api/forensics/ingest` (dispatches EVTX / registry hive / disk image
+  by extension → normalized records → rule scoring → YARA IOCs → threat-intel
+  enrichment on the file hash). All parsers self-guard their native dependency.
+- **Reproducible evaluation (PART D):** `scripts/run_evaluation.py` runs the same
+  logic as `/api/evaluate` on the real CICIDS2017-cleaned dataset (no mock data)
+  and writes committed evidence: `evaluation/results.json` +
+  `evaluation/artifacts/{confusion_matrix,roc_curve,topk_recall_curve}.png`.
 - Full preprocessing → detection → scoring pipeline for network-flow CSVs.
-- Phase 1 frontend: landing, login, dashboard, module placeholders, service
-  layer, design-token system. Verified end to end in the browser.
-- Case workspace at `/cases/:caseId` — header, eight-tab strip, and the
-  **Overview** tab (Investigation Summary, Threat Assessment, Priority Findings,
-  Recommended Next Action, Recent Activity, Evidence Status). Reached from the
-  dashboard; `Back to Dashboard` returns.
-- **MongoDB persistence**: Implemented in `backend/db.py` for cases, analysis
-  results, reports, and activity feed.
-- **PDF Reporting**: Implemented via `backend/report_generator.py` using ReportLab,
-  accessible via `/api/report` (or similar endpoints).
+- Phase 1 frontend + case workspace. The **Overview**, **Reports**, **Evidence**,
+  **Artifacts**, **Timeline** and **IOC** tabs are built. MongoDB persistence
+  (`backend/db.py`) and ReportLab PDF reporting (`backend/report_generator.py`,
+  `/api/report`) back the workspace.
+- pytest suite (27 tests) covering ML core, chain of custody, forensics, evaluation.
 
 ### Not implemented (deliberately deferred)
 
-The workspace's Evidence, Artifacts, Analysis, AI Triage, Timeline, IOC Graph and
-Reports tabs are disabled placeholders (though report generation exists on the backend) ·
-no RAW/E01 disk imaging · no EVTX, registry or PCAP parsing · no IOC feeds or YARA
-· no real auth · no graph database.
+Live frontend wiring of `/api/forensics/ingest` (disk-image upload UI) · PCAP
+parsing · real auth · graph database for IOC relationships · CSV/JSON export.
 
 ### Known issues
 
@@ -306,14 +376,16 @@ no RAW/E01 disk imaging · no EVTX, registry or PCAP parsing · no IOC feeds or 
 | Backend / API work | `backend/app.py`, then `docs/flask_api.md` |
 | Scoring or detection logic | `ml/risk_scorer.py`, `ml/detector.py`, `docs/risk_scoring.md` |
 | New artifact types / features | `ml/preprocessor.py`, `docs/preprocessing.md`, then `RiskScorer.detect_artifact_type` |
-| Metrics / evaluation | `_evaluate_predictions` in `app.py`, `docs/evaluation_metrics.md` |
+| Metrics / evaluation | `evaluation/evaluate.py`, `scripts/run_evaluation.py`, `docs/evaluation_metrics.md` |
 | Frontend feature | `frontend/src/App.jsx`, the relevant `routes/` file, then `services/` |
 | Case workspace work | `routes/CaseWorkspacePage.jsx`, `data/mockCases.js`, `components/case/CaseOverview.jsx` |
 | Frontend styling | `frontend/src/styles/tokens.css` first — it documents the colour policy |
 | Connecting UI to backend | `services/apiClient.js`, `services/dashboardService.js`, `vite.config.js` |
+| Forensic parsers | `forensics/<parser>.py`, then the `/api/forensics/*` routes in `backend/app.py` |
 | Planning next phase | `plan.md` §2 (workstreams) and §4 (sequencing) |
 
-Skip `evaluation/evaluate.py` — it is an empty stub. `backend/report_generator.py` is fully implemented.
+`backend/report_generator.py` and `evaluation/evaluate.py` are now implemented
+(they were empty in earlier phases).
 
 ---
 
@@ -323,7 +395,10 @@ Skip `evaluation/evaluate.py` — it is an empty stub. `backend/report_generator
 - `frontend/` **is** tracked — it was committed in `7822302` (PR #19). An earlier
   version of this file claimed it was still untracked; that was stale.
 - Never commit datasets, `.pkl` models, or generated PDFs. `.gitignore` covers
-  `data/*.csv`, `models/*.pkl`, `reports/*.pdf`, `temp/`, `node_modules/`.
+  `data/*.csv`, `data/*.zip`, `models/*.pkl`, `reports/*.pdf`, `temp/`,
+  `node_modules/`. The committed `evaluation/results.json` and
+  `evaluation/artifacts/*.png` are the reproducible-run evidence and **are**
+  tracked.
 - Before committing frontend changes, run `cd frontend && npm run build` — the
   only automated check in the repo.
 

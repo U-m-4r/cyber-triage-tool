@@ -75,8 +75,8 @@ export const CASE_TABS = [
   {
     id: 'evidence',
     label: 'Evidence',
-    available: false,
-    phase: 'Disk image, log, registry and PCAP ingestion',
+    available: true,
+    phase: null,
   },
   {
     id: 'artifacts',
@@ -99,14 +99,14 @@ export const CASE_TABS = [
   {
     id: 'timeline',
     label: 'Timeline',
-    available: false,
-    phase: 'Interactive event timeline with zoom-to-second',
+    available: true,
+    phase: null,
   },
   {
     id: 'ioc-graph',
     label: 'IOC Graph',
-    available: false,
-    phase: 'Indicator relationship graph and threat-intel enrichment',
+    available: true,
+    phase: null,
   },
   {
     id: 'reports',

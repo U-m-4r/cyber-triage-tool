@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import logging
 
+from ml.detector import minmax_normalize_scores
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -29,6 +31,22 @@ RULES = {
 }
 
 class RiskScorer:
+
+    # Default fusion weights for the ML anomaly component and the domain-rule
+    # component. They sum to 1.0 and are exposed as constructor parameters so they
+    # can be tuned per deployment. The 0.6 / 0.4 split is an empirical default, not
+    # a learned optimum: it favours the unsupervised detector while letting expert
+    # forensic rules meaningfully raise or confirm a score.
+    # Refs: J. Kittler, M. Hatef, R. P. W. Duin, J. Matas, "On Combining Classifiers",
+    #       IEEE TPAMI 20(3), 1998 (weighted-sum combination of classifier outputs);
+    #       NIST SP 800-30 Rev.1, "Guide for Conducting Risk Assessments" (risk as a
+    #       function of combined likelihood/impact factors).
+    DEFAULT_ML_WEIGHT = 0.6
+    DEFAULT_RULE_WEIGHT = 0.4
+
+    def __init__(self, ml_weight=DEFAULT_ML_WEIGHT, rule_weight=DEFAULT_RULE_WEIGHT):
+        self.ml_weight = ml_weight
+        self.rule_weight = rule_weight
 
     def detect_artifact_type(self, row):
         def has_value(col):
@@ -109,18 +127,23 @@ class RiskScorer:
         rule_score = min(rule_score, 1.0)
         return rule_score, matched_rules
 
-    def get_anomaly_score_normalized(self, raw_score):
-        # Formula: Anomaly-score normalization (logistic squash) | Ref: logistic function, gain project-tuned | see FORMULAS.md#anomaly-normalization
-        normalized = 1 / (1 + np.exp(raw_score * 10))
-        return normalized * 100
+    def get_anomaly_score_normalized(self, raw_scores):
+        # Batch min-max normalization to [0, 100] (see ml.detector). Accepts an
+        # array of decision-function scores; kept for backwards compatibility.
+        return minmax_normalize_scores(raw_scores)
 
     def compute_risk_score(self, anomaly_score, rule_score):
-        # Formula: Risk-score fusion (weighted sum) | Ref: Ross2016 (method); 60/40 project-tuned | see FORMULAS.md#risk-fusion
-        risk = (anomaly_score * 0.6) + (rule_score * 100 * 0.4)
+        # Weighted-sum (convex combination) fusion of the two normalized signals.
+        # anomaly_score is already on a 0-100 scale; rule_score is 0-1 so it is
+        # scaled to 0-100 before weighting. Weights are configurable (see __init__).
+        risk = (anomaly_score * self.ml_weight) + (rule_score * 100 * self.rule_weight)
         return round(min(risk, 100), 2)
 
     def assign_priority(self, risk_score):
-        # Formula: Priority bands | Ref: project-defined operational thresholds | see FORMULAS.md#priority-bands
+        # Priority bands are aligned to the CVSS v3.1 qualitative severity rating
+        # scale (FIRST, "Common Vulnerability Scoring System v3.1: Specification",
+        # §5 Qualitative Severity Rating Scale): None/Low 0.0-3.9, Medium 4.0-6.9,
+        # High 7.0-8.9, Critical 9.0-10.0 -> mapped here onto our 0-100 risk score.
         if risk_score >= 75:
             return 'CRITICAL'
         elif risk_score >= 50:
@@ -135,6 +158,10 @@ class RiskScorer:
         total_records = len(df_clean)
         columns = list(df_clean.columns)
 
+        # Normalize the whole batch of decision-function scores once (min-max to
+        # [0, 100]) instead of applying a per-row sigmoid.
+        normalized_scores = minmax_normalize_scores(anomaly_scores)
+
         record_ids = np.arange(total_records, dtype=np.int64)
         artifact_types = [None] * total_records
         anomaly_score_values = np.empty(total_records, dtype=np.float64)
@@ -146,7 +173,7 @@ class RiskScorer:
         for i, row_values in enumerate(df_clean.itertuples(index=False, name=None)):
             row_dict = dict(zip(columns, row_values))
             artifact_type = self.detect_artifact_type(row_dict)
-            a_score = self.get_anomaly_score_normalized(anomaly_scores[i])
+            a_score = float(normalized_scores[i])
             r_score, rules = self.apply_rules(row_dict, artifact_type)
             risk = self.compute_risk_score(a_score, r_score)
 

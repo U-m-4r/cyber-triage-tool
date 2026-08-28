@@ -16,10 +16,16 @@ Cyber Triage Tool for Digital Forensic Investigation
 - Plain CSS with custom properties — no CSS framework
 - MongoDB / pymongo — case persistence and dashboard data
 - ReportLab — PDF triage report generation
+- python-evtx + xmltodict, python-registry, yara-python, pytsk3 — forensic
+  artifact parsing (Windows Event Logs, registry hives, YARA IOC scanning, disk
+  images). Each is an optional dependency: the API degrades gracefully and
+  reports capability via `/api/forensics/capabilities` if a library is absent.
+- requests — OTX / VirusTotal threat-intel lookups (API keys via `OTX_API_KEY` /
+  `VT_API_KEY`; skipped when unset)
 
-**Planned, not yet wired up** (present in the root `requirements.txt` for later phases)
+**Planned, not yet wired up**
 
-- python-evtx, xmltodict — Windows Event Log parsing
+- Live frontend consumption of `/api/forensics/ingest` for disk-image uploads
 
 ## Setup
 
@@ -84,6 +90,8 @@ cd frontend && npm run build
 | GET    | `/api/report/:caseId` | Working — direct PDF download link                                          |
 | GET    | `/api/reports/:caseId`| Working — list previously generated reports for a case                      |
 | GET    | `/api/triage/:caseId` | Working — triage summary for a case                                         |
+| GET    | `/api/forensics/capabilities` | Working — reports which optional forensic parsers/providers are available |
+| POST   | `/api/forensics/ingest` | Working — ingest EVTX / registry hive / disk image → parsed records, rule scoring, YARA IOCs, threat-intel |
 
 `/api/analyze` and `/api/evaluate` both take a multipart upload in the form field
 named `file`. See [docs/flask_api.md](docs/flask_api.md) for request and response
@@ -112,9 +120,9 @@ status, evidence / artifact / IOC counts, last activity) above an eight-tab stri
 `Overview · Evidence · Artifacts · Analysis · AI Triage · Timeline · IOC Graph ·
 Reports`.
 
-**`Overview` and `Reports` are implemented.** The other six tabs are visible but
-disabled, each labelled `Planned` with a tooltip naming what it is waiting on.
-They are not clickable and there is no code behind them.
+**`Overview`, `Reports`, `Evidence`, `Timeline` and `IOC Graph` are implemented.**
+The remaining tabs (`Artifacts`, `Analysis`, `AI Triage`) are visible but disabled,
+each labelled `Planned` with a tooltip naming what it is waiting on.
 
 Overview contains six sections:
 
@@ -151,12 +159,16 @@ with a link back to the dashboard.
 ```
 backend/     Flask API (app.py), MongoDB helper (db.py), report generator
 ml/          Preprocessing, IsolationForest detector, risk scorer
+forensics/   Optional parsers: EVTX, registry hive, YARA, threat intel, disk image
+rules/       YARA rule files (*.yar) compiled by the IOC scanner
 frontend/    React + Vite investigator UI
 docs/        Per-module design notes
-data/        Datasets (gitignored — never commit CSVs)
+scripts/     run_evaluation.py — offline reproducible evaluation
+tests/       pytest suite (ML core, chain of custody, forensics, evaluation)
+data/        Datasets (gitignored — never commit the CSV/zip)
 models/      Persisted .pkl models (gitignored)
 reports/     Generated PDFs (gitignored)
-evaluation/  evaluate.py — currently empty
+evaluation/  evaluate.py (pure metric logic) + committed results.json / artifacts
 ```
 
 ## How Scoring Works
@@ -177,28 +189,97 @@ The model trains on first use and is cached to `models/isolation_forest.pkl`.
 See [docs/risk_scoring.md](docs/risk_scoring.md) and
 [docs/anomaly_detection.md](docs/anomaly_detection.md).
 
+## Extracted Features
+
+The preprocessor scores on 11 numeric CICIDS2017 network-flow features. Rows with
+`NaN`/`±inf` (e.g. divide-by-zero rate artifacts) are dropped rather than imputed,
+then de-duplicated, and each column is standardized with a z-score.
+
+| Feature | Description |
+| ------- | ----------- |
+| `Flow Duration` | Total lifetime of the bidirectional flow (microseconds). |
+| `Total Fwd Packets` | Number of packets sent in the forward (client→server) direction. |
+| `Total Length of Fwd Packets` | Sum of payload bytes across all forward packets. |
+| `Fwd Packet Length Max` | Largest forward-packet size (bytes). |
+| `Fwd Packet Length Min` | Smallest forward-packet size (bytes). |
+| `Fwd Packet Length Mean` | Mean forward-packet size (bytes). |
+| `Bwd Packet Length Max` | Largest backward-packet (server→client) size (bytes). |
+| `Bwd Packet Length Min` | Smallest backward-packet size (bytes). |
+| `Flow Bytes/s` | Byte throughput = total bytes / flow duration. |
+| `Flow Packets/s` | Packet rate = total packets / flow duration. |
+| `Packet Length Mean` | Mean size of all packets (both directions) in the flow. |
+
+## Formulae and References
+
+| Stage | Formula | Reference |
+| ----- | ------- | --------- |
+| Feature scaling (z-score) | `z = (x − μ) / σ` per column (mean 0, unit variance) | Han, Kamber & Pei, *Data Mining* 3rd ed. §3.5; sklearn `StandardScaler` |
+| Isolation Forest score (canonical) | `s(x, n) = 2^(−E(h(x)) / c(n))` — `E(h(x))` mean path length across iTrees, `c(n)` avg unsuccessful-BST-search length; `s → 1` anomalous | Liu, Ting & Zhou, "Isolation Forest", ICDM 2008 |
+| Batch score normalization | `a = −d(x)`; `score = (a − min a) / (max a − min a) · 100` (0 for a degenerate batch) | this repo — `ml/detector.py` |
+| Hybrid risk fusion | `Risk = w_ml·anomaly + w_rule·(rule_score·100)`, capped at 100; default `w_ml = 0.6`, `w_rule = 0.4` (configurable) | Kittler et al. 1998 (classifier combination); NIST SP 800-30 Rev. 1 |
+| Priority band | 0–100 risk → CRITICAL ≥ 75 / HIGH ≥ 50 / MEDIUM ≥ 25 / LOW below | CVSS v3.1 §5 qualitative severity scale |
+| Precision / Recall / F1 | `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` | Sokolova & Lapalme 2009 |
+| Accuracy | `(TP + TN) / (TP + TN + FP + FN)` | — |
+| ROC-AUC | area under the TPR-vs-FPR curve, computed on `−d(x)` | Fawcett 2006 |
+| Top-K triage | `precision@k = hits / k_count`, `recall@k = hits / total_attacks` over the anomaly-ranked queue at k = 10 %, 25 % | information-retrieval precision@k / recall@k |
+| Chain of custody | `SHA-256` digest of each uploaded file, streamed in 1 MiB chunks, opened read-only | NIST FIPS 180-4 |
+
 ## Dataset Setup
 
-This project uses the CICIDS2017 dataset.
+This project uses the CICIDS2017 dataset for evaluation.
 
 1. Download from Kaggle:
    https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed
 
 2. Place the file in the `data/` folder:
    `cyber-triage-tool/data/cicids2017_cleaned.csv`
+   (label column: `Attack Type`; benign rows are `Normal Traffic`).
 
-3. The `data/` folder is gitignored — never commit CSV files to this repo
+3. The `data/` folder is gitignored — never commit the CSV (~717 MB, 2.52M rows)
+   or its `.zip` to this repo.
+
+## Reproducible Evaluation
+
+`scripts/run_evaluation.py` runs the exact evaluation logic used by the Flask
+`/api/evaluate` endpoint (`evaluation/evaluate.py`) against the real, labeled
+CICIDS2017 dataset — no mock data — and writes committed evidence:
+
+```bash
+python scripts/run_evaluation.py                 # full dataset (~2.52M rows)
+python scripts/run_evaluation.py --rows 400000   # faster subset for iteration
+```
+
+Outputs (committed):
+
+- `evaluation/results.json` — full metric bundle (accuracy, precision, recall,
+  F1, ROC-AUC, confusion matrix, Top-K triage recall) + run metadata
+- `evaluation/artifacts/confusion_matrix.png`
+- `evaluation/artifacts/roc_curve.png`
+- `evaluation/artifacts/topk_recall_curve.png`
+
+Metric references: ROC-AUC — T. Fawcett, "An introduction to ROC analysis"
+(2006); precision/recall/F1 — Sokolova & Lapalme, "A systematic analysis of
+performance measures for classification tasks" (2009).
+
+Latest committed run (full dataset, 1,829,580 rows after cleaning; unsupervised
+IsolationForest on the 11 features above): accuracy **0.746**, ROC-AUC **0.620**,
+top-25 % triage recall **0.304**. These are the honest unsupervised numbers on a
+small feature subset — not a bug and not tuned to look better.
 
 ## Current Limitations
 
-- The frontend renders authored sample data. It is not yet connected to
-  `/api/analyze`; a service layer exists so it can be.
-- Inside the case workspace only the `Overview` and `Reports` tabs are built.
-  Evidence, Artifacts, Analysis, AI Triage, Timeline, and IOC Graph are disabled
-  placeholders.
-- Only network-flow CSVs are supported. Disk image, registry, EVTX and PCAP
-  ingestion are not built.
-- There is no authentication. The login screen is a UI prototype only.
+- The frontend renders authored sample data by default; a service layer exists to
+  connect it to `/api/analyze` and `/api/forensics/*`.
+- Disk-image upload has a backend endpoint (`/api/forensics/ingest`) but no
+  dedicated frontend upload UI yet.
+- PCAP parsing is not built.
+- Threat-intel lookups (OTX / VirusTotal) require `OTX_API_KEY` / `VT_API_KEY`;
+  without them those providers are skipped.
+- Forensic parsers depend on optional native libraries (yara-python, pytsk3,
+  python-registry, python-evtx); `/api/forensics/capabilities` reports what is
+  available on the host.
+- There is no authentication, and CORS is wide open. The login screen is a UI
+  prototype only.
 - `app.py` runs with `debug=True` — turn this off before any demo or deployment.
 
 ## Contributors
