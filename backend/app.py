@@ -17,6 +17,7 @@ if ROOT_DIR not in sys.path:
 
 from ml.detector import AnomalyDetector
 from ml.preprocessor import ForensicPreprocessor
+from ml.drift_monitor import assess_feature_drift
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
 from backend.db import init_db, seed_if_empty, get_db, check_connection
@@ -268,6 +269,10 @@ def analyze():
             columns=feature_columns,
             index=df_features.index,
         )
+        drift_report = assess_feature_drift(
+            df_features,
+            bundle.get("reference_stats", {}),
+        )
         predictions, scores = detector.predict(df_scaled)
         results_df = scorer.score_dataframe(df_clean, scores)
 
@@ -282,7 +287,17 @@ def analyze():
 
         # Chain-of-custody digest is returned so the investigator can verify the
         # exact evidence file that produced these results (NIST FIPS 180-4).
-        response_payload = {"summary": summary, "artifacts": top_results, "evidence": custody}
+        response_payload = {
+            "summary": summary,
+            "artifacts": top_results,
+            "evidence": custody,
+            "model": {
+                "name": "CICIDS2017 Isolation Forest baseline",
+                "training_mode": bundle.get("training_mode", "unspecified"),
+                "dataset": bundle.get("dataset", {}).get("name"),
+                "drift": drift_report,
+            },
+        }
         # Add metrics when a supported label column is available.
         y_true, label_column = _extract_binary_ground_truth(df_clean)
         if y_true is not None:
