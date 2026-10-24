@@ -109,6 +109,16 @@ def main():
             "rows_requested": args.rows,
         },
         "feature_columns": FEATURE_COLUMNS,
+        "reference_stats": {
+            column: {
+                "mean": float(features[column].mean()),
+                "std": float(features[column].std(ddof=0)),
+                "p01": float(features[column].quantile(0.01)),
+                "p50": float(features[column].quantile(0.50)),
+                "p99": float(features[column].quantile(0.99)),
+            }
+            for column in FEATURE_COLUMNS
+        },
         "scaler": scaler,
         "model": model,
         "config": {
