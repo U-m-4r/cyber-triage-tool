@@ -54,7 +54,7 @@ DEBUG_MODE = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true",
 
 TEMP_DIR = os.path.join(ROOT_DIR, "temp")
 os.makedirs(TEMP_DIR, exist_ok=True)
-MODEL_PATH = os.path.join(ROOT_DIR, "models", "isolation_forest.pkl")
+MODEL_PATH = os.environ.get("CYBER_TRIAGE_MODEL_PATH", os.path.join(ROOT_DIR, "models", "cicids2017_baseline.joblib"))
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -183,20 +183,34 @@ def _extract_binary_ground_truth(df):
     return extract_binary_ground_truth(df, override=override)
 
 
-def _ensure_detector_loaded_or_trained(df_scaled):
-    global DETECTOR_READY
+def _ensure_detector_loaded_or_trained():
+    """Load the approved CICIDS2017 bundle; never train from uploaded evidence."""
+    global DETECTOR_READY, preprocessor, detector
 
     if DETECTOR_READY:
-        return
+        return True
+    if not os.path.isfile(MODEL_PATH):
+        logger.error("CICIDS2017 baseline missing at %s; run scripts/train_baseline.py", MODEL_PATH)
+        return False
 
-    if os.path.exists(MODEL_PATH):
-        detector.load_model(MODEL_PATH)
-        DETECTOR_READY = True
-        return
+    import joblib
+    bundle = joblib.load(MODEL_PATH)
+    required = {"artifact_type", "artifact_version", "feature_columns", "scaler", "model", "dataset"}
+    if not isinstance(bundle, dict) or not required.issubset(bundle):
+        raise ValueError("Model artifact is not a supported Cyber Triage baseline bundle")
+    if bundle["artifact_type"] != "cyber-triage-network-baseline" or bundle["artifact_version"] != 1:
+        raise ValueError("Unsupported baseline artifact type or version")
 
-    detector.train(df_scaled)
-    detector.save_model(MODEL_PATH)
+    preprocessor.baseline_bundle = bundle
+    detector.model = bundle["model"]
     DETECTOR_READY = True
+    logger.info(
+        "Loaded CICIDS2017 baseline: %s rows, %s features, dataset sha256=%s",
+        bundle["dataset"].get("rows_used"),
+        len(bundle["feature_columns"]),
+        bundle["dataset"].get("sha256"),
+    )
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -221,10 +235,39 @@ def analyze():
         return error_response
 
     try:
-        # run_pipeline returns (scaled, raw, clean)
-        df_scaled, df_raw, df_clean = preprocessor.run_pipeline(filepath)
+        # Load the approved baseline before parsing/scaling. Missing baseline is
+        # a deployment error, not a reason to learn from the uploaded evidence.
+        if not _ensure_detector_loaded_or_trained():
+            return _api_error(
+                "CICIDS2017 baseline is not installed. Run scripts/train_baseline.py with the Kaggle dataset before analyzing network-flow CSVs.",
+                503,
+                "BASELINE_NOT_READY",
+            )
 
-        _ensure_detector_loaded_or_trained(df_scaled)
+        df_raw = preprocessor.load_data(filepath)
+        df_clean = preprocessor.clean_data(df_raw)
+        bundle = preprocessor.baseline_bundle
+        feature_columns = bundle["feature_columns"]
+        missing = [column for column in feature_columns if column not in df_clean.columns]
+        if missing:
+            return _api_error(
+                "Uploaded CSV does not contain the network-flow feature schema required by the CICIDS2017 baseline.",
+                400,
+                "INCOMPATIBLE_FEATURE_SCHEMA",
+            )
+        df_features = df_clean.loc[:, feature_columns].apply(__import__("pandas").to_numeric, errors="coerce")
+        df_features = df_features.replace([float("inf"), float("-inf")], float("nan"))
+        valid_rows = df_features.notna().all(axis=1)
+        df_features = df_features.loc[valid_rows]
+        df_clean = df_clean.loc[valid_rows]
+        if df_features.empty:
+            return _api_error("No valid network-flow rows remain after feature validation.", 400, "NO_VALID_FEATURE_ROWS")
+        import pandas as pd
+        df_scaled = pd.DataFrame(
+            bundle["scaler"].transform(df_features),
+            columns=feature_columns,
+            index=df_features.index,
+        )
         predictions, scores = detector.predict(df_scaled)
         results_df = scorer.score_dataframe(df_clean, scores)
 
