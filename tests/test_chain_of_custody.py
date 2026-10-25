@@ -45,11 +45,9 @@ def test_stored_hash_matches_on_reread(tmp_path):
     assert compute_sha256(str(f)) != stored
 
 
-def test_analyze_response_includes_evidence_hash(tiny_flow_csv):
+def test_analyze_response_includes_evidence_hash(tiny_flow_csv, baseline_api):
     """The /api/analyze response must carry the chain-of-custody digest."""
-    from backend.app import app
-
-    client = app.test_client()
+    client, _, _ = baseline_api
     with open(tiny_flow_csv, "rb") as fh:
         resp = client.post(
             "/api/analyze",

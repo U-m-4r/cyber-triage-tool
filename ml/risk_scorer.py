@@ -204,18 +204,24 @@ class RiskScorer:
     def score_records(self, records, anomaly_scores=None):
         """Score a list of artifact dicts (from the ingestion parsers).
 
-        When `anomaly_scores` is provided (one raw IsolationForest score per record,
-        available once ml/preprocessor.py generalizes per-type features in Phase B),
-        the full 60/40 fusion applies. Until then, scoring is rule-engine only and
-        risk == rule_score on a 0-100 scale.
+        When `anomaly_scores` is provided (one raw IsolationForest score per
+        network record), the full 60/40 fusion applies. Other evidence uses only
+        source-specific rules, with risk == rule_score on a 0-100 scale.
         # Formula: Rules-only interim risk | Ref: rule engine, see FORMULAS.md#rules-only-risk
         """
         scored = []
+        normalized = None
+        if anomaly_scores is not None:
+            if len(anomaly_scores) != len(records):
+                raise ValueError('Anomaly scores must align with network records.')
+            if any(self.detect_artifact_type(row) != 'network' for row in records):
+                raise ValueError('Network anomaly scores cannot score non-network artifacts.')
+            normalized = minmax_normalize_scores(anomaly_scores)
         for i, row in enumerate(records):
             artifact_type = self.detect_artifact_type(row)
             r_score, rules = self.apply_rules(row, artifact_type)
             if anomaly_scores is not None:
-                a_score = self.get_anomaly_score_normalized(anomaly_scores[i])
+                a_score = float(normalized[i])
                 risk = self.compute_risk_score(a_score, r_score)
                 anomaly_out = round(a_score, 2)
             else:

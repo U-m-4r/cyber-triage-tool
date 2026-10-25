@@ -1,147 +1,78 @@
-# Flask API — Cyber Triage Backend
+# Flask API
 
-## What We Built
+Run `python backend/app.py` from the repository root. The API listens on port 5001.
+Set `CYBER_TRIAGE_API_TOKEN` and `CORS_ALLOWED_ORIGINS` for shared deployments.
+Protected endpoints accept `Authorization: Bearer <token>` or `X-API-Key`.
+Uploads are hashed with SHA-256 at intake, stored under UUID names in `temp/`,
+and removed after processing, including failures.
 
-A REST API using Flask that acts as the brain of the Cyber Triage Tool. It accepts network traffic CSV files, runs them through the ML pipeline, and returns anomaly detection results with risk scores. It also has a dedicated endpoint to evaluate model performance against labeled datasets.
+## Network endpoints
 
----
+`POST /api/analyze` accepts a network flow CSV in multipart field `file`. It uses
+only the [approved baseline](baseline.md), returning `summary`, the top 100
+`artifacts`, `evidence`, `baseline` (schema and dataset provenance),
+`preprocessing` (row counts), and `drift` (fixed-reference PSI). Optional
+`caseId` links results to a case when MongoDB is available. An `evaluation` block
+with actual classification metrics is included when a supported label exists.
 
-## How It Works (End to End)
+`POST /api/evaluate` accepts the same schema with a label column. It evaluates
+the fixed baseline on retained uploaded rows, with `evaluation_mode` set to
+`fixed_baseline` and `records` containing `total`, `train: 0`, and `test: total`.
+It returns `metrics`, `baseline`, `preprocessing`, `drift`, and `evidence`.
+It does not split uploaded data or fit any estimator. These metrics describe the
+uploaded batch; it may overlap training data and is not automatically a holdout.
 
-1. You upload a CSV file to one of the API endpoints.
-2. The `ForensicPreprocessor` cleans the data, extracts 11 network features, and scales them.
-3. The `AnomalyDetector` (Isolation Forest) scores each record — negative scores mean anomalous.
-4. The `RiskScorer` combines the ML anomaly score with rule-based checks to produce a final risk score (0–100) and a priority label: `CRITICAL`, `HIGH`, `MEDIUM`, or `LOW`.
-5. The API returns a JSON response with a summary and the top 100 flagged records.
+Both endpoints accept an optional `?label_column=Name` override. Automatic labels
+include `Attack Type`, `Label`, `label`, `Class`, `class`, `Target`, `target`,
+`attack_type`, and `Attack`. Benign tokens include `BENIGN`, `Normal Traffic`,
+`normal`, `0`, and `benign traffic`; other labels map to attack.
+Only evaluate when the uploaded labels are meaningful.
 
----
+`GET /api/health` preserves liveness and MongoDB status, and adds
+`network_baseline.status` (`ready` or `unavailable`). Liveness can be healthy
+while network inference is unavailable. Missing-model health does not train.
 
-## Endpoints
+Errors use `{"error": {"code": "...", "message": "..."}}`:
 
-### `GET /api/health`
-Simple health check. Returns `{ "status": "ok" }`.
+| HTTP | Code | Meaning |
+| --- | --- | --- |
+| 503 | `MODEL_MISSING` | Approved bundle absent; operator must train offline |
+| 503 | `MODEL_INVALID` | Corrupt, incomplete, incompatible, or legacy artifact |
+| 400 | `MISSING_FEATURES` | Required missing network column names are listed |
+| 400 | `EMPTY_NETWORK_DATA` | No finite numeric feature rows remain |
+| 400 | `INVALID_NETWORK_DATA` | Malformed/duplicate headers or invalid numeric range |
+| 400 | `WRONG_ARTIFACT_TYPE` | Non-network records on a network inference path |
+| 400 | `MISSING_LABEL_COLUMN` | Evaluation has no usable label column |
 
----
+## Other evidence and persistence
 
-### `POST /api/analyze`
-Main analysis endpoint. Upload any CSV (labeled or unlabeled).
+`POST /api/ingest` takes `file`, optional `kind` (`evtx`, `registry`, `pcap`,
+`file`), and optional `caseId`. Supply a kind for ambiguous CSV/JSON exports.
+Network records use the approved model, scaler, and drift reference, with the
+same missing-feature/model errors. Other source types retain their domain-rule
+scoring and continue working without a network baseline. Responses include
+`summary`, `artifacts`, `stored`, `kind`, and `evidence`. Network responses also
+include `baseline`, `preprocessing`, and `drift`.
 
-**Request:**
-```
-Content-Type: multipart/form-data
-file: <your_csv_file>
-```
+`GET /api/artifacts` filters persisted artifacts by type, severity, case ID,
+ingestion time, and limit. MongoDB is optional for analysis but required for
+artifact retrieval, case CRUD, dashboard, and report persistence.
 
-**Optional query param:**
-```
-?label_column=YourLabelColumnName
-```
-If your CSV has a label column with a non-standard name, pass it here.
+`GET /api/forensics/capabilities` reports optional EVTX, registry, YARA,
+disk-image, and threat-intel support. `POST /api/forensics/ingest` preserves the
+native EVTX/hive/disk-image parsing path, rule findings, YARA IOCs, threat-intel
+enrichment, and chain of custody. It never uses the network model.
 
-**Response:**
-```json
-{
-  "summary": {
-    "total_records": 2000,
-    "critical": 45,
-    "high": 120,
-    "medium": 300,
-    "low": 1535
-  },
-  "artifacts": [ ... top 100 records with risk scores ... ],
-  "evaluation": {
-    "label_column": "Label",
-    "metrics": { ... }
-  }
-}
-```
-The `evaluation` block only appears if a label column is detected in the CSV.
+Case/dashboard routes remain `/api/cases`, `/api/cases/<id>`,
+`/api/dashboard`, and `/api/triage/<id>`. PDF generation is implemented via
+`POST /api/report` with `{"caseId": "..."}` or `GET /api/report/<id>`;
+`GET /api/reports/<id>` lists prior reports.
 
----
+Example from the repository root after baseline setup:
 
-### `POST /api/evaluate`
-Dedicated evaluation endpoint. Trains on 70% of your labeled data and tests on the remaining 30%.
-
-**Request:**
-```
-Content-Type: multipart/form-data
-file: <your_labeled_csv_file>
-```
-
-**Optional query param:**
-```
-?label_column=YourLabelColumnName
-```
-
-**Response:**
-```json
-{
-  "status": "ok",
-  "label_column": "Label",
-  "records": {
-    "total": 2000,
-    "train": 1400,
-    "test": 600
-  },
-  "metrics": {
-    "accuracy": 0.91,
-    "precision": 0.88,
-    "recall": 0.85,
-    "f1_score": 0.86,
-    "roc_auc": 0.93,
-    "class_metrics": { ... },
-    "confusion_matrix": { ... },
-    "triage_top_k": { ... }
-  }
-}
-```
-
----
-
-### `POST /api/report`
-Placeholder — PDF report generation (not yet implemented, returns 501).
-
----
-
-## Supported Label Column Names
-
-The API auto-detects these column names for ground truth:
-`Label`, `label`, `Class`, `class`, `Target`, `target`
-
-Benign traffic is mapped to `0`, everything else to `1` (attack).
-
----
-
-## How to Run the Backend
-
-### 1. Install dependencies
 ```bash
-pip install -r backend/requirements.txt
+curl http://localhost:5001/api/health
+curl -X POST -F "file=@your_flows.csv" http://localhost:5001/api/analyze
+curl -X POST -F "file=@your_labeled_flows.csv" http://localhost:5001/api/evaluate
+curl -X POST -F "file=@files.csv" -F "kind=file" http://localhost:5001/api/ingest
 ```
-
-### 2. Start the server
-```bash
-python backend/app.py
-```
-Server runs at `http://localhost:5000`.
-
-### 3. Test with curl
-```bash
-# Health check
-curl http://localhost:5000/api/health
-
-# Analyze a CSV
-curl -X POST -F "file=@data/sample/cicids_sample_2000.csv" http://localhost:5000/api/analyze
-
-# Evaluate with labeled data
-curl -X POST -F "file=@data/sample/cicids_sample_2000.csv" http://localhost:5000/api/evaluate
-```
-
----
-
-## Key Design Decisions
-
-- Files are saved to `temp/` with a UUID prefix to avoid collisions, then deleted after processing.
-- The model is loaded from `models/isolation_forest.pkl` if it exists; otherwise it trains on the uploaded data and saves the model automatically.
-- CORS is enabled so a frontend can call the API from a different port.
-- All errors return a structured JSON: `{ "error": { "code": "...", "message": "..." } }`.

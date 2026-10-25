@@ -24,8 +24,8 @@ from .base import ArtifactSchema, ParserError, optional_import, register_parser
 # tshark / CICFlowMeter field name -> our schema column.
 _CSV_ALIASES = {
     "flow duration": "Flow Duration",
-    "frame.time_delta": "Flow Duration",
     "total fwd packets": "Total Fwd Packets",
+    "total length of fwd packets": "Total Length of Fwd Packets",
     "total backward packets": "Total Backward Packets",
     "fwd packet length max": "Fwd Packet Length Max",
     "fwd packet length min": "Fwd Packet Length Min",
@@ -50,7 +50,7 @@ def _num(v):
     try:
         return float(v)
     except (ValueError, TypeError):
-        return 0.0
+        return float('nan')
 
 
 def _parse_csv(path):
@@ -62,6 +62,8 @@ def _parse_csv(path):
         for col in (reader.fieldnames or []):
             key = col.strip().lower()
             if key in _CSV_ALIASES:
+                if _CSV_ALIASES[key] in header_map.values():
+                    raise ParserError('Duplicate network feature columns after alias normalization.')
                 header_map[col] = _CSV_ALIASES[key]
         if not header_map:
             raise ParserError(
@@ -69,7 +71,10 @@ def _parse_csv(path):
                 "CICFlowMeter / tshark flow fields (e.g. 'Flow Duration')."
             )
         for r in reader:
-            flow = _blank_flow(path)
+            # Missing features must remain missing so inference can reject the
+            # schema. Filling absent columns with zero fabricates evidence.
+            flow = {"artifact_type": "network", "source_file": os.path.basename(path),
+                    "observed_at": ""}
             for src_col, dst_col in header_map.items():
                 flow[dst_col] = _num(r.get(src_col))
             ts = r.get("Timestamp") or r.get("frame.time") or ""
@@ -109,6 +114,7 @@ def _flows_from_packets(packet_iter, source):
         row.update({
             "Flow Duration": round(duration_us, 2),
             "Total Fwd Packets": len(fwd),
+            "Total Length of Fwd Packets": sum(fwd),
             "Total Backward Packets": len(bwd),
             "Fwd Packet Length Max": max(fwd) if fwd else 0,
             "Fwd Packet Length Min": min(fwd) if fwd else 0,

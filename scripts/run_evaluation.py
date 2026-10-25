@@ -1,8 +1,9 @@
 """Reproducible evaluation of the anomaly-detection triage engine on CICIDS2017.
 
-Runs the SAME evaluation logic used by the Flask ``/api/evaluate`` endpoint
-(``evaluation.evaluate``) against the real, labeled CICIDS2017-cleaned dataset —
-no mock data — and writes committed evidence backing the presentation's results:
+Historical offline split experiment on the labeled CICIDS2017-cleaned dataset.
+Shares metric helpers with Flask, but the API now evaluates a fixed baseline
+without fitting. This script does not publish the approved production bundle.
+Its preprocessing/split methodology needs review before reusing the results:
 
   * evaluation/results.json            full metric bundle + run metadata
   * evaluation/artifacts/confusion_matrix.png
@@ -129,6 +130,22 @@ def plot_topk_recall(y_true, anomaly_scores, out_path):
     print(f"[+] Wrote {out_path}")
 
 
+def scale_train_and_test(preprocessor, features, train_idx, test_idx):
+    """Fit the scaler on training rows only, then transform the held-out rows.
+
+    The historical script scaled the whole frame before splitting, which let
+    test-set statistics leak into training. Splitting first and fitting the
+    scaler on ``train_idx`` only keeps the holdout unseen by any fitted
+    statistic.
+    """
+    train = preprocessor.scale_features(features.iloc[train_idx])
+    test = pd.DataFrame(
+        preprocessor.scaler.transform(features.iloc[test_idx]),
+        columns=list(features.columns),
+    )
+    return train, test
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", default=DEFAULT_DATA)
@@ -156,17 +173,18 @@ def main():
     print(f"[+] Class distribution: {class_counts}")
 
     df_features = pre.extract_features(df_clean)
-    df_scaled = pre.scale_features(df_features)
 
-    # Stratified split (same params as /api/evaluate) so we retain arrays for plots.
+    # Historical stratified split; the current API never splits or fits uploads.
+    # Split BEFORE scaling: scale_train_and_test fits on training rows only.
     from sklearn.model_selection import train_test_split
-    idx = np.arange(len(df_scaled))
+    idx = np.arange(len(df_features))
     train_idx, test_idx = train_test_split(
         idx, test_size=args.test_size, random_state=args.seed, stratify=y_true
     )
+    df_train, df_test = scale_train_and_test(pre, df_features, train_idx, test_idx)
     detector = AnomalyDetector(contamination=args.contamination)
-    detector.train(df_scaled.iloc[train_idx])
-    predictions, scores = detector.predict(df_scaled.iloc[test_idx])
+    detector.train(df_train)
+    predictions, scores = detector.predict(df_test)
     y_test = y_true[test_idx]
 
     metrics = evaluate_predictions(y_test, predictions, scores)
@@ -196,6 +214,7 @@ def main():
             "random_state": args.seed,
             "test_size": args.test_size,
             "scaler": "StandardScaler (z-score)",
+            "scaler_fit": "training split only (split precedes scaling)",
         },
         "records": {
             "train": int(len(train_idx)),

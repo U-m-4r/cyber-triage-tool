@@ -110,9 +110,9 @@ class TestPcapParser(unittest.TestCase):
         self.assertEqual(rows[0]["artifact_type"], "network")
         self.assertEqual(rows[0]["Flow Duration"], 1500000)
         self.assertEqual(rows[0]["Flow Packets/s"], 20.5)
-        # Every NETWORK schema column is present (unmapped ones default to 0).
-        for col in ArtifactSchema.NETWORK:
-            self.assertIn(col, rows[0])
+        # Missing source fields remain absent so inference can reject them.
+        self.assertNotIn('Fwd Packet Length Max', rows[0])
+        self.assertNotIn('Total Length of Fwd Packets', rows[0])
 
     def test_unrecognized_columns_raise(self):
         path = _write(".csv", "foo,bar\n1,2\n")

@@ -1,38 +1,44 @@
-# Preprocessing Pipeline — Issue #1
+# Network preprocessing
 
-## What it does
+The production schema contains these ordered numeric columns:
 
-Loads raw CICIDS2017 network flow data and prepares it for the ML model.
+1. Flow Duration (microseconds)
+2. Total Fwd Packets
+3. Total Length of Fwd Packets (bytes)
+4. Fwd Packet Length Max
+5. Fwd Packet Length Min
+6. Fwd Packet Length Mean
+7. Bwd Packet Length Max
+8. Bwd Packet Length Min
+9. Flow Bytes/s
+10. Flow Packets/s
+11. Packet Length Mean
 
-## Steps
+Packet lengths are in bytes; rates are per second. Export compatible CICFlowMeter
+flows. Headers are whitespace-trimmed, and duplicates after trimming are rejected.
+The network ingestion parser also recognizes its documented CSV aliases; arbitrary
+tshark/Zeek fields are not equivalent to the complete flow schema. Missing model
+features are errors, never fabricated zeros. Extra metadata and label columns are
+allowed and excluded from the feature matrix. Explicit `artifact_type` values
+must be `network` on network inference paths.
 
-1. Load CSV → strips whitespace from column names
-2. Clean → removes 161 null/infinity/duplicate rows from 2,520,751 records
-3. Extract → selects 11 relevant network flow features from 53 columns
-4. Scale → StandardScaler normalizes all values to mean=0, std=1
+Required values are converted to numeric. Rows containing nonnumeric, NaN, or
+infinite required values are dropped, and `preprocessing.dropped_invalid_rows`
+reports that count. Missing optional metadata does not discard a valid flow.
+No valid rows remaining produces `EMPTY_NETWORK_DATA`. Feature order follows the
+saved schema, independent of upload column order. Labels and records remain
+aligned to retained rows.
 
-## Features Used
+Training selects benign rows, removes duplicate feature vectors, and fits
+`StandardScaler` once. Inference preserves repeated flows because their frequency
+matters for drift, and calls only the saved scaler's `transform`. Z-score scaling
+uses training mean and standard deviation, never uploaded-batch statistics.
+Scaler overflow is an input error.
 
-- Flow Duration
-- Total Fwd Packets
-- Total Length of Fwd Packets
-- Fwd Packet Length Max
-- Fwd Packet Length Min
-- Fwd Packet Length Mean
-- Bwd Packet Length Max
-- Bwd Packet Length Min
-- Flow Bytes/s
-- Flow Packets/s
-- Packet Length Mean
+`ForensicPreprocessor`'s older generic fitting helpers remain available for
+isolated offline experiments and historical evaluation scripts. The Flask upload
+handlers do not use them. Historical full-frame cleaning and split evaluation
+have different semantics from the production baseline; their metrics must not
+be described as validation of this baseline.
 
-## Output
-- df_scaled → (2,520,590 x 11) normalized, ready for ML model
-- df_raw    → original unmodified dataframe, for audit trail
-- df_clean  → cleaned dataframe, used for risk scoring and reports
-
-## Dataset
-
-CICIDS2017 — cicids2017_cleaned.csv — 2,520,751 records, 53 columns
-
-## Next Step
-Output feeds into: [Anomaly Detection](anomaly_detection.md)
+See [baseline setup](baseline.md) and [API behavior](flask_api.md).

@@ -2,6 +2,21 @@
 
 AI-assisted cyber triage tool for early-stage digital forensic analysis.
 
+## Phase 1 baseline and safe inference
+
+Network uploads now require an approved bundle at `models/cicids2017_baseline.joblib`.
+The offline trainer reads only `data/cicids2017_cleaned.csv`, fits on valid benign
+flows, and saves the model, fitted scaler, feature schema, dataset provenance,
+and frozen drift reference together. API uploads never train or replace it.
+Missing/invalid models return 503; missing network features return 400.
+Basic per-batch PSI reports drift without retraining. Host forensic workflows
+continue using their source-specific parsers and rules.
+
+The real dataset was absent during this implementation. No new production model
+or metrics were generated. The legacy model is preserved but ignored.
+See [baseline training, commands, and remaining work](docs/baseline.md),
+[preprocessing](docs/preprocessing.md), and [API contracts](docs/flask_api.md).
+
 Cyber Triage Tool for Digital Forensic Investigation
 (National Investigation Agency, Anti-Cyber Terrorism Division). See
 [plan.md](plan.md) for the full requirement breakdown and roadmap.
@@ -19,7 +34,7 @@ python scripts/verify_results.py
 # 2. Run only live unit and integration tests across all Python modules
 python scripts/verify_results.py --tests-only
 
-# 3. Direct pytest execution across the 45-item test suite
+# 3. Direct pytest execution (includes isolated synthetic baseline lifecycle tests)
 python -m pytest -v
 ```
 
@@ -28,6 +43,8 @@ python -m pytest -v
 | Test Module | Component Description & Verified Behaviors |
 | :--- | :--- |
 | [`tests/test_ml_core.py`](tests/test_ml_core.py) | **ML Pipeline Core**: `ForensicPreprocessor` NaN/inf drop and StandardScaler z-score normalization; `AnomalyDetector` batch min-max score mapping to [0, 100]; `RiskScorer` 60/40 ML-rule weighted fusion; CVSS v3.1 qualitative priority banding (LOW / MEDIUM / HIGH / CRITICAL). |
+| [`tests/test_baseline.py`](tests/test_baseline.py) | **Approved baseline lifecycle**: benign-only training, provenance/checksum, complete bundle loading, transform-only uploads, clear model/feature errors, and fixed-reference drift without retraining. Synthetic fixtures never publish a production model. |
+| [`tests/test_dataset_download.py`](tests/test_dataset_download.py) | **Explicit Kaggle download & provenance** (all network calls mocked): CSV discovery without filename assumptions, manifest identity/version reuse, `PROVENANCE_MISMATCH` gating on `--force-download`, credential/network/service/not-found failures, ambiguous or missing CSVs, protected source-file refusal, and validation/training never downloading. |
 | [`tests/test_parsers.py`](tests/test_parsers.py) | **Forensic Artifact Parsers**: Windows EVTX logs (Event ID 4625 brute force aggregation), Windows Registry `.reg` hives & hex data, Network flow CSV column mappings, File system directory listings (CSV/JSON), and parser dispatcher auto-sniffing. |
 | [`tests/test_scoring.py`](tests/test_scoring.py) | **Risk Scoring Engine**: Priority triage ranking, 0–100 risk score bounds enforcement, sorting by descending risk, and rule-only fallback scoring. |
 | [`tests/test_chain_of_custody.py`](tests/test_chain_of_custody.py) | **Forensic Chain of Custody**: SHA-256 evidence hashing (NIST FIPS 180-4), chunked streaming, deterministic re-reads, tamper verification, and hash injection into analysis responses. |
@@ -109,7 +126,7 @@ cd frontend && npm run build
 | ------ | --------------------- | --------------------------------------------------------------------------- |
 | GET    | `/api/health`         | Working — service liveness check (includes MongoDB status)                  |
 | POST   | `/api/analyze`        | Working — upload a CSV, returns priority summary + top 100 scored artifacts |
-| POST   | `/api/evaluate`       | Working — train/test split on a labeled CSV, returns classification metrics |
+| POST   | `/api/evaluate`       | Working — evaluate fixed baseline on a labeled network CSV; never trains |
 | GET    | `/api/cases`          | Working — list all cases from MongoDB                                       |
 | GET    | `/api/cases/:caseId`  | Working — fetch a single case by ID                                         |
 | POST   | `/api/cases`          | Working — create a new case                                                 |
@@ -187,25 +204,25 @@ with a link back to the dashboard.
 
 ```
 backend/     Flask API (app.py), MongoDB helper (db.py), report generator
-ml/          Preprocessing, IsolationForest detector, risk scorer
+ml/          Preprocessing, approved baseline inference, drift, risk scorer
 forensics/   Optional parsers: EVTX, registry hive, YARA, threat intel, disk image
 rules/       YARA rule files (*.yar) compiled by the IOC scanner
 frontend/    React + Vite investigator UI
 docs/        Per-module design notes
-scripts/     run_evaluation.py — offline reproducible evaluation
+scripts/     train_baseline.py (production), run_evaluation.py (historical experiment)
 tests/       pytest suite (ML core, chain of custody, forensics, evaluation)
 data/        Datasets (gitignored — never commit the CSV/zip)
-models/      Persisted .pkl models (gitignored)
+models/      Approved .joblib bundle and legacy .pkl models (gitignored)
 reports/     Generated PDFs (gitignored)
 evaluation/  evaluate.py (pure metric logic) + committed results.json / artifacts
 ```
 
 ## How Scoring Works
 
-A CSV is cleaned and scaled, an IsolationForest produces an anomaly score, and a
-rule engine adds artifact-specific signals (failed logins, executables in temp,
-autorun registry keys, and so on). The two are combined 60/40 into a 0–100 risk
-score, which maps to a priority band:
+Network flow CSVs are validated and transformed with the approved fitted scaler.
+IsolationForest scores and network rules are combined 60/40 into a 0–100 risk
+score. Other evidence uses its source-specific forensic rules and IOC workflows,
+without the network model. Risk scores map to these priority bands:
 
 | Risk score | Priority |
 | ---------- | -------- |
@@ -214,15 +231,17 @@ score, which maps to a priority band:
 | ≥ 25       | MEDIUM   |
 | < 25       | LOW      |
 
-The model trains on first use and is cached to `models/isolation_forest.pkl`.
+The model is trained offline by explicit operator command and served from
+`models/cicids2017_baseline.joblib`. Uploads never train it.
 See [docs/risk_scoring.md](docs/risk_scoring.md) and
 [docs/anomaly_detection.md](docs/anomaly_detection.md).
 
 ## Extracted Features
 
-The preprocessor scores on 11 numeric CICIDS2017 network-flow features. Rows with
-`NaN`/`±inf` (e.g. divide-by-zero rate artifacts) are dropped rather than imputed,
-then de-duplicated, and each column is standardized with a z-score.
+The preprocessor requires all 11 numeric CICIDS2017 network-flow features. Rows
+with invalid required values are dropped with counts reported. Training removes
+duplicate benign feature vectors and fits z-score statistics once. Inference
+preserves duplicate flows and reuses those fitted statistics.
 
 | Feature | Description |
 | ------- | ----------- |
@@ -255,23 +274,90 @@ then de-duplicated, and each column is standardized with a z-score.
 
 ## Dataset Setup
 
-This project uses the CICIDS2017 dataset for evaluation.
+This project uses the reviewed CICIDS2017 cleaned dataset for offline baseline
+training and evaluation. See [baseline setup](docs/baseline.md) for checksum and
+version requirements before training.
 
-1. Download from Kaggle:
-   https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed
+### Explicit download (only network step)
 
-2. Place the file in the `data/` folder:
-   `cyber-triage-tool/data/cicids2017_cleaned.csv`
-   (label column: `Attack Type`; benign rows are `Normal Traffic`).
+Retrieval is an operator command. Validation, cleaning, and training never fetch
+data, so a missing dataset stays a reported error:
 
-3. The `data/` folder is gitignored — never commit the CSV (~717 MB, 2.52M rows)
-   or its `.zip` to this repo.
+```bash
+# credentials once: KAGGLE_USERNAME + KAGGLE_KEY, ~/.kaggle/kaggle.json, or kagglehub.login()
+python scripts/download_dataset.py                   # download + provenance manifest
+python scripts/download_dataset.py --force-download  # re-fetch and replace a reviewed record
+```
+
+- Files land in `data/kaggle/` (gitignored). The CSV is found by scanning the
+  download tree — its filename is never assumed — and recorded in
+  `data/provenance/cicids2017_cleaned.provenance.json` with source handle/URL,
+  Kaggle version metadata (`unavailable` is reported, never guessed), retrieval
+  time, the actual path, size, and streamed SHA-256.
+- An existing download is reused only when its identity (handle, CSV path, size,
+  SHA-256) and every available version field match the manifest; a mismatch
+  fails with `PROVENANCE_MISMATCH` and overwrites nothing without
+  `--force-download`.
+- Distinct failures: `CREDENTIALS_MISSING`, `NETWORK_FAILURE`,
+  `SERVICE_FAILURE`, `DATASET_NOT_FOUND`, `KAGGLEHUB_MISSING`, `CSV_NOT_FOUND`,
+  `CSV_AMBIGUOUS` (resolve with `--csv-path`), `SOURCE_PROTECTED`.
+- `data/sample/cicids2017_cleaned.csv` is protected: the download never writes,
+  replaces, or re-records it.
+
+### Validate, then clean (offline, explicit)
+
+```bash
+# read-only report; no cleaning, no fitting (107 negative-measurement rows and
+# duplicate rows stay in the file as findings for review)
+python scripts/train_baseline.py --validate-only --data '<csv.path from the manifest>'
+
+# separate offline step: refuses to run without a matching provenance manifest
+python scripts/clean_dataset.py                        # source = the manifest's csv.path
+python scripts/clean_dataset.py --data '<csv.path>' --chunk-rows 20000
+python scripts/clean_dataset.py --force                # replace a mismatching ledger/record
+```
+
+- Policy `cicids2017-offline-cleaning` v1.0.0 excludes, from offline training and
+  evaluation only: finite negative values in the 11 required features, exact
+  full-row duplicates beyond the first occurrence, and every row of an 11-feature
+  vector whose `Attack Type`/`Label` conflicts. Nothing is imputed, clipped, or
+  relabelled; a row may carry several reasons, so the union (`unique_rows`) is
+  always ≤ the sum of `by_reason`.
+- Publishes `data/provenance/cicids2017_cleaning_ledger.csv` (source row index +
+  reasons, deterministic bytes with a recorded SHA-256) and
+  `data/provenance/cicids2017_cleaning.json` (policy version, source identity,
+  per-column counts, overlaps, retained rows, ledger digest). No cleaned CSV is
+  written: `ml.cleaning.load_eligible_frame()` derives the eligible view from the
+  immutable source at load time and keeps source row indexes.
+- Two chunked passes, so memory does not scale with the 717 MB file, and counts
+  never depend on `--chunk-rows`. Refusals include `PROVENANCE_MISSING`,
+  `PROVENANCE_MISMATCH`, `SOURCE_SHA_MISMATCH`, `LEDGER_MISMATCH`,
+  `RECORD_MISMATCH`, `COUNT_MISMATCH`, `SOURCE_PROTECTED`.
+- Live inference is unaffected: uploads keep duplicates and finite negative rows.
+  The historical evaluation script now splits before scaling and fits the scaler
+  on training rows only.
+
+### Train
+
+```bash
+# copy dataset_version and csv.sha256 from the manifest
+python scripts/train_baseline.py --dataset-version '<version.value>' --expected-sha256 '<csv.sha256>'
+```
+
+Manual alternative: download from
+https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed
+and place the file at `cyber-triage-tool/data/cicids2017_cleaned.csv`
+(label column: `Attack Type`; benign rows are `Normal Traffic`).
+
+The `data/` folder is gitignored — never commit the CSV (~717 MB, 2.52M rows)
+or its `.zip` to this repo.
 
 ## Reproducible Evaluation
 
-`scripts/run_evaluation.py` runs the exact evaluation logic used by the Flask
-`/api/evaluate` endpoint (`evaluation/evaluate.py`) against the real, labeled
-CICIDS2017 dataset — no mock data — and writes committed evidence:
+`scripts/run_evaluation.py` is a historical offline split experiment. It shares
+metric helpers with the API, but its fitting and preprocessing differ from the
+new fixed-baseline upload evaluation. It never publishes the production bundle.
+Its prior outputs are historical evidence, not Phase 1 baseline metrics:
 
 ```bash
 python scripts/run_evaluation.py                 # full dataset (~2.52M rows)
@@ -290,7 +376,7 @@ Metric references: ROC-AUC — T. Fawcett, "An introduction to ROC analysis"
 (2006); precision/recall/F1 — Sokolova & Lapalme, "A systematic analysis of
 performance measures for classification tasks" (2009).
 
-Latest committed run (full dataset, 1,829,580 rows after cleaning; unsupervised
+Historical committed run (full dataset, 1,829,580 rows after cleaning; unsupervised
 IsolationForest on the 11 features above): accuracy **0.746**, ROC-AUC **0.620**,
 top-25 % triage recall **0.304**. These are the honest unsupervised numbers on a
 small feature subset — not a bug and not tuned to look better.
@@ -301,15 +387,17 @@ small feature subset — not a bug and not tuned to look better.
   connect it to `/api/analyze` and `/api/forensics/*`.
 - Disk-image upload has a backend endpoint (`/api/forensics/ingest`) but no
   dedicated frontend upload UI yet.
-- PCAP parsing is not built.
+- Native PCAP aggregation is simplified and needs validation; use compatible
+  CICFlowMeter flow CSV exports for reliable baseline feature semantics.
 - Threat-intel lookups (OTX / VirusTotal) require `OTX_API_KEY` / `VT_API_KEY`;
   without them those providers are skipped.
 - Forensic parsers depend on optional native libraries (yara-python, pytsk3,
   python-registry, python-evtx); `/api/forensics/capabilities` reports what is
   available on the host.
-- There is no authentication, and CORS is wide open. The login screen is a UI
-  prototype only.
-- `app.py` runs with `debug=True` — turn this off before any demo or deployment.
+- API authentication is enabled when `CYBER_TRIAGE_API_TOKEN` is set, and CORS
+  can be restricted with `CORS_ALLOWED_ORIGINS`. The login screen is a prototype.
+- Flask debug defaults off. Dedicated host anomaly models, rolling drift
+  telemetry, and reviewed retraining workflows remain future work.
 
 ## Contributors
 

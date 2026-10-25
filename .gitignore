@@ -11,6 +11,8 @@ data/*.csv
 data/*.zip
 data/*.pcap
 data/*.json
+# Explicit KaggleHub download target (scripts/download_dataset.py)
+data/kaggle/
 *.evtx
 models/*.pkl
 models/*.joblib

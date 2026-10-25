@@ -1,52 +1,31 @@
-# Anomaly Detection — Issue #2
+# Network anomaly detection
 
-## Algorithm: Isolation Forest
+Production network detection uses a reviewed CICIDS2017 baseline bundle at
+`models/cicids2017_baseline.joblib`. See [baseline setup](baseline.md) for the
+training command, provenance, trust boundary, and drift policy.
 
-### How it works
+The offline trainer fits `StandardScaler` and an `IsolationForest` with 100 trees,
+contamination 0.1, seed 42, and all CPU cores. It trains on valid, distinct benign
+rows in the approved dataset. Attack labels and other metadata are never model
+features. Contamination controls the training outlier threshold; it is not an
+observed attack rate or an accuracy metric. No Phase 1 production metrics are
+available until the real dataset has been supplied and training has succeeded.
 
-Normal points require many random cuts to isolate → long path length → low anomaly score
-Anomalous points are isolated quickly → short path length → high anomaly score
+The model returns 1 for normal and -1 for anomalous records, plus decision scores
+(lower means more anomalous). Existing network risk scoring retains batch min-max
+normalization to 0-100 and the 60/40 ML/rule fusion. These are relative triage
+scores, not calibrated probabilities: a singleton or identical-score batch has
+zero relative anomaly score, and scores are not comparable between batches.
+Predictions and fixed-baseline drift comparisons do not use that normalization.
 
-### Why Isolation Forest?
+All network API paths load the complete bundle and transform with its fitted
+scaler. They never train, save, or update the model. A missing or invalid bundle
+returns a clear 503; a bare legacy `isolation_forest.pkl` is insufficient because
+it has no fitted scaler, feature contract, or provenance.
 
-- Works on unlabeled data (unsupervised) — perfect for forensics where attacks are unknown
-- Handles large datasets efficiently — tested on 2.5M records
-- No assumption about data distribution
-- Built-in anomaly scoring, not just binary classification
+Windows logs, registry artifacts, files, disk-image inventories, YARA hits, and
+threat-intel findings keep their existing source-specific forensic paths. They
+are not inputs to the CICIDS2017 model. Dedicated host anomaly models and broader
+parser improvements remain future work.
 
-## Model Configuration
-
-| Parameter     | Value | Reason                                           |
-| ------------- | ----- | ------------------------------------------------ |
-| n_estimators  | 100   | 100 isolation trees, balances speed and accuracy |
-| contamination | 0.1   | Expects ~10% anomalous records in dataset        |
-| random_state  | 42    | Reproducible results                             |
-| n_jobs        | -1    | Uses all CPU cores for speed                     |
-
-## Test Results
-
-| Metric             | Value                               |
-| ------------------ | ----------------------------------- |
-| Total records      | 2,520,590                           |
-| Anomalies detected | 252,059                             |
-| Normal records     | 2,268,531                           |
-| Anomaly rate       | 10% (matches contamination setting) |
-
-## Output
-
-- predictions → array of 1 (normal) or -1 (anomaly) per record
-- scores → raw decision function values, negative = more anomalous
-- Saved model → models/isolation_forest.pkl
-
-## Methods
-
-- train(X) → fits model on scaled feature data
-- predict(X) → returns predictions and raw scores
-- get_anomaly_score_normalized(score) → converts raw score to 0-100 scale
-- save_model(path) → saves trained model as .pkl file
-- load_model(path) → loads saved model for reuse
-
-## References
-
-Liu, F. T., Ting, K. M., & Zhou, Z. H. (2008).
-Isolation Forest. IEEE International Conference on Data Mining.
+Reference: Liu, Ting & Zhou, "Isolation Forest", ICDM 2008.

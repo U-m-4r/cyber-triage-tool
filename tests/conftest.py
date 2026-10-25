@@ -30,3 +30,31 @@ def tiny_flow_csv(tmp_path):
         encoding="utf-8",
     )
     return str(csv)
+
+
+@pytest.fixture()
+def baseline_bundle(tmp_path, monkeypatch, tiny_flow_csv):
+    """Synthetic unit fixture, never published at the production model path."""
+    from scripts import train_baseline as trainer
+    from ml.baseline import load_baseline
+
+    dataset = tmp_path / 'cicids2017_cleaned.csv'
+    dataset.write_bytes(open(tiny_flow_csv, 'rb').read())
+    monkeypatch.setattr(trainer, 'APPROVED_DATASET_PATH', dataset)
+    output = tmp_path / 'test_baseline.joblib'
+    trainer.train_baseline(dataset_version='synthetic-test-fixture',
+                           expected_sha256=trainer.file_sha256(dataset), output=output)
+    return output, load_baseline(output)
+
+
+@pytest.fixture()
+def baseline_api(baseline_bundle, tmp_path, monkeypatch):
+    from backend import app as app_module
+
+    path, bundle = baseline_bundle
+    monkeypatch.setattr(app_module, 'MODEL_PATH', str(path))
+    monkeypatch.setattr(app_module, 'TEMP_DIR', str(tmp_path))
+    monkeypatch.setattr(app_module, 'API_TOKEN', '')
+    monkeypatch.setattr(app_module, 'MONGO_AVAILABLE', False)
+    app_module.app.config['TESTING'] = True
+    return app_module.app.test_client(), path, bundle

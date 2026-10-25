@@ -28,6 +28,7 @@ class ArtifactSchema:
 
     NETWORK = [
         "Flow Duration", "Total Fwd Packets", "Total Backward Packets",
+        "Total Length of Fwd Packets",
         "Fwd Packet Length Max", "Fwd Packet Length Min", "Fwd Packet Length Mean",
         "Bwd Packet Length Max", "Bwd Packet Length Min",
         "Flow Bytes/s", "Flow Packets/s", "Packet Length Mean",

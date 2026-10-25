@@ -15,8 +15,10 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-from ml.detector import AnomalyDetector
-from ml.preprocessor import ForensicPreprocessor
+import pandas as pd
+from ml.baseline import (BASELINE_PATH, BaselineError, load_baseline,
+                         infer_network, infer_network_csv, baseline_metadata)
+from ml.preprocessor import NetworkInputError
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
 from backend.db import init_db, seed_if_empty, get_db, check_connection
@@ -24,7 +26,6 @@ from backend.report_generator import generate_case_report
 from evaluation.evaluate import (
     extract_binary_ground_truth,
     evaluate_predictions,
-    run_split_evaluation,
 )
 # PART C forensic parsers. Each self-guards its optional native dependency and
 # exposes an ``AVAILABLE`` flag, so importing the package never breaks app boot.
@@ -54,15 +55,12 @@ DEBUG_MODE = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true",
 
 TEMP_DIR = os.path.join(ROOT_DIR, "temp")
 os.makedirs(TEMP_DIR, exist_ok=True)
-MODEL_PATH = os.path.join(ROOT_DIR, "models", "isolation_forest.pkl")
+MODEL_PATH = str(BASELINE_PATH)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-preprocessor = ForensicPreprocessor()
-detector = AnomalyDetector(contamination=0.1)
 scorer = RiskScorer()
-DETECTOR_READY = False
 
 
 # ---------------------------------------------------------------------------
@@ -183,20 +181,12 @@ def _extract_binary_ground_truth(df):
     return extract_binary_ground_truth(df, override=override)
 
 
-def _ensure_detector_loaded_or_trained(df_scaled):
-    global DETECTOR_READY
-
-    if DETECTOR_READY:
-        return
-
-    if os.path.exists(MODEL_PATH):
-        detector.load_model(MODEL_PATH)
-        DETECTOR_READY = True
-        return
-
-    detector.train(df_scaled)
-    detector.save_model(MODEL_PATH)
-    DETECTOR_READY = True
+def _network_csv_inference(filepath):
+    # Request data can never choose the baseline path or invoke fitting. Loading
+    # one complete bundle per request also avoids mutable shared estimators and
+    # ensures a removed/invalid artifact cannot be served from a stale cache.
+    bundle = load_baseline(MODEL_PATH)
+    return bundle, infer_network_csv(filepath, bundle)
 
 
 # ---------------------------------------------------------------------------
@@ -205,10 +195,16 @@ def _ensure_detector_loaded_or_trained(df_scaled):
 
 @app.route("/api/health", methods=["GET"])
 def health():
+    try:
+        bundle = load_baseline(MODEL_PATH)
+        baseline_status = {"status": "ready", **baseline_metadata(bundle)}
+    except BaselineError as exc:
+        baseline_status = {"status": "unavailable", "code": exc.code, "message": str(exc)}
     return jsonify({
         "status": "ok",
         "service": "cyber-triage-backend",
         "mongo": "connected" if MONGO_AVAILABLE else "unavailable",
+        "network_baseline": baseline_status,
     })
 
 
@@ -221,11 +217,7 @@ def analyze():
         return error_response
 
     try:
-        # run_pipeline returns (scaled, raw, clean)
-        df_scaled, df_raw, df_clean = preprocessor.run_pipeline(filepath)
-
-        _ensure_detector_loaded_or_trained(df_scaled)
-        predictions, scores = detector.predict(df_scaled)
+        bundle, (df_clean, predictions, scores, preprocessing, drift) = _network_csv_inference(filepath)
         results_df = scorer.score_dataframe(df_clean, scores)
 
         top_results = results_df.head(100).to_dict(orient="records")
@@ -239,7 +231,9 @@ def analyze():
 
         # Chain-of-custody digest is returned so the investigator can verify the
         # exact evidence file that produced these results (NIST FIPS 180-4).
-        response_payload = {"summary": summary, "artifacts": top_results, "evidence": custody}
+        response_payload = {"summary": summary, "artifacts": top_results, "evidence": custody,
+                            "baseline": baseline_metadata(bundle), "preprocessing": preprocessing,
+                            "drift": drift}
         # Add metrics when a supported label column is available.
         y_true, label_column = _extract_binary_ground_truth(df_clean)
         if y_true is not None:
@@ -257,6 +251,9 @@ def analyze():
                     "summary": summary,
                     "top_artifacts_count": len(top_results),
                     "evidence_custody": custody,
+                    "baseline": baseline_metadata(bundle),
+                    "preprocessing": preprocessing,
+                    "drift": drift,
                 }
 
                 case_id = request.form.get("caseId")
@@ -273,7 +270,7 @@ def analyze():
                                 "title": f"Anomaly: {artifact.get('Source IP', 'Unknown')}:{artifact.get('Source Port', '')} \u2192 {artifact.get('Destination IP', 'Unknown')}:{artifact.get('Destination Port', '')}",
                                 "severity": artifact.get("priority", "LOW"),
                                 "riskScore": artifact.get("risk_score", 0),
-                                "confidence": 0.85,  # Mocked confidence
+                                "confidence": None,  # No calibrated confidence is available.
                                 "source": "Uploaded Dataset",
                                 "host": str(artifact.get("Source IP", "Unknown")),
                                 "observedAt": datetime.now(timezone.utc).isoformat(),
@@ -326,6 +323,10 @@ def analyze():
                 logger.exception("Failed to persist analysis results to MongoDB")
 
         return jsonify(response_payload)
+    except BaselineError as exc:
+        return _api_error(str(exc), 503, exc.code)
+    except NetworkInputError as exc:
+        return _api_error(str(exc), 400, exc.code)
     except Exception:
         logger.exception("Analysis request failed")
         return _api_error("Analysis failed. Please check input data and try again.", 500, "ANALYSIS_FAILED")
@@ -338,15 +339,15 @@ def analyze():
 @require_auth
 def evaluate_model():
     """
-    Evaluate anomaly model using uploaded labeled dataset.
-    Returns classic classification metrics for project reporting.
+    Evaluate the fixed approved baseline on uploaded labeled network evidence.
+    No train/test split or fitting is permitted in an upload handler.
     """
     filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
 
     try:
-        df_scaled, _, df_clean = preprocessor.run_pipeline(filepath)
+        bundle, (df_clean, predictions, scores, preprocessing, drift) = _network_csv_inference(filepath)
         y_true, label_column = _extract_binary_ground_truth(df_clean)
         if y_true is None:
             return _api_error(
@@ -355,18 +356,23 @@ def evaluate_model():
                 "MISSING_LABEL_COLUMN",
             )
 
-        # Stratified 70/30 split + fit + evaluate (shared with scripts/run_evaluation.py).
-        result = run_split_evaluation(df_scaled, y_true, detector, test_size=0.3, random_state=42)
-
         return jsonify(
             {
                 "status": "ok",
                 "label_column": label_column,
                 "evidence": custody,
-                "records": result["records"],
-                "metrics": result["metrics"],
+                "records": {"total": len(df_clean), "train": 0, "test": len(df_clean)},
+                "metrics": evaluate_predictions(y_true, predictions, scores),
+                "evaluation_mode": "fixed_baseline",
+                "baseline": baseline_metadata(bundle),
+                "preprocessing": preprocessing,
+                "drift": drift,
             }
         )
+    except BaselineError as exc:
+        return _api_error(str(exc), 503, exc.code)
+    except NetworkInputError as exc:
+        return _api_error(str(exc), 400, exc.code)
     except Exception:
         logger.exception("Evaluation request failed")
         return _api_error("Evaluation failed. Please verify your labeled dataset.", 500, "EVALUATION_FAILED")
@@ -414,9 +420,17 @@ def ingest():
         except ParserError as exc:
             return _api_error(str(exc), 400, "PARSE_FAILED")
 
-        # Phase A: rule-engine scoring (anomaly component wired in Phase B once the
-        # preprocessor generalizes per-type features).
-        scored = scorer.score_records(records)
+        network_metadata = {}
+        if kind == 'pcap' or any(r.get('artifact_type') == 'network' for r in records):
+            bundle = load_baseline(MODEL_PATH)
+            clean, _, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
+            scored = scorer.score_records(clean.to_dict(orient='records'), scores)
+            network_metadata = {'baseline': baseline_metadata(bundle),
+                                'preprocessing': preprocessing, 'drift': drift}
+        else:
+            # Host artifacts keep their source-specific rules; the CICIDS model
+            # cannot be applied to event IDs, registry values, or file metadata.
+            scored = scorer.score_records(records)
         summary = {
             "total_records": len(scored),
             "critical": sum(1 for a in scored if a["priority"] == "CRITICAL"),
@@ -448,7 +462,13 @@ def ingest():
             "artifacts": [
                 {k: v for k, v in a.items()} for a in scored[:100]
             ],
+            "evidence": custody,
+            **network_metadata,
         })
+    except BaselineError as exc:
+        return _api_error(str(exc), 503, exc.code)
+    except NetworkInputError as exc:
+        return _api_error(str(exc), 400, exc.code)
     except Exception:
         logger.exception("Ingestion failed")
         return _api_error("Ingestion failed. Check the file format and kind.", 500, "INGEST_FAILED")
