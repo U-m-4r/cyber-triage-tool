@@ -290,3 +290,52 @@ def test_changed_training_dataset_not_published(tmp_path, monkeypatch, tiny_flow
     with pytest.raises(ValueError, match='Dataset changed during training'):
         trainer.train_baseline(dataset_version='synthetic', expected_sha256=checksum, output=output)
     assert not output.exists()
+
+
+def test_train_baseline_eligible_view_excludes_cleaned_rows(tmp_path):
+    """Training with eligible=True consumes the cleaning eligible view, not the raw CSV.
+
+    The fixture has a full duplicate row and a negative-measurement row, both excluded
+    by the offline cleaning policy. Eligible training must therefore see the retained
+    rows (not the raw rows) and exclude the non-benign row from the fitted baseline.
+    """
+    from ml import dataset_source as source
+    from ml.cleaning import clean_dataset
+    from ml.baseline import load_baseline
+    from scripts import train_baseline as trainer
+
+    csv_text = (
+        "Flow Duration,Total Fwd Packets,Total Length of Fwd Packets,"
+        "Fwd Packet Length Max,Fwd Packet Length Min,Fwd Packet Length Mean,"
+        "Bwd Packet Length Max,Bwd Packet Length Min,Flow Bytes/s,"
+        "Flow Packets/s,Packet Length Mean,Attack Type\n"
+        "100,5,500,100,20,60,200,10,5000,50,80,Normal Traffic\n"
+        "200,8,800,120,25,70,220,12,6000,60,90,Normal Traffic\n"
+        "100,5,500,100,20,60,200,10,5000,50,80,Normal Traffic\n"
+        "-50,2,40,20,5,10,30,2,2000,20,5,Normal Traffic\n"
+        "300,10,1000,130,30,80,240,15,7000,70,95,Normal Traffic\n"
+        "5,2,40,20,5,10,30,2,2000000,50000,5,DDoS\n"
+    )
+    csv_path = tmp_path / 'cicids2017_cleaned.csv'
+    csv_path.write_text(csv_text, encoding='utf-8')
+    manifest = tmp_path / 'provenance' / 'cicids2017_cleaned.provenance.json'
+    ledger = tmp_path / 'provenance' / 'cicids2017_cleaning_ledger.csv'
+    record_path = tmp_path / 'provenance' / 'cicids2017_cleaning.json'
+
+    source.register_local_dataset(local_path=csv_path, manifest_path=manifest)
+    clean = clean_dataset(source=csv_path, manifest_path=manifest, ledger_path=ledger,
+                         record_path=record_path)
+    assert clean['exclusions']['retained_rows'] == 4
+    assert clean['exclusions']['unique_rows'] == 2
+
+    bundle_path = tmp_path / 'baseline.joblib'
+    bundle = trainer.train_baseline(dataset_version='eligible-test-fixture',
+                                    expected_sha256=trainer.file_sha256(csv_path),
+                                    output=bundle_path, data=csv_path, eligible=True, cleaning_record=record_path)
+    # The eligible view (4 retained rows) feeds training, not the raw 6 rows.
+    assert bundle['provenance']['input_rows'] == 4
+    assert bundle['provenance']['training_rows'] == 3
+    assert bundle['provenance']['excluded_non_benign_rows'] == 1
+    # The published bundle loads and validates.
+    loaded = load_baseline(bundle_path)
+    assert loaded['provenance']['input_rows'] == 4

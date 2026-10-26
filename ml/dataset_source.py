@@ -430,3 +430,101 @@ def download_dataset(*, output_dir=DEFAULT_OUTPUT_DIR, manifest_path=DEFAULT_MAN
 
     write_manifest(manifest_path, record)
     return {**record, 'manifest_path': str(manifest_path.resolve()), 'reused': reused}
+
+
+def register_local_dataset(*, local_path, manifest_path=DEFAULT_MANIFEST_PATH,
+                           force=False, now=None):
+    """Record provenance for an already-present, operator-verified local CSV.
+
+    This is the offline alternative to :func:`download_dataset` for when the
+    reviewed dataset is already on disk and a Kaggle retrieval is unavailable
+    or not desired. It makes no network request and imports no Kaggle package.
+
+    The record is honest about its origin: ``source.provider`` is ``'local'``,
+    ``source.retrieval_tool`` is ``'manual_placement'``, and the dataset
+    version is recorded as ``unavailable`` (no KaggleHub version was reported).
+    The canonical Kaggle handle and page URL are still recorded so downstream
+    cleaning's dataset-identity check (``source.handle``) passes unchanged;
+    identity therefore rests entirely on the streamed SHA-256 and recorded
+    size, computed exactly as :func:`download_dataset` records them.
+
+    The source file is opened read-only and never modified, and the manifest is
+    written to a non-protected path. Reuse and ``force`` semantics are identical
+    to the download path: a matching existing record is reused (its
+    ``retrieved_at`` preserved) and a mismatched record raises
+    ``PROVENANCE_MISMATCH`` unless ``force`` is set.
+
+    Called only by ``scripts/download_dataset.py --from-local``. Never invoked
+    by validation, cleaning, or training.
+    """
+    local_path = Path(local_path)
+    manifest_path = Path(manifest_path)
+    timestamp = utc_now() if now is None else now()
+    if not local_path.is_file():
+        raise DatasetSourceError(
+            f'Local dataset file not found: {local_path}. The --from-local command records '
+            'provenance for an already-present, operator-verified CSV; it never downloads.',
+            'SOURCE_MISSING')
+    # The manifest must never be written onto a reviewed source CSV. The input
+    # file may itself be a protected reviewed copy; it is only ever opened
+    # read-only below and is never written, replaced, or re-recorded (a fresh
+    # manifest is created, and a matching existing record is reused, not
+    # overwritten).
+    assert_not_protected(manifest_path, 'write a provenance manifest to')
+    csv_path = local_path.resolve()
+    try:
+        relative_path = csv_path.relative_to(ROOT_DIR.resolve())
+    except ValueError:
+        relative_path = csv_path
+    size_bytes = csv_path.stat().st_size
+    actual_sha = sha256_file(csv_path)
+    record = {
+        'manifest_version': PROVENANCE_MANIFEST_VERSION,
+        'source': {
+            'provider': 'local',
+            'handle': DATASET_HANDLE,
+            'url': DATASET_PAGE_URL,
+            'retrieval_tool': 'manual_placement',
+            'kagglehub_version': 'unavailable',
+        },
+        'version': version_metadata(None),
+        'retrieved_at': timestamp,
+        'verified_at': timestamp,
+        'local': {
+            'path': str(csv_path),
+            'relative_path': str(relative_path),
+            'force': bool(force),
+            'note': 'Operator-verified local copy. No KaggleHub retrieval was performed; '
+                    'identity rests on the streamed SHA-256 and recorded size. The source '
+                    'file is read-only and never modified.',
+        },
+        'csv': {
+            'relative_path': str(relative_path),
+            'path': str(csv_path),
+            'discovered_by': 'operator --from-local',
+            'size_bytes': size_bytes,
+            'sha256': actual_sha,
+        },
+        'handling': {
+            'source_files_modified': False,
+            'cleaning_policy_applied': False,
+            'negative_and_duplicate_rows_preserved': True,
+            'validation': 'run scripts/train_baseline.py --validate-only separately',
+        },
+    }
+    reused = False
+    existing = read_manifest(manifest_path)
+    if existing is not None:
+        differences = identity_differences(existing, record)
+        if differences:
+            if not force:
+                raise DatasetSourceError(
+                    'Existing provenance does not match this local file:\n- '
+                    + '\n- '.join(differences)
+                    + '\nReview the files, then re-run with --force-download to record them '
+                      'explicitly. Nothing was overwritten.', 'PROVENANCE_MISMATCH')
+        else:
+            reused = not force
+            record['retrieved_at'] = existing.get('retrieved_at', timestamp)
+    write_manifest(manifest_path, record)
+    return {**record, 'manifest_path': str(manifest_path.resolve()), 'reused': reused}

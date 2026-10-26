@@ -277,5 +277,6 @@ def test_training_cli_preserves_arguments_without_fitting(monkeypatch, capsys, u
         'data': trainer.APPROVED_DATASET_PATH if use_default else Path('data/custom folder/flows.csv'),
         'dataset_version': 'reviewed-test', 'expected_sha256': '0' * 64,
         'contamination': 0.2, 'overwrite': True,
+        'eligible': False, 'cleaning_record': None,
     }
     assert json.loads(capsys.readouterr().out)['provenance'] == {}

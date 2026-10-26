@@ -61,7 +61,7 @@ def validate_dataset(data=None):
 
 
 def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
-                   contamination=0.1, overwrite=False, data=None):
+                   contamination=0.1, overwrite=False, data=None, eligible=False, cleaning_record=None):
     """Explicit operator action; checksum must come from the reviewed download.
 
     The input defaults to the approved dataset path and can be supplied via --data.
@@ -79,7 +79,13 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
     if checksum != expected_sha256.lower():
         raise ValueError('Approved dataset SHA-256 does not match --expected-sha256.')
     columns = set(NETWORK_FEATURES) | {'Attack Type', 'Label'}
-    raw = read_network_csv(dataset_path, usecols=lambda c: c.strip() in columns)
+    if eligible:
+        from ml.cleaning import DEFAULT_RECORD_PATH, load_eligible_frame
+        raw = load_eligible_frame(source=dataset_path,
+                                  record_path=cleaning_record or DEFAULT_RECORD_PATH,
+                                  usecols=lambda c: c.strip() in columns)
+    else:
+        raw = read_network_csv(dataset_path, usecols=lambda c: c.strip() in columns)
     clean, _, preprocessing = prepare_network_frame(raw)
     label_column = next((c for c in ('Attack Type', 'Label') if c in clean), None)
     if label_column is None:
@@ -148,6 +154,12 @@ def main():
     parser.add_argument('--expected-sha256', help='SHA-256 of the reviewed dataset bytes (required for training)')
     parser.add_argument('--contamination', type=float, default=0.1)
     parser.add_argument('--overwrite', action='store_true', help='Explicitly replace a reviewed baseline')
+    parser.add_argument('--eligible', action='store_true',
+                        help='Train from the offline cleaning eligible view (load_eligible_frame) '
+                             'instead of reading the raw CSV; requires a matching cleaning record')
+    parser.add_argument('--cleaning-record', type=Path, default=None,
+                        help='Cleaning record for the eligible view (defaults to '
+                             'data/provenance/cicids2017_cleaning.json)')
     args = parser.parse_args()
     options = vars(args)
     if options.pop('validate_only'):

@@ -511,3 +511,129 @@ def test_resolve_with_version_fallback_when_package_layout_differs():
     assert len(calls) == 2
     assert calls[0]['kwargs'] == {'output_dir': '/custom/dir'}
     assert calls[1]['kwargs'] == {}
+
+
+# ---------------------------------------------------------------------------
+# Local provenance (--from-local): record an operator-verified local CSV without
+# any KaggleHub retrieval. These tests make no network request, never fit a
+# model, and never write to a reviewed source CSV.
+# ---------------------------------------------------------------------------
+
+def test_register_local_records_provenance_without_downloading(tiny_flow_csv, manifest_path):
+    before = Path(tiny_flow_csv).read_bytes()
+    report = source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path)
+    assert report['source'] == {
+        'provider': 'local',
+        'handle': source.DATASET_HANDLE,
+        'url': source.DATASET_PAGE_URL,
+        'retrieval_tool': 'manual_placement',
+        'kagglehub_version': 'unavailable',
+    }
+    assert report['version']['status'] == 'unavailable'
+    assert report['version']['value'] is None
+    assert report['csv']['sha256'] == hashlib.sha256(before).hexdigest()
+    assert report['csv']['size_bytes'] == Path(tiny_flow_csv).stat().st_size
+    assert report['csv']['path'] == str(Path(tiny_flow_csv).resolve())
+    assert report['csv']['discovered_by'] == 'operator --from-local'
+    assert report['handling']['source_files_modified'] is False
+    assert report['handling']['cleaning_policy_applied'] is False
+    assert report['reused'] is False
+    assert report['retrieved_at'] == report['verified_at']
+    assert report['manifest_path'] == str(manifest_path.resolve())
+    stored = json.loads(manifest_path.read_text(encoding='utf-8'))
+    assert stored['manifest_version'] == source.PROVENANCE_MANIFEST_VERSION
+    assert stored['csv'] == report['csv']
+    assert stored['source']['provider'] == 'local'
+    # The reviewed source file is read-only: it is byte-identical afterwards.
+    assert Path(tiny_flow_csv).read_bytes() == before
+
+
+def test_register_local_is_idempotent_and_keeps_retrieval_time(tiny_flow_csv, manifest_path):
+    stamps = iter(['2026-10-26T10:00:00Z', '2026-10-26T11:00:00Z'])
+    first = source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path,
+                                         now=lambda: next(stamps))
+    second = source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path,
+                                          now=lambda: next(stamps))
+    assert first['reused'] is False
+    assert second['reused'] is True
+    assert second['retrieved_at'] == '2026-10-26T10:00:00Z'
+    assert second['verified_at'] == '2026-10-26T11:00:00Z'
+    assert second['csv']['sha256'] == first['csv']['sha256']
+    stored = json.loads(manifest_path.read_text(encoding='utf-8'))
+    assert stored['retrieved_at'] == '2026-10-26T10:00:00Z'
+    assert stored['verified_at'] == '2026-10-26T11:00:00Z'
+
+
+def test_register_local_mismatch_requires_force(tiny_flow_csv, manifest_path):
+    source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path)
+    recorded = manifest_path.read_bytes()
+    # Alter the file so its size and SHA-256 no longer match the manifest.
+    Path(tiny_flow_csv).write_text(Path(tiny_flow_csv).read_text(encoding='utf-8') + '\n',
+                                  encoding='utf-8')
+    with pytest.raises(source.DatasetSourceError) as error:
+        source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path)
+    assert error.value.code == 'PROVENANCE_MISMATCH'
+    assert 'CSV SHA-256' in str(error.value)
+    assert '--force-download' in str(error.value)
+    assert manifest_path.read_bytes() == recorded
+    forced = source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path,
+                                           force=True)
+    assert forced['reused'] is False
+    assert json.loads(manifest_path.read_text(encoding='utf-8'))['csv']['sha256'] == forced['csv']['sha256']
+
+
+def test_register_local_missing_file_reports_error(tmp_path, manifest_path):
+    with pytest.raises(source.DatasetSourceError) as error:
+        source.register_local_dataset(local_path=tmp_path / 'absent.csv', manifest_path=manifest_path)
+    assert error.value.code == 'SOURCE_MISSING'
+    assert not manifest_path.exists()
+
+
+def test_register_local_refuses_protected_manifest_path(tiny_flow_csv):
+    # A manifest path that resolves to a reviewed source CSV is never written.
+    sample = source.PROTECTED_DATASET_PATHS[0]
+    with pytest.raises(source.DatasetSourceError) as error:
+        source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=sample)
+    assert error.value.code == 'SOURCE_PROTECTED'
+
+
+def test_register_local_never_downloads_or_imports_kaggle(tiny_flow_csv, manifest_path, monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError('local registration attempted a network retrieval')
+
+    monkeypatch.setattr(source, 'download_dataset', forbidden)
+    monkeypatch.setattr(source, 'kagglehub_download', forbidden)
+    monkeypatch.setattr(source, '_import_kagglehub', forbidden)
+    report = source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest_path)
+    assert report['source']['provider'] == 'local'
+
+
+def test_register_local_feeds_cleaning(tiny_flow_csv, tmp_path):
+    from ml.cleaning import clean_dataset, load_eligible_frame
+
+    manifest = tmp_path / 'provenance' / 'cicids2017_cleaned.provenance.json'
+    ledger = tmp_path / 'provenance' / 'cicids2017_cleaning_ledger.csv'
+    record_path = tmp_path / 'provenance' / 'cicids2017_cleaning.json'
+    source.register_local_dataset(local_path=tiny_flow_csv, manifest_path=manifest)
+    report = clean_dataset(source=tiny_flow_csv, manifest_path=manifest, ledger_path=ledger,
+                          record_path=record_path)
+    # tiny_flow_csv: 5 rows, all positive, all distinct, no label conflicts.
+    assert report['exclusions']['input_rows'] == 5
+    assert report['exclusions']['unique_rows'] == 0
+    assert report['exclusions']['retained_rows'] == 5
+    assert report['ledger']['sha256'] == hashlib.sha256(ledger.read_bytes()).hexdigest()
+    assert report['ledger']['rows'] == 0
+    frame = load_eligible_frame(source=tiny_flow_csv, record_path=record_path)
+    assert len(frame) == 5
+    assert frame['Label'].str.lower().isin(['benign', 'ddos', 'portscan']).all()
+
+
+def test_cli_from_local_registers_local_provenance(tiny_flow_csv, tmp_path, capsys):
+    manifest = tmp_path / 'm.json'
+    report = download_script.main(['--from-local', str(tiny_flow_csv), '--manifest', str(manifest)])
+    assert report['source']['provider'] == 'local'
+    assert report['reused'] is False
+    assert manifest.is_file()
+    stored = json.loads(manifest.read_text(encoding='utf-8'))
+    assert stored['csv']['sha256'] == report['csv']['sha256']
+    assert json.loads(capsys.readouterr().out)['source']['provider'] == 'local'
