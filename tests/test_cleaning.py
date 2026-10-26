@@ -520,3 +520,271 @@ def test_cli_reports_the_refusal_code(workspace, capsys):
         ])
     assert exc.value.code == 1
     assert '[PROVENANCE_MISSING]' in capsys.readouterr().err
+
+
+# --- Step 5: hardened validation & cleaning tests ----------------------------
+
+# A. Edge cases for real CICIDS2017 CSV ----------------------------------------
+
+def test_bom_header_is_handled(tmp_path):
+    """UTF-8 BOM (\\xef\\xbb\\xbf) at byte 0 must not corrupt the first column name."""
+    header = ','.join(list(NETWORK_FEATURES) + ['Attack Type', 'Label', 'Flow ID'])
+    row = make_row(42, 'Normal Traffic', 'BENIGN', 'bom-row')
+    values = ','.join(row[col] for col in list(NETWORK_FEATURES) + ['Attack Type', 'Label', 'Flow ID'])
+    raw = ('\ufeff' + header + '\n' + values + '\n').encode('utf-8')
+    path = tmp_path / 'bom.csv'
+    path.write_bytes(raw)
+    analysis = cleaning.analyze_source(path, chunk_rows=5)
+    assert analysis['input_rows'] == 1
+    assert 'Flow Duration' in analysis['columns']
+    assert len(analysis['negative_rows']) == 0
+
+
+def test_whitespace_padded_headers_are_stripped(tmp_path):
+    """Leading/trailing whitespace in column headers must be stripped transparently."""
+    header = '  Flow Duration ,Total Fwd Packets , Total Length of Fwd Packets'
+    for feature in NETWORK_FEATURES[3:]:
+        header += f', {feature} '
+    header += ', Attack Type , Label , Flow ID'
+    row = make_row(10, 'Normal Traffic', 'BENIGN', 'ws-row')
+    values = ','.join(row[col] for col in list(NETWORK_FEATURES) + ['Attack Type', 'Label', 'Flow ID'])
+    path = tmp_path / 'whitespace_headers.csv'
+    path.write_text(header + '\n' + values + '\n', encoding='utf-8')
+    analysis = cleaning.analyze_source(path, chunk_rows=5)
+    assert analysis['input_rows'] == 1
+    for feature in NETWORK_FEATURES:
+        assert feature in analysis['columns']
+
+
+def test_non_finite_values_are_not_flagged_as_negative(workspace):
+    """NaN, +inf, -inf feature values are non-finite and must NOT appear as negative_measurements."""
+    rows = [make_row(i * 10, 'Normal Traffic', 'BENIGN', f'flow-{i}') for i in range(4)]
+    # Row with NaN in Flow Duration
+    rows[1]['Flow Duration'] = 'NaN'
+    # Row with +inf
+    rows[2]['Flow Bytes/s'] = 'inf'
+    # Row with -inf (negative infinity is infinite, not a finite negative)
+    rows[3]['Flow Packets/s'] = '-inf'
+    path = workspace['source']
+    pd.DataFrame(rows).to_csv(path, index=False)
+    write_test_manifest(workspace['manifest'], path)
+    report = run_clean(workspace)
+    # None of these should be flagged as negative_measurements
+    assert report['issues']['negative_measurements']['rows'] == 0
+    assert report['issues']['negative_measurements']['cells'] == 0
+
+
+# B. Chunked processing across chunk boundaries --------------------------------
+
+def test_duplicate_pair_straddling_chunk_boundary(tmp_path):
+    """Two identical rows in different chunks must still be detected as duplicates."""
+    rows = [
+        make_row(100, 'Normal Traffic', 'BENIGN', 'unique-1'),
+        make_row(200, 'DDoS', 'DDoS', 'dup-cross'),       # first occurrence
+        make_row(300, 'Normal Traffic', 'BENIGN', 'unique-2'),
+        make_row(200, 'DDoS', 'DDoS', 'dup-cross'),       # exact duplicate
+        make_row(400, 'Normal Traffic', 'BENIGN', 'unique-3'),
+    ]
+    path = tmp_path / 'cross_boundary.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    manifest_path = tmp_path / 'manifest.json'
+    write_test_manifest(manifest_path, path)
+    ledger_path = tmp_path / 'ledger.csv'
+    record_path = tmp_path / 'record.json'
+
+    # chunk_rows=2 forces row 1 and row 3 into different chunks
+    report = clean_dataset(source=path, manifest_path=manifest_path,
+                           ledger_path=ledger_path, record_path=record_path, chunk_rows=2)
+    assert report['issues']['duplicate_rows']['rows'] == 1
+    entries = ledger_entries(ledger_path)
+    assert entries['3'] == 'duplicate_row'
+    assert '1' not in entries  # first occurrence kept
+
+    # Verify the same result with chunk_rows=1 (every row is its own chunk)
+    ledger_1 = tmp_path / 'ledger_1.csv'
+    record_1 = tmp_path / 'record_1.json'
+    report_1 = clean_dataset(source=path, manifest_path=manifest_path,
+                             ledger_path=ledger_1, record_path=record_1, chunk_rows=1)
+    assert report_1['issues']['duplicate_rows']['rows'] == 1
+    assert report_1['ledger']['sha256'] == report['ledger']['sha256']
+
+
+def test_conflict_pair_straddling_chunk_boundary(tmp_path):
+    """Two rows with the same feature vector but conflicting labels in different chunks."""
+    rows = [
+        make_row(100, 'Normal Traffic', 'BENIGN', 'unique-1'),
+        make_row(500, 'Normal Traffic', 'BENIGN', 'conflict-a'),  # first label
+        make_row(200, 'Normal Traffic', 'BENIGN', 'unique-2'),
+        make_row(500, 'DDoS', 'DDoS', 'conflict-b'),              # conflicting label
+        make_row(300, 'Normal Traffic', 'BENIGN', 'unique-3'),
+    ]
+    path = tmp_path / 'cross_conflict.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    manifest_path = tmp_path / 'manifest.json'
+    write_test_manifest(manifest_path, path)
+    ledger_path = tmp_path / 'ledger.csv'
+    record_path = tmp_path / 'record.json'
+
+    # chunk_rows=2 forces the pair into different chunks
+    report = clean_dataset(source=path, manifest_path=manifest_path,
+                           ledger_path=ledger_path, record_path=record_path, chunk_rows=2)
+    assert report['issues']['label_conflicts']['vectors'] == 1
+    assert report['issues']['label_conflicts']['rows'] == 2
+    entries = ledger_entries(ledger_path)
+    assert entries['1'] == 'label_conflict'
+    assert entries['3'] == 'label_conflict'
+
+    # Same result with chunk_rows=1
+    ledger_1 = tmp_path / 'ledger_1.csv'
+    record_1 = tmp_path / 'record_1.json'
+    report_1 = clean_dataset(source=path, manifest_path=manifest_path,
+                             ledger_path=ledger_1, record_path=record_1, chunk_rows=1)
+    assert report_1['ledger']['sha256'] == report['ledger']['sha256']
+
+
+# C. Overlapping exclusion reasons ---------------------------------------------
+
+def test_three_way_overlapping_reasons(tmp_path):
+    """A row that is negative, a duplicate, AND part of a conflicting vector."""
+    # All three rows share the same 11-feature vector (with Flow Duration = -7).
+    # Rows 1 and 3 are exact full-row duplicates (same labels, same Flow ID).
+    # Row 2 has a different label, creating a label conflict for the entire vector.
+    rows = [
+        make_row(100, 'Normal Traffic', 'BENIGN', 'clean-1'),
+        make_row(500, 'Normal Traffic', 'BENIGN', 'triple-a',
+                 **{'Flow Duration': '-7'}),                     # negative + conflict
+        make_row(500, 'DDoS', 'DDoS', 'triple-b',
+                 **{'Flow Duration': '-7'}),                     # negative + conflict
+        make_row(500, 'Normal Traffic', 'BENIGN', 'triple-a',
+                 **{'Flow Duration': '-7'}),                     # duplicate of row 1 + negative + conflict
+    ]
+    path = tmp_path / 'triple.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    manifest_path = tmp_path / 'manifest.json'
+    write_test_manifest(manifest_path, path)
+    ledger_path = tmp_path / 'ledger.csv'
+    record_path = tmp_path / 'record.json'
+
+    report = clean_dataset(source=path, manifest_path=manifest_path,
+                           ledger_path=ledger_path, record_path=record_path)
+    entries = ledger_entries(ledger_path)
+    # Row 3 (index 3) should have all three reasons
+    assert entries['3'] == 'negative_measurements|duplicate_row|label_conflict'
+    # Row 1 (index 1) should have negative + conflict
+    assert entries['1'] == 'negative_measurements|label_conflict'
+    # Row 2 (index 2) should have negative + conflict
+    assert entries['2'] == 'negative_measurements|label_conflict'
+
+    assert report['exclusions']['unique_rows'] == 3
+    assert report['exclusions']['retained_rows'] == 1
+    assert report['exclusions']['overlaps']['rows_with_multiple_reasons'] == 3
+    assert report['exclusions']['input_rows'] == 4
+    cleaning.assert_counts(4, 1, 3)
+
+
+def test_all_rows_excluded_still_satisfies_invariant(tmp_path):
+    """When every row has an exclusion reason, retained_rows == 0 and the invariant holds."""
+    rows = [
+        make_row(100, 'Normal Traffic', 'BENIGN', 'all-neg-1', **{'Flow Duration': '-1'}),
+        make_row(200, 'DDoS', 'DDoS', 'all-neg-2', **{'Flow Bytes/s': '-2'}),
+    ]
+    path = tmp_path / 'all_excluded.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    manifest_path = tmp_path / 'manifest.json'
+    write_test_manifest(manifest_path, path)
+    ledger_path = tmp_path / 'ledger.csv'
+    record_path = tmp_path / 'record.json'
+
+    report = clean_dataset(source=path, manifest_path=manifest_path,
+                           ledger_path=ledger_path, record_path=record_path)
+    assert report['exclusions']['retained_rows'] == 0
+    assert report['exclusions']['unique_rows'] == 2
+    assert report['exclusions']['input_rows'] == 2
+    cleaning.assert_counts(2, 0, 2)
+
+    # load_eligible_frame should refuse because no rows remain
+    with pytest.raises(CleaningError) as exc:
+        load_eligible_frame(path, record_path)
+    assert exc.value.code == 'EMPTY_ELIGIBLE_VIEW'
+
+
+# D. Deterministic ledgers and source-file immutability -------------------------
+
+def test_ledger_bytes_are_identical_across_independent_runs(tmp_path):
+    """Two completely independent clean_dataset invocations produce byte-identical ledgers."""
+    rows = [make_row(i * 10, 'Normal Traffic', 'BENIGN', f'det-{i}') for i in range(5)]
+    rows.append(make_row(100, 'DDoS', 'DDoS', 'det-neg', **{'Flow Duration': '-1'}))
+    rows.append(make_row(200, 'Normal Traffic', 'BENIGN', 'det-dup'))
+    rows.append(make_row(200, 'Normal Traffic', 'BENIGN', 'det-dup'))  # exact dup
+    path = tmp_path / 'deterministic.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    manifest_path = tmp_path / 'manifest.json'
+    write_test_manifest(manifest_path, path)
+
+    payloads = []
+    for run_id in range(3):
+        ledger = tmp_path / f'ledger_{run_id}.csv'
+        record = tmp_path / f'record_{run_id}.json'
+        report = clean_dataset(source=path, manifest_path=manifest_path,
+                               ledger_path=ledger, record_path=record)
+        payloads.append(ledger.read_bytes())
+        assert hashlib.sha256(payloads[-1]).hexdigest() == report['ledger']['sha256']
+    # All three must be byte-identical
+    assert payloads[0] == payloads[1] == payloads[2]
+    # Verify LF line endings (no CR)
+    assert b'\r' not in payloads[0]
+
+
+def test_source_immutability_across_chunk_sizes(workspace):
+    """Source CSV mtime and content must be unchanged regardless of chunk size."""
+    payload_before = workspace['source'].read_bytes()
+    mtime_before = workspace['source'].stat().st_mtime_ns
+    for chunk_rows in (1, 3, 7, 1000):
+        ledger = workspace['source'].parent / f'immut_ledger_{chunk_rows}.csv'
+        record = workspace['source'].parent / f'immut_record_{chunk_rows}.json'
+        clean_dataset(source=workspace['source'], manifest_path=workspace['manifest'],
+                      ledger_path=ledger, record_path=record, chunk_rows=chunk_rows)
+        assert workspace['source'].read_bytes() == payload_before
+        assert workspace['source'].stat().st_mtime_ns == mtime_before
+
+
+def test_no_csv_leaks_into_provenance_directory(workspace):
+    """Cleaning must not create any CSV files in the provenance directory beyond the ledger."""
+    provenance_dir = workspace['ledger'].parent
+    csvs_before = set(provenance_dir.glob('*.csv'))
+    run_clean(workspace)
+    csvs_after = set(provenance_dir.glob('*.csv'))
+    assert csvs_after - csvs_before == {workspace['ledger']}
+
+
+# E. No preprocessing leakage --------------------------------------------------
+
+def test_eligible_view_contains_no_negative_or_nonfinite_features(workspace):
+    """The eligible view must have no negative, NaN, or infinite values in required features."""
+    run_clean(workspace)
+    view = load_eligible_frame(workspace['source'], workspace['record'])
+    for feature in NETWORK_FEATURES:
+        values = pd.to_numeric(view[feature], errors='coerce').to_numpy(dtype=float)
+        finite = np.isfinite(values)
+        assert finite.all(), f'{feature} has non-finite values in the eligible view'
+        assert (values[finite] >= 0).all(), f'{feature} has negatives in the eligible view'
+
+
+def test_cleaning_module_never_imports_scaler_or_model():
+    """ml/cleaning.py must not import model or scaler fitting machinery."""
+    source = Path(cleaning.__file__).read_text(encoding='utf-8')
+    # These imports would indicate leakage of fitting into the cleaning path
+    for forbidden_import in ('IsolationForest', 'StandardScaler', 'joblib',
+                             'sklearn.ensemble', 'sklearn.preprocessing'):
+        assert forbidden_import not in source, \
+            f'cleaning.py imports {forbidden_import}, which risks preprocessing leakage'
+
+
+def test_eligible_view_row_count_matches_record(workspace):
+    """load_eligible_frame must agree with the cleaning record on retained rows."""
+    report = run_clean(workspace)
+    record = json.loads(workspace['record'].read_text(encoding='utf-8'))
+    view = load_eligible_frame(workspace['source'], workspace['record'])
+    assert len(view) == record['exclusions']['retained_rows']
+    assert len(view) == report['exclusions']['retained_rows']
+    assert len(view) + record['exclusions']['unique_rows'] == record['exclusions']['input_rows']

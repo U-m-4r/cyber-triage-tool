@@ -112,8 +112,6 @@ def iter_source_chunks(path, chunk_rows=DEFAULT_CHUNK_ROWS, **read_options):
             header = next(csv.reader(handle), [])
     except OSError as exc:
         raise CleaningError(f'Cannot read source CSV {path}: {exc}', 'SOURCE_UNREADABLE') from exc
-    except StopIteration as exc:
-        raise CleaningError(f'Source CSV is empty: {path}', 'SOURCE_UNREADABLE') from exc
     stripped = [column.strip() for column in header]
     if not stripped or len(stripped) != len(set(stripped)):
         raise CleaningError(f'CSV requires a nonempty, unique column header: {path}',
@@ -232,6 +230,13 @@ def _verify_candidates(source, analysis, *, chunk_rows=DEFAULT_CHUNK_ROWS):
     duplicate_group_rows = 0
     conflict_vectors = 0
     conflict_rows = 0
+
+    # Negative measurements are determined entirely in pass 1 (no text verification
+    # needed), so they must be recorded unconditionally — before any early return.
+    for column, indexes in analysis['negative_indices'].items():
+        for row_index in indexes:
+            reasons[int(row_index)].add('negative_measurements')
+
     wanted = set(int(value) for value in analysis['candidates'])
     if not wanted:
         return dict(reasons), duplicate_rows, duplicate_group_rows, conflict_vectors, conflict_rows
@@ -249,7 +254,7 @@ def _verify_candidates(source, analysis, *, chunk_rows=DEFAULT_CHUNK_ROWS):
             subset = chunk.iloc[found].astype('string').fillna('')
             texts = subset.agg(ROW_SEPARATOR.join, axis=1).tolist()
             feature_texts = (subset.loc[:, list(NETWORK_FEATURES)].agg(ROW_SEPARATOR.join,
-                                                                      axis=1).tolist())
+                                                                       axis=1).tolist())
             label_values = {column: subset[column].tolist() for column in LABEL_COLUMNS
                             if analysis['label_present'][column]}
             for local, offset in enumerate(found):
@@ -293,10 +298,6 @@ def _verify_candidates(source, analysis, *, chunk_rows=DEFAULT_CHUNK_ROWS):
             for row_index in indices:
                 reasons[row_index].add('label_conflict')
 
-    for column, indexes in analysis['negative_indices'].items():
-        for row_index in indexes:
-            reasons[int(row_index)].add('negative_measurements')
-
     return dict(reasons), duplicate_rows, duplicate_group_rows, conflict_vectors, conflict_rows
 
 
@@ -305,7 +306,7 @@ def render_ledger(reasons):
     lines = [LEDGER_HEADER]
     for row_index in sorted(reasons):
         ordered = [code for code in REASON_ORDER if code in reasons[row_index]]
-        lines.append(f'{row_index},{ "|".join(ordered)}')
+        lines.append(f'{row_index},{"|".join(ordered)}')
     return ('\n'.join(lines) + '\n').encode('utf-8')
 
 
