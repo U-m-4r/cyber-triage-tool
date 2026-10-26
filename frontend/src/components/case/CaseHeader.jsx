@@ -29,8 +29,8 @@ export default function CaseHeader({ caseRecord }) {
     threatScore,
     severity,
     status,
-    counts,
-    lastActivity,
+    counts = {},
+    lastActivity = {},
   } = caseRecord
 
   const severityClass = SEVERITY_CLASS[severity] ?? 'low'
@@ -43,10 +43,10 @@ export default function CaseHeader({ caseRecord }) {
           Back to Dashboard
         </Link>
 
-        <span className="page-head__notice">
+        {caseRecord.dataMode === 'demo' && <span className="page-head__notice">
           <Icon name="alert" size={12} strokeWidth={1.7} />
           Sample data — no evidence has been parsed
-        </span>
+        </span>}
       </div>
 
       <div className="case-head__identity">

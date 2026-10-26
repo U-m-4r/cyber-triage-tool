@@ -28,21 +28,29 @@ export default function CaseWorkspacePage() {
   const [caseRecord, setCaseRecord] = useState(null)
   const [state, setState] = useState('loading') // 'loading' | 'ready' | 'missing'
   const [activeTab, setActiveTab] = useState('overview')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     let cancelled = false
     setState('loading')
+    setError(null)
 
     fetchCase(caseId).then((record) => {
       if (cancelled) return
       setCaseRecord(record)
       setState(record ? 'ready' : 'missing')
+    }).catch((err) => {
+      if (!cancelled) { setError(err.message); setState('error') }
     })
 
     return () => {
       cancelled = true
     }
   }, [caseId])
+
+  if (state === 'error') {
+    return <div className="page" role="alert"><h1>Case unavailable</h1><p>{error}</p><Link to="/dashboard">Back to Dashboard</Link></div>
+  }
 
   if (state === 'loading') {
     return (
@@ -65,8 +73,7 @@ export default function CaseWorkspacePage() {
             No case matches <span className="mono">{caseId}</span>
           </p>
           <p className="case-missing__copy">
-            Only the sample cases on the dashboard exist in this build. Case records come from local
-            fixtures, so nothing outside that set can be opened yet.
+            Check the case ID or return to the dashboard to select an existing investigation.
           </p>
           <Link className="case-missing__back" to="/dashboard">
             <Icon name="chevronRight" size={13} className="case-missing__back-icon" />
@@ -101,7 +108,7 @@ export default function CaseWorkspacePage() {
         <CaseAnalysis
           caseRecord={caseRecord}
           onAnalysisComplete={() => {
-            fetchCase(caseId).then(setCaseRecord)
+            fetchCase(caseId).then(setCaseRecord).catch((err) => { setError(err.message); setState('error') })
           }}
         />
       ) : (

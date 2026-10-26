@@ -2,10 +2,8 @@
 
 Each parser is exercised against a small textual-export fixture written to a temp
 file, asserting it normalizes to the shared ArtifactSchema columns the RiskScorer
-keys on. Run with:  python3 -m unittest discover -s tests
-
-No third-party test runner is required (pytest is not installed in this offline
-environment) — these use the standard-library `unittest`.
+keys on. Run through pytest so the shared network and temporary-directory guards
+apply, including to these standard-library unittest cases.
 """
 
 import os

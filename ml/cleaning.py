@@ -118,9 +118,10 @@ def iter_source_chunks(path, chunk_rows=DEFAULT_CHUNK_ROWS, **read_options):
                             'SOURCE_UNREADABLE')
     options = dict(read_options, chunksize=int(chunk_rows))
     try:
-        for chunk in pd.read_csv(path, **options):
-            chunk.columns = [str(column).strip() for column in chunk.columns]
-            yield chunk
+        with pd.read_csv(path, **options) as reader:
+            for chunk in reader:
+                chunk.columns = [str(column).strip() for column in chunk.columns]
+                yield chunk
     except (pd.errors.ParserError, pd.errors.EmptyDataError, UnicodeError) as exc:
         raise CleaningError(f'Cannot read source CSV: {exc}', 'SOURCE_UNREADABLE') from exc
 

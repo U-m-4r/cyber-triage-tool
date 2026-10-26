@@ -2,7 +2,7 @@
  * Backend endpoints exposed by backend/app.py.
  */
 
-import { get, postFile, postJson, BASE_URL } from './apiClient.js'
+import { get, postFile, request, BASE_URL } from './apiClient.js'
 
 /** GET /api/health -> { status, service, mongo } */
 export function checkHealth(options) {
@@ -38,18 +38,12 @@ export function evaluateModel(file, options) {
  * @returns {Promise<Blob>} PDF blob for download.
  */
 export async function generateReport(caseId) {
-  const response = await fetch(`${BASE_URL}/report`, {
+  return request('/report', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ caseId }),
+    responseType: 'blob',
   })
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}))
-    throw new Error(body?.error?.message ?? `Report generation failed (${response.status})`)
-  }
-
-  return response.blob()
 }
 
 /**

@@ -2,14 +2,17 @@ import os
 import sys
 import uuid
 import hashlib
+import hmac
 import logging
-from functools import wraps
+import tempfile
 from datetime import datetime, timezone
 
 import numpy as np  # noqa: F401  (kept for downstream numeric helpers)
-from flask import Flask, jsonify, request, send_file
+from flask import Blueprint, Flask, current_app, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
+from pymongo.errors import PyMongoError
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
@@ -21,7 +24,8 @@ from ml.baseline import (BASELINE_PATH, BaselineError, load_baseline,
 from ml.preprocessor import NetworkInputError
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
-from backend.db import init_db, seed_if_empty, get_db, check_connection
+from backend.db import init_db, seed_if_empty, get_db, check_connection, close_db, DatabaseUnavailable
+from backend.config import load_config
 from backend.report_generator import generate_case_report
 from evaluation.evaluate import (
     extract_binary_ground_truth,
@@ -37,50 +41,9 @@ from forensics import (
     threat_intel,
 )
 
-app = Flask(__name__)
-
-# --- Security config (cross-cutting) ------------------------------------------
-# CORS is locked to an allowlist from CORS_ALLOWED_ORIGINS (comma-separated).
-# Default "*" preserves the original wide-open dev behavior; set the env var to
-# lock it down for any shared/demo deployment.
-_cors_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "*")
-_origins = "*" if _cors_origins.strip() == "*" else [o.strip() for o in _cors_origins.split(",") if o.strip()]
-CORS(app, origins=_origins)
-
-# When CYBER_TRIAGE_API_TOKEN is set, protected endpoints require a matching
-# bearer token / X-API-Key. When unset, auth is disabled (dev mode) and a warning
-# is logged — evidence-handling endpoints must never ship unauthenticated silently.
-API_TOKEN = os.environ.get("CYBER_TRIAGE_API_TOKEN", "").strip()
-DEBUG_MODE = os.environ.get("FLASK_DEBUG", "0").strip().lower() in ("1", "true", "yes")
-
-TEMP_DIR = os.path.join(ROOT_DIR, "temp")
-os.makedirs(TEMP_DIR, exist_ok=True)
-MODEL_PATH = str(BASELINE_PATH)
-
-logging.basicConfig(level=logging.INFO)
+api = Blueprint("api", __name__)
 logger = logging.getLogger(__name__)
-
 scorer = RiskScorer()
-
-
-# ---------------------------------------------------------------------------
-# MongoDB init
-# ---------------------------------------------------------------------------
-
-try:
-    init_db()
-    seed_if_empty()
-    MONGO_AVAILABLE = True
-    logger.info("MongoDB connected and initialised")
-except Exception:
-    MONGO_AVAILABLE = False
-    logger.warning("MongoDB unavailable — API will still serve analysis endpoints")
-
-if not API_TOKEN:
-    logger.warning(
-        "AUTH DISABLED: CYBER_TRIAGE_API_TOKEN is not set — evidence endpoints are "
-        "open. Set it (and CORS_ALLOWED_ORIGINS) before any shared/demo deployment."
-    )
 
 
 # ---------------------------------------------------------------------------
@@ -122,14 +85,22 @@ def _save_uploaded_file():
     else:
         filename = f"{uuid.uuid4().hex}{ext}"
 
-    filepath = os.path.join(TEMP_DIR, filename)
-    uploaded_file.save(filepath)
+    temp_dir = current_app.config["TEMP_DIR"]
+    os.makedirs(temp_dir, exist_ok=True)
+    fd, filepath = tempfile.mkstemp(suffix="_" + filename, dir=temp_dir)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            uploaded_file.save(handle)
+        digest = compute_sha256(filepath)
+    except Exception:
+        os.remove(filepath)
+        raise
 
     # Chain of custody: hash the evidence immediately on intake, before any parsing.
     custody = {
         "original_filename": uploaded_file.filename,
         "algorithm": "SHA-256",  # NIST FIPS 180-4
-        "sha256": compute_sha256(filepath),
+        "sha256": digest,
         "size_bytes": os.path.getsize(filepath),
         "ingested_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -148,21 +119,6 @@ def _request_token():
     return request.headers.get("X-API-Key", "").strip()
 
 
-def require_auth(view):
-    """Gate an endpoint behind the shared API token when one is configured.
-
-    No-op when CYBER_TRIAGE_API_TOKEN is unset (dev mode) so local runs and the
-    existing regression tests keep working; enforced the moment a token is set.
-    """
-    @wraps(view)
-    def wrapper(*args, **kwargs):
-        if API_TOKEN:
-            if _request_token() != API_TOKEN:
-                return _api_error("Missing or invalid API token.", 401, "UNAUTHORIZED")
-        return view(*args, **kwargs)
-    return wrapper
-
-
 def _clean_mongo_doc(doc):
     """Remove MongoDB's _id field so the doc is JSON-serialisable."""
     if doc and "_id" in doc:
@@ -172,6 +128,26 @@ def _clean_mongo_doc(doc):
 
 def _clean_mongo_docs(docs):
     return [_clean_mongo_doc(d) for d in docs]
+
+
+def _is_demo_case(case):
+    # Preserve the warning on legacy auto-seeded records, without rewriting user data.
+    return bool(case.get("isDemo")) or case.get("id") in {
+        "CASE-2026-0147", "CASE-2026-0143", "CASE-2026-0139", "CASE-2026-0136"
+    }
+
+
+def _case_response(case):
+    result = _clean_mongo_doc(dict(case))
+    result["dataMode"] = "demo" if _is_demo_case(case) else "live"
+    return result
+
+
+def _intake_database_available():
+    available = check_connection()
+    if not available and request.form.get("caseId"):
+        raise DatabaseUnavailable("Case database became unavailable during processing.")
+    return available
 
 
 def _extract_binary_ground_truth(df):
@@ -185,7 +161,7 @@ def _network_csv_inference(filepath):
     # Request data can never choose the baseline path or invoke fitting. Loading
     # one complete bundle per request also avoids mutable shared estimators and
     # ensures a removed/invalid artifact cannot be served from a stale cache.
-    bundle = load_baseline(MODEL_PATH)
+    bundle = load_baseline(current_app.config.get('MODEL_PATH'))
     return bundle, infer_network_csv(filepath, bundle)
 
 
@@ -193,23 +169,34 @@ def _network_csv_inference(filepath):
 # Health & analysis endpoints (existing)
 # ---------------------------------------------------------------------------
 
-@app.route("/api/health", methods=["GET"])
+@api.route("/api/health", methods=["GET"])
 def health():
+    """Liveness stays 200; readiness and component state are explicit."""
+    components = _readiness()
+    return jsonify({"status": "ok", "service": "cyber-triage-backend", **components})
+
+
+def _readiness():
     try:
-        bundle = load_baseline(MODEL_PATH)
-        baseline_status = {"status": "ready", **baseline_metadata(bundle)}
+        load_baseline(current_app.config["MODEL_PATH"])
+        baseline_status = {"status": "ready"}
     except BaselineError as exc:
-        baseline_status = {"status": "unavailable", "code": exc.code, "message": str(exc)}
-    return jsonify({
-        "status": "ok",
-        "service": "cyber-triage-backend",
-        "mongo": "connected" if MONGO_AVAILABLE else "unavailable",
+        baseline_status = {"status": "unavailable", "code": exc.code}
+    database_ready = check_connection()
+    return {
+        "ready": database_ready and baseline_status["status"] == "ready",
+        "mongo": "connected" if database_ready else "unavailable",
         "network_baseline": baseline_status,
-    })
+    }
 
 
-@app.route("/api/analyze", methods=["POST"])
-@require_auth
+@api.route("/api/ready", methods=["GET"])
+def readiness():
+    components = _readiness()
+    return jsonify(components), 200 if components["ready"] else 503
+
+
+@api.route("/api/analyze", methods=["POST"])
 def analyze():
     """Main analysis endpoint."""
     filepath, custody, error_response = _save_uploaded_file()
@@ -243,7 +230,8 @@ def analyze():
             }
 
         # Persist analysis results to MongoDB if available
-        if MONGO_AVAILABLE:
+        response_payload["persisted"] = False
+        if _intake_database_available():
             try:
                 db = get_db()
                 analysis_doc = {
@@ -319,24 +307,27 @@ def analyze():
                         )
 
                 db.analysis_results.insert_one(analysis_doc)
+                response_payload["persisted"] = True
             except Exception:
-                logger.exception("Failed to persist analysis results to MongoDB")
+                logger.error("Failed to persist analysis results")
+                return _api_error("Analysis persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
 
         return jsonify(response_payload)
     except BaselineError as exc:
         return _api_error(str(exc), 503, exc.code)
     except NetworkInputError as exc:
         return _api_error(str(exc), 400, exc.code)
+    except DatabaseUnavailable:
+        return _api_error("Case database became unavailable.", 503, "DB_UNAVAILABLE")
     except Exception:
-        logger.exception("Analysis request failed")
+        logger.error("Analysis request failed")
         return _api_error("Analysis failed. Please check input data and try again.", 500, "ANALYSIS_FAILED")
     finally:
         if os.path.exists(filepath):
             os.remove(filepath)
 
 
-@app.route("/api/evaluate", methods=["POST"])
-@require_auth
+@api.route("/api/evaluate", methods=["POST"])
 def evaluate_model():
     """
     Evaluate the fixed approved baseline on uploaded labeled network evidence.
@@ -374,7 +365,7 @@ def evaluate_model():
     except NetworkInputError as exc:
         return _api_error(str(exc), 400, exc.code)
     except Exception:
-        logger.exception("Evaluation request failed")
+        logger.error("Evaluation request failed")
         return _api_error("Evaluation failed. Please verify your labeled dataset.", 500, "EVALUATION_FAILED")
     finally:
         if os.path.exists(filepath):
@@ -401,8 +392,7 @@ def _persist_artifacts(db, scored, case_id, source_name, kind):
     return docs
 
 
-@app.route("/api/ingest", methods=["POST"])
-@require_auth
+@api.route("/api/ingest", methods=["POST"])
 def ingest():
     """Parse a forensic source (log / registry / pcap / file listing), score the
     artifacts, and persist them. Form fields: `file` (required), `kind`
@@ -422,7 +412,7 @@ def ingest():
 
         network_metadata = {}
         if kind == 'pcap' or any(r.get('artifact_type') == 'network' for r in records):
-            bundle = load_baseline(MODEL_PATH)
+            bundle = load_baseline(current_app.config.get('MODEL_PATH'))
             clean, _, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
             scored = scorer.score_records(clean.to_dict(orient='records'), scores)
             network_metadata = {'baseline': baseline_metadata(bundle),
@@ -440,7 +430,7 @@ def ingest():
         }
 
         stored = 0
-        if MONGO_AVAILABLE:
+        if _intake_database_available():
             try:
                 db = get_db()
                 source_name = secure_filename(os.path.basename(filepath))
@@ -453,7 +443,8 @@ def ingest():
                         counts["artifacts"] = counts.get("artifacts", 0) + len(scored)
                         db.cases.update_one({"id": case_id}, {"$set": {"counts": counts}})
             except Exception:
-                logger.exception("Failed to persist ingested artifacts")
+                logger.error("Failed to persist ingested artifacts")
+                return _api_error("Artifact persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
 
         return jsonify({
             "kind": kind or "auto",
@@ -469,20 +460,21 @@ def ingest():
         return _api_error(str(exc), 503, exc.code)
     except NetworkInputError as exc:
         return _api_error(str(exc), 400, exc.code)
+    except DatabaseUnavailable:
+        return _api_error("Case database became unavailable.", 503, "DB_UNAVAILABLE")
     except Exception:
-        logger.exception("Ingestion failed")
+        logger.error("Ingestion failed")
         return _api_error("Ingestion failed. Check the file format and kind.", 500, "INGEST_FAILED")
     finally:
         if os.path.exists(filepath):
             os.remove(filepath)
 
 
-@app.route("/api/artifacts", methods=["GET"])
-@require_auth
+@api.route("/api/artifacts", methods=["GET"])
 def list_artifacts():
     """Filterable artifact retrieval. Query params: type, severity, case_id (or
     caseId), from, to (ISO timestamps on ingested_at), limit (default 100)."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     query = {}
@@ -523,21 +515,21 @@ def list_artifacts():
 # Case endpoints (NEW — MongoDB-backed)
 # ---------------------------------------------------------------------------
 
-@app.route("/api/cases", methods=["GET"])
+@api.route("/api/cases", methods=["GET"])
 def list_cases():
     """List all cases."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
     cases = list(db.cases.find({}, {"_id": 0}).sort("threatScore", -1))
-    return jsonify({"cases": cases})
+    return jsonify({"cases": [_case_response(case) for case in cases]})
 
 
-@app.route("/api/cases/<case_id>", methods=["GET"])
+@api.route("/api/cases/<case_id>", methods=["GET"])
 def get_case(case_id):
     """Fetch a single case by ID."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
@@ -545,18 +537,17 @@ def get_case(case_id):
     if not case:
         return _api_error(f"Case {case_id} not found", 404, "CASE_NOT_FOUND")
 
-    return jsonify(_clean_mongo_doc(case))
+    return jsonify(_case_response(case))
 
 
-@app.route("/api/cases", methods=["POST"])
-@require_auth
+@api.route("/api/cases", methods=["POST"])
 def create_case():
     """Create a new case."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     data = request.get_json(silent=True)
-    if not data:
+    if not isinstance(data, dict) or not data:
         return _api_error("Request body must be JSON", 400, "INVALID_BODY")
 
     # Auto-generate an ID if not provided
@@ -580,18 +571,17 @@ def create_case():
 
     db = get_db()
     db.cases.insert_one(data)
-    return jsonify(_clean_mongo_doc(data)), 201
+    return jsonify(_case_response(data)), 201
 
 
-@app.route("/api/cases/<case_id>", methods=["PUT"])
-@require_auth
+@api.route("/api/cases/<case_id>", methods=["PUT"])
 def update_case(case_id):
     """Update an existing case."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     data = request.get_json(silent=True)
-    if not data:
+    if not isinstance(data, dict) or not data:
         return _api_error("Request body must be JSON", 400, "INVALID_BODY")
 
     db = get_db()
@@ -604,20 +594,20 @@ def update_case(case_id):
         return _api_error(f"Case {case_id} not found", 404, "CASE_NOT_FOUND")
 
     updated = db.cases.find_one({"id": case_id})
-    return jsonify(_clean_mongo_doc(updated))
+    return jsonify(_case_response(updated))
 
 
 # ---------------------------------------------------------------------------
 # Dashboard endpoint (NEW — MongoDB-backed)
 # ---------------------------------------------------------------------------
 
-@app.route("/api/dashboard", methods=["GET"])
+@api.route("/api/dashboard", methods=["GET"])
 def dashboard():
     """
     Return all data the dashboard needs in a single call:
     metrics, active investigations, triage summaries, and recent activity.
     """
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
@@ -647,9 +637,11 @@ def dashboard():
             "primaryHost": c.get("primaryHost"),
         })
 
-    # Triage summaries
-    from backend.seed_data import TRIAGE_BY_CASE
-    triage_by_case = TRIAGE_BY_CASE
+    # Authored demo summaries are available only in the explicit demo database.
+    triage_by_case = {}
+    if current_app.config["MONGO_DB"] == "cyber_triage_demo":
+        from backend.seed_data import TRIAGE_BY_CASE
+        triage_by_case = TRIAGE_BY_CASE
 
     # Recent activity
     activity = list(db.activity.find({}, {"_id": 0}).sort("at", -1).limit(20))
@@ -659,6 +651,7 @@ def dashboard():
         "investigations": investigations,
         "triageSummaries": triage_by_case,
         "recentActivity": activity,
+        "dataMode": "demo" if current_app.config["MONGO_DB"] == "cyber_triage_demo" else ("mixed" if any(_is_demo_case(c) for c in cases) else "live"),
     })
 
 
@@ -666,12 +659,11 @@ def dashboard():
 # Report endpoints (NEW — ReportLab PDF generation)
 # ---------------------------------------------------------------------------
 
-@app.route("/api/report", methods=["POST"])
-@require_auth
+@api.route("/api/report", methods=["POST"])
 def generate_report_post():
     """Generate a PDF report for a case (POST with JSON body)."""
     data = request.get_json(silent=True)
-    if not data or "caseId" not in data:
+    if not isinstance(data, dict) or not isinstance(data.get("caseId"), str) or not data["caseId"]:
         return _api_error(
             "Request body must include 'caseId'",
             400,
@@ -682,7 +674,7 @@ def generate_report_post():
     return _generate_and_serve_report(case_id)
 
 
-@app.route("/api/report/<case_id>", methods=["GET"])
+@api.route("/api/report/<case_id>", methods=["GET"])
 def generate_report_get(case_id):
     """Generate and download a PDF report for a case (GET for direct download)."""
     return _generate_and_serve_report(case_id)
@@ -690,7 +682,7 @@ def generate_report_get(case_id):
 
 def _generate_and_serve_report(case_id):
     """Shared logic for both POST and GET report endpoints."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
@@ -703,7 +695,7 @@ def _generate_and_serve_report(case_id):
     try:
         pdf_bytes = generate_case_report(case_record)
     except Exception:
-        logger.exception("Report generation failed for case %s", case_id)
+        logger.error("Report generation failed for case %s", case_id)
         return _api_error(
             "Report generation failed. Please try again.",
             500,
@@ -719,6 +711,7 @@ def _generate_and_serve_report(case_id):
         })
     except Exception:
         logger.warning("Failed to record report metadata")
+        return _api_error("Report history could not be saved.", 503, "PERSISTENCE_FAILED")
 
     # Serve the PDF
     import io
@@ -733,10 +726,10 @@ def _generate_and_serve_report(case_id):
     )
 
 
-@app.route("/api/reports/<case_id>", methods=["GET"])
+@api.route("/api/reports/<case_id>", methods=["GET"])
 def list_reports(case_id):
     """List previously generated reports for a case."""
-    if not MONGO_AVAILABLE:
+    if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
@@ -752,14 +745,15 @@ def list_reports(case_id):
 # Triage endpoint (NEW — serves triage summaries per case)
 # ---------------------------------------------------------------------------
 
-@app.route("/api/triage/<case_id>", methods=["GET"])
+@api.route("/api/triage/<case_id>", methods=["GET"])
 def get_triage_summary(case_id):
     """Return the triage summary for a case, or null if not yet scored."""
-    from backend.seed_data import TRIAGE_BY_CASE
-    summary = TRIAGE_BY_CASE.get(case_id)
-    if summary is None:
-        return jsonify(None)
-    return jsonify(summary)
+    if not check_connection():
+        return _api_error("Database not available", 503, "DB_UNAVAILABLE")
+    if current_app.config["MONGO_DB"] == "cyber_triage_demo":
+        from backend.seed_data import TRIAGE_BY_CASE
+        return jsonify(TRIAGE_BY_CASE.get(case_id))
+    return jsonify(None)
 
 
 # ---------------------------------------------------------------------------
@@ -783,7 +777,7 @@ def _dispatch_forensic_parser(filepath, ext):
     return None, None
 
 
-@app.route("/api/forensics/capabilities", methods=["GET"])
+@api.route("/api/forensics/capabilities", methods=["GET"])
 def forensics_capabilities():
     """Report which optional forensic parsers/providers are available on this host.
 
@@ -799,7 +793,7 @@ def forensics_capabilities():
     })
 
 
-@app.route("/api/forensics/ingest", methods=["POST"])
+@api.route("/api/forensics/ingest", methods=["POST"])
 def forensics_ingest():
     """Ingest a non-network forensic artifact (EVTX / registry hive / disk image).
 
@@ -854,7 +848,7 @@ def forensics_ingest():
             try:
                 iocs = yara_scanner.scan_file(filepath)
             except Exception:
-                logger.exception("YARA scan failed")
+                logger.error("YARA scan failed")
 
         # Optional threat-intel enrichment on the evidence file hash (no-op w/o keys).
         intel = threat_intel.check_indicator(custody["sha256"], kind="hash")
@@ -870,7 +864,8 @@ def forensics_ingest():
             "evidence": custody,
         }
 
-        if MONGO_AVAILABLE:
+        response_payload["custody_persisted"] = False
+        if _intake_database_available():
             case_id = request.form.get("caseId")
             if case_id:
                 try:
@@ -882,18 +877,108 @@ def forensics_ingest():
                             {"id": case_id},
                             {"$set": {"custody": custody_chain}},
                         )
+                        response_payload["custody_persisted"] = True
                 except Exception:
-                    logger.exception("Failed to persist forensic custody to MongoDB")
+                    logger.error("Failed to persist forensic custody")
+                    return _api_error("Custody persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
 
         return jsonify(response_payload)
+    except DatabaseUnavailable:
+        return _api_error("Case database became unavailable.", 503, "DB_UNAVAILABLE")
     except Exception:
-        logger.exception("Forensic ingestion failed")
+        logger.error("Forensic ingestion failed")
         return _api_error("Forensic ingestion failed. Check the file and try again.", 500, "INGEST_FAILED")
     finally:
         if os.path.exists(filepath):
             os.remove(filepath)
 
 
+def create_app(config=None):
+    """Build an application without network access, schema writes or demo seeding."""
+    application = Flask(__name__)
+    application.config.update(load_config(config))
+    CORS(application, origins=application.config["CORS_ORIGINS"])
+    application.register_blueprint(api)
+
+    @application.before_request
+    def protect_api():
+        # One policy also covers routes added later. Health checks expose no case data.
+        if request.path.startswith("/api/") and request.path not in {
+            "/api/health", "/api/ready", "/api/forensics/capabilities"
+        } and request.method != "OPTIONS":
+            token = current_app.config["API_TOKEN"]
+            if token and not hmac.compare_digest(_request_token().encode(), token.encode()):
+                return _api_error("Missing or invalid API token.", 401, "UNAUTHORIZED")
+        if request.path in {"/api/analyze", "/api/ingest", "/api/forensics/ingest"} and request.method == "POST":
+            case_id = request.form.get("caseId")
+            if case_id:
+                if not check_connection():
+                    return _api_error("Case intake requires an available database.", 503, "DB_UNAVAILABLE")
+                if not get_db().cases.find_one({"id": case_id}, {"_id": 1}):
+                    return _api_error("Case not found.", 404, "CASE_NOT_FOUND")
+
+    @application.errorhandler(PyMongoError)
+    @application.errorhandler(DatabaseUnavailable)
+    def database_error(error):
+        logger.warning("Database operation failed (%s)", type(error).__name__)
+        return _api_error("Database unavailable; the operation was not confirmed.", 503, "DB_UNAVAILABLE")
+
+    @application.errorhandler(HTTPException)
+    def http_error(error):
+        return _api_error(error.name, error.code, f"HTTP_{error.code}")
+
+    @application.errorhandler(Exception)
+    def unexpected_error(error):
+        logger.error("Request failed (%s)", type(error).__name__)
+        return _api_error("Request failed. Check server diagnostics.", 500, "INTERNAL_ERROR")
+
+    @application.cli.command("check-config")
+    def check_config_command():
+        """Validate configuration without connecting to services or printing secrets."""
+        import click
+        click.echo(f"Configuration valid: environment={application.config['APP_ENV']}, "
+                   f"database={application.config['DB_MODE']}, "
+                   f"auth={'enabled' if application.config['API_TOKEN'] else 'disabled'}")
+
+    @application.cli.command("init-db")
+    def init_database_command():
+        """Explicitly create indexes; never insert sample investigations."""
+        import click
+        try:
+            init_db()
+            click.echo("Database indexes initialized.")
+        except (PyMongoError, DatabaseUnavailable):
+            raise click.ClickException("Database unavailable; check configuration and service.") from None
+        finally:
+            close_db(application)
+
+    @application.cli.command("seed-demo")
+    def seed_demo_command():
+        """Seed only the explicit, separate cyber_triage_demo database."""
+        import click
+        if application.config["APP_ENV"] != "development" or application.config["MONGO_DB"] != "cyber_triage_demo":
+            raise click.ClickException("Demo seeding requires development and MONGO_DB=cyber_triage_demo.")
+        try:
+            init_db()
+            seed_if_empty()
+            click.echo("Demo database seeded if empty.")
+        except (PyMongoError, DatabaseUnavailable):
+            raise click.ClickException("Demo database unavailable.") from None
+        finally:
+            close_db(application)
+
+    return application
+
+
+# Keep the existing WSGI entry point and imports compatible; construction is inert.
+app = create_app()
+
+
 if __name__ == "__main__":
-    # debug defaults OFF (safe for demo/deploy); enable locally with FLASK_DEBUG=1.
-    app.run(host="0.0.0.0", port=5001, debug=DEBUG_MODE)
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Cyber Triage: environment=%s, database=%s, auth=%s",
+                app.config["APP_ENV"], app.config["DB_MODE"], bool(app.config["API_TOKEN"]))
+    try:
+        app.run(host="127.0.0.1", port=5001, debug=app.config["DEBUG"])
+    finally:
+        close_db(app)

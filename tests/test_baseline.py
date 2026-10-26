@@ -182,11 +182,11 @@ def test_api_missing_model_fails_without_training(baseline_api, tiny_flow_csv, m
     client, path, _ = baseline_api
     path.unlink()
     fields = {'kind': 'pcap'} if endpoint == '/api/ingest' else {}
-    response = _upload(client, endpoint, open(tiny_flow_csv, 'rb').read(), **fields)
+    response = _upload(client, endpoint, Path(tiny_flow_csv).read_bytes(), **fields)
     assert response.status_code == 503
     assert response.get_json()['error']['code'] == 'MODEL_MISSING'
     assert not path.exists()
-    assert not list(Path(app_module.TEMP_DIR).glob('*_flows.csv'))
+    assert not list(Path(app_module.app.config['TEMP_DIR']).glob('*_flows.csv'))
 
 
 def test_analyze_evaluate_and_ingest_never_fit(baseline_api, tiny_flow_csv, monkeypatch):
@@ -199,7 +199,7 @@ def test_analyze_evaluate_and_ingest_never_fit(baseline_api, tiny_flow_csv, monk
     monkeypatch.setattr(StandardScaler, 'fit', forbidden)
     monkeypatch.setattr(StandardScaler, 'fit_transform', forbidden)
     monkeypatch.setattr(IsolationForest, 'fit', forbidden)
-    content = open(tiny_flow_csv, 'rb').read()
+    content = Path(tiny_flow_csv).read_bytes()
     analyzed = _upload(client, '/api/analyze', content)
     evaluated = _upload(client, '/api/evaluate', content)
     ingested = _upload(client, '/api/ingest', content, kind='pcap')
@@ -252,7 +252,7 @@ def test_api_reports_drift_without_changing_bundle(baseline_api, tmp_path, monke
     output = tmp_path / 'drift_test_bundle.joblib'
     trainer.train_baseline(dataset_version='synthetic', expected_sha256=trainer.file_sha256(dataset),
                            output=output)
-    monkeypatch.setattr(app_module, 'MODEL_PATH', str(output))
+    monkeypatch.setitem(app_module.app.config, 'MODEL_PATH', str(output))
     before = output.read_bytes()
     frame.loc[:, list(NETWORK_FEATURES)] *= 1000
     response = _upload(client, '/api/analyze', frame.to_csv(index=False).encode())

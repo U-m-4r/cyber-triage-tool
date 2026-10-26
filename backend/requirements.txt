@@ -1,8 +1,11 @@
-flask
-flask-cors
-pandas
-numpy
-scikit-learn
-joblib
-pymongo
-reportlab
+# Runtime constraints. Exact tested versions: requirements/constraints.txt.
+flask>=3.1,<3.2
+flask-cors>=6,<7
+pandas>=2.3.3,<3
+numpy>=2.3,<3
+scikit-learn>=1.7.2,<1.9
+joblib>=1.5,<2
+pymongo>=4.14,<5
+reportlab>=4.4,<5
+requests>=2.32,<3
+python-dotenv>=1.1,<2

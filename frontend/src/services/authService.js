@@ -1,10 +1,9 @@
 /**
  * Prototype session handling.
  *
- * There is no authentication in Phase 1 and none on the Flask backend either.
- * This stores the submitted investigator ID so the top bar can show a session
- * indicator, and nothing more. It is NOT a security boundary — swap this whole
- * module for a real token exchange when auth lands.
+ * The investigator label remains a prototype. An optional operator-supplied API
+ * token is kept for this browser session and checked by the backend on requests.
+ * This is not user identity or case authorization; those belong to Phase 2.
  */
 
 const SESSION_KEY = 'cyber-triage:session'
@@ -23,10 +22,11 @@ export function getSession() {
  * Records a prototype session. Resolves after a short delay so the login
  * button's pending state is visible — the real call will be async too.
  */
-export function authenticate({ investigatorId }) {
+export function authenticate({ investigatorId, apiToken = '' }) {
   const session = {
     investigatorId: investigatorId.trim(),
     signedInAt: new Date().toISOString(),
+    apiToken: apiToken.trim(),
   }
 
   return new Promise((resolve) => {

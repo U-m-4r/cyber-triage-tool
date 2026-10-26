@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Icon from '../ui/Icon.jsx'
-import { generateReport, listReports, getReportDownloadUrl } from '../../services/triageService.js'
+import { generateReport, listReports } from '../../services/triageService.js'
 import './CaseReports.css'
 
 /**
@@ -30,8 +30,8 @@ export default function CaseReports({ caseRecord }) {
           setReports(data?.reports ?? [])
         }
       })
-      .catch(() => {
-        if (!cancelled) setReports([])
+      .catch((err) => {
+        if (!cancelled) { setReports([]); setError(`Report history unavailable: ${err.message}`) }
       })
       .finally(() => {
         if (!cancelled) setLoadingHistory(false)
@@ -64,7 +64,7 @@ export default function CaseReports({ caseRecord }) {
       // Refresh report history
       listReports(caseId)
         .then((data) => setReports(data?.reports ?? []))
-        .catch(() => {})
+        .catch((err) => setError(`Report created, but history could not refresh: ${err.message}`))
     } catch (err) {
       setError(err.message || 'Failed to generate report. Please try again.')
     } finally {
@@ -73,7 +73,8 @@ export default function CaseReports({ caseRecord }) {
   }
 
   function handleDirectDownload() {
-    window.open(getReportDownloadUrl(caseId), '_blank')
+    // Use the same authenticated blob request as report generation.
+    handleGenerate()
   }
 
   return (

@@ -5,6 +5,10 @@
 
 ## 0. Current State (as of last repo audit)
 
+> Historical roadmap/status below. For the current foundation and measured checks,
+> see [Phase 1 progress](docs/phase1-progress.md) and [development setup](docs/development.md).
+> This table predates native parsers, fixed-baseline inference and the startup overhaul.
+
 | Component | Status |
 |---|---|
 | Flask backend (`backend/app.py`) | Working — comprehensive API for cases, dashboard, analyze, evaluate, and reports |

@@ -3,15 +3,16 @@
  *
  * Base URL resolution:
  *   - `VITE_API_BASE_URL` if set (e.g. a deployed backend origin)
- *   - otherwise `/api`, which the Vite dev server proxies to Flask on :5000
+ *   - otherwise `/api`, which the Vite dev server proxies to Flask on :5001
  *     (see vite.config.js)
  *
- * Nothing in Phase 1 calls a mutating endpoint. This exists so that when the
- * real endpoints are wired up, components keep talking to services and never
- * to `fetch` directly.
+ * Services share error handling and optional session-token authentication.
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
+import { frontendConfig } from './config.js'
+import { getSession } from './authService.js'
+
+const BASE_URL = frontendConfig.apiBase
 
 export class ApiError extends Error {
   constructor(message, { status, code, payload } = {}) {
@@ -37,8 +38,12 @@ async function parseBody(response) {
  */
 export async function request(path, options = {}) {
   let response
+  const { responseType, ...fetchOptions } = options
+  const headers = new Headers(fetchOptions.headers)
+  const token = getSession()?.apiToken
+  if (token) headers.set('Authorization', `Bearer ${token}`)
   try {
-    response = await fetch(`${BASE_URL}${path}`, options)
+    response = await fetch(`${BASE_URL}${path}`, { ...fetchOptions, headers })
   } catch (cause) {
     // Network-level failure: backend not running, DNS, offline, aborted.
     throw new ApiError('Unable to reach the Cyber Triage backend.', {
@@ -47,6 +52,7 @@ export async function request(path, options = {}) {
     })
   }
 
+  if (response.ok && responseType === 'blob') return response.blob()
   const body = await parseBody(response)
 
   if (!response.ok) {

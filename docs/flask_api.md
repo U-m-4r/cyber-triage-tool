@@ -3,6 +3,9 @@
 Run `python backend/app.py` from the repository root. The API listens on port 5001.
 Set `CYBER_TRIAGE_API_TOKEN` and `CORS_ALLOWED_ORIGINS` for shared deployments.
 Protected endpoints accept `Authorization: Bearer <token>` or `X-API-Key`.
+All `/api/*` routes except health, readiness and capabilities are protected when
+the token is configured. OPTIONS remains available for CORS. Production requires
+a token and explicit allowed origins; the local access UI can supply the token.
 Uploads are hashed with SHA-256 at intake, stored under UUID names in `temp/`,
 and removed after processing, including failures.
 
@@ -12,7 +15,8 @@ and removed after processing, including failures.
 only the [approved baseline](baseline.md), returning `summary`, the top 100
 `artifacts`, `evidence`, `baseline` (schema and dataset provenance),
 `preprocessing` (row counts), and `drift` (fixed-reference PSI). Optional
-`caseId` links results to a case when MongoDB is available. An `evaluation` block
+`caseId` requires an existing case and an available database (404/503 otherwise).
+`persisted` reports whether analysis persistence completed. An `evaluation` block
 with actual classification metrics is included when a supported label exists.
 
 `POST /api/evaluate` accepts the same schema with a label column. It evaluates
@@ -31,6 +35,9 @@ Only evaluate when the uploaded labels are meaningful.
 `GET /api/health` preserves liveness and MongoDB status, and adds
 `network_baseline.status` (`ready` or `unavailable`). Liveness can be healthy
 while network inference is unavailable. Missing-model health does not train.
+`ready` is false when either the approved baseline or database is unavailable.
+`GET /api/ready` returns HTTP 503 in that state and HTTP 200 only when both are ready.
+App construction is inert: initialize indexes explicitly with the `init-db` CLI.
 
 Errors use `{"error": {"code": "...", "message": "..."}}`:
 
@@ -43,6 +50,10 @@ Errors use `{"error": {"code": "...", "message": "..."}}`:
 | 400 | `INVALID_NETWORK_DATA` | Malformed/duplicate headers or invalid numeric range |
 | 400 | `WRONG_ARTIFACT_TYPE` | Non-network records on a network inference path |
 | 400 | `MISSING_LABEL_COLUMN` | Evaluation has no usable label column |
+| 401 | `UNAUTHORIZED` | Configured shared token missing or invalid |
+| 413 | `HTTP_413` | Configured upload size limit exceeded |
+| 503 | `DB_UNAVAILABLE` | Required database unavailable; no development/test fallback |
+| 503 | `PERSISTENCE_FAILED` | A write was not confirmed; partial multi-document writes remain possible |
 
 ## Other evidence and persistence
 
@@ -62,11 +73,16 @@ artifact retrieval, case CRUD, dashboard, and report persistence.
 disk-image, and threat-intel support. `POST /api/forensics/ingest` preserves the
 native EVTX/hive/disk-image parsing path, rule findings, YARA IOCs, threat-intel
 enrichment, and chain of custody. It never uses the network model.
+`custody_persisted` reports whether its case custody update completed.
 
 Case/dashboard routes remain `/api/cases`, `/api/cases/<id>`,
 `/api/dashboard`, and `/api/triage/<id>`. PDF generation is implemented via
 `POST /api/report` with `{"caseId": "..."}` or `GET /api/report/<id>`;
 `GET /api/reports/<id>` lists prior reports.
+Report metadata failures return 503. Historical PDF bytes are not yet retained;
+download currently generates a new report from current case data. Live triage
+summary derivation remains incomplete; authored summaries are restricted to the
+explicit demo database. Case responses mark known demo records with `dataMode`.
 
 Example from the repository root after baseline setup:
 

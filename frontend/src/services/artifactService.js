@@ -45,12 +45,5 @@ export async function fetchArtifacts(filters = {}) {
   params.set('limit', String(filters.limit ?? 200))
 
   const qs = params.toString()
-  try {
-    const data = await apiClient.get(`/artifacts?${qs}`)
-    return data ?? { total: 0, returned: 0, artifacts: [] }
-  } catch {
-    // No mock fallback: an empty artifact set is the honest state when the
-    // backend is unreachable or nothing has been ingested yet.
-    return { total: 0, returned: 0, artifacts: [] }
-  }
+  return apiClient.get(`/artifacts?${qs}`)
 }

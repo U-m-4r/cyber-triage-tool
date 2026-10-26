@@ -1,17 +1,3 @@
-pandas
-numpy
-scikit-learn
-flask
-flask-cors
-pymongo
-reportlab
-matplotlib
-requests
-kagglehub
-python-evtx
-xmltodict
-python-registry
-yara-python
-pytsk3
-joblib
-pytest
+# Core runtime. Native forensic engines are optional; see requirements/optional.txt.
+-r backend/requirements.txt
+-c requirements/constraints.txt

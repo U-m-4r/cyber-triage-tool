@@ -52,6 +52,7 @@ export default function CaseArtifacts({ caseRecord }) {
   const [rows, setRows] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(null)
 
   const [kind, setKind] = useState(INGEST_KINDS[0].id)
   const [file, setFile] = useState(null)
@@ -60,11 +61,12 @@ export default function CaseArtifacts({ caseRecord }) {
 
   const load = useCallback(() => {
     setLoading(true)
+    setLoadError(null)
     fetchArtifacts({ caseId, type, severity }).then((data) => {
       setRows(data.artifacts)
       setTotal(data.total)
-      setLoading(false)
-    })
+    }).catch((err) => { setRows([]); setLoadError(err.message) })
+      .finally(() => setLoading(false))
   }, [caseId, type, severity])
 
   useEffect(() => {
@@ -104,7 +106,7 @@ export default function CaseArtifacts({ caseRecord }) {
         onIngest={handleIngest}
         notice={notice}
       />
-      <ArtifactTable
+      {loadError ? <p role="alert">Artifacts unavailable: {loadError}</p> : <ArtifactTable
         rows={rows}
         total={total}
         loading={loading}
@@ -112,7 +114,7 @@ export default function CaseArtifacts({ caseRecord }) {
         setType={setType}
         severity={severity}
         setSeverity={setSeverity}
-      />
+      />}
     </div>
   )
 }

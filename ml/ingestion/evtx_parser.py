@@ -119,7 +119,8 @@ def _strip_ns(tag):
 
 def _parse_xml(path):
     """Parse EVTX XML export (wevtutil / Get-WinEvent -> XML)."""
-    text = open(path, encoding="utf-8", errors="replace").read()
+    with open(path, encoding="utf-8", errors="replace") as handle:
+        text = handle.read()
     # Wrap fragments (multiple <Event> without a single root) so ET can parse them.
     wrapped = f"<Events>{text}</Events>" if text.strip().count("<Event") > 1 and \
         not text.strip().startswith("<Events") else text

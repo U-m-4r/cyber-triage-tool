@@ -11,6 +11,7 @@ import {
   fetchDashboardMetrics,
   fetchRecentActivity,
   fetchTriageSummary,
+  fetchDataMode,
 } from '../services/dashboardService.js'
 import { formatTimestamp } from '../utils/format.js'
 import '../styles/page.css'
@@ -23,6 +24,8 @@ export default function DashboardPage() {
   const [selectedCaseId, setSelectedCaseId] = useState(null)
   const [triage, setTriage] = useState(null)
   const [ready, setReady] = useState(false)
+  const [error, setError] = useState(null)
+  const [dataMode, setDataMode] = useState('live')
 
   // Initial load. Everything comes through the service layer, so swapping the
   // mock fixtures for the Flask API later touches only services/.
@@ -33,14 +36,16 @@ export default function DashboardPage() {
       fetchDashboardMetrics(),
       fetchActiveInvestigations(),
       fetchRecentActivity(),
-    ]).then(([nextMetrics, nextInvestigations, nextActivity]) => {
+      fetchDataMode(),
+    ]).then(([nextMetrics, nextInvestigations, nextActivity, nextMode]) => {
       if (cancelled) return
       setMetrics(nextMetrics)
       setInvestigations(nextInvestigations)
       setActivity(nextActivity)
+      setDataMode(nextMode)
       setSelectedCaseId(nextInvestigations[0]?.id ?? null)
       setReady(true)
-    })
+    }).catch((err) => { if (!cancelled) setError(err.message) })
 
     return () => {
       cancelled = true
@@ -54,7 +59,7 @@ export default function DashboardPage() {
 
     fetchTriageSummary(selectedCaseId).then((summary) => {
       if (!cancelled) setTriage(summary)
-    })
+    }).catch((err) => { if (!cancelled) setError(err.message) })
 
     return () => {
       cancelled = true
@@ -65,6 +70,10 @@ export default function DashboardPage() {
     () => investigations.find((item) => item.id === selectedCaseId) ?? null,
     [investigations, selectedCaseId],
   )
+
+  if (error) {
+    return <div className="page" role="alert"><h1>Investigation overview unavailable</h1><p>{error}</p><button onClick={() => window.location.reload()}>Retry</button></div>
+  }
 
   if (!ready) {
     return (
@@ -92,10 +101,10 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <span className="page-head__notice">
+        {dataMode !== 'live' && <span className="page-head__notice">
           <Icon name="alert" size={12} strokeWidth={1.7} />
-          Sample data — no evidence has been parsed
-        </span>
+          {dataMode === 'mixed' ? 'Contains legacy sample cases — verify case provenance' : 'Sample data — no evidence has been parsed'}
+        </span>}
       </header>
 
       <section className="metric-grid" aria-label="Case metrics">

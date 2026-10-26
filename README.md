@@ -2,6 +2,10 @@
 
 AI-assisted cyber triage tool for early-stage digital forensic analysis.
 
+Start with [development setup and verification](docs/development.md) and the
+[current Phase 1 results/checklist](docs/phase1-progress.md). Older handoff notes
+describe historical states; the current source and these documents take precedence.
+
 ## Phase 1 baseline and safe inference
 
 Network uploads now require an approved bundle at `models/cicids2017_baseline.joblib`.
@@ -23,19 +27,18 @@ Cyber Triage Tool for Digital Forensic Investigation
 
 ## Codebase Verification & Testing Suite
 
-All machine learning algorithms, forensic parsers, risk scoring models, chain-of-custody hashing, and backend API endpoints are actively covered and validated with a comprehensive test suite.
+Tests cover ML lifecycle, dataset integrity, textual parsers, scoring and API
+foundation behavior. Native forensic engines and live database workflows need
+separate integration verification; see the progress checklist for actual coverage.
 
 ### Quick Verification Commands
 
 ```bash
-# 1. Full Verification: Live pytest execution + Live in-memory triage demo + Model evaluation audit
-python scripts/verify_results.py
-
-# 2. Run only live unit and integration tests across all Python modules
-python scripts/verify_results.py --tests-only
-
-# 3. Direct pytest execution (includes isolated synthetic baseline lifecycle tests)
-python -m pytest -v
+# After activating the project-local environment (or using its Python explicitly):
+python scripts/check.py --all
+python -m pytest -q --cov
+# MongoDB integration is opt-in and uses only a dedicated disposable test database.
+python -m pytest -q -m integration --run-integration
 ```
 
 ### Tested Modules & Behaviors
@@ -77,38 +80,38 @@ python -m pytest -v
 
 ### Prerequisites
 
-- Python 3.9+
-- Node.js 18+
-- MongoDB 8+ (install with `brew install mongodb-community` on macOS)
+- Python 3.14 (verified: 3.14.7), project-local `.venv`
+- Node.js >=22.12 (verified: 24.20.0)
+- MongoDB for persisted cases; separate disposable MongoDB for integration tests
 
 ### MongoDB
 
-Start the MongoDB service before running the backend:
-
-```bash
-brew services start mongodb-community
-```
-
-The backend connects to `mongodb://localhost:27017` by default. Set the
-`MONGO_URI` environment variable to use a different connection string (e.g.
-MongoDB Atlas). On first startup the backend seeds four sample cases into the
-database automatically.
+The development default is `mongodb://127.0.0.1:27017`, database `cyber_triage`.
+Copy `.env.example` to `.env` only if you do not already have local configuration.
+Startup never initializes or seeds the database. Run the explicit `init-db`
+command after configuring your development service. Tests ignore these settings
+and cannot use this database. See [test isolation](docs/development.md#test-database-isolation).
 
 ### Backend
 
-```bash
-cd backend && python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt && python app.py
+```powershell
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements/dev.txt
+.venv\Scripts\python.exe -m flask --app backend.app check-config
+.venv\Scripts\python.exe -m flask --app backend.app init-db
+.venv\Scripts\python.exe -m backend.app
 ```
 
-Serves on `http://localhost:5001`. `backend/requirements.txt` is the minimal set
-needed to run the API; the root `requirements.txt` also includes dependencies for
-unbuilt phases.
+Serves on `http://127.0.0.1:5001`. On POSIX use `.venv/bin/python`.
+`requirements.txt` installs locked runtime dependencies; `requirements/dev.txt`
+adds tests/quality tools. Native engines are separate in `requirements/optional.txt`.
+Set `DB_MODE=disabled` for explicit stateless operation; readiness remains 503.
 
 ### Frontend
 
 ```bash
-cd frontend && npm install && npm run dev
+npm --prefix frontend ci --ignore-scripts
+npm --prefix frontend run dev
 ```
 
 Serves on `http://localhost:5173`. The Vite dev server proxies `/api/*` to Flask
@@ -117,7 +120,7 @@ on port 5001, so run the backend too if you need live data.
 Production build:
 
 ```bash
-cd frontend && npm run build
+npm --prefix frontend run check
 ```
 
 ## API Endpoints
@@ -125,6 +128,7 @@ cd frontend && npm run build
 | Method | Endpoint              | Status                                                                      |
 | ------ | --------------------- | --------------------------------------------------------------------------- |
 | GET    | `/api/health`         | Working — service liveness check (includes MongoDB status)                  |
+| GET    | `/api/ready`          | 200 only with database and approved baseline ready; otherwise 503 |
 | POST   | `/api/analyze`        | Working — upload a CSV, returns priority summary + top 100 scored artifacts |
 | POST   | `/api/evaluate`       | Working — evaluate fixed baseline on a labeled network CSV; never trains |
 | GET    | `/api/cases`          | Working — list all cases from MongoDB                                       |
@@ -148,9 +152,9 @@ details.
 | Route            | Status                                                                  |
 | ---------------- | ----------------------------------------------------------------------- |
 | `/`              | Landing page                                                            |
-| `/login`         | Login screen — UI prototype, no authentication behind it                 |
+| `/login`         | Development access: display label and optional shared API token; no user identity system |
 | `/dashboard`     | Investigation overview: metrics, active cases, triage preview, activity  |
-| `/cases/:caseId` | **Case workspace** — Overview and Reports tabs implemented               |
+| `/cases/:caseId` | Case workspace — six enabled tabs; Analysis and AI Triage remain disabled |
 | everything else  | Placeholder telling you which phase builds that module                   |
 
 ### Case Workspace (`/cases/:caseId`)
@@ -166,8 +170,8 @@ status, evidence / artifact / IOC counts, last activity) above an eight-tab stri
 `Overview · Evidence · Artifacts · Analysis · AI Triage · Timeline · IOC Graph ·
 Reports`.
 
-**`Overview`, `Reports`, `Evidence`, `Timeline` and `IOC Graph` are implemented.**
-The remaining tabs (`Artifacts`, `Analysis`, `AI Triage`) are visible but disabled,
+**`Overview`, `Reports`, `Evidence`, `Artifacts`, `Timeline` and `IOC Graph` are implemented.**
+The remaining tabs (`Analysis`, `AI Triage`) are visible but disabled,
 each labelled `Planned` with a tooltip naming what it is waiting on.
 
 Overview contains six sections:
@@ -190,15 +194,14 @@ reports are listed for download.
 ### Data Flow
 
 Case data flows from **MongoDB → Flask API → React frontend**. The frontend
-services (`caseService.js`, `dashboardService.js`) call the backend API first and
-fall back to local mock fixtures (`frontend/src/data/`) when the backend is
-unreachable, so the UI always renders something.
+services call the backend and surface failures. Local fixtures require explicit
+`VITE_DEMO_MODE=true`; they are never substituted after a backend error.
 
 Four sample cases exist (`CASE-2026-0147`, `-0143`, `-0139`, `-0136`). They are
-seeded into MongoDB on first startup. The two that the sample data marks as still
+available through explicit demo mode or the guarded `seed-demo` command. The two that the sample data marks as still
 ingesting or correlating deliberately show no assessment and no ranked findings,
-rather than inventing them. Any other case ID renders a "no case matches" screen
-with a link back to the dashboard.
+rather than inventing them. In live mode case records come from MongoDB. A true
+404 shows a missing-case screen; database/network failures show an error.
 
 ## Project Layout
 
@@ -383,8 +386,8 @@ small feature subset — not a bug and not tuned to look better.
 
 ## Current Limitations
 
-- The frontend renders authored sample data by default; a service layer exists to
-  connect it to `/api/analyze` and `/api/forensics/*`.
+- Live mode is the default. Analysis/AI Triage tabs and some cross-module data
+  integration are unfinished; authored fixtures require explicit demo mode.
 - Disk-image upload has a backend endpoint (`/api/forensics/ingest`) but no
   dedicated frontend upload UI yet.
 - Native PCAP aggregation is simplified and needs validation; use compatible
@@ -394,8 +397,9 @@ small feature subset — not a bug and not tuned to look better.
 - Forensic parsers depend on optional native libraries (yara-python, pytsk3,
   python-registry, python-evtx); `/api/forensics/capabilities` reports what is
   available on the host.
-- API authentication is enabled when `CYBER_TRIAGE_API_TOKEN` is set, and CORS
-  can be restricted with `CORS_ALLOWED_ORIGINS`. The login screen is a prototype.
+- API token checks apply consistently when `CYBER_TRIAGE_API_TOKEN` is set;
+  CORS defaults to local frontend origins. The access screen accepts that token,
+  but real user identity and case authorization remain unimplemented.
 - Flask debug defaults off. Dedicated host anomaly models, rolling drift
   telemetry, and reviewed retraining workflows remain future work.
 

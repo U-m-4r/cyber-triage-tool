@@ -1,39 +1,51 @@
 /**
  * Dashboard data source.
  *
- * Tries the backend API first (MongoDB-backed). Falls back to the static mock
- * fixtures when the backend is unreachable so the UI always renders.
+ * Live requests propagate failures. Authored fixtures require explicit demo mode.
  */
 
 import * as apiClient from './apiClient.js'
+import { frontendConfig } from './config.js'
 import {
   ACTIVE_INVESTIGATIONS,
-  AI_TRIAGE,
   DASHBOARD_METRICS,
   RECENT_ACTIVITY,
   TRIAGE_BY_CASE,
 } from '../data/mockDashboard.js'
 
 let _cachedDashboard = null
+let _pendingDashboard = null
 
 async function _fetchDashboard() {
   if (_cachedDashboard) return _cachedDashboard
-  try {
-    _cachedDashboard = await apiClient.get('/dashboard')
-    return _cachedDashboard
-  } catch {
-    return null
+  if (frontendConfig.demoMode) {
+    return { metrics: DASHBOARD_METRICS, investigations: ACTIVE_INVESTIGATIONS,
+      triageSummaries: TRIAGE_BY_CASE, recentActivity: RECENT_ACTIVITY, dataMode: 'demo' }
   }
+  if (!_pendingDashboard) {
+    _pendingDashboard = apiClient.get('/dashboard').then((data) => {
+      if (!data || !Array.isArray(data.investigations) || !Array.isArray(data.metrics) || !Array.isArray(data.recentActivity)) {
+        throw new Error('The backend returned an invalid dashboard response.')
+      }
+      _cachedDashboard = data
+      return data
+    }).finally(() => { _pendingDashboard = null })
+  }
+  return _pendingDashboard
+}
+
+export async function fetchDataMode() {
+  return (await _fetchDashboard()).dataMode ?? 'live'
 }
 
 export async function fetchDashboardMetrics() {
   const data = await _fetchDashboard()
-  return data?.metrics ?? DASHBOARD_METRICS
+  return data.metrics
 }
 
 export async function fetchActiveInvestigations() {
   const data = await _fetchDashboard()
-  return data?.investigations ?? ACTIVE_INVESTIGATIONS
+  return data.investigations
 }
 
 /**
@@ -42,18 +54,17 @@ export async function fetchActiveInvestigations() {
  */
 export async function fetchTriageSummary(caseId) {
   const data = await _fetchDashboard()
-  const summaries = data?.triageSummaries ?? TRIAGE_BY_CASE
+  const summaries = data.triageSummaries ?? {}
 
   if (!caseId) {
-    // Default: return first available summary (CASE-2026-0147)
-    return summaries['CASE-2026-0147'] ?? AI_TRIAGE
+    return null
   }
   return summaries[caseId] ?? null
 }
 
 export async function fetchRecentActivity() {
   const data = await _fetchDashboard()
-  return data?.recentActivity ?? RECENT_ACTIVITY
+  return data.recentActivity
 }
 
 /**

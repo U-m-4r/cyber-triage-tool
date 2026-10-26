@@ -1,45 +1,56 @@
 """
 MongoDB connection helper for the Cyber Triage backend.
 
-Provides connection management, database initialisation, and seed-data loading
-so the dashboard and case workspace work out of the box with zero manual setup.
+Provides lazy application-owned connections and explicit index/demo commands.
+Importing this module never connects, writes indexes or seeds investigations.
 """
 
-import os
 import logging
 
 from pymongo import MongoClient, DESCENDING
+from pymongo.errors import PyMongoError
 
 logger = logging.getLogger(__name__)
 
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("MONGO_DB", "cyber_triage")
-
-_client = None
-_db = None
+class DatabaseUnavailable(RuntimeError):
+    pass
 
 
 def get_client():
-    """Return (and lazily create) the singleton MongoClient."""
-    global _client
-    if _client is None:
-        _client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
-    return _client
+    from flask import current_app
+    from backend.config import validate_config
+
+    validate_config(current_app.config)
+    if current_app.config['DB_MODE'] == 'disabled':
+        raise DatabaseUnavailable('Database access is disabled in this configuration.')
+    state = current_app.extensions.setdefault('mongo', {})
+    identity = (current_app.config['MONGO_URI'], current_app.config['MONGO_DB'])
+    if state.get('identity') not in (None, identity):
+        raise DatabaseUnavailable('Database configuration changed after connection creation.')
+    if 'client' not in state:
+        state['client'] = MongoClient(identity[0], connect=False,
+                                     serverSelectionTimeoutMS=current_app.config['MONGO_TIMEOUT_MS'],
+                                     connectTimeoutMS=current_app.config['MONGO_TIMEOUT_MS'])
+        state['identity'] = identity
+    return state['client']
 
 
 def get_db():
-    """Return the cyber_triage database handle."""
-    global _db
-    if _db is None:
-        _db = get_client()[DB_NAME]
-    return _db
+    from flask import current_app
+    return get_client()[current_app.config['MONGO_DB']]
+
+
+def close_db(app):
+    state = app.extensions.pop('mongo', {})
+    if 'client' in state:
+        state['client'].close()
 
 
 def init_db():
     """
     Create collections and indexes on first run.
 
-    Called once at app startup. Safe to call repeatedly — index creation is
+    Called explicitly by init-db or isolated integration fixtures. Index creation is
     idempotent in MongoDB.
     """
     db = get_db()
@@ -69,7 +80,7 @@ def init_db():
     db.artifacts.create_index([("risk_score", DESCENDING)])
     db.artifacts.create_index([("ingested_at", DESCENDING)])
 
-    logger.info("MongoDB indexes ensured on database '%s'", DB_NAME)
+    logger.info("MongoDB indexes ensured on database '%s'", db.name)
 
 
 def seed_if_empty():
@@ -93,7 +104,7 @@ def seed_if_empty():
     )
 
     # Insert cases
-    db.cases.insert_many(SAMPLE_CASES)
+    db.cases.insert_many([{**case, "isDemo": True} for case in SAMPLE_CASES])
     logger.info("Seeded %d sample cases", len(SAMPLE_CASES))
 
     # Insert dashboard metrics (single doc, upsert pattern)
@@ -114,5 +125,5 @@ def check_connection():
     try:
         get_client().admin.command("ping")
         return True
-    except Exception:
+    except (DatabaseUnavailable, PyMongoError):
         return False

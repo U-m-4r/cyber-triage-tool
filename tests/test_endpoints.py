@@ -1,33 +1,30 @@
 """Endpoint tests for /api/ingest and /api/artifacts (Requirement #2).
 
-Uses Flask's test_client so no live server is needed. Tests that require MongoDB
-are skipped (not failed) when the database is unreachable, so the suite still runs
-in a DB-less CI environment. Auth is exercised by toggling the module-level
-API_TOKEN.
+Uses Flask's test_client. Real MongoDB tests require explicit --run-integration
+and a disposable loopback database; unavailable service is a setup failure.
+Authentication is configured per application instance.
 """
 
 import io
 import os
 import sys
 import unittest
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend import app as app_module
-from backend.db import check_connection
-
-MONGO_UP = check_connection()
 
 
 class TestIngestEndpoint(unittest.TestCase):
     def setUp(self):
         app_module.app.config["TESTING"] = True
         self.client = app_module.app.test_client()
-        self._saved_token = app_module.API_TOKEN
-        app_module.API_TOKEN = ""  # auth disabled for the happy-path tests
+        self._saved_token = app_module.app.config['API_TOKEN']
+        app_module.app.config['API_TOKEN'] = ""
 
     def tearDown(self):
-        app_module.API_TOKEN = self._saved_token
+        app_module.app.config['API_TOKEN'] = self._saved_token
 
     def _upload(self, filename, content, kind):
         return self.client.post(
@@ -56,36 +53,36 @@ class TestIngestEndpoint(unittest.TestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_ingest_requires_auth_when_token_set(self):
-        app_module.API_TOKEN = "secret-token"
+        app_module.app.config['API_TOKEN'] = "secret-token"
         resp = self._upload("listing.csv", "FileName\na.txt\n", "file")
         self.assertEqual(resp.status_code, 401)
 
 
-class TestArtifactsEndpoint(unittest.TestCase):
-    def setUp(self):
-        app_module.app.config["TESTING"] = True
-        self.client = app_module.app.test_client()
-        self._saved_token = app_module.API_TOKEN
-        app_module.API_TOKEN = ""
+@pytest.mark.integration
+class TestArtifactsEndpoint:
+    def test_list_artifacts_returns_shape(self, mongo_app):
+        client = mongo_app.test_client()
+        response = client.post('/api/ingest', data={
+            'file': (io.BytesIO(b'FileName,FilePath\nevil.exe,C:/Temp/evil.exe\n'), 'synthetic.csv'),
+            'kind': 'file'}, content_type='multipart/form-data')
+        assert response.status_code == 200
+        assert response.json['stored'] == 1
+        response = client.get('/api/artifacts?limit=5')
+        assert response.status_code == 200
+        assert response.json['total'] == 1
+        assert len(response.json['artifacts']) == 1
 
-    def tearDown(self):
-        app_module.API_TOKEN = self._saved_token
-
-    @unittest.skipUnless(MONGO_UP, "MongoDB not reachable")
-    def test_list_artifacts_returns_shape(self):
-        resp = self.client.get("/api/artifacts?limit=5")
-        self.assertEqual(resp.status_code, 200)
-        body = resp.get_json()
-        self.assertIn("total", body)
-        self.assertIn("artifacts", body)
-        self.assertIsInstance(body["artifacts"], list)
-
-    @unittest.skipUnless(MONGO_UP, "MongoDB not reachable")
-    def test_severity_filter_is_uppercased(self):
-        resp = self.client.get("/api/artifacts?severity=critical&limit=50")
-        self.assertEqual(resp.status_code, 200)
-        for art in resp.get_json()["artifacts"]:
-            self.assertEqual(art["priority"], "CRITICAL")
+    def test_severity_filter_is_uppercased(self, mongo_app):
+        from backend.db import get_db
+        with mongo_app.app_context():
+            get_db().artifacts.insert_many([
+                {'priority': 'CRITICAL', 'risk_score': 100},
+                {'priority': 'LOW', 'risk_score': 0},
+            ])
+        response = mongo_app.test_client().get('/api/artifacts?severity=critical&limit=50')
+        assert response.status_code == 200
+        assert response.json['total'] == 1
+        assert [a['priority'] for a in response.json['artifacts']] == ['CRITICAL']
 
 
 if __name__ == "__main__":

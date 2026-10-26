@@ -1,0 +1,5 @@
+-r ../requirements.txt
+pytest>=9,<10
+pytest-cov>=7,<8
+ruff>=0.14,<0.15
+matplotlib>=3.10,<3.11

@@ -29,12 +29,21 @@ VT_BASE = "https://www.virustotal.com/api/v3"
 _TIMEOUT = 10
 
 
+def _key(name):
+    # API instances use validated configuration, including .env loaded by the factory.
+    # Standalone callers retain the original environment-based behavior.
+    from flask import current_app, has_app_context
+    if has_app_context():
+        return current_app.config.get(name, '')
+    return globals()[name]
+
+
 def providers_available():
     """Report which providers are configured (env key present + requests import)."""
     return {
         "requests": _REQUESTS_OK,
-        "otx": bool(OTX_API_KEY) and _REQUESTS_OK,
-        "virustotal": bool(VT_API_KEY) and _REQUESTS_OK,
+        "otx": bool(_key('OTX_API_KEY')) and _REQUESTS_OK,
+        "virustotal": bool(_key('VT_API_KEY')) and _REQUESTS_OK,
     }
 
 
@@ -45,12 +54,12 @@ def _otx_indicator_path(indicator, kind):
 
 def lookup_otx(indicator, kind="hash"):
     """Query OTX for an indicator. Returns a dict, or None if unavailable/no key."""
-    if not (_REQUESTS_OK and OTX_API_KEY):
+    if not (_REQUESTS_OK and _key('OTX_API_KEY')):
         return None
     try:
         resp = requests.get(
             _otx_indicator_path(indicator, kind),
-            headers={"X-OTX-API-KEY": OTX_API_KEY},
+            headers={"X-OTX-API-KEY": _key('OTX_API_KEY')},
             timeout=_TIMEOUT,
         )
         if resp.status_code != 200:
@@ -64,7 +73,7 @@ def lookup_otx(indicator, kind="hash"):
             "malicious": int(pulses) > 0,
         }
     except Exception as exc:  # pragma: no cover - network dependent
-        return {"provider": "otx", "error": str(exc)}
+        return {"provider": "otx", "error": type(exc).__name__}
 
 
 def _vt_indicator_path(indicator, kind):
@@ -74,12 +83,12 @@ def _vt_indicator_path(indicator, kind):
 
 def lookup_virustotal(indicator, kind="hash"):
     """Query VirusTotal v3 for an indicator. Returns a dict, or None if no key."""
-    if not (_REQUESTS_OK and VT_API_KEY):
+    if not (_REQUESTS_OK and _key('VT_API_KEY')):
         return None
     try:
         resp = requests.get(
             _vt_indicator_path(indicator, kind),
-            headers={"x-apikey": VT_API_KEY},
+            headers={"x-apikey": _key('VT_API_KEY')},
             timeout=_TIMEOUT,
         )
         if resp.status_code != 200:
@@ -95,7 +104,7 @@ def lookup_virustotal(indicator, kind="hash"):
             "malicious": malicious > 0,
         }
     except Exception as exc:  # pragma: no cover - network dependent
-        return {"provider": "virustotal", "error": str(exc)}
+        return {"provider": "virustotal", "error": type(exc).__name__}
 
 
 def check_indicator(indicator, kind="hash"):

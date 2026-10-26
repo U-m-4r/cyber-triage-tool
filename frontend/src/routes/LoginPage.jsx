@@ -30,14 +30,14 @@ export default function LoginPage() {
     event.preventDefault()
     if (pending) return
 
-    if (!investigatorId.trim() || !password) {
-      setError('Enter an investigator ID and password to continue.')
+    if (!investigatorId.trim()) {
+      setError('Enter an investigator ID to continue.')
       return
     }
 
     setError(null)
     setPending(true)
-    await authenticate({ investigatorId })
+    await authenticate({ investigatorId, apiToken: password })
     navigate('/dashboard', { replace: true })
   }
 
@@ -58,7 +58,7 @@ export default function LoginPage() {
             <h1 className="login-panel__heading" id="login-heading">
               Investigator Sign In
             </h1>
-            <p className="login-panel__sub">Sign in to access Cyber Triage.</p>
+            <p className="login-panel__sub">Development access. Investigator IDs are display labels. Enter the shared API token when required by your backend.</p>
 
             <form className="login-form" onSubmit={handleSubmit} noValidate>
               <label className="login-field">
@@ -77,12 +77,12 @@ export default function LoginPage() {
               </label>
 
               <label className="login-field">
-                <span className="login-field__label">Password</span>
+                <span className="login-field__label">API token (if configured)</span>
                 <input
                   className="login-field__input"
                   type="password"
                   name="password"
-                  autoComplete="current-password"
+                  autoComplete="off"
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}

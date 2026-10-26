@@ -1,2 +1,23 @@
 [tool.vercel]
 entrypoint = "backend.app:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = ["integration: requires explicit --run-integration and dedicated disposable MongoDB"]
+filterwarnings = ["error::ResourceWarning", "error::pytest.PytestUnraisableExceptionWarning"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 110
+exclude = [".venv", "frontend", ".test-artifacts", "data"]
+
+[tool.ruff.lint]
+# Start with correctness checks; avoid wholesale stylistic churn in forensic code.
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.coverage.run]
+source = ["backend", "ml", "forensics", "evaluation"]
+
+[tool.coverage.report]
+show_missing = true
