@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Triage Tool — Simplified Architecture & Methodology (SIH1744)</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #0F172A; background: #F8FAFC; margin: 0; padding: 24px; line-height: 1.5;
+  }
+  .page { max-width: 960px; margin: 0 auto; background: #FFFFFF; padding: 32px 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  h1 { font-size: 24px; margin: 0 0 4px; color: #0C4A6E; }
+  .sub { color: #475569; font-size: 13.5px; margin-bottom: 24px; }
+  h2 { font-size: 18px; color: #1E293B; border-bottom: 2px solid #E2E8F0; padding-bottom: 6px; margin: 32px 0 16px; }
+  .diagram { border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; background: #FFFFFF; overflow-x: auto; text-align: center; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
+  th, td { border: 1px solid #E2E8F0; padding: 8px 10px; text-align: left; }
+  th { background: #0F172A; color: #FFFFFF; }
+  tr:nth-child(even) td { background: #F8FAFC; }
+  code { background: #E2E8F0; padding: 1px 4px; border-radius: 4px; font-size: 11.5px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Cyber Triage Tool for Digital Forensic Investigation</h1>
+  <div class="sub">SIH1744 · National Investigation Agency (Anti-Cyber Terrorism) · Simplified Architecture &amp; Methodology</div>
+
+  <h2>1. Simplified System Architecture Diagram</h2>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+    CLIENT["<b>Investigator Client Layer</b><br/>React 19 + Vite SPA | /cases/:id Workspace | Severity-Only Hue"]
+    API["<b>API & Orchestration Layer</b><br/>Flask :5001 | SHA-256 Ingest | ReportLab PDF Generator"]
+    
+    subgraph ENGINE ["Forensic Ingestion & ML Scoring Core"]
+        direction LR
+        PARSE["<b>Forensic Parsers</b><br/>EVTX | Registry | PCAP | Disk (.dd)"]
+        PRE["<b>Preprocessor</b><br/>Clean NaNs + StandardScaler z-score"]
+        SCORER["<b>Hybrid Risk Scorer</b><br/>60% Isolation Forest + 40% Rules<br/>CVSS Bands (CRITICAL ≥ 75)"]
+        PARSE --> PRE --> SCORER
+    end
+
+    STORE[("<b>Persistence Layer</b><br/>MongoDB :27017 | .pkl Model Cache")]
+
+    CLIENT <==>|"REST / JSON"| API
+    API ==>|"Raw Stream"| PARSE
+    SCORER ==>|"Ranked Artifacts"| API
+    API <-->|"Cases & Custody"| STORE
+    SCORER <-->|"Cache Model"| STORE
+
+    classDef client fill:#0EA5E9,stroke:#0369A1,color:#FFF;
+    classDef api fill:#6366F1,stroke:#4338CA,color:#FFF;
+    classDef engine fill:#065F46,stroke:#047857,color:#FFF;
+    classDef store fill:#311042,stroke:#4A044E,color:#FFF;
+
+    class CLIENT client;
+    class API api;
+    class PARSE,PRE,SCORER engine;
+    class STORE store;
+</pre>
+  </div>
+
+  <h2>2. Simplified Forensic Methodology Flowchart</h2>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+    S1["<b>Stage 1: Ingest & SHA-256</b><br/>NIST FIPS 180-4 Read-Only Chunk Digest"] --> S2["<b>Stage 2: Parse Artifacts</b><br/>EVTX, Registry, PCAP Flows, Disk Images"]
+    S2 --> S3["<b>Stage 3: Clean & Standardize</b><br/>Drop NaNs/Inf, Extract 11 Features, StandardScaler (z=(x-μ)/σ)"]
+    S3 --> S4["<b>Stage 4: Dual Scoring Engine</b><br/>Isolation Forest (60%) + Domain Rules (40%)"]
+    S4 --> S5["<b>Stage 5: CVSS v3.1 Banding</b><br/>CRITICAL ≥ 75 | HIGH ≥ 50 | MEDIUM ≥ 25 | LOW &lt; 25"]
+    S5 --> S6["<b>Stage 6: Triage & Reporting</b><br/>Top-K Findings Queue ➔ React Workspace ➔ PDF Report"]
+
+    classDef step fill:#1E293B,stroke:#0F172A,color:#F8FAFC;
+    class S1,S2,S3,S4,S5,S6 step;
+</pre>
+  </div>
+
+  <h2>3. Key Formulation & Codebase Mapping</h2>
+  <table>
+    <thead><tr><th>Component</th><th>Formula / Method</th><th>Source File</th></tr></thead>
+    <tbody>
+      <tr><td>Feature Scaling</td><td><code>z = (x - μ) / σ</code> (StandardScaler)</td><td><code>ml/preprocessor.py</code></td></tr>
+      <tr><td>Anomaly Detector</td><td>Isolation Forest (100 iTrees, ψ=256) ➔ Batch Min-Max</td><td><code>ml/detector.py</code></td></tr>
+      <tr><td>Hybrid Fusion</td><td><code>Risk = min(100, 0.60·S_ml + 0.40·(S_rule·100))</code></td><td><code>ml/risk_scorer.py</code></td></tr>
+      <tr><td>Priority Bands</td><td>CRITICAL ≥ 75, HIGH ≥ 50, MEDIUM ≥ 25, LOW &lt; 25</td><td><code>ml/risk_scorer.py</code></td></tr>
+      <tr><td>Evidence Hashing</td><td>SHA-256 streamed read-only in 1 MiB buffers</td><td><code>backend/app.py</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: "default" });
+</script>
+</body>
+</html>
