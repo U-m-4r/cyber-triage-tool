@@ -152,14 +152,27 @@ excluded row:
   `--chunk-rows` slices (default 10,000) and keeps per-row, per-feature and
   per-label hashes plus per-column negative masks; pass 2 re-reads the file and
   materialises canonical text only for candidate rows (capped by
-  `MAX_CANDIDATE_ROWS`, otherwise `CANDIDATE_LIMIT_EXCEEDED`). Equal text always
-  shares a hash, so pass 2 can only add precision — chunk size cannot change the
-  counts or the ledger — and peak memory depends on the chunk size and candidate
-  set, not on the 717 MB file. Reading as text also makes duplicate detection
-  conservative: rows that are numerically equal but textually different are kept.
+  `MAX_CANDIDATE_ROWS = 250_000`, otherwise `CANDIDATE_LIMIT_EXCEEDED`). The ceiling
+  was calibrated from empirical Step 7A measurements of the verified 2,520,751-row
+  source, which exhibits 219,489 candidate rows and requires ~549 MB peak RAM.
+  Equal text always shares a hash, so pass 2 can only add precision — chunk size
+  cannot change the counts or the ledger — and peak memory depends on the chunk
+  size and candidate set, not on the 717 MB file. Reading as text also makes
+  duplicate detection conservative: rows that are numerically equal but textually
+  different are kept.
 - Re-running is idempotent: an identical ledger and record are reported `reused`
   and left byte-identical. A ledger or record that does not match this run raises
   `LEDGER_MISMATCH` or `RECORD_MISMATCH` and is only replaced with `--force`.
+- **Dataset limitations and benchmark filtering**: The approved offline policy
+  excludes approximately 8.71% of all source rows (219,512 unique rows),
+  including 65.34% of Port Scanning records (59,258 rows) and 38.50% of Bots
+  records (750 rows). These exclusions arise because degenerate zero-payload flows
+  (e.g., single SYN probes or aborted handshakes) produce 11-feature summary vectors
+  identical to background benign traffic. The cleaned dataset represents a filtered
+  benchmark subset, and future evaluation must report these exclusions transparently;
+  removing ambiguous vectors eliminates contradictory training signals for the
+  benign-only baseline, but does not imply that real-world operational traffic
+  will be free of such flow ambiguities.
 
 No cleaned CSV is written. The eligible view is derived at load time from the
 immutable source and keeps the original source row index on every retained row:

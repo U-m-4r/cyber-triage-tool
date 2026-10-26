@@ -243,12 +243,57 @@ def test_header_only_source_is_refused(workspace):
     assert exc.value.code == 'EMPTY_SOURCE'
 
 
+def test_candidate_verification_default_constant():
+    assert cleaning.MAX_CANDIDATE_ROWS == 250_000
+
+
 def test_candidate_limit_is_enforced(workspace, monkeypatch):
     monkeypatch.setattr(cleaning, 'MAX_CANDIDATE_ROWS', 1)
     with pytest.raises(CleaningError) as exc:
         run_clean(workspace)
     assert exc.value.code == 'CANDIDATE_LIMIT_EXCEEDED'
     assert not workspace['ledger'].exists()
+
+
+def test_candidate_limit_accepts_below_or_equal_ceiling(workspace, monkeypatch):
+    # workspace has 4 candidate rows (2 duplicates, 2 conflicts)
+    monkeypatch.setattr(cleaning, 'MAX_CANDIDATE_ROWS', 4)
+    report = run_clean(workspace)
+    assert report['record_status'] == 'written'
+    assert report['exclusions']['unique_rows'] == 6
+    assert workspace['ledger'].exists()
+
+
+def test_candidate_limit_rejects_above_ceiling(workspace, monkeypatch):
+    # workspace has 4 candidate rows; ceiling of 3 must reject
+    monkeypatch.setattr(cleaning, 'MAX_CANDIDATE_ROWS', 3)
+    with pytest.raises(CleaningError) as exc:
+        run_clean(workspace)
+    assert exc.value.code == 'CANDIDATE_LIMIT_EXCEEDED'
+    assert not workspace['ledger'].exists()
+
+
+def test_candidate_verification_immutability_and_determinism(workspace):
+    stat_before = workspace['source'].stat().st_mtime_ns
+    bytes_before = workspace['source'].read_bytes()
+
+    run1 = run_clean(workspace)
+    ledger1 = workspace['ledger'].read_bytes()
+    record1 = workspace['record'].read_text(encoding='utf-8')
+
+    # Source must remain byte-identical and mtime untouched
+    assert workspace['source'].read_bytes() == bytes_before
+    assert workspace['source'].stat().st_mtime_ns == stat_before
+
+    # Second run must produce byte-identical ledger and deterministic counts
+    workspace['ledger'].unlink()
+    workspace['record'].unlink()
+    run2 = run_clean(workspace)
+    ledger2 = workspace['ledger'].read_bytes()
+    record2 = workspace['record'].read_text(encoding='utf-8')
+
+    assert ledger1 == ledger2
+    assert json.loads(record1)['exclusions'] == json.loads(record2)['exclusions']
 
 
 def test_invalid_chunk_size_is_refused(workspace):

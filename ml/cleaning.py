@@ -63,7 +63,7 @@ LABEL_COLUMNS = ('Attack Type', 'Label')
 REASON_ORDER = ('negative_measurements', 'duplicate_row', 'label_conflict')
 
 DEFAULT_CHUNK_ROWS = 10_000
-MAX_CANDIDATE_ROWS = 200_000
+MAX_CANDIDATE_ROWS = 250_000
 
 DEFAULT_LEDGER_PATH = ROOT_DIR / 'data' / 'provenance' / 'cicids2017_cleaning_ledger.csv'
 DEFAULT_RECORD_PATH = ROOT_DIR / 'data' / 'provenance' / 'cicids2017_cleaning.json'
