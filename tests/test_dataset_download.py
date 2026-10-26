@@ -272,23 +272,32 @@ def test_missing_kagglehub_package_is_reported(monkeypatch):
 def test_repository_source_csv_is_protected(tmp_path):
     sample = source.PROTECTED_DATASET_PATHS[0]
     assert sample == source.ROOT_DIR / 'data' / 'sample' / 'cicids2017_cleaned.csv'
-    assert sample.is_file()
-    stat_before = sample.stat()
-    calls = []
+    created = False
+    if not sample.is_file():
+        sample.parent.mkdir(parents=True, exist_ok=True)
+        sample.write_text('synthetic,protected,data\n1,2,3\n', encoding='utf-8')
+        created = True
+    try:
+        assert sample.is_file()
+        stat_before = sample.stat()
+        calls = []
 
-    def forbidden(**kwargs):
-        calls.append(kwargs)
-        raise AssertionError('download was attempted despite source protection')
+        def forbidden(**kwargs):
+            calls.append(kwargs)
+            raise AssertionError('download was attempted despite source protection')
 
-    with pytest.raises(source.DatasetSourceError) as error:
-        source.download_dataset(manifest_path=sample, downloader=forbidden)
-    assert error.value.code == 'SOURCE_PROTECTED'
-    with pytest.raises(source.DatasetSourceError) as error:
-        source.download_dataset(output_dir=sample.parent, downloader=forbidden)
-    assert error.value.code == 'SOURCE_PROTECTED'
-    assert calls == []
-    assert sample.stat().st_size == stat_before.st_size
-    assert sample.stat().st_mtime_ns == stat_before.st_mtime_ns
+        with pytest.raises(source.DatasetSourceError) as error:
+            source.download_dataset(manifest_path=sample, downloader=forbidden)
+        assert error.value.code == 'SOURCE_PROTECTED'
+        with pytest.raises(source.DatasetSourceError) as error:
+            source.download_dataset(output_dir=sample.parent, downloader=forbidden)
+        assert error.value.code == 'SOURCE_PROTECTED'
+        assert calls == []
+        assert sample.stat().st_size == stat_before.st_size
+        assert sample.stat().st_mtime_ns == stat_before.st_mtime_ns
+    finally:
+        if created:
+            sample.unlink(missing_ok=True)
 
 
 def test_discovered_csv_inside_protected_location_is_rejected(tmp_path, manifest_path,
@@ -384,3 +393,121 @@ def test_cli_reports_error_code_without_a_partial_record(tmp_path, monkeypatch, 
     assert captured.out == ''
     assert 'Download failed [CREDENTIALS_MISSING]' in captured.err
     assert not (tmp_path / 'm.json').exists()
+
+
+def test_is_unsupported_output_dir_error():
+    assert source._is_unsupported_output_dir_error(
+        TypeError("__call__() got an unexpected keyword argument 'output_dir'"))
+    assert source._is_unsupported_output_dir_error(
+        TypeError("dataset_download() got an unexpected keyword argument 'output_dir'"))
+    assert not source._is_unsupported_output_dir_error(
+        TypeError("missing required argument 'handle'"))
+    assert not source._is_unsupported_output_dir_error(
+        ValueError("unexpected keyword argument 'output_dir'"))
+    assert not source._is_unsupported_output_dir_error("not an exception")
+
+
+def test_resolve_with_version_supports_output_dir():
+    calls = []
+
+    def mock_resolver(handle, path, *, force_download, output_dir=None):
+        calls.append({'handle': handle, 'path': path, 'force_download': force_download,
+                      'output_dir': output_dir})
+        return ('/cache/path', 6)
+
+    class MockRegistry:
+        dataset_resolver = staticmethod(mock_resolver)
+
+    class MockHandle:
+        @staticmethod
+        def parse_dataset_handle(handle):
+            return f'parsed:{handle}'
+
+    class MockKagglehub:
+        registry = MockRegistry
+        handle = MockHandle
+
+    path, version = source._resolve_with_version(
+        MockKagglehub, 'owner/dataset', force_download=True, output_dir='/custom/dir')
+    assert path == '/cache/path'
+    assert version == 6
+    assert calls == [{'handle': 'parsed:owner/dataset', 'path': None,
+                      'force_download': True, 'output_dir': '/custom/dir'}]
+
+
+def test_resolve_with_version_falls_back_when_output_dir_unsupported():
+    calls = []
+
+    def mock_resolver(handle, path, *, force_download, **kwargs):
+        calls.append({'handle': handle, 'force_download': force_download, 'kwargs': kwargs})
+        if 'output_dir' in kwargs:
+            raise TypeError("__call__() got an unexpected keyword argument 'output_dir'")
+        return ('/fallback/path', 6)
+
+    class MockRegistry:
+        dataset_resolver = staticmethod(mock_resolver)
+
+    class MockHandle:
+        @staticmethod
+        def parse_dataset_handle(handle):
+            return f'parsed:{handle}'
+
+    class MockKagglehub:
+        registry = MockRegistry
+        handle = MockHandle
+
+    path, version = source._resolve_with_version(
+        MockKagglehub, 'owner/dataset', force_download=False, output_dir='/custom/dir')
+    assert path == '/fallback/path'
+    assert version == 6
+    assert len(calls) == 2
+    assert calls[0]['kwargs'] == {'output_dir': '/custom/dir'}
+    assert calls[1]['kwargs'] == {}
+
+
+def test_resolve_with_version_does_not_swallow_arbitrary_type_error():
+    calls = []
+
+    def mock_resolver(handle, path, *, force_download, **kwargs):
+        calls.append(kwargs)
+        raise TypeError('internal type error inside resolver')
+
+    class MockRegistry:
+        dataset_resolver = staticmethod(mock_resolver)
+
+    class MockHandle:
+        @staticmethod
+        def parse_dataset_handle(handle):
+            return f'parsed:{handle}'
+
+    class MockKagglehub:
+        registry = MockRegistry
+        handle = MockHandle
+
+    with pytest.raises(TypeError, match='internal type error inside resolver'):
+        source._resolve_with_version(
+            MockKagglehub, 'owner/dataset', force_download=False, output_dir='/custom/dir')
+    assert len(calls) == 1
+
+
+def test_resolve_with_version_fallback_when_package_layout_differs():
+    calls = []
+
+    class MockKagglehub:
+        registry = None
+        handle = None
+
+        @staticmethod
+        def dataset_download(handle, *, force_download, **kwargs):
+            calls.append({'handle': handle, 'force_download': force_download, 'kwargs': kwargs})
+            if 'output_dir' in kwargs:
+                raise TypeError("dataset_download() got an unexpected keyword argument 'output_dir'")
+            return '/download/path'
+
+    path, version = source._resolve_with_version(
+        MockKagglehub, 'owner/dataset', force_download=True, output_dir='/custom/dir')
+    assert path == '/download/path'
+    assert version is None
+    assert len(calls) == 2
+    assert calls[0]['kwargs'] == {'output_dir': '/custom/dir'}
+    assert calls[1]['kwargs'] == {}

@@ -298,6 +298,14 @@ def _require_kaggle_credentials(kagglehub):
             'CREDENTIALS_MISSING')
 
 
+def _is_unsupported_output_dir_error(exc):
+    """Confirm TypeError is strictly due to an unsupported output_dir kwarg."""
+    if not isinstance(exc, TypeError):
+        return False
+    msg = str(exc)
+    return 'unexpected keyword argument' in msg and 'output_dir' in msg
+
+
 def _resolve_with_version(kagglehub, handle, *, force_download, output_dir):
     handle_module = _submodule(kagglehub, 'handle')
     registry = _submodule(kagglehub, 'registry')
@@ -305,10 +313,24 @@ def _resolve_with_version(kagglehub, handle, *, force_download, output_dir):
     if resolver is None or handle_module is None or not hasattr(handle_module, 'parse_dataset_handle'):
         # Package layout differs: use the public helper and record no version
         # metadata instead of guessing one.
-        path = kagglehub.dataset_download(handle, force_download=force_download, output_dir=output_dir)
+        try:
+            path = kagglehub.dataset_download(handle, force_download=force_download,
+                                              output_dir=output_dir)
+        except TypeError as exc:
+            if not _is_unsupported_output_dir_error(exc):
+                raise
+            # Installed version does not accept output_dir; use its own cache.
+            path = kagglehub.dataset_download(handle, force_download=force_download)
         return str(path), None
-    resolved = resolver(handle_module.parse_dataset_handle(handle), None,
-                        force_download=force_download, output_dir=output_dir)
+    try:
+        resolved = resolver(handle_module.parse_dataset_handle(handle), None,
+                            force_download=force_download, output_dir=output_dir)
+    except TypeError as exc:
+        if not _is_unsupported_output_dir_error(exc):
+            raise
+        # Installed version does not accept output_dir; use its own cache.
+        resolved = resolver(handle_module.parse_dataset_handle(handle), None,
+                            force_download=force_download)
     if isinstance(resolved, tuple):
         path, version = (list(resolved) + [None])[:2]
         return str(path), version
