@@ -67,9 +67,12 @@ def load_config(overrides=None):
     )
     # Never read local credentials or investigation settings into a test process.
     if not testing:
-        from dotenv import load_dotenv
+        try:
+            from dotenv import load_dotenv
 
-        load_dotenv(ROOT / ".env", override=False)
+            load_dotenv(ROOT / ".env", override=False)
+        except ImportError:
+            pass
     config = {
         "APP_ENV": "test" if testing else os.getenv("APP_ENV", "development"),
         "TESTING": testing,
