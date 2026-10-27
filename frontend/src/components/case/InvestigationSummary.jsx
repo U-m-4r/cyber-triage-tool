@@ -10,14 +10,14 @@ import './InvestigationSummary.css'
  *
  * @param {{ summary: object, status: string, progress: number }} props
  */
-export default function InvestigationSummary({ summary, status, progress }) {
+export default function InvestigationSummary({ summary = { narrative: "", facts: [] }, status }) {
   return (
     <Panel
       className="case-summary"
       title="Investigation Summary"
-      subtitle={`Pipeline state ${status} · ${progress}% of collected artifacts triaged`}
+      subtitle={`Case status: ${status}`}
     >
-      <p className="case-summary__narrative">{summary.narrative}</p>
+      <p className="case-summary__narrative">{summary.narrative || 'No investigation narrative recorded.'}</p>
 
       <dl className="case-summary__facts">
         {summary.facts.map((fact) => (

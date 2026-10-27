@@ -403,9 +403,9 @@ def build_pdf_document():
     story.append(Paragraph(
         "1. <b>Stage 1 (Acquisition & Chain of Custody):</b> Ingests evidence streams in 1 MiB chunked buffers, computing NIST FIPS 180-4 SHA-256 cryptographic digests in read-only mode to prevent forensic spoliation.<br/>"
         "2. <b>Stage 2 (Multi-Source Parsing):</b> Dispatcher auto-detects file headers, normalizing heterogeneous forensic sources (EVTX logs, registry keys, 5-tuple network flows) into structured tabular records.<br/>"
-        "3. <b>Stage 3 (Sanitization & Normalization):</b> Converts ±Inf (divide-by-zero artifacts) to NaNs, performs `dropna()` and `drop_duplicates()` without artificial imputation, and executes StandardScaler z-score standardization ($z = (x - \mu)/\sigma$).<br/>"
-        "4. <b>Stage 4 (Dual-Engine Scoring):</b> Executes parallel evaluation through unsupervised Isolation Forest ($100$ iTrees) and rule-based heuristic matrix ($S_{rule} = \min(1.0, \sum W_k)$).<br/>"
-        "5. <b>Stage 5 (Hybrid Fusion & CVSS Banding):</b> Computes convex risk combination ($\text{Risk} = \min(100, 0.60 \cdot S_{ML} + 0.40 \cdot (S_{Rule} \cdot 100))$) and maps to CVSS v3.1 qualitative bands.<br/>"
+        "3. <b>Stage 3 (Sanitization & Normalization):</b> Converts ±Inf (divide-by-zero artifacts) to NaNs, performs `dropna()` and `drop_duplicates()` without artificial imputation, and executes StandardScaler z-score standardization ($z = (x - \\mu)/\\sigma$).<br/>"
+        "4. <b>Stage 4 (Dual-Engine Scoring):</b> Executes parallel evaluation through unsupervised Isolation Forest ($100$ iTrees) and rule-based heuristic matrix ($S_{rule} = \\min(1.0, \\sum W_k)$).<br/>"
+        "5. <b>Stage 5 (Hybrid Fusion & CVSS Banding):</b> Computes convex risk combination ($\\text{Risk} = \\min(100, 0.60 \\cdot S_{ML} + 0.40 \\cdot (S_{Rule} \\cdot 100))$) and maps to CVSS v3.1 qualitative bands.<br/>"
         "6. <b>Stage 6 (Top-K Triage & Dossier Generation):</b> Sorts findings by descending risk, surfaces Top-10%/Top-25% priority cues to the investigator workspace, and compiles automated ReportLab PDF reports.",
         body_style
     ))

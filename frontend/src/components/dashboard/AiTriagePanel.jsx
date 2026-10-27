@@ -41,23 +41,8 @@ export default function AiTriagePanel({ triage, investigation }) {
           </span>
           <p className="triage-pending__headline">No triage summary yet</p>
           <p className="triage-pending__detail">
-            {investigation?.status === 'INGESTING'
-              ? 'Evidence is still being ingested. Scoring starts once artifact extraction completes.'
-              : 'Artifacts are being correlated. The triage summary appears once scoring finishes.'}
+            No persisted scoring results are available. Open a case and upload supported evidence.
           </p>
-          {investigation && (
-            <div className="triage-pending__meter">
-              <span
-                className="triage-pending__meter-fill"
-                style={{ width: `${investigation.progress}%` }}
-              />
-            </div>
-          )}
-          {investigation && (
-            <p className="triage-pending__progress tabular">
-              {investigation.progress}% complete
-            </p>
-          )}
         </div>
       </section>
     )
@@ -65,7 +50,7 @@ export default function AiTriagePanel({ triage, investigation }) {
 
   const { threatScore, severity, confidence, criticalFindings, artifactsScored, scoredAt } = triage
   const severityClass = String(severity).toLowerCase()
-  const urgencyClass = String(triage.recommendedAction.urgency ?? severity).toLowerCase()
+  const urgencyClass = String(triage.recommendedAction?.urgency ?? severity).toLowerCase()
 
   return (
     <section className="triage-panel">
@@ -93,7 +78,7 @@ export default function AiTriagePanel({ triage, investigation }) {
         <dl className="triage-summary__stats">
           <div className="triage-stat">
             <dt>Confidence</dt>
-            <dd className="tabular">{formatPercent(confidence)}</dd>
+            <dd className="tabular">{confidence == null ? 'Unavailable' : formatPercent(confidence)}</dd>
           </div>
           <div className="triage-stat triage-stat--critical">
             <dt>Critical findings</dt>
@@ -107,12 +92,13 @@ export default function AiTriagePanel({ triage, investigation }) {
       </div>
 
       {/* ---- Recommended next action ---- */}
-      <div className={`triage-action triage-action--${urgencyClass}`}>
+      {triage.recommendedAction && <div className={`triage-action triage-action--${urgencyClass}`}>
         <span className="triage-action__label">Recommended next action</span>
         <p className="triage-action__headline">{triage.recommendedAction.headline}</p>
         <p className="triage-action__detail">{triage.recommendedAction.detail}</p>
       </div>
 
+      }
       {/* ---- Findings ---- */}
       <div className="triage-findings">
         <div className="triage-findings__head">
@@ -142,7 +128,7 @@ export default function AiTriagePanel({ triage, investigation }) {
                     {finding.source}
                   </span>
                   <span className="finding__technique mono" title="MITRE ATT&CK technique">
-                    {finding.technique.id} · {finding.technique.name}
+                    {finding.technique ? `${finding.technique.id} · ${finding.technique.name}` : 'Technique not mapped'}
                   </span>
                   <span className="finding__observed">{formatTimestamp(finding.observedAt)}</span>
                 </div>
@@ -159,11 +145,10 @@ export default function AiTriagePanel({ triage, investigation }) {
 
       <footer className="triage-panel__foot">
         <span>
-          Sample data — scored {formatTimestamp(scoredAt)} · {triage.modelLabel}
+          Scored {formatTimestamp(scoredAt)} · {triage.modelLabel}
         </span>
         <span className="triage-panel__disclaimer">
-          Findings on this screen are authored fixtures for UI development. The
-          detection pipeline is not connected yet.
+          Risk rankings support examiner review; they are not attack classifications.
         </span>
       </footer>
     </section>

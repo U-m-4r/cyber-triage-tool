@@ -16,6 +16,7 @@ stream ready to be served over HTTP.
 """
 
 import io
+from html import escape
 import logging
 from datetime import datetime, timezone
 
@@ -371,7 +372,7 @@ def _build_findings(case, styles):
 
     data = [["#", "ID", "Title", "Severity", "Risk", "Technique", "Source"]]
     for i, f in enumerate(findings, 1):
-        technique = f.get("technique", {})
+        technique = f.get("technique") or {}
         tech_str = f"{technique.get('id', '')} {technique.get('name', '')}"
         data.append([
             str(i),
@@ -566,6 +567,15 @@ def generate_case_report(case_record):
     bytes
         The PDF document as a byte string.
     """
+    def safe(value):
+        if isinstance(value, str):
+            return escape(value)
+        if isinstance(value, dict):
+            return {key: safe(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [safe(item) for item in value]
+        return value
+    case_record = safe(case_record)
     buffer = io.BytesIO()
     styles = _build_styles()
 

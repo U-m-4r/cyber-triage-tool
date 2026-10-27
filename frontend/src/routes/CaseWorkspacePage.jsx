@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import CaseEditor from '../components/case/CaseEditor.jsx'
+import IntakePanel from '../components/case/IntakePanel.jsx'
+import IntakeHistory from '../components/case/IntakeHistory.jsx'
+import '../routes/Integration.css'
 import CaseHeader from '../components/case/CaseHeader.jsx'
 import CaseTabs from '../components/case/CaseTabs.jsx'
 import CaseOverview from '../components/case/CaseOverview.jsx'
@@ -25,9 +29,17 @@ import './CaseWorkspacePage.css'
  */
 export default function CaseWorkspacePage() {
   const { caseId } = useParams()
+  return <CaseWorkspace key={caseId} />
+}
+
+function CaseWorkspace() {
+  const { caseId } = useParams()
   const [caseRecord, setCaseRecord] = useState(null)
   const [state, setState] = useState('loading') // 'loading' | 'ready' | 'missing'
-  const [activeTab, setActiveTab] = useState('overview')
+  const [params, setParams] = useSearchParams()
+  const activeTab = params.get('tab') || 'overview'
+  const setActiveTab = tab => setParams({ tab })
+  const reload = async () => { const record = await fetchCase(caseId); setCaseRecord(record); setState(record ? 'ready' : 'missing') }
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -89,15 +101,16 @@ export default function CaseWorkspacePage() {
   return (
     <div className="page case-workspace">
       <CaseHeader caseRecord={caseRecord} />
+      <CaseEditor caseRecord={caseRecord} onChange={reload} />
 
       <CaseTabs activeTab={activeTab} onSelect={setActiveTab} />
 
-      {activeTab === 'overview' ? (
+      {(activeTab === 'overview' || activeTab === 'ai-triage') ? (
         <CaseOverview caseRecord={caseRecord} />
       ) : activeTab === 'artifacts' ? (
-        <CaseArtifacts caseRecord={caseRecord} />
+        <CaseArtifacts key={caseId} caseRecord={caseRecord} onChange={reload} />
       ) : activeTab === 'evidence' ? (
-        <CaseEvidence caseRecord={caseRecord} />
+        <><IntakePanel key={caseId} caseId={caseId} onComplete={reload} /><CaseEvidence caseRecord={caseRecord} /><IntakeHistory key={caseId} caseId={caseId} revision={caseRecord.lastActivity?.at} /></>
       ) : activeTab === 'timeline' ? (
         <CaseTimeline caseRecord={caseRecord} />
       ) : activeTab === 'ioc-graph' ? (
@@ -107,9 +120,7 @@ export default function CaseWorkspacePage() {
       ) : activeTab === 'analysis' ? (
         <CaseAnalysis
           caseRecord={caseRecord}
-          onAnalysisComplete={() => {
-            fetchCase(caseId).then(setCaseRecord).catch((err) => { setError(err.message); setState('error') })
-          }}
+          onAnalysisComplete={reload}
         />
       ) : (
         // Unreachable while every other tab is disabled, but the workspace should

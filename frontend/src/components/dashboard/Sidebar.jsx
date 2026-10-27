@@ -35,7 +35,6 @@ export default function Sidebar() {
               >
                 <Icon name={item.icon} size={17} />
                 <span className="sidebar-link__label">{item.label}</span>
-                {item.phase && <span className="sidebar-link__pending" aria-hidden="true" />}
               </NavLink>
             </li>
           ))}
@@ -43,15 +42,6 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-foot">
-        <div className="sidebar-case">
-          <span className="eyebrow">Active case</span>
-          <span className="sidebar-case__id mono">CASE-2026-0147</span>
-          <span className="sidebar-case__host">
-            <Icon name="host" size={12} />
-            FIN-WKS-014
-          </span>
-        </div>
-
         <div className="sidebar-user">
           <span className="sidebar-user__avatar mono" aria-hidden="true">
             {investigator.slice(-2)}

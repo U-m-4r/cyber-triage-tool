@@ -4,12 +4,12 @@ In progress. Branch: main, starting commit: 459fdce. No commits or branch change
 
 - [x] Inspect current checkout and record protected source fingerprints.
 - [x] Create project-local `.venv` (Python 3.14.7).
-- [ ] Install and lock runtime/development dependencies.
-- [ ] Isolate tests from investigation databases and external services.
-- [ ] Execute and repair backend tests.
-- [ ] Stabilize configuration, startup, health and readiness.
-- [ ] Add lightweight quality commands and verify frontend.
-- [ ] Update developer instructions and inspect final diff.
+- [x] Install and lock runtime/development dependencies.
+- [x] Isolate tests from investigation databases and external services.
+- [x] Execute and repair backend tests.
+- [x] Stabilize configuration, startup, health and readiness.
+- [x] Add lightweight quality commands and verify frontend.
+- [x] Update developer instructions and inspect final diff.
 
 Protected files before work:
 - `context.md`: 6,552 bytes; SHA-256 `5acd8d78d76d4ee9fc179a8ebfa3927c53650002212917bf9996a6c014079fb6` (untracked).

@@ -1,57 +1,31 @@
-/**
- * Prototype session handling.
- *
- * The investigator label remains a prototype. An optional operator-supplied API
- * token is kept for this browser session and checked by the backend on requests.
- * This is not user identity or case authorization; those belong to Phase 2.
- */
+import { frontendConfig } from './config.js'
 
 const SESSION_KEY = 'cyber-triage:session'
-
-/** @returns {{ investigatorId: string, signedInAt: string } | null} */
 export function getSession() {
-  try {
-    const raw = sessionStorage.getItem(SESSION_KEY)
-    return raw ? JSON.parse(raw) : null
-  } catch {
-    return null
-  }
+  try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)) } catch { return null }
 }
-
-/**
- * Records a prototype session. Resolves after a short delay so the login
- * button's pending state is visible — the real call will be async too.
- */
-export function authenticate({ investigatorId, apiToken = '' }) {
-  const session = {
-    investigatorId: investigatorId.trim(),
-    signedInAt: new Date().toISOString(),
-    apiToken: apiToken.trim(),
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      try {
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session))
-      } catch {
-        // Private-mode storage failure is not fatal for a prototype.
-      }
-      resolve(session)
-    }, 450)
-  })
-}
-
 export function signOut() {
-  try {
-    sessionStorage.removeItem(SESSION_KEY)
-  } catch {
-    // no-op
-  }
+  try { sessionStorage.removeItem(SESSION_KEY) } catch { /* storage may be unavailable */ }
+  globalThis.window?.dispatchEvent(new Event('session-changed'))
 }
-
-/** Falls back to a placeholder so the shell renders if /dashboard is hit directly. */
+export async function authenticate({ investigatorId, apiToken = '' }) {
+  signOut()
+  const token = apiToken.trim()
+  let response
+  try {
+    response = await fetch(`${frontendConfig.apiBase}/session`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+  } catch { throw new Error('Unable to reach Flask. Start the backend and check the API connection.') }
+  const body = await response.json()
+  if (!response.ok) throw new Error(body.error?.message || 'Authentication failed.')
+  const session = { investigatorId: investigatorId.trim(), apiToken: token,
+    signedInAt: new Date().toISOString(), authMode: body.authMode }
+  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)) }
+  catch { throw new Error('Session storage is unavailable. Enable browser storage to sign in.') }
+  globalThis.window?.dispatchEvent(new Event('session-changed'))
+  return session
+}
 export function getInvestigatorLabel() {
-  const session = getSession()
-  if (!session?.investigatorId) return 'INV-0000'
-  return session.investigatorId.toUpperCase()
+  return getSession()?.investigatorId?.toUpperCase() || 'Workspace operator'
 }

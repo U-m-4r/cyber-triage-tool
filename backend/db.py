@@ -79,45 +79,11 @@ def init_db():
     db.artifacts.create_index("priority")
     db.artifacts.create_index([("risk_score", DESCENDING)])
     db.artifacts.create_index([("ingested_at", DESCENDING)])
+    db.ingestions.create_index("id", unique=True)
+    db.ingestions.create_index("case_id")
+    db.ingestions.create_index([("created_at", DESCENDING)])
 
     logger.info("MongoDB indexes ensured on database '%s'", db.name)
-
-
-def seed_if_empty():
-    """
-    Populate the cases collection with the four sample records when it is empty.
-
-    This keeps the frontend working identically to the mock-data version —
-    investigators see the same cases, findings, and recommendations immediately
-    after setup.
-    """
-    db = get_db()
-
-    if db.cases.count_documents({}) > 0:
-        logger.info("Cases collection already populated — skipping seed")
-        return
-
-    from backend.seed_data import (
-        SAMPLE_CASES,
-        DASHBOARD_METRICS,
-        RECENT_ACTIVITY,
-    )
-
-    # Insert cases
-    db.cases.insert_many([{**case, "isDemo": True} for case in SAMPLE_CASES])
-    logger.info("Seeded %d sample cases", len(SAMPLE_CASES))
-
-    # Insert dashboard metrics (single doc, upsert pattern)
-    db.dashboard.replace_one(
-        {"_type": "metrics"},
-        {"_type": "metrics", "metrics": DASHBOARD_METRICS},
-        upsert=True,
-    )
-
-    # Insert recent activity
-    if RECENT_ACTIVITY:
-        db.activity.insert_many(RECENT_ACTIVITY)
-        logger.info("Seeded %d activity records", len(RECENT_ACTIVITY))
 
 
 def check_connection():

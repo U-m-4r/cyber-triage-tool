@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Panel from '../components/dashboard/Panel.jsx'
 import StatCard from '../components/dashboard/StatCard.jsx'
@@ -6,73 +6,24 @@ import InvestigationRow from '../components/dashboard/InvestigationRow.jsx'
 import AiTriagePanel from '../components/dashboard/AiTriagePanel.jsx'
 import ActivityFeed from '../components/dashboard/ActivityFeed.jsx'
 import Icon from '../components/ui/Icon.jsx'
-import {
-  fetchActiveInvestigations,
-  fetchDashboardMetrics,
-  fetchRecentActivity,
-  fetchTriageSummary,
-  fetchDataMode,
-} from '../services/dashboardService.js'
+import useApi from '../hooks/useApi.js'
 import { formatTimestamp } from '../utils/format.js'
 import '../styles/page.css'
 import './DashboardPage.css'
 
 export default function DashboardPage() {
-  const [metrics, setMetrics] = useState([])
-  const [investigations, setInvestigations] = useState([])
-  const [activity, setActivity] = useState([])
+  const [revision, refresh] = useState(0)
   const [selectedCaseId, setSelectedCaseId] = useState(null)
-  const [triage, setTriage] = useState(null)
-  const [ready, setReady] = useState(false)
-  const [error, setError] = useState(null)
-  const [dataMode, setDataMode] = useState('live')
-
-  // Initial load. Everything comes through the service layer, so swapping the
-  // mock fixtures for the Flask API later touches only services/.
-  useEffect(() => {
-    let cancelled = false
-
-    Promise.all([
-      fetchDashboardMetrics(),
-      fetchActiveInvestigations(),
-      fetchRecentActivity(),
-      fetchDataMode(),
-    ]).then(([nextMetrics, nextInvestigations, nextActivity, nextMode]) => {
-      if (cancelled) return
-      setMetrics(nextMetrics)
-      setInvestigations(nextInvestigations)
-      setActivity(nextActivity)
-      setDataMode(nextMode)
-      setSelectedCaseId(nextInvestigations[0]?.id ?? null)
-      setReady(true)
-    }).catch((err) => { if (!cancelled) setError(err.message) })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  // Triage summary follows the selected case.
-  useEffect(() => {
-    if (!selectedCaseId) return undefined
-    let cancelled = false
-
-    fetchTriageSummary(selectedCaseId).then((summary) => {
-      if (!cancelled) setTriage(summary)
-    }).catch((err) => { if (!cancelled) setError(err.message) })
-
-    return () => {
-      cancelled = true
-    }
-  }, [selectedCaseId])
-
-  const selected = useMemo(
-    () => investigations.find((item) => item.id === selectedCaseId) ?? null,
-    [investigations, selectedCaseId],
-  )
+  const { data, loading, error } = useApi('/dashboard', revision)
+  const metrics = data?.metrics || []
+  const investigations = data?.investigations || []
+  const activity = data?.recentActivity || []
+  const selected = investigations.find(c => c.id === selectedCaseId) || investigations[0] || null
+  const triage = data?.triageSummaries?.[selected?.id] || null
+  const ready = !loading
 
   if (error) {
-    return <div className="page" role="alert"><h1>Investigation overview unavailable</h1><p>{error}</p><button onClick={() => window.location.reload()}>Retry</button></div>
+    return <div className="page" role="alert"><h1>Investigation overview unavailable</h1><p>{error}. Check MongoDB and Flask, then retry.</p><button onClick={() => window.location.reload()}>Retry</button></div>
   }
 
   if (!ready) {
@@ -89,7 +40,7 @@ export default function DashboardPage() {
         <div className="page-head__titles">
           <h1 className="page-head__title">Investigation overview</h1>
           <p className="page-head__subtitle">
-            {investigations.length} open cases assigned to this workspace
+            Up to 10 open investigations, ranked by risk
             {triage && (
               <>
                 {' · '}
@@ -101,18 +52,22 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {dataMode !== 'live' && <span className="page-head__notice">
-          <Icon name="alert" size={12} strokeWidth={1.7} />
-          {dataMode === 'mixed' ? 'Contains legacy sample cases — verify case provenance' : 'Sample data — no evidence has been parsed'}
-        </span>}
+
       </header>
 
+      <button onClick={() => refresh(v => v + 1)}>Refresh dashboard</button>
       <section className="metric-grid" aria-label="Case metrics">
         {metrics.map((metric) => (
           <StatCard key={metric.id} metric={metric} />
         ))}
       </section>
 
+      <div className="distribution">
+        {[['Severity distribution', data?.severityDistribution], ['Artifact categories', data?.artifactTypes]].map(([label, values]) => <section key={label}>
+          <h2>{label}</h2>{!values?.length ? <p>No scored artifacts.</p> : values.map(b => <label key={b._id}>{b._id}: {b.count}
+            <meter min="0" max={values.reduce((sum, v) => sum + v.count, 0)} value={b.count} /></label>)}
+        </section>)}
+      </div>
       <div className="dashboard__grid">
         <Panel
           className="dashboard__cases"
@@ -126,11 +81,12 @@ export default function DashboardPage() {
           }
           flush
         >
+          {!investigations.length && <p>No open investigations. Create one from Cases.</p>}
           {investigations.map((investigation) => (
             <InvestigationRow
               key={investigation.id}
               investigation={investigation}
-              selected={investigation.id === selectedCaseId}
+              selected={investigation.id === selected?.id}
               onSelect={setSelectedCaseId}
             />
           ))}

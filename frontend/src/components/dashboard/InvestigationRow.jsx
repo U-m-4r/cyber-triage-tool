@@ -85,19 +85,19 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
 
       <div className="inv-row__score">
         <div className="inv-row__score-line">
-          <span className="inv-row__score-value tabular">{threatScore}</span>
+          <span className="inv-row__score-value tabular">{threatScore ?? 'Not scored'}</span>
           <span className="inv-row__score-max">/100</span>
         </div>
         <span className="inv-row__score-label">Threat score</span>
         <div className="inv-row__meter" role="presentation">
-          <span className="inv-row__meter-fill" style={{ width: `${threatScore}%` }} />
+          <span className="inv-row__meter-fill" style={{ width: `${threatScore ?? 'Not scored'}%` }} />
         </div>
       </div>
 
       <div className="inv-row__severity">
         <SeverityBadge severity={severity} />
         <span className="inv-row__progress-label">
-          <span className="tabular">{progress}%</span> triaged
+          Scoring runs on upload
         </span>
       </div>
 
@@ -105,7 +105,7 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
         <div className="inv-row__stat">
           <dt>Evidence</dt>
           <dd className="tabular">
-            {evidence.images + evidence.logSets + evidence.captures}
+            {Array.isArray(evidence) ? evidence.length : 0}
           </dd>
         </div>
         <div className="inv-row__stat">

@@ -20,6 +20,7 @@ const URGENCY_CLASS = {
  * @param {{ recommendation: object }} props
  */
 export default function RecommendedAction({ recommendation }) {
+  if (!recommendation) return <Panel title="Recommended Next Action"><p>No recommendation recorded.</p></Panel>
   // Aliased so the response window does not shadow the global `window`.
   const { urgency, headline, window: actionWindow, owner, steps, rationale } = recommendation
   const urgencyClass = URGENCY_CLASS[urgency] ?? 'low'
@@ -61,10 +62,7 @@ export default function RecommendedAction({ recommendation }) {
         </section>
       </div>
 
-      <footer className="case-action__foot">
-        Sample data — this recommendation was written by hand for UI development. No model produced
-        it and no automated response is wired up.
-      </footer>
+
     </Panel>
   )
 }

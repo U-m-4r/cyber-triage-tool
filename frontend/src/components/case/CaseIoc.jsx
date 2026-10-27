@@ -77,7 +77,7 @@ function deriveIndicators(findings) {
 /**
  * IOC Graph tab of the case workspace.
  *
- * @param {{ caseRecord: import('../../data/mockCases.js').CaseRecord }} props
+ * @param {{ caseRecord: object }} props
  */
 export default function CaseIoc({ caseRecord }) {
   const [typeFilter, setTypeFilter] = useState('ALL')

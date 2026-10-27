@@ -16,7 +16,7 @@ import './CaseOverview.css'
  * assessment side by side because they are read together; the recommendation gets
  * the full width because it is the one thing on screen that asks for a decision.
  *
- * @param {{ caseRecord: import('../../data/mockCases.js').CaseRecord }} props
+ * @param {{ caseRecord: object }} props
  */
 export default function CaseOverview({ caseRecord }) {
   return (
@@ -36,6 +36,9 @@ export default function CaseOverview({ caseRecord }) {
           severity={caseRecord.severity}
           status={caseRecord.status}
         />
+        {caseRecord.artifactPriorities?.length > 0 && <Panel title="Stored artifact priorities">
+          {caseRecord.artifactPriorities.map(band => <p key={band.severity}>{band.severity}: {band.count}</p>)}
+        </Panel>}
       </div>
 
       <div className="case-overview__action">

@@ -168,9 +168,10 @@ export default function CaseReports({ caseRecord }) {
                     <button
                       className="case-reports__download-btn"
                       onClick={handleDirectDownload}
+                      disabled={generating}
                     >
                       <Icon name="arrowRight" size={12} />
-                      Download
+                      Generate current report
                     </button>
                   </td>
                 </tr>

@@ -29,7 +29,7 @@ const STATE_LABEL = {
  *
  * @param {{ evidence: { sources: Array<object>, pending: Array<object> } }} props
  */
-export default function EvidenceStatus({ evidence }) {
+export default function EvidenceStatus({ evidence = { sources: [], pending: [] } }) {
   const { sources, pending } = evidence
   const parsed = sources.filter((source) => source.state === 'PARSED').length
   const verified = sources.filter((source) => source.integrity === 'HASH MATCH').length
@@ -79,7 +79,7 @@ export default function EvidenceStatus({ evidence }) {
               {/* Truncated for scanning; the full digest is on the title so it
                   can still be read and copied without a detail view. */}
               <span className="ev-source__hash mono" title={`SHA-256 ${source.sha256}`}>
-                {source.sha256.slice(0, 16)}…
+                {source.sha256?.slice(0, 16) || 'Not recorded'}…
               </span>
             </div>
           </li>

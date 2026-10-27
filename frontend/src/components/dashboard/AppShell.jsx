@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
+import { getSession } from '../../services/authService.js'
 import Sidebar from './Sidebar.jsx'
 import TopBar from './TopBar.jsx'
 import './AppShell.css'
@@ -13,6 +14,12 @@ import './AppShell.css'
  * the interface stops being cinematic and becomes an instrument.
  */
 export default function AppShell() {
+  const [session, setSession] = useState(getSession)
+  useEffect(() => {
+    const changed = () => setSession(getSession())
+    window.addEventListener('session-changed', changed)
+    return () => window.removeEventListener('session-changed', changed)
+  }, [])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { pathname } = useLocation()
 
@@ -29,6 +36,8 @@ export default function AppShell() {
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [drawerOpen])
+
+  if (!session) return <Navigate to="/login" replace />
 
   return (
     <div className={`app-shell${drawerOpen ? ' app-shell--drawer-open' : ''}`}>

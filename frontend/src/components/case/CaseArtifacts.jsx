@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import SeverityBadge from '../ui/SeverityBadge.jsx'
-import {
-  fetchArtifacts,
-  ingestFile,
-  INGEST_KINDS,
-} from '../../services/artifactService.js'
+import useApi from '../../hooks/useApi.js'
+import IntakePanel from './IntakePanel.jsx'
 import './CaseArtifacts.css'
 
 const TYPE_OPTIONS = [
@@ -32,9 +29,9 @@ function artifactDetail(a) {
     case 'file':
       return a.FilePath || a.FileName || '—'
     case 'system_log':
-      return `EventID ${a.EventID ?? '—'} · ${a.FailedLogins ?? 0} failed logins`
+      return `EventID ${a.EventID ?? '—'} · ${a.FailedLogins ?? '—'} failed logins`
     case 'network':
-      return `${a['Flow Packets/s'] ?? 0} pkt/s · ${a['Flow Bytes/s'] ?? 0} B/s`
+      return `${a['Flow Packets/s'] ?? '—'} pkt/s · ${a['Flow Bytes/s'] ?? '—'} B/s`
     default:
       return '—'
   }
@@ -45,127 +42,26 @@ function artifactDetail(a) {
  * (Requirement #2). Also hosts the ingest control so an investigator can pull a
  * log / registry / pcap / file listing into the case from here.
  */
-export default function CaseArtifacts({ caseRecord }) {
-  const caseId = caseRecord?.id
+export default function CaseArtifacts({ caseRecord, onChange }) {
   const [type, setType] = useState('')
   const [severity, setSeverity] = useState('')
-  const [rows, setRows] = useState([])
-  const [total, setTotal] = useState(0)
-  const [loading, setLoading] = useState(true)
-  const [loadError, setLoadError] = useState(null)
-
-  const [kind, setKind] = useState(INGEST_KINDS[0].id)
-  const [file, setFile] = useState(null)
-  const [ingesting, setIngesting] = useState(false)
-  const [notice, setNotice] = useState(null)
-
-  const load = useCallback(() => {
-    setLoading(true)
-    setLoadError(null)
-    fetchArtifacts({ caseId, type, severity }).then((data) => {
-      setRows(data.artifacts)
-      setTotal(data.total)
-    }).catch((err) => { setRows([]); setLoadError(err.message) })
-      .finally(() => setLoading(false))
-  }, [caseId, type, severity])
-
-  useEffect(() => {
-    load()
-  }, [load])
-
-  const handleIngest = async () => {
-    if (!file) {
-      setNotice({ kind: 'error', text: 'Choose a file to ingest first.' })
-      return
-    }
-    setIngesting(true)
-    setNotice(null)
-    try {
-      const res = await ingestFile(file, { kind, caseId })
-      setNotice({
-        kind: 'ok',
-        text: `Ingested ${res.summary.total_records} artifacts (${res.stored} stored).`,
-      })
-      setFile(null)
-      load()
-    } catch (err) {
-      setNotice({ kind: 'error', text: err.message || 'Ingestion failed.' })
-    } finally {
-      setIngesting(false)
-    }
-  }
-
-  return (
-    <div className="case-artifacts">
-      <IngestPanel
-        kind={kind}
-        setKind={setKind}
-        file={file}
-        setFile={setFile}
-        ingesting={ingesting}
-        onIngest={handleIngest}
-        notice={notice}
-      />
-      {loadError ? <p role="alert">Artifacts unavailable: {loadError}</p> : <ArtifactTable
-        rows={rows}
-        total={total}
-        loading={loading}
-        type={type}
-        setType={setType}
-        severity={severity}
-        setSeverity={setSeverity}
-      />}
-    </div>
-  )
-}
-
-function IngestPanel({ kind, setKind, file, setFile, ingesting, onIngest, notice }) {
-  return (
-    <section className="artifacts-ingest">
-      <h3 className="artifacts-ingest__title">Ingest evidence</h3>
-      <p className="artifacts-ingest__copy">
-        Parse a Windows Event Log, registry export, packet capture, or file listing
-        into scored artifacts for this case. Binary formats can be uploaded as their
-        exported CSV / XML / JSON form.
-      </p>
-      <div className="artifacts-ingest__controls">
-        <select
-          className="artifacts-select"
-          value={kind}
-          onChange={(e) => setKind(e.target.value)}
-          disabled={ingesting}
-          aria-label="Source kind"
-        >
-          {INGEST_KINDS.map((k) => (
-            <option key={k.id} value={k.id}>{k.label}</option>
-          ))}
-        </select>
-        <input
-          type="file"
-          id="artifact-ingest-file"
-          className="artifacts-file-input"
-          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          disabled={ingesting}
-        />
-        <label htmlFor="artifact-ingest-file" className="artifacts-file-label">
-          {file ? file.name : 'Choose file'}
-        </label>
-        <button
-          type="button"
-          className="artifacts-ingest__btn"
-          onClick={onIngest}
-          disabled={ingesting || !file}
-        >
-          {ingesting ? 'Ingesting…' : 'Ingest'}
-        </button>
-      </div>
-      {notice && (
-        <p className={`artifacts-notice artifacts-notice--${notice.kind}`}>
-          {notice.text}
-        </p>
-      )}
-    </section>
-  )
+  const [query, setQuery] = useState('')
+  const [offset, setOffset] = useState(0)
+  const [revision, refresh] = useState(0)
+  const params = new URLSearchParams({ type, severity, q: query, offset, limit: 25,
+    ...(caseRecord?.id ? { case_id: caseRecord.id } : {}) })
+  const { data, loading, error } = useApi(`/artifacts?${params}`, revision)
+  function filter(setter, value) { setter(value); setOffset(0) }
+  return <div className="case-artifacts">
+    {caseRecord && <IntakePanel caseId={caseRecord.id} onComplete={async () => { refresh(v => v + 1); await onChange?.() }} />}
+    <div className="integration-controls"><input aria-label="Search artifacts" placeholder="Search source, path, rules" value={query} onChange={e => filter(setQuery, e.target.value)} />
+      <button onClick={() => refresh(v => v + 1)}>Refresh artifacts</button></div>
+    {error && <p role="alert">Artifacts unavailable: {error}</p>}
+    {!error && <ArtifactTable rows={data?.artifacts || []} total={data?.total || 0} loading={loading}
+      type={type} setType={v => filter(setType, v)} severity={severity} setSeverity={v => filter(setSeverity, v)} />}
+    <div className="integration-controls"><button disabled={!offset || loading} onClick={() => setOffset(v => Math.max(0, v - 25))}>Previous</button>
+      <span>Page {Math.floor(offset / 25) + 1}</span><button disabled={loading || !data || offset + 25 >= data.total} onClick={() => setOffset(v => v + 25)}>Next</button></div>
+  </div>
 }
 
 function ArtifactTable({ rows, total, loading, type, setType, severity, setSeverity }) {

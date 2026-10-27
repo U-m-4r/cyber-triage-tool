@@ -43,10 +43,7 @@ export default function ThreatAssessment({ assessment, threatScore, severity, st
         <div className="case-assess__pending">
           <Icon name="clock" size={16} className="case-assess__pending-icon" />
           <p className="case-assess__pending-copy">
-            This case is <span className="case-assess__pending-state">{status}</span>. The provisional
-            score of <span className="tabular">{threatScore}</span> comes from rule hits recorded
-            during intake; no weighted breakdown, artifact ranking or indicator split exists until
-            the scoring pass completes.
+            {threatScore == null ? 'No scored artifacts yet. Upload supported evidence to begin.' : `Highest recorded artifact risk: ${threatScore}/100. See the artifact explorer for rule matches and source records. A calibrated model confidence is not available.`}
           </p>
         </div>
       </Panel>

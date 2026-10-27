@@ -2,7 +2,7 @@
  * Backend endpoints exposed by backend/app.py.
  */
 
-import { get, postFile, request, BASE_URL } from './apiClient.js'
+import { get, postFile, request } from './apiClient.js'
 
 /** GET /api/health -> { status, service, mongo } */
 export function checkHealth(options) {
@@ -47,14 +47,6 @@ export async function generateReport(caseId) {
 }
 
 /**
- * GET /api/report/:caseId — direct download link for a report.
- * Returns the URL string (not a fetch — use as href or window.open target).
- */
-export function getReportDownloadUrl(caseId) {
-  return `${BASE_URL}/report/${encodeURIComponent(caseId)}`
-}
-
-/**
  * GET /api/reports/:caseId — list previously generated reports.
  */
 export function listReports(caseId, options) {
@@ -63,7 +55,7 @@ export function listReports(caseId, options) {
 
 /**
  * Normalises an /api/analyze artifact into the shape the UI components use,
- * so the mock data and the real payload stay interchangeable.
+ * using the server-provided fields.
  */
 export function toArtifactViewModel(artifact) {
   return {

@@ -10,7 +10,7 @@
  */
 
 import { frontendConfig } from './config.js'
-import { getSession } from './authService.js'
+import { getSession, signOut } from './authService.js'
 
 const BASE_URL = frontendConfig.apiBase
 
@@ -41,11 +41,11 @@ export async function request(path, options = {}) {
   const { responseType, ...fetchOptions } = options
   const headers = new Headers(fetchOptions.headers)
   const token = getSession()?.apiToken
-  if (token) headers.set('Authorization', `Bearer ${token}`)
+  if (token && !headers.has('Authorization')) headers.set('Authorization', `Bearer ${token}`)
   try {
     response = await fetch(`${BASE_URL}${path}`, { ...fetchOptions, headers })
   } catch (cause) {
-    // Network-level failure: backend not running, DNS, offline, aborted.
+    if (cause.name === 'AbortError') throw cause
     throw new ApiError('Unable to reach the Cyber Triage backend.', {
       code: 'NETWORK_ERROR',
       payload: cause,
@@ -53,7 +53,11 @@ export async function request(path, options = {}) {
   }
 
   if (response.ok && responseType === 'blob') return response.blob()
-  const body = await parseBody(response)
+  if (response.status === 401) signOut()
+  let body
+  try { body = await parseBody(response) } catch {
+    throw new ApiError('The backend returned an invalid response.', { status: response.status, code: 'INVALID_RESPONSE' })
+  }
 
   if (!response.ok) {
     // backend/app.py returns either {error: {code, message}} or {error: "..."}.
@@ -88,14 +92,15 @@ export function postJson(path, data, options) {
 
 /** Multipart upload. The backend reads the part named `file`. */
 export function postFile(path, file, options = {}) {
+  const { data, ...requestOptions } = options
   const form = new FormData()
   form.append('file', file)
-  if (options.data) {
-    for (const [key, value] of Object.entries(options.data)) {
+  if (data) {
+    for (const [key, value] of Object.entries(data)) {
       form.append(key, value)
     }
   }
-  return request(path, { method: 'POST', body: form, ...options })
+  return request(path, { method: 'POST', body: form, ...requestOptions })
 }
 
 export { BASE_URL }

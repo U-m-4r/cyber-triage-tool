@@ -34,7 +34,7 @@ const SEVERITY_RANK = {
  * @param {Array<object>} props.findings
  * @param {string} props.status  Used to explain an empty list honestly.
  */
-export default function PriorityFindings({ findings, status }) {
+export default function PriorityFindings({ findings = [], status }) {
   const ordered = useMemo(
     () =>
       [...findings].sort(
@@ -62,9 +62,7 @@ export default function PriorityFindings({ findings, status }) {
         <div className="case-findings__empty">
           <Icon name="triage" size={16} className="case-findings__empty-icon" />
           <p className="case-findings__empty-copy">
-            No findings have been ranked for this case. Rule hits recorded during intake are counted
-            in the case totals, but they are not ordered into findings until the {status.toLowerCase()}{' '}
-            stage completes.
+            No ranked artifacts have been recorded. Upload supported evidence to this case.
           </p>
         </div>
       ) : (
@@ -96,7 +94,7 @@ export default function PriorityFindings({ findings, status }) {
                     <span className="mono">{finding.host}</span>
                   </span>
                   <span className="case-finding__meta-item mono" title="MITRE ATT&CK technique">
-                    {finding.technique.id} · {finding.technique.name}
+                    {finding.technique ? `${finding.technique.id} · ${finding.technique.name}` : 'Technique not mapped'}
                   </span>
                   <span className="case-finding__meta-item">
                     <Icon name="clock" size={11} />
@@ -109,7 +107,7 @@ export default function PriorityFindings({ findings, status }) {
                 <span className="case-finding__score-label">Risk</span>
                 <span className="case-finding__score-value tabular">{finding.riskScore}</span>
                 <span className="case-finding__score-confidence tabular">
-                  {formatPercent(finding.confidence)} conf.
+                  {finding.confidence == null ? 'Confidence unavailable' : `${formatPercent(finding.confidence)} conf.`}
                 </span>
               </div>
             </li>

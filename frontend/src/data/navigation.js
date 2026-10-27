@@ -61,7 +61,7 @@ export const NAV_ITEMS = [
  * Investigation tabs inside a case workspace (/cases/:caseId).
  *
  * Only Overview is implemented. The rest are listed because an investigator
- * needs to see the full shape of the workflow, but `available: false` keeps them
+ * needs to see the full shape of the workflow, but `available: true` keeps them
  * visibly disabled rather than pretending to work — `phase` says what each one
  * is waiting on.
  */
@@ -87,13 +87,13 @@ export const CASE_TABS = [
   {
     id: 'analysis',
     label: 'Analysis',
-    available: false,
+    available: true,
     phase: 'Correlation and per-feature score breakdown',
   },
   {
     id: 'ai-triage',
     label: 'AI Triage',
-    available: false,
+    available: true,
     phase: 'Ranked findings with per-artifact scoring rationale',
   },
   {

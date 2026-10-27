@@ -1,0 +1,13 @@
+.integration-page { display: grid; gap: 18px; align-content: start; }
+.integration-controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.integration-form { display: grid; gap: 12px; max-width: 720px; padding: 16px 0; }
+.integration-form label { display: grid; gap: 6px; }
+.integration-page input, .integration-page textarea, .integration-page select, .integration-controls input, .integration-controls select, .integration-form input, .integration-form textarea, .integration-form select { background: #171c24; color: #e9edf3; border: 1px solid #47505c; border-radius: 4px; padding: 9px; }
+.integration-page button, .integration-controls button, .integration-form button { background: #252e3b; color: #e9edf3; border: 1px solid #566273; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.integration-page table { width: 100%; border-collapse: collapse; }
+.integration-page td, .integration-page th { text-align: left; padding: 12px; border-bottom: 1px solid #343c48; overflow-wrap: anywhere; }
+.integration-page pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 340px; overflow: auto; }
+.integration-page [role=alert], .integration-form [role=alert] { color: #ffb5ab; }
+.distribution { display: flex; gap: 18px; flex-wrap: wrap; }
+.distribution label { display: grid; gap: 6px; }

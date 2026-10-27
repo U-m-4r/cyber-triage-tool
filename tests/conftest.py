@@ -21,6 +21,8 @@ os.environ["MPLCONFIGDIR"] = str(Path(ROOT_DIR) / ".test-artifacts" / "matplotli
 
 
 def pytest_addoption(parser):
+    parser.addoption("--no-training", action="store_true", default=False,
+                     help="Skip tests that fit disposable models or scalers; forbid fitting in all remaining tests.")
     parser.addoption("--run-integration", action="store_true", default=False,
                      help="Require disposable loopback MongoDB on port 27018; unavailable service fails.")
 
@@ -60,10 +62,32 @@ def pytest_configure(config):
 
 
 def pytest_collection_modifyitems(config, items):
+    if config.getoption("--no-training"):
+        for item in items:
+            fits = (set(item.fixturenames) & {"baseline_bundle", "baseline_api", "real_scaler"}
+                    or item.name in {"test_scale_features_is_zscore_standardization",
+                                     "test_changed_training_dataset_not_published",
+                                     "test_train_baseline_eligible_view_excludes_cleaned_rows"})
+            if fits:
+                item.add_marker(pytest.mark.skip(reason="Model/scaler fitting prohibited by --no-training"))
     if not config.getoption("--run-integration"):
         for item in items:
             if item.get_closest_marker("integration"):
                 item.add_marker(pytest.mark.skip(reason="Requires --run-integration and dedicated MongoDB on port 27018"))
+
+
+@pytest.fixture(autouse=True)
+def prohibit_training(request, monkeypatch):
+    if request.config.getoption("--no-training"):
+        from sklearn.ensemble import IsolationForest
+        from sklearn.preprocessing import StandardScaler
+
+        def forbidden(*args, **kwargs):
+            raise AssertionError("Fitting is prohibited by --no-training.")
+
+        monkeypatch.setattr(IsolationForest, "fit", forbidden)
+        monkeypatch.setattr(StandardScaler, "fit", forbidden)
+        monkeypatch.setattr(StandardScaler, "fit_transform", forbidden)
 
 
 @pytest.fixture(autouse=True)

@@ -25,7 +25,7 @@ const SEVERITY_RANK = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3, INFO: 4 }
  * expand its detail. Markers on the vertical rail carry severity by colour and
  * nothing else, so a red dot always means "more serious", never "clickable".
  *
- * @param {{ caseRecord: import('../../data/mockCases.js').CaseRecord }} props
+ * @param {{ caseRecord: object }} props
  */
 export default function CaseTimeline({ caseRecord }) {
   const [severityFilter, setSeverityFilter] = useState('ALL')

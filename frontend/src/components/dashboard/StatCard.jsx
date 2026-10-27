@@ -9,7 +9,7 @@ import './StatCard.css'
  * KPI strip is context for the case list below it, not the subject of the
  * screen, so it carries no chart, rail or tone fill.
  *
- * @param {{ metric: import('../../data/mockDashboard.js').DashboardMetric }} props
+ * @param {{ metric: object }} props
  */
 export default function StatCard({ metric }) {
   return (

@@ -37,8 +37,11 @@ export default function LoginPage() {
 
     setError(null)
     setPending(true)
-    await authenticate({ investigatorId, apiToken: password })
-    navigate('/dashboard', { replace: true })
+    try {
+      await authenticate({ investigatorId, apiToken: password })
+      navigate('/dashboard', { replace: true })
+    } catch (err) { setError(err.message) }
+    finally { setPending(false) }
   }
 
   return (

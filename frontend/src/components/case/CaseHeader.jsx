@@ -19,7 +19,7 @@ const SEVERITY_CLASS = {
  * fresh that picture is. The score meter is neutral — the severity chip beside it
  * is what carries hue.
  *
- * @param {{ caseRecord: import('../../data/mockCases.js').CaseRecord }} props
+ * @param {{ caseRecord: object }} props
  */
 export default function CaseHeader({ caseRecord }) {
   const {
@@ -64,11 +64,11 @@ export default function CaseHeader({ caseRecord }) {
           <dt className="case-head__fact-label">Threat score</dt>
           <dd>
             <span className="case-head__score-line">
-              <span className="case-head__score-value tabular">{threatScore}</span>
+              <span className="case-head__score-value tabular">{threatScore ?? 'Not scored'}</span>
               <span className="case-head__score-max">/100</span>
             </span>
             <span className="case-head__meter" role="presentation">
-              <span className="case-head__meter-fill" style={{ width: `${threatScore}%` }} />
+              <span className="case-head__meter-fill" style={{ width: `${threatScore ?? 'Not scored'}%` }} />
             </span>
           </dd>
         </div>

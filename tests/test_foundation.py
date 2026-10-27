@@ -230,10 +230,10 @@ def test_config_command_is_read_only_and_secret_free(isolated_app):
     assert not isolated_app.extensions
 
 
-def test_seed_demo_command_rejects_test_database(isolated_app):
+def test_demo_seeding_command_is_removed(isolated_app):
     result = isolated_app.test_cli_runner().invoke(args=["seed-demo"])
     assert result.exit_code != 0
-    assert "Demo seeding requires" in result.output
+    assert "No such command" in result.output
 
 
 @pytest.mark.parametrize(

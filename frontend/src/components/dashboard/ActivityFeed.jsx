@@ -1,3 +1,4 @@
+import { formatTimestamp } from '../../utils/format.js'
 import Icon from '../ui/Icon.jsx'
 import './ActivityFeed.css'
 
@@ -14,7 +15,8 @@ const KIND_ICON = {
  *
  * @param {{ events: Array<object> }} props
  */
-export default function ActivityFeed({ events }) {
+export default function ActivityFeed({ events = [] }) {
+  if (!events.length) return <p>No recorded activity.</p>
   return (
     <ul className="activity-feed">
       {events.map((event) => (
@@ -37,7 +39,7 @@ export default function ActivityFeed({ events }) {
           </div>
 
           <time className="activity__time" dateTime={event.at}>
-            {event.relative}
+            {formatTimestamp(event.at)}
           </time>
         </li>
       ))}

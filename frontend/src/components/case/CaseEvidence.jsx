@@ -35,7 +35,7 @@ const STATE_LABEL = {
  * fact until it verifies. Outstanding acquisitions are listed separately so they
  * never inflate the evidence already in hand.
  *
- * @param {{ caseRecord: import('../../data/mockCases.js').CaseRecord }} props
+ * @param {{ caseRecord: object }} props
  */
 export default function CaseEvidence({ caseRecord }) {
   const evidence = caseRecord?.evidence ?? {}

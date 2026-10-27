@@ -1,4 +1,5 @@
 import os
+import json
 import sys
 import uuid
 import hashlib
@@ -12,7 +13,9 @@ from flask import Blueprint, Flask, current_app, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
-from pymongo.errors import PyMongoError
+from pymongo.errors import PyMongoError, DuplicateKeyError
+from backend.integration import (activity, case_query, pagination, persist_intake,
+                                 triage, validated_case, now, LIVE_CASES, DEMO_IDS)
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
@@ -24,7 +27,7 @@ from ml.baseline import (BASELINE_PATH, BaselineError, load_baseline,
 from ml.preprocessor import NetworkInputError
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
-from backend.db import init_db, seed_if_empty, get_db, check_connection, close_db, DatabaseUnavailable
+from backend.db import init_db, get_db, check_connection, close_db, DatabaseUnavailable
 from backend.config import load_config
 from backend.report_generator import generate_case_report
 from evaluation.evaluate import (
@@ -140,6 +143,10 @@ def _is_demo_case(case):
 def _case_response(case):
     result = _clean_mongo_doc(dict(case))
     result["dataMode"] = "demo" if _is_demo_case(case) else "live"
+    result.setdefault("summary", {"narrative": result.get("description", ""), "facts": []})
+    result.setdefault("evidence", {"sources": [], "pending": []})
+    result.setdefault("findings", [])
+    result.setdefault("activity", [])
     return result
 
 
@@ -173,7 +180,23 @@ def _network_csv_inference(filepath):
 def health():
     """Liveness stays 200; readiness and component state are explicit."""
     components = _readiness()
-    return jsonify({"status": "ok", "service": "cyber-triage-backend", **components})
+    return jsonify({"status": "ok", "service": "cyber-triage-backend", "max_upload_bytes": current_app.config["MAX_CONTENT_LENGTH"], **components})
+
+
+@api.route("/api/session", methods=["GET"])
+def session_status():
+    return jsonify({"authenticated": True,
+                    "authMode": "shared-token" if current_app.config["API_TOKEN"] else "development",
+                    "identityScope": "shared workspace; investigator labels are not authenticated identities"})
+
+
+@api.route("/api/model", methods=["GET"])
+def model_status():
+    try:
+        bundle = load_baseline(current_app.config["MODEL_PATH"])
+        return jsonify({"available": True, "baseline": baseline_metadata(bundle)})
+    except BaselineError as exc:
+        return jsonify({"available": False, "code": exc.code, "message": "Approved network baseline unavailable. Supply a compatible, provenance-validated models/cicids2017_baseline.joblib bundle. Uploads do not train models."})
 
 
 def _readiness():
@@ -205,7 +228,12 @@ def analyze():
 
     try:
         bundle, (df_clean, predictions, scores, preprocessing, drift) = _network_csv_inference(filepath)
-        results_df = scorer.score_dataframe(df_clean, scores)
+        source_records = df_clean.reset_index(drop=True).copy()
+        source_records["prediction"] = ["anomaly" if value == -1 else "normal" for value in predictions]
+        source_records["decision_score"] = scores
+        source_records["record_id"] = range(len(source_records))
+        results_df = pd.DataFrame(scorer.score_records(
+            json.loads(source_records.to_json(orient="records")), scores))
 
         top_results = results_df.head(100).to_dict(orient="records")
         summary = {
@@ -234,79 +262,15 @@ def analyze():
         if _intake_database_available():
             try:
                 db = get_db()
-                analysis_doc = {
-                    "created_at": datetime.now(timezone.utc).isoformat(),
-                    "summary": summary,
-                    "top_artifacts_count": len(top_results),
-                    "evidence_custody": custody,
-                    "baseline": baseline_metadata(bundle),
-                    "preprocessing": preprocessing,
-                    "drift": drift,
-                }
-
-                case_id = request.form.get("caseId")
-                if case_id:
-                    analysis_doc["case_id"] = case_id
-
-                    case = db.cases.find_one({"id": case_id})
-                    if case:
-                        # Map top results to findings schema
-                        new_findings = []
-                        for artifact in top_results:
-                            new_findings.append({
-                                "id": f"F-{uuid.uuid4().hex[:6].upper()}",
-                                "title": f"Anomaly: {artifact.get('Source IP', 'Unknown')}:{artifact.get('Source Port', '')} \u2192 {artifact.get('Destination IP', 'Unknown')}:{artifact.get('Destination Port', '')}",
-                                "severity": artifact.get("priority", "LOW"),
-                                "riskScore": artifact.get("risk_score", 0),
-                                "confidence": None,  # No calibrated confidence is available.
-                                "source": "Uploaded Dataset",
-                                "host": str(artifact.get("Source IP", "Unknown")),
-                                "observedAt": datetime.now(timezone.utc).isoformat(),
-                                "technique": {"id": "N/A", "name": "Anomaly Detected"},
-                                "rationale": f"Anomaly score: {artifact.get('anomaly_score', 0):.2f}, Rule score: {artifact.get('rule_score', 0)}",
-                                "artifactType": "network",
-                                "reviewed": False,
-                            })
-                        
-                        # Update case findings and counts
-                        existing_findings = case.get("findings", [])
-                        updated_findings = new_findings + existing_findings # Newest first
-                        
-                        counts = case.get("counts", {"evidence": 0, "artifacts": 0, "iocs": 0, "criticalFindings": 0})
-                        counts["artifacts"] = counts.get("artifacts", 0) + len(df_clean)
-                        counts["criticalFindings"] = len([f for f in updated_findings if f.get("severity") == "CRITICAL"])
-                        
-                        # Calculate a new threat score based on highest risk finding
-                        threat_score = case.get("threatScore", 0)
-                        if new_findings:
-                            highest_risk = max([f.get("riskScore", 0) for f in new_findings])
-                            if highest_risk > threat_score:
-                                threat_score = highest_risk
-                        
-                        # Determine severity based on threat score
-                        severity = "LOW"
-                        if threat_score >= 75: severity = "CRITICAL"
-                        elif threat_score >= 50: severity = "HIGH"
-                        elif threat_score >= 25: severity = "MEDIUM"
-                        
-                        # Chain-of-custody ledger: append this evidence intake
-                        # record (filename + SHA-256 + timestamp) to the case.
-                        custody_chain = case.get("custody", [])
-                        custody_chain = [custody] + custody_chain
-
-                        db.cases.update_one(
-                            {"id": case_id},
-                            {"$set": {
-                                "findings": updated_findings,
-                                "counts": counts,
-                                "custody": custody_chain,
-                                "threatScore": threat_score,
-                                "severity": severity,
-                                "status": "ANALYZING" if case.get("status") == "INGESTING" else case.get("status")
-                            }}
-                        )
-
-                db.analysis_results.insert_one(analysis_doc)
+                intake_id, stored = persist_intake(
+                    db, results_df.to_dict(orient="records"), request.form.get("caseId"),
+                    custody, "cicids2017", {"baseline": baseline_metadata(bundle),
+                    "preprocessing": preprocessing, "drift": drift})
+                db.analysis_results.insert_one({"intake_id": intake_id, "created_at": now(),
+                    "case_id": request.form.get("caseId"), "summary": summary,
+                    "evidence_custody": custody, "baseline": baseline_metadata(bundle),
+                    "preprocessing": preprocessing, "drift": drift})
+                response_payload.update(intake_id=intake_id, stored=stored)
                 response_payload["persisted"] = True
             except Exception:
                 logger.error("Failed to persist analysis results")
@@ -376,22 +340,6 @@ def evaluate_model():
 # Ingestion & artifacts endpoints (NEW — Requirement #2)
 # ---------------------------------------------------------------------------
 
-def _persist_artifacts(db, scored, case_id, source_name, kind):
-    """Store scored artifacts in the `artifacts` collection and return their docs."""
-    now = datetime.now(timezone.utc).isoformat()
-    docs = []
-    for art in scored:
-        doc = dict(art)
-        doc["artifact_id"] = f"ART-{uuid.uuid4().hex[:10].upper()}"
-        doc["case_id"] = case_id
-        doc["source_kind"] = kind
-        doc["ingested_at"] = now
-        docs.append(doc)
-    if docs:
-        db.artifacts.insert_many(docs)
-    return docs
-
-
 @api.route("/api/ingest", methods=["POST"])
 def ingest():
     """Parse a forensic source (log / registry / pcap / file listing), score the
@@ -410,11 +358,17 @@ def ingest():
         except ParserError as exc:
             return _api_error(str(exc), 400, "PARSE_FAILED")
 
+        if not records:
+            return _api_error("No records were parsed from the upload.", 400, "EMPTY_INPUT")
+
         network_metadata = {}
         if kind == 'pcap' or any(r.get('artifact_type') == 'network' for r in records):
             bundle = load_baseline(current_app.config.get('MODEL_PATH'))
-            clean, _, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
-            scored = scorer.score_records(clean.to_dict(orient='records'), scores)
+            clean, predictions, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
+            clean = clean.copy()
+            clean['prediction'] = ['anomaly' if value == -1 else 'normal' for value in predictions]
+            clean['decision_score'] = scores
+            scored = scorer.score_records(json.loads(clean.to_json(orient='records')), scores)
             network_metadata = {'baseline': baseline_metadata(bundle),
                                 'preprocessing': preprocessing, 'drift': drift}
         else:
@@ -433,15 +387,8 @@ def ingest():
         if _intake_database_available():
             try:
                 db = get_db()
-                source_name = secure_filename(os.path.basename(filepath))
-                docs = _persist_artifacts(db, scored, case_id, source_name, kind)
-                stored = len(docs)
-                if case_id:
-                    case = db.cases.find_one({"id": case_id})
-                    if case:
-                        counts = case.get("counts", {})
-                        counts["artifacts"] = counts.get("artifacts", 0) + len(scored)
-                        db.cases.update_one({"id": case_id}, {"$set": {"counts": counts}})
+                intake_id, stored = persist_intake(db, scored, case_id, custody,
+                                                   kind or "auto", network_metadata)
             except Exception:
                 logger.error("Failed to persist ingested artifacts")
                 return _api_error("Artifact persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
@@ -477,7 +424,7 @@ def list_artifacts():
     if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
-    query = {}
+    query = {"case_id": {"$nin": DEMO_IDS}}
     artifact_type = request.args.get("type")
     if artifact_type:
         query["artifact_type"] = artifact_type
@@ -496,17 +443,18 @@ def list_artifacts():
     if time_filter:
         query["ingested_at"] = time_filter
 
-    try:
-        limit = max(1, min(int(request.args.get("limit", 100)), 1000))
-    except ValueError:
-        limit = 100
-
+    limit, offset = pagination()
+    search = request.args.get("q", "").strip()[:200]
+    if search:
+        import re
+        query["$or"] = [{key: {"$regex": re.escape(search), "$options": "i"}}
+                        for key in ("source_file", "FilePath", "RegistryKey", "matched_rules", "artifact_id")]
     db = get_db()
     total = db.artifacts.count_documents(query)
     artifacts = list(
         db.artifacts.find(query, {"_id": 0})
-        .sort("risk_score", -1)
-        .limit(limit)
+        .sort([("risk_score", -1), ("artifact_id", 1)])
+        .skip(offset).limit(limit)
     )
     return jsonify({"total": total, "returned": len(artifacts), "artifacts": artifacts})
 
@@ -522,8 +470,15 @@ def list_cases():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
-    cases = list(db.cases.find({}, {"_id": 0}).sort("threatScore", -1))
-    return jsonify({"cases": [_case_response(case) for case in cases]})
+    limit, offset = pagination()
+    query = case_query()
+    sort_key = request.args.get("sort", "openedAt")
+    if sort_key not in {"openedAt", "threatScore", "title"}:
+        return _api_error("Invalid sort field", 400, "INVALID_SORT")
+    cases = list(db.cases.find(query, {"_id": 0, "findings": 0, "activity": 0,
+        "custody": 0, "evidence": 0, "notes": 0}).sort([(sort_key, -1), ("id", 1)]).skip(offset).limit(limit))
+    return jsonify({"cases": [_case_response(case) for case in cases],
+                    "total": db.cases.count_documents(query), "limit": limit, "offset": offset})
 
 
 @api.route("/api/cases/<case_id>", methods=["GET"])
@@ -534,7 +489,7 @@ def get_case(case_id):
 
     db = get_db()
     case = db.cases.find_one({"id": case_id})
-    if not case:
+    if not case or _is_demo_case(case):
         return _api_error(f"Case {case_id} not found", 404, "CASE_NOT_FOUND")
 
     return jsonify(_case_response(case))
@@ -546,32 +501,19 @@ def create_case():
     if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
-    data = request.get_json(silent=True)
-    if not isinstance(data, dict) or not data:
-        return _api_error("Request body must be JSON", 400, "INVALID_BODY")
-
-    # Auto-generate an ID if not provided
-    if "id" not in data:
-        seq = get_db().counters.find_one_and_update(
-            {"_id": "case_seq"},
-            {"$inc": {"seq": 1}},
-            upsert=True,
-            return_document=True,
-        )
-        data["id"] = f"CASE-{datetime.now().year}-{seq['seq']:04d}"
-
+    data = validated_case(request.get_json(silent=True), creating=True)
+    data.setdefault("id", "CASE-" + uuid.uuid4().hex[:12].upper())
     data.setdefault("status", "INGESTING")
-    data.setdefault("progress", 0)
-    data.setdefault("threatScore", 0)
-    data.setdefault("severity", "LOW")
-    data.setdefault("openedAt", datetime.now(timezone.utc).isoformat())
-    data.setdefault("counts", {"evidence": 0, "artifacts": 0, "iocs": 0, "criticalFindings": 0})
-    data.setdefault("findings", [])
-    data.setdefault("activity", [])
-
+    data.update(threatScore=None, severity="INFO", openedAt=now(),
+        counts={"evidence": 0, "artifacts": 0, "iocs": 0, "criticalFindings": 0},
+        findings=[], activity=[], notes=[], custody=[], iocs=[], evidence={"sources": [], "pending": []})
     db = get_db()
-    db.cases.insert_one(data)
-    return jsonify(_case_response(data)), 201
+    try:
+        db.cases.insert_one(data)
+    except DuplicateKeyError:
+        return _api_error("Case ID already exists", 409, "CASE_EXISTS")
+    activity(db, data["id"], "Investigation created.")
+    return jsonify(_case_response(db.cases.find_one({"id": data["id"]}))), 201
 
 
 @api.route("/api/cases/<case_id>", methods=["PUT"])
@@ -580,21 +522,47 @@ def update_case(case_id):
     if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
-    data = request.get_json(silent=True)
-    if not isinstance(data, dict) or not data:
-        return _api_error("Request body must be JSON", 400, "INVALID_BODY")
-
+    data = validated_case(request.get_json(silent=True))
     db = get_db()
-    # Never let the caller change the case ID
-    data.pop("id", None)
-    data.pop("_id", None)
-
-    result = db.cases.update_one({"id": case_id}, {"$set": data})
+    result = db.cases.update_one({**LIVE_CASES, "id": case_id}, {"$set": data})
     if result.matched_count == 0:
-        return _api_error(f"Case {case_id} not found", 404, "CASE_NOT_FOUND")
+        return _api_error("Case not found", 404, "CASE_NOT_FOUND")
+    activity(db, case_id, "Updated case: " + ", ".join(sorted(data)) + ".")
+    return jsonify(_case_response(db.cases.find_one({"id": case_id})))
 
-    updated = db.cases.find_one({"id": case_id})
-    return jsonify(_case_response(updated))
+
+@api.route("/api/cases/<case_id>/notes", methods=["POST"])
+def add_note(case_id):
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict) or not isinstance(data.get("text"), str) or not 1 <= len(data["text"].strip()) <= 4000:
+        return _api_error("Note text must contain 1–4000 characters.", 400, "INVALID_NOTE")
+    db = get_db()
+    note = {"id": "NOTE-" + uuid.uuid4().hex, "text": data["text"].strip(), "at": now()}
+    result = db.cases.update_one({**LIVE_CASES, "id": case_id}, {"$push": {"notes": note}})
+    if not result.matched_count:
+        return _api_error("Case not found", 404, "CASE_NOT_FOUND")
+    activity(db, case_id, "Investigator note added.")
+    return jsonify(note), 201
+
+
+@api.route("/api/activity", methods=["GET"])
+def list_activity():
+    limit, offset = pagination()
+    query = {"caseId": {"$nin": DEMO_IDS}}
+    if request.args.get("case_id"):
+        query["caseId"] = request.args["case_id"]
+    db = get_db()
+    return jsonify({"events": list(db.activity.find(query, {"_id": 0}).sort("at", -1).skip(offset).limit(limit)),
+                    "total": db.activity.count_documents(query)})
+
+
+@api.route("/api/ingestions", methods=["GET"])
+def list_ingestions():
+    limit, offset = pagination()
+    query = {"case_id": request.args["case_id"]} if request.args.get("case_id") else {"case_id": {"$nin": DEMO_IDS}}
+    db = get_db()
+    return jsonify({"ingestions": list(db.ingestions.find(query, {"_id": 0}).sort("created_at", -1).skip(offset).limit(limit)),
+                    "total": db.ingestions.count_documents(query)})
 
 
 # ---------------------------------------------------------------------------
@@ -612,47 +580,30 @@ def dashboard():
 
     db = get_db()
 
-    # Metrics
-    metrics_doc = db.dashboard.find_one({"_type": "metrics"})
-    metrics = metrics_doc.get("metrics", []) if metrics_doc else []
-
-    # Active investigations (top-level case list for the dashboard)
-    cases = list(db.cases.find({}, {"_id": 0}).sort("threatScore", -1))
-    investigations = []
-    for c in cases:
-        investigations.append({
-            "id": c.get("id"),
-            "title": c.get("title"),
-            "threatScore": c.get("threatScore"),
-            "severity": c.get("severity"),
-            "status": c.get("status"),
-            "progress": c.get("progress"),
-            "examiner": c.get("examiner"),
-            "openedAt": c.get("openedAt"),
-            "lastActivity": c.get("lastActivity", {}).get("relative", ""),
-            "evidence": c.get("evidence", {}).get("sources", []),
-            "artifacts": c.get("counts", {}).get("artifacts", 0),
-            "criticalFindings": c.get("counts", {}).get("criticalFindings", 0),
-            "iocHits": c.get("counts", {}).get("iocs", 0),
-            "primaryHost": c.get("primaryHost"),
-        })
-
-    # Authored demo summaries are available only in the explicit demo database.
-    triage_by_case = {}
-    if current_app.config["MONGO_DB"] == "cyber_triage_demo":
-        from backend.seed_data import TRIAGE_BY_CASE
-        triage_by_case = TRIAGE_BY_CASE
-
-    # Recent activity
-    activity = list(db.activity.find({}, {"_id": 0}).sort("at", -1).limit(20))
-
-    return jsonify({
-        "metrics": metrics,
-        "investigations": investigations,
-        "triageSummaries": triage_by_case,
-        "recentActivity": activity,
-        "dataMode": "demo" if current_app.config["MONGO_DB"] == "cyber_triage_demo" else ("mixed" if any(_is_demo_case(c) for c in cases) else "live"),
-    })
+    query = case_query()
+    cases = list(db.cases.find({**query, "status": {"$ne": "CLOSED"}}, {"_id": 0})
+                 .sort("threatScore", -1).limit(10))
+    case_totals = list(db.cases.aggregate([{"$match": query}, {"$group": {"_id": None,
+        "evidence": {"$sum": "$counts.evidence"}, "iocs": {"$sum": "$counts.iocs"}}}]))
+    totals = case_totals[0] if case_totals else {}
+    # Aggregate artifacts in MongoDB; only distribution counts cross the API.
+    pipeline = [{"$lookup": {"from": "cases", "localField": "case_id", "foreignField": "id", "as": "case"}},
+                {"$unwind": "$case"},
+                {"$match": {"case." + key: value for key, value in LIVE_CASES.items()}}]
+    bands = list(db.artifacts.aggregate(pipeline + [{"$group": {"_id": "$priority", "count": {"$sum": 1}}}]))
+    types = list(db.artifacts.aggregate(pipeline + [{"$group": {"_id": "$artifact_type", "count": {"$sum": 1}}}]))
+    metrics = [{"id": "cases", "label": "Open investigations", "value": db.cases.count_documents({**query, "status": {"$ne": "CLOSED"}})},
+               {"id": "evidence", "label": "Evidence intakes", "value": totals.get("evidence", 0)},
+               {"id": "artifacts", "label": "Stored artifacts", "value": sum(b["count"] for b in bands)},
+               {"id": "critical", "label": "Critical artifacts", "value": sum(b["count"] for b in bands if b["_id"] == "CRITICAL")}]
+    return jsonify({"metrics": metrics, "investigations": [{**c,
+        "artifacts": c.get("counts", {}).get("artifacts", 0),
+        "criticalFindings": c.get("counts", {}).get("criticalFindings", 0),
+        "iocHits": c.get("counts", {}).get("iocs", 0), "evidence": c.get("evidence", {}).get("sources", []),
+        "lastActivity": c.get("lastActivity", {}).get("at", "")} for c in cases],
+        "triageSummaries": {c["id"]: triage(c) for c in cases},
+        "recentActivity": list(db.activity.find({"caseId": {"$nin": DEMO_IDS}}, {"_id": 0}).sort("at", -1).limit(20)),
+        "severityDistribution": bands, "artifactTypes": types, "dataMode": "live"})
 
 
 # ---------------------------------------------------------------------------
@@ -687,7 +638,7 @@ def _generate_and_serve_report(case_id):
 
     db = get_db()
     case = db.cases.find_one({"id": case_id})
-    if not case:
+    if not case or _is_demo_case(case):
         return _api_error(f"Case {case_id} not found", 404, "CASE_NOT_FOUND")
 
     case_record = _clean_mongo_doc(case)
@@ -750,10 +701,10 @@ def get_triage_summary(case_id):
     """Return the triage summary for a case, or null if not yet scored."""
     if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
-    if current_app.config["MONGO_DB"] == "cyber_triage_demo":
-        from backend.seed_data import TRIAGE_BY_CASE
-        return jsonify(TRIAGE_BY_CASE.get(case_id))
-    return jsonify(None)
+    case = get_db().cases.find_one({"id": case_id})
+    if not case or _is_demo_case(case):
+        return _api_error("Case not found", 404, "CASE_NOT_FOUND")
+    return jsonify(triage(case))
 
 
 # ---------------------------------------------------------------------------
@@ -784,7 +735,13 @@ def forensics_capabilities():
     The frontend uses this to enable/disable ingestion options rather than letting
     an upload fail on a missing native dependency.
     """
+    import importlib.util
+    import shutil
+    pcap_available = bool(importlib.util.find_spec('scapy') or
+                          (importlib.util.find_spec('pyshark') and shutil.which('tshark')))
     return jsonify({
+        "pcap": {"available": pcap_available,
+                 "reason": "" if pcap_available else "Install a supported PCAP parser (scapy, or pyshark with tshark); exported flow CSVs remain supported."},
         "evtx": {"available": evtx_parser.AVAILABLE, "reason": evtx_parser.UNAVAILABLE_REASON},
         "registry": {"available": registry_parser.AVAILABLE, "reason": registry_parser.UNAVAILABLE_REASON},
         "yara": {"available": yara_scanner.AVAILABLE, "reason": yara_scanner.UNAVAILABLE_REASON},
@@ -823,24 +780,12 @@ def forensics_ingest():
                 400, "UNSUPPORTED_FILE_TYPE",
             )
 
-        records = df.head(500).to_dict(orient="records")
+        records = json.loads(df.head(500).to_json(orient="records"))
 
-        # Rule-based scoring over the parsed records (no ML anomaly component).
-        scored = []
-        for i, row in enumerate(df.to_dict(orient="records")):
-            artifact_type = scorer.detect_artifact_type(row)
-            rule_score, matched = scorer.apply_rules(row, artifact_type)
-            risk = scorer.compute_risk_score(0.0, rule_score)
-            if matched:
-                scored.append({
-                    "record_id": i,
-                    "artifact_type": artifact_type,
-                    "rule_score": round(rule_score * 100, 2),
-                    "risk_score": risk,
-                    "priority": scorer.assign_priority(risk),
-                    "matched_rules": ", ".join(matched),
-                })
-        scored.sort(key=lambda r: r["risk_score"], reverse=True)
+        if df.empty:
+            return _api_error("No records were parsed from the evidence.", 400, "EMPTY_INPUT")
+        all_scored = scorer.score_records(json.loads(df.to_json(orient="records")))
+        scored = [row for row in all_scored if row.get("matched_rules") != "None"]
 
         # IOC surfacing: YARA-scan the raw evidence file if the engine is present.
         iocs = []
@@ -865,22 +810,14 @@ def forensics_ingest():
         }
 
         response_payload["custody_persisted"] = False
+        response_payload["persisted"] = False
         if _intake_database_available():
-            case_id = request.form.get("caseId")
-            if case_id:
-                try:
-                    db = get_db()
-                    case = db.cases.find_one({"id": case_id})
-                    if case:
-                        custody_chain = [custody] + case.get("custody", [])
-                        db.cases.update_one(
-                            {"id": case_id},
-                            {"$set": {"custody": custody_chain}},
-                        )
-                        response_payload["custody_persisted"] = True
-                except Exception:
-                    logger.error("Failed to persist forensic custody")
-                    return _api_error("Custody persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
+            # Preserve source fields and rule scores for every parsed record.
+            intake_id, stored = persist_intake(get_db(), all_scored,
+                request.form.get("caseId"), custody, kind,
+                {"threat_intel": intel}, iocs=iocs)
+            response_payload.update(persisted=True, stored=stored, intake_id=intake_id,
+                                    custody_persisted=bool(request.form.get("caseId")))
 
         return jsonify(response_payload)
     except DatabaseUnavailable:
@@ -914,7 +851,7 @@ def create_app(config=None):
             if case_id:
                 if not check_connection():
                     return _api_error("Case intake requires an available database.", 503, "DB_UNAVAILABLE")
-                if not get_db().cases.find_one({"id": case_id}, {"_id": 1}):
+                if not get_db().cases.find_one({**LIVE_CASES, "id": case_id}, {"_id": 1}):
                     return _api_error("Case not found.", 404, "CASE_NOT_FOUND")
 
     @application.errorhandler(PyMongoError)
@@ -925,7 +862,7 @@ def create_app(config=None):
 
     @application.errorhandler(HTTPException)
     def http_error(error):
-        return _api_error(error.name, error.code, f"HTTP_{error.code}")
+        return _api_error(error.description, error.code, f"HTTP_{error.code}")
 
     @application.errorhandler(Exception)
     def unexpected_error(error):
@@ -949,21 +886,6 @@ def create_app(config=None):
             click.echo("Database indexes initialized.")
         except (PyMongoError, DatabaseUnavailable):
             raise click.ClickException("Database unavailable; check configuration and service.") from None
-        finally:
-            close_db(application)
-
-    @application.cli.command("seed-demo")
-    def seed_demo_command():
-        """Seed only the explicit, separate cyber_triage_demo database."""
-        import click
-        if application.config["APP_ENV"] != "development" or application.config["MONGO_DB"] != "cyber_triage_demo":
-            raise click.ClickException("Demo seeding requires development and MONGO_DB=cyber_triage_demo.")
-        try:
-            init_db()
-            seed_if_empty()
-            click.echo("Demo database seeded if empty.")
-        except (PyMongoError, DatabaseUnavailable):
-            raise click.ClickException("Demo database unavailable.") from None
         finally:
             close_db(application)
 
