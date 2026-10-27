@@ -27,6 +27,14 @@ data/kaggle/
 data/*.raw
 data/**/*.raw
 *.evtx
+# Digital forensics acquired disk images
+data/forensics/disk_images/*.dd
+data/forensics/disk_images/*.raw
+data/forensics/disk_images/*.img
+data/forensics/disk_images/*.e01
+data/forensics/disk_images/*.001
+data/forensics/disk_images/*.bz2
+
 models/*.pkl
 models/*.joblib
 models/**/*.joblib

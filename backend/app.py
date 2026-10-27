@@ -33,9 +33,15 @@ from ml.supervised_detector import (
     infer_supervised_network_csv,
     supervised_metadata,
 )
-from ml.preprocessor import NetworkInputError
+from ml.preprocessor import NetworkInputError, read_network_csv
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
+from ml.attack_family import (AttackFamilyError, load_attack_family_model,
+                              attribute_attack_family)
+from ml.triage_engine import (evaluate_triage_signals, build_binary_signal,
+                              build_anomaly_signal, build_attack_family_signal,
+                              build_forensic_signal, build_data_quality_signal,
+                              STATUS_EVALUATED, STATUS_UNAVAILABLE, STATUS_NOT_EVALUATED)
 from backend.db import init_db, get_db, check_connection, close_db, DatabaseUnavailable
 from backend.config import load_config
 from backend.report_generator import generate_case_report
@@ -269,12 +275,30 @@ def _readiness():
         baseline_status = {"status": "ready"}
     except BaselineError as exc:
         baseline_status = {"status": "unavailable", "code": exc.code}
+
+    attack_family_status = {"status": "unavailable"}
+    af_path = current_app.config.get("ATTACK_FAMILY_MODEL_PATH")
+    if af_path:
+        try:
+            load_attack_family_model(af_path)
+            attack_family_status = {"status": "ready"}
+        except AttackFamilyError as exc:
+            attack_family_status = {"status": "unavailable", "code": exc.code}
+
     database_ready = check_connection()
     return {
         "ready": database_ready and baseline_status["status"] == "ready",
         "mongo": "connected" if database_ready else "unavailable",
         "network_baseline": baseline_status,
+        "attack_family_model": attack_family_status,
     }
+
+
+def _get_attack_family_bundle():
+    model_path = current_app.config.get("ATTACK_FAMILY_MODEL_PATH")
+    if not model_path:
+        raise AttackFamilyError("ATTACK_FAMILY_MODEL_PATH is not configured", code="MODEL_NOT_CONFIGURED")
+    return load_attack_family_model(model_path)
 
 
 @api.route("/api/ready", methods=["GET"])
@@ -390,6 +414,41 @@ def analyze():
                 logger.error("Failed to persist analysis results")
                 return _api_error("Analysis persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
 
+        # Phase 17: Conditionally attribute attack families and build triage signals
+        try:
+            af_bundle = _get_attack_family_bundle()
+            attack_candidates_indices = [
+                idx for idx, art in enumerate(top_results)
+                if art.get("priority") in ("CRITICAL", "HIGH", "MEDIUM")
+            ]
+            if attack_candidates_indices:
+                target_rows = df_clean.iloc[[top_results[i]["record_id"] for i in attack_candidates_indices]]
+                attributions = attribute_attack_family(target_rows, af_bundle)
+                for i, attr in zip(attack_candidates_indices, attributions):
+                    top_results[i]["attack_family"] = attr
+
+            high_risk_count = summary["critical"] + summary["high"]
+            batch_binary_decision = "ATTACK" if high_risk_count > 0 else "BENIGN"
+            top_attr = top_results[0].get("attack_family") if (top_results and "attack_family" in top_results[0]) else None
+            response_payload["triage"] = evaluate_triage_signals(
+                binary_signal=build_binary_signal(
+                    decision=batch_binary_decision,
+                    score=float(top_results[0].get("risk_score", 0)) if top_results else 0.0,
+                    threshold=50.0,
+                    detector_id="isolation_forest_baseline",
+                ),
+                anomaly_signal=build_anomaly_signal(
+                    is_anomaly=batch_binary_decision == "ATTACK",
+                    normalized_score=float(top_results[0].get("anomaly_score", 0)) if top_results else 0.0,
+                ),
+                attack_family_signal=build_attack_family_signal(
+                    attribution_result=top_attr,
+                    binary_decision=batch_binary_decision,
+                ),
+            )
+        except Exception as exc:
+            logger.info("Attack family triage omitted during analyze: %s", exc)
+
         return jsonify(response_payload)
     except SupervisedDetectorError as exc:
         return _api_error(str(exc), 503 if exc.code == "SUPERVISED_MODEL_MISSING" else 400, exc.code)
@@ -405,6 +464,111 @@ def analyze():
     finally:
         if os.path.exists(filepath):
             os.remove(filepath)
+
+
+@api.route("/api/model/attack-family", methods=["POST"])
+def attribute_attack_family_endpoint():
+    """Predict attack family for network flow records (file upload or JSON features)."""
+    try:
+        af_bundle = _get_attack_family_bundle()
+    except AttackFamilyError as exc:
+        return _api_error(str(exc), 503, exc.code)
+
+    abstention_policy = None
+    min_conf = request.args.get("min_confidence", type=float)
+    min_margin = request.args.get("min_margin", type=float)
+    if min_conf is not None or min_margin is not None:
+        abstention_policy = {}
+        if min_conf is not None:
+            abstention_policy["min_confidence"] = min_conf
+        if min_margin is not None:
+            abstention_policy["min_margin"] = min_margin
+
+    if "file" in request.files:
+        filepath, custody, error_response = _save_uploaded_file()
+        if error_response:
+            return error_response
+        try:
+            df = read_network_csv(filepath)
+            attributions = attribute_attack_family(df, af_bundle, abstention_policy=abstention_policy)
+            return jsonify({
+                "status": "success",
+                "evidence": custody,
+                "attributions": attributions,
+                "model_metadata": af_bundle.get("evaluation_summary", {}),
+            })
+        except NetworkInputError as exc:
+            return _api_error(str(exc), 400, exc.code)
+        except AttackFamilyError as exc:
+            return _api_error(str(exc), 400, exc.code)
+        finally:
+            if os.path.exists(filepath):
+                os.remove(filepath)
+
+    elif request.is_json:
+        data = request.get_json(silent=True)
+        if not data:
+            return _api_error("Missing or malformed JSON body", 400, "INVALID_INPUT")
+
+        if isinstance(data, dict) and "abstention_policy" in data and not abstention_policy:
+            abstention_policy = data["abstention_policy"]
+
+        records = (
+            data.get("records")
+            if isinstance(data, dict) and "records" in data
+            else data.get("features")
+            if isinstance(data, dict) and "features" in data
+            else data
+        )
+        if isinstance(records, dict):
+            records = [records]
+        if not isinstance(records, list) or not records:
+            return _api_error(
+                "Request JSON must contain a list of feature records under 'records' or 'features'",
+                400,
+                "INVALID_INPUT",
+            )
+
+        try:
+            attributions = attribute_attack_family(records, af_bundle, abstention_policy=abstention_policy)
+            return jsonify({
+                "status": "success",
+                "attributions": attributions,
+                "model_metadata": af_bundle.get("evaluation_summary", {}),
+            })
+        except (NetworkInputError, AttackFamilyError) as exc:
+            return _api_error(str(exc), 400, getattr(exc, "code", "INVALID_INPUT"))
+
+    return _api_error(
+        "Provide a network CSV file upload or application/json features payload.",
+        400,
+        "MISSING_INPUT",
+    )
+
+
+@api.route("/api/triage/signals", methods=["POST"])
+def triage_signals_endpoint():
+    """Synthesize multi-signal triage assessment with explanations and deterministic recommendation."""
+    data = request.get_json(silent=True) if request.is_json else {}
+    if data is None:
+        data = {}
+
+    binary_sig = data.get("binary_detection")
+    anomaly_sig = data.get("anomaly_detection")
+    family_sig = data.get("attack_family")
+    forensic_sig = data.get("forensic_evidence")
+    quality_sig = data.get("data_quality")
+    context = data.get("context")
+
+    result = evaluate_triage_signals(
+        binary_signal=binary_sig,
+        anomaly_signal=anomaly_sig,
+        attack_family_signal=family_sig,
+        forensic_signal=forensic_sig,
+        data_quality_signal=quality_sig,
+        context=context,
+    )
+    return jsonify(result), 200
 
 
 @api.route("/api/evaluate", methods=["POST"])

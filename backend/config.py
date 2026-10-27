@@ -81,16 +81,19 @@ def load_config(overrides=None):
         "API_TOKEN": "" if testing else os.getenv("CYBER_TRIAGE_API_TOKEN", "").strip(),
         "OTX_API_KEY": "" if testing else os.getenv("OTX_API_KEY", "").strip(),
         "VT_API_KEY": "" if testing else os.getenv("VT_API_KEY", "").strip(),
-        "CORS_ORIGINS": os.getenv(
-            "CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
-        ).split(",")
-        if not testing
-        else [],
+        "CORS_ORIGINS": (
+            os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+            if not testing
+            else []
+        ),
         "MAX_CONTENT_LENGTH": 128 * 1024 * 1024,
         "TEMP_DIR": str(ROOT / (".test-artifacts/uploads" if testing else "temp")),
         "MODEL_PATH": str(ROOT / "models/cicids2017_baseline.joblib"),
         "SUPERVISED_MODEL_PATH": str(ROOT / "models/supervised_binary.joblib"),
         "SUPERVISED_DETECTOR_ENABLED": boolean(os.getenv("SUPERVISED_DETECTOR_ENABLED", "false")),
+        "ATTACK_FAMILY_MODEL_PATH": os.getenv(
+            "ATTACK_FAMILY_MODEL_PATH", str(ROOT / "models/attack_family_bundle.joblib")
+        ),
     }
     if not testing:
         for key in ("MAX_CONTENT_LENGTH", "MONGO_TIMEOUT_MS"):

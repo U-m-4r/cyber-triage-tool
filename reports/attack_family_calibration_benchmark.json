@@ -1,0 +1,447 @@
+{
+  "generated_at": "2026-10-27T16:00:51.090719+00:00",
+  "dataset_provenance": {
+    "dataset_path": "C:\\Users\\kikar\\Desktop\\Projects\\cyber-triage-tool\\data\\cicids2017_cleaned.csv",
+    "eligible_view": true,
+    "total_attack_rows": 363117,
+    "dropped_non_finite": 0,
+    "class_distribution": {
+      "DoS": 191614,
+      "DDoS": 127958,
+      "Port Scanning": 31436,
+      "Brute Force": 8923,
+      "Web Attacks": 1988,
+      "Bots": 1198
+    }
+  },
+  "split_sizes": {
+    "train_base": 203344,
+    "train_cal": 50837,
+    "validation": 54468,
+    "test": 54468
+  },
+  "validation_calibration_comparison": {
+    "uncalibrated": {
+      "log_loss": 0.003168,
+      "brier_score": 0.00082,
+      "ece": 0.000298,
+      "macro_f1": 0.9978
+    },
+    "sigmoid": {
+      "log_loss": 0.003277,
+      "brier_score": 0.000853,
+      "ece": 0.000107,
+      "macro_f1": 0.9978
+    },
+    "isotonic": {
+      "log_loss": 0.00563,
+      "brier_score": 0.000786,
+      "ece": 0.000249,
+      "macro_f1": 0.9974
+    }
+  },
+  "selected_calibration_method": "isotonic",
+  "test_reliability_full": {
+    "uncalibrated": {
+      "log_loss": 0.001287,
+      "brier_score": 0.000527,
+      "normalized_brier_score": 0.000263,
+      "expected_calibration_error": 0.00045,
+      "per_class_brier": {
+        "Bots": 1e-06,
+        "Brute Force": 2.3e-05,
+        "DDoS": 9.1e-05,
+        "DoS": 0.000248,
+        "Port Scanning": 0.000131,
+        "Web Attacks": 3.4e-05
+      },
+      "reliability_bins": [
+        {
+          "bin_number": 1,
+          "bin_range": [
+            0.0,
+            0.1
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 2,
+          "bin_range": [
+            0.1,
+            0.2
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 3,
+          "bin_range": [
+            0.2,
+            0.3
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 4,
+          "bin_range": [
+            0.3,
+            0.4
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 5,
+          "bin_range": [
+            0.4,
+            0.5
+          ],
+          "sample_count": 1,
+          "sample_share": 0.0,
+          "observed_accuracy": 1.0,
+          "mean_confidence": 0.45,
+          "calibration_gap": 0.55
+        },
+        {
+          "bin_number": 6,
+          "bin_range": [
+            0.5,
+            0.6
+          ],
+          "sample_count": 5,
+          "sample_share": 0.0001,
+          "observed_accuracy": 0.4,
+          "mean_confidence": 0.5403,
+          "calibration_gap": 0.1403
+        },
+        {
+          "bin_number": 7,
+          "bin_range": [
+            0.6,
+            0.7
+          ],
+          "sample_count": 12,
+          "sample_share": 0.0002,
+          "observed_accuracy": 0.9167,
+          "mean_confidence": 0.6545,
+          "calibration_gap": 0.2622
+        },
+        {
+          "bin_number": 8,
+          "bin_range": [
+            0.7,
+            0.8
+          ],
+          "sample_count": 34,
+          "sample_share": 0.0006,
+          "observed_accuracy": 0.8529,
+          "mean_confidence": 0.7535,
+          "calibration_gap": 0.0995
+        },
+        {
+          "bin_number": 9,
+          "bin_range": [
+            0.8,
+            0.9
+          ],
+          "sample_count": 51,
+          "sample_share": 0.0009,
+          "observed_accuracy": 0.9608,
+          "mean_confidence": 0.8451,
+          "calibration_gap": 0.1157
+        },
+        {
+          "bin_number": 10,
+          "bin_range": [
+            0.9,
+            1.0
+          ],
+          "sample_count": 54365,
+          "sample_share": 0.9981,
+          "observed_accuracy": 0.9999,
+          "mean_confidence": 0.9997,
+          "calibration_gap": 0.0002
+        }
+      ],
+      "accuracy": 0.9997,
+      "balanced_accuracy": 0.9986,
+      "macro_f1": 0.9992,
+      "weighted_f1": 0.9997
+    },
+    "calibrated": {
+      "log_loss": 0.00225,
+      "brier_score": 0.000443,
+      "normalized_brier_score": 0.000221,
+      "expected_calibration_error": 8.6e-05,
+      "per_class_brier": {
+        "Bots": 0.0,
+        "Brute Force": 2e-05,
+        "DDoS": 7.8e-05,
+        "DoS": 0.000217,
+        "Port Scanning": 0.000103,
+        "Web Attacks": 2.5e-05
+      },
+      "reliability_bins": [
+        {
+          "bin_number": 1,
+          "bin_range": [
+            0.0,
+            0.1
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 2,
+          "bin_range": [
+            0.1,
+            0.2
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 3,
+          "bin_range": [
+            0.2,
+            0.3
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 4,
+          "bin_range": [
+            0.3,
+            0.4
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 5,
+          "bin_range": [
+            0.4,
+            0.5
+          ],
+          "sample_count": 0,
+          "sample_share": 0.0,
+          "observed_accuracy": null,
+          "mean_confidence": null,
+          "calibration_gap": 0.0
+        },
+        {
+          "bin_number": 6,
+          "bin_range": [
+            0.5,
+            0.6
+          ],
+          "sample_count": 3,
+          "sample_share": 0.0001,
+          "observed_accuracy": 0.6667,
+          "mean_confidence": 0.5641,
+          "calibration_gap": 0.1025
+        },
+        {
+          "bin_number": 7,
+          "bin_range": [
+            0.6,
+            0.7
+          ],
+          "sample_count": 7,
+          "sample_share": 0.0001,
+          "observed_accuracy": 1.0,
+          "mean_confidence": 0.6513,
+          "calibration_gap": 0.3487
+        },
+        {
+          "bin_number": 8,
+          "bin_range": [
+            0.7,
+            0.8
+          ],
+          "sample_count": 2,
+          "sample_share": 0.0,
+          "observed_accuracy": 1.0,
+          "mean_confidence": 0.7574,
+          "calibration_gap": 0.2426
+        },
+        {
+          "bin_number": 9,
+          "bin_range": [
+            0.8,
+            0.9
+          ],
+          "sample_count": 15,
+          "sample_share": 0.0003,
+          "observed_accuracy": 0.8,
+          "mean_confidence": 0.848,
+          "calibration_gap": 0.048
+        },
+        {
+          "bin_number": 10,
+          "bin_range": [
+            0.9,
+            1.0
+          ],
+          "sample_count": 54441,
+          "sample_share": 0.9995,
+          "observed_accuracy": 0.9999,
+          "mean_confidence": 0.9998,
+          "calibration_gap": 0.0
+        }
+      ],
+      "accuracy": 0.9998,
+      "balanced_accuracy": 0.9992,
+      "macro_f1": 0.9995,
+      "weighted_f1": 0.9998,
+      "per_class": {
+        "Bots": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 180
+        },
+        "Brute Force": {
+          "precision": 1.0,
+          "recall": 0.9993,
+          "f1": 0.9996,
+          "support": 1338
+        },
+        "DDoS": {
+          "precision": 0.9999,
+          "recall": 0.9999,
+          "f1": 0.9999,
+          "support": 19194
+        },
+        "DoS": {
+          "precision": 0.9998,
+          "recall": 0.9998,
+          "f1": 0.9998,
+          "support": 28743
+        },
+        "Port Scanning": {
+          "precision": 0.9994,
+          "recall": 0.9994,
+          "f1": 0.9994,
+          "support": 4715
+        },
+        "Web Attacks": {
+          "precision": 1.0,
+          "recall": 0.9966,
+          "f1": 0.9983,
+          "support": 298
+        }
+      },
+      "confusion_matrix": [
+        [
+          180,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1337,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          19192,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          28738,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          4712,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          297
+        ]
+      ]
+    },
+    "abstention_analysis": {
+      "policy": {
+        "min_confidence": 0.5,
+        "min_margin": 0.05,
+        "score_type_used": "calibrated"
+      },
+      "total_records": 54468,
+      "attributed_count": 54468,
+      "abstained_count": 0,
+      "coverage": 1.0,
+      "abstention_rate": 0.0,
+      "abstention_reasons": {
+        "low_confidence_count": 0,
+        "ambiguous_margin_count": 0
+      },
+      "covered_subset_accuracy": 0.9998,
+      "covered_subset_macro_f1": 0.9995
+    }
+  },
+  "overlap_diagnostics": {
+    "total_test_rows": 54468,
+    "strictly_novel_rows": 48307,
+    "strictly_novel_share": 0.8869,
+    "overlapping_rows": 6161,
+    "overlapping_share": 0.1131,
+    "novel_subset_metrics": {
+      "accuracy": 0.9998,
+      "macro_f1": 0.9961,
+      "weighted_f1": 0.9998,
+      "brier_score": 0.000498,
+      "expected_calibration_error": 8.8e-05
+    }
+  },
+  "bundle_path": "C:\\Users\\kikar\\Desktop\\Projects\\cyber-triage-tool\\models\\attack_family_bundle.joblib"
+}

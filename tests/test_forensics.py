@@ -146,3 +146,136 @@ def test_disk_image_ts_helper():
 
     assert disk_image._ts(0).startswith("1970-01-01")
     assert disk_image._ts("not-an-int") == ""
+
+
+# --- Phase 19A: forensic acquisition & disk image verification ---------------
+
+def test_kaggle_client_status_diagnostics():
+    from forensics.acquisition import check_kaggle_client_status
+
+    status = check_kaggle_client_status()
+    assert "kaggle_installed" in status
+    assert "kagglehub_installed" in status
+    assert "has_credentials" in status
+    assert "can_download_kaggle" in status
+    assert "blockers" in status
+    assert isinstance(status["blockers"], list)
+
+
+def test_kaggle_candidates_metadata_structure():
+    from forensics.acquisition import KAGGLE_CANDIDATES
+
+    assert len(KAGGLE_CANDIDATES) >= 3
+    for c in KAGGLE_CANDIDATES:
+        assert "id" in c
+        assert "title" in c
+        assert "url" in c
+        assert "has_disk_image" in c
+        assert c["has_disk_image"] is False  # Confirmed non-disk datasets
+        assert "status" in c
+        assert "notes" in c
+
+
+def test_digital_corpora_candidates_metadata_structure():
+    from forensics.acquisition import DIGITAL_CORPORA_CANDIDATES
+
+    assert len(DIGITAL_CORPORA_CANDIDATES) >= 2
+    ids = {c["id"] for c in DIGITAL_CORPORA_CANDIDATES}
+    assert "digitalcorpora/m57-jean" in ids
+    assert "digitalcorpora/nps-2009-domexusers" in ids
+    for c in DIGITAL_CORPORA_CANDIDATES:
+        assert "id" in c
+        assert "title" in c
+        assert "url" in c
+        assert "uncompressed_size_bytes" in c
+        assert c["uncompressed_size_bytes"] > 5 * 1024 * 1024 * 1024  # > 5 GB
+        assert "status" in c
+        assert "notes" in c
+
+
+
+def test_sha256_stream_calculation(tmp_path):
+    import hashlib
+    from forensics.acquisition import sha256_file
+
+    sample = tmp_path / "sample.bin"
+    payload = b"NIST-CFREDS-DIGITAL-FORENSICS-TEST-PAYLOAD" * 1024
+    sample.write_bytes(payload)
+
+    expected = hashlib.sha256(payload).hexdigest()
+    actual = sha256_file(sample)
+    assert actual == expected
+
+
+def test_dry_run_acquisition(tmp_path):
+    from forensics.acquisition import acquire_primary_forensic_image
+
+    manifest_target = tmp_path / "manifest.json"
+    result = acquire_primary_forensic_image(
+        output_dir=tmp_path / "images",
+        manifest_path=manifest_target,
+        dry_run=True,
+    )
+    assert result["status"] == "DRY_RUN"
+    assert "dataset" in result
+    assert result["dataset"]["filesystem"] == "NTFS"
+    assert not manifest_target.exists()  # Dry run writes no files
+
+
+def test_synthetic_manifest_and_verification(tmp_path):
+    import json
+    from forensics.acquisition import sha256_file, verify_disk_image_against_manifest
+
+    fake_img = tmp_path / "fake.dd"
+    fake_img.write_bytes(b"\x00" * 4096)
+    fake_sha = sha256_file(fake_img)
+
+    fake_manifest = tmp_path / "manifest.json"
+    fake_manifest.write_text(json.dumps({
+        "image": {
+            "filename": "fake.dd",
+            "sha256": fake_sha,
+            "size_bytes": 4096,
+        }
+    }), encoding="utf-8")
+
+    report = verify_disk_image_against_manifest(fake_img, fake_manifest)
+    assert report["sha256"] == fake_sha
+    assert report["sha256_matches_manifest"] is True
+
+    # Test tampering detection
+    tampered_manifest = tmp_path / "tampered.json"
+    tampered_manifest.write_text(json.dumps({
+        "image": {
+            "filename": "fake.dd",
+            "sha256": "0" * 64,
+            "size_bytes": 4096,
+        }
+    }), encoding="utf-8")
+    tampered_report = verify_disk_image_against_manifest(fake_img, tampered_manifest)
+    assert tampered_report["sha256_matches_manifest"] is False
+
+
+def test_acquired_primary_disk_image_integration():
+    """Verify the locally acquired NIST reference disk image can be inspected by pytsk3."""
+    from pathlib import Path
+    from forensics.acquisition import DEFAULT_IMAGE_DIR, DEFAULT_MANIFEST_PATH, verify_disk_image_against_manifest
+    from forensics.disk_image import AVAILABLE as TSK_AVAILABLE, ingest_disk_image
+
+    img_path = DEFAULT_IMAGE_DIR / "dfr-01-ntfs.dd"
+    if not img_path.is_file():
+        pytest.skip("Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py")
+
+    report = verify_disk_image_against_manifest(img_path, DEFAULT_MANIFEST_PATH)
+    assert report["valid"] is True
+    assert report["sha256_matches_manifest"] is True
+    assert report["size_bytes"] == 1073742336
+
+    if TSK_AVAILABLE:
+        df = ingest_disk_image(str(img_path), limit=50)
+        assert len(df) > 0
+        for col in ["FileName", "FilePath", "FileExtension", "FileSizeBytes", "CreatedTime", "ModifiedTime"]:
+            assert col in df.columns
+        # Verify NTFS system artifacts are surfaced
+        file_names = set(df["FileName"].tolist())
+        assert any(fn.startswith("$") for fn in file_names)
