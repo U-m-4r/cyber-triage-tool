@@ -37,7 +37,10 @@ function CaseWorkspace() {
   const [caseRecord, setCaseRecord] = useState(null)
   const [state, setState] = useState('loading') // 'loading' | 'ready' | 'missing'
   const [params, setParams] = useSearchParams()
-  const activeTab = params.get('tab') || 'overview'
+  const requestedTab = params.get('tab') || 'overview'
+  const activeTab = CASE_TABS.some(tab => tab.id === requestedTab && tab.available)
+    ? requestedTab
+    : 'overview'
   const setActiveTab = tab => setParams({ tab })
   const reload = async () => { const record = await fetchCase(caseId); setCaseRecord(record); setState(record ? 'ready' : 'missing') }
   const [error, setError] = useState(null)

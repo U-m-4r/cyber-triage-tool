@@ -14,8 +14,9 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from pymongo.errors import PyMongoError, DuplicateKeyError
-from backend.integration import (activity, case_query, pagination, persist_intake,
-                                 triage, validated_case, now, LIVE_CASES, DEMO_IDS)
+from backend.integration import (activity, case_query, linked_case_query, pagination,
+                                 persist_intake, triage, validated_case, now,
+                                 LIVE_CASES, DEMO_IDS)
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
@@ -424,17 +425,14 @@ def list_artifacts():
     if not check_connection():
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
-    query = {"case_id": {"$nin": DEMO_IDS}}
+    case_id = request.args.get("case_id") or request.args.get("caseId")
+    query = linked_case_query("case_id", case_id)
     artifact_type = request.args.get("type")
     if artifact_type:
         query["artifact_type"] = artifact_type
     severity = request.args.get("severity")
     if severity:
         query["priority"] = severity.upper()
-    case_id = request.args.get("case_id") or request.args.get("caseId")
-    if case_id:
-        query["case_id"] = case_id
-
     time_filter = {}
     if request.args.get("from"):
         time_filter["$gte"] = request.args.get("from")
@@ -548,9 +546,7 @@ def add_note(case_id):
 @api.route("/api/activity", methods=["GET"])
 def list_activity():
     limit, offset = pagination()
-    query = {"caseId": {"$nin": DEMO_IDS}}
-    if request.args.get("case_id"):
-        query["caseId"] = request.args["case_id"]
+    query = linked_case_query("caseId", request.args.get("case_id"))
     db = get_db()
     return jsonify({"events": list(db.activity.find(query, {"_id": 0}).sort("at", -1).skip(offset).limit(limit)),
                     "total": db.activity.count_documents(query)})
@@ -559,7 +555,7 @@ def list_activity():
 @api.route("/api/ingestions", methods=["GET"])
 def list_ingestions():
     limit, offset = pagination()
-    query = {"case_id": request.args["case_id"]} if request.args.get("case_id") else {"case_id": {"$nin": DEMO_IDS}}
+    query = linked_case_query("case_id", request.args.get("case_id"))
     db = get_db()
     return jsonify({"ingestions": list(db.ingestions.find(query, {"_id": 0}).sort("created_at", -1).skip(offset).limit(limit)),
                     "total": db.ingestions.count_documents(query)})
@@ -684,6 +680,8 @@ def list_reports(case_id):
         return _api_error("Database not available", 503, "DB_UNAVAILABLE")
 
     db = get_db()
+    if not db.cases.find_one({**LIVE_CASES, "id": case_id}, {"_id": 1}):
+        return _api_error("Case not found", 404, "CASE_NOT_FOUND")
     reports = list(
         db.reports.find({"case_id": case_id}, {"_id": 0})
         .sort("generated_at", -1)

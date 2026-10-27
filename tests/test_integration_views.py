@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from backend import app as module
-from backend.integration import persist_intake, validated_case
+from backend.integration import linked_case_query, persist_intake, validated_case
 from werkzeug.exceptions import BadRequest
 
 
@@ -40,6 +40,27 @@ def test_new_case_requires_title_and_cannot_use_demo_id():
         validated_case({"description": "test"}, creating=True)
     with pytest.raises(BadRequest):
         validated_case({"title": "test", "id": "CASE-2026-0147"}, creating=True)
+
+
+def test_explicit_filters_cannot_restore_legacy_demo_records():
+    assert linked_case_query("case_id") == {"case_id": {"$nin": module.DEMO_IDS}}
+    assert linked_case_query("case_id", module.DEMO_IDS[0]) == {
+        "$and": [
+            {"case_id": {"$nin": module.DEMO_IDS}},
+            {"case_id": module.DEMO_IDS[0]},
+        ]
+    }
+
+
+def test_report_history_requires_a_live_case(client, monkeypatch):
+    db = MagicMock()
+    monkeypatch.setattr(module, "check_connection", lambda: True)
+    monkeypatch.setattr(module, "get_db", lambda: db)
+    db.cases.find_one.return_value = None
+    response = client.get("/api/reports/missing")
+    assert response.status_code == 404
+    assert response.json["error"]["code"] == "CASE_NOT_FOUND"
+    db.reports.find.assert_not_called()
 
 
 def test_list_pagination_and_search_are_bounded(client, monkeypatch):

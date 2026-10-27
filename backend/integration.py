@@ -39,6 +39,14 @@ def case_query():
     return query
 
 
+def linked_case_query(field, case_id=None):
+    """Exclude legacy demo-linked records even when an explicit ID is supplied."""
+    query = {field: {"$nin": DEMO_IDS}}
+    if case_id:
+        query = {"$and": [query, {field: case_id}]}
+    return query
+
+
 def validated_case(data, creating=False):
     if not isinstance(data, dict) or not data:
         raise BadRequest("A JSON object is required.")

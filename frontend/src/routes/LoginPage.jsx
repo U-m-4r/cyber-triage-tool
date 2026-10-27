@@ -13,9 +13,8 @@ import './LoginPage.css'
  * Investigator sign-in.
  *
  * Same footage, branding and typography as the landing route, turned down: the
- * background is darkened and slowed, and the panel is a plain charcoal surface
- * rather than the landing's expressive glass. No credential check happens here —
- * see authService.
+ * background is darkened and slowed, and the panel is a plain charcoal surface.
+ * authService verifies the optional shared backend token before storing a session.
  */
 export default function LoginPage() {
   useRouteMode('cinematic')

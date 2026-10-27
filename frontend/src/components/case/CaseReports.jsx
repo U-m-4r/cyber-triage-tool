@@ -136,6 +136,10 @@ export default function CaseReports({ caseRecord }) {
         <h2 className="case-reports__heading" id="history-heading">
           Report History
         </h2>
+        <p className="case-reports__description">
+          This is an audit history of generated reports. Historical PDF files are not retained;
+          the action below generates a fresh report from the current investigation record.
+        </p>
 
         {loadingHistory ? (
           <p className="case-reports__empty">Loading report history…</p>
