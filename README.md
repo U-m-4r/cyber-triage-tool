@@ -54,6 +54,7 @@ python -m pytest -q -m integration --run-integration
 | [`tests/test_forensics.py`](tests/test_forensics.py) | **Forensics Capabilities & Reputation**: Threat-intel provider fallbacks (OTX/VirusTotal), rule weight bumping on malicious reputation verdicts, EVTX flattening, and `/api/forensics/capabilities` reporting. |
 | [`tests/test_evaluation.py`](tests/test_evaluation.py) | **Evaluation Mathematics**: Ground truth extraction for CICIDS2017 schema, Top-K triage lift calculation, confusion matrix precision/recall/F1/accuracy recomputation, and ROC-AUC curve generation. |
 | [`tests/test_endpoints.py`](tests/test_endpoints.py) | **Backend REST API**: Flask `/api/ingest`, `/api/analyze`, `/api/health`, `/api/cases`, authentication token validation, and MongoDB artifact persistence. |
+| [`tests/test_provenance_reconciliation.py`](tests/test_provenance_reconciliation.py) | **Deterministic Provenance & Regression Protection**: Cross-platform semantic fingerprint invariance (`cleanfp-v1-`), tamper sensitivity, substantive field validation, raw-hash divergence allowance, legacy bundle compatibility, and model immutability. |
 
 ## Tech Stack
 

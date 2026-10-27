@@ -22,8 +22,8 @@ def boolean(value):
 
 
 def validate_config(config):
-    for key in ("TESTING", "DEBUG"):
-        if not isinstance(config[key], bool):
+    for key in ("TESTING", "DEBUG", "SUPERVISED_DETECTOR_ENABLED"):
+        if key in config and not isinstance(config[key], bool):
             raise ConfigurationError(f"{key} must be a boolean.")
     if config["APP_ENV"] not in {"development", "production", "test"}:
         raise ConfigurationError("APP_ENV must be development, production or test.")
@@ -89,6 +89,8 @@ def load_config(overrides=None):
         "MAX_CONTENT_LENGTH": 128 * 1024 * 1024,
         "TEMP_DIR": str(ROOT / (".test-artifacts/uploads" if testing else "temp")),
         "MODEL_PATH": str(ROOT / "models/cicids2017_baseline.joblib"),
+        "SUPERVISED_MODEL_PATH": str(ROOT / "models/supervised_binary.joblib"),
+        "SUPERVISED_DETECTOR_ENABLED": boolean(os.getenv("SUPERVISED_DETECTOR_ENABLED", "false")),
     }
     if not testing:
         for key in ("MAX_CONTENT_LENGTH", "MONGO_TIMEOUT_MS"):

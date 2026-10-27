@@ -352,3 +352,139 @@ fitting on training rows only. The suite's fixture makes any `fit()`,
 `joblib.dump()`, or download attempt fail the test. `git diff --check` passed.
 No dataset was downloaded, no cleaning was run against the real source, and no
 model was fitted during this step.
+
+---
+
+## Phase 14: Deterministic Provenance, Clean-Install & Reproducible Setup
+
+### 1. Fresh-Checkout Architecture & Ignored Artifacts
+A fresh clone of the Cyber Triage Tool repository contains neither the large dataset (`data/cicids2017_cleaned.csv`, ~717 MB) nor the trained baseline model (`models/cicids2017_baseline.joblib`). Both are excluded via `.gitignore` to prevent repository bloat and guard against unverified binary execution.
+
+The repository includes committed provenance infrastructure under `data/provenance/`:
+- `data/provenance/cicids2017_cleaning_ledger.csv`: Deterministic exclusion ledger (219,512 excluded rows, SHA-256: `b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460`).
+- `data/provenance/cicids2017_cleaning.json`: Offline cleaning record holding policy metadata, exclusion reason breakdowns, and semantic fingerprint `cleanfp-v1-aac7d01cbefe7acd99ffb610c29a87c8cddbe51ca9ec6294a0925278964e0c1d`.
+
+### 2. Windows Clean-Install Procedure
+
+#### Step A: Environment & Dependency Setup
+From a clean checkout in PowerShell:
+```powershell
+# Create and activate virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Install core and ML dependencies
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+# Optional: Install native forensic dependencies (pytsk3, yara-python, etc.)
+# If prebuilt wheels are located locally:
+# python -m pip install <path-to-wheels>\*.whl
+```
+
+#### Step B: Obtain the Reviewed Dataset & Verify Hash
+Place the reviewed CICIDS2017 CSV at `data/cicids2017_cleaned.csv` (or `data/sample/cicids2017_cleaned.csv`).
+Verify content integrity before proceeding:
+```powershell
+Get-FileHash data\cicids2017_cleaned.csv -Algorithm SHA256
+```
+The output must match the verified content hash:
+`0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292`
+
+Validate CSV formatting and header structure (read-only; no training):
+```powershell
+python scripts\train_baseline.py --validate-only --data data\cicids2017_cleaned.csv
+```
+
+#### Step C: Establish Provenance Manifest
+If the dataset was placed manually:
+```powershell
+python scripts\download_dataset.py --from-local data\cicids2017_cleaned.csv
+```
+Alternatively, if retrieving directly via KaggleHub with valid Kaggle credentials:
+```powershell
+python scripts\download_dataset.py
+```
+
+#### Step D: Generate and Validate Cleaning Provenance
+Run the offline cleaning policy `cicids2017-offline-cleaning` v1.0.0:
+```powershell
+python scripts\clean_dataset.py --data data\cicids2017_cleaned.csv
+```
+This generates and verifies:
+- `data\provenance\cicids2017_cleaning_ledger.csv`: Excludes 219,512 rows across negative measurements (107), duplicate rows (161), and label conflicts (219,323).
+- `data\provenance\cicids2017_cleaning.json`: Derives semantic fingerprint `cleanfp-v1-aac7d01cbefe7acd99ffb610c29a87c8cddbe51ca9ec6294a0925278964e0c1d`.
+
+#### Step E: Explicitly Train the Approved Baseline
+Train the Isolation Forest baseline on the approved training partition:
+```powershell
+python scripts\train_baseline.py `
+    --data data\cicids2017_cleaned.csv `
+    --eligible `
+    --holdout `
+    --dataset-version 1 `
+    --expected-sha256 0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292
+```
+This creates `models\cicids2017_baseline.joblib` (SHA-256 `8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d`, Model ID `iforest-65dd0b57a2b1a2020a0b`).
+
+#### Step F: Evaluate the Baseline on Frozen Holdouts
+Evaluate on reserved validation and test partitions without model fitting:
+```powershell
+python scripts\evaluate_baseline.py --data data\cicids2017_cleaned.csv --allow-semantic-record
+```
+
+#### Step G: Verify API Readiness
+Start the backend application:
+```powershell
+python -m backend.app
+```
+Query health and model endpoints:
+```powershell
+Invoke-RestMethod http://127.0.0.1:5001/api/ready
+Invoke-RestMethod http://127.0.0.1:5001/api/model
+```
+Expected responses:
+- `/api/ready`: `{ "ready": true, "model_available": true }`
+- `/api/model`: `{ "available": true, "model_id": "iforest-65dd0b57a2b1a2020a0b", "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed", ... }`
+
+---
+
+### 3. Semantic Cleaning Fingerprint Specification (`cleanfp-v1-`)
+
+#### Root Cause of Raw File Hash Discrepancies
+Previous phases observed that raw file hashing (`file_sha256`) of `cicids2017_cleaning.json` differed across operating systems and execution runs (`772216...` vs `77a22f...`). Investigation identified that `cicids2017_cleaning.json` contains dynamic host-specific fields:
+1. `applied_at`: Execution timestamp in UTC.
+2. `source.path`, `source.manifest_path`, `ledger.path`: Absolute filesystem paths varying by host and OS.
+3. `environment`: Python, Pandas, and NumPy version strings.
+4. JSON formatting differences: indentation, whitespace, and key ordering.
+
+While these dynamic fields vary, the substantive cleaning results (source content SHA, ledger SHA, row counts, and exclusion rules) are mathematically deterministic.
+
+#### Canonical Representation & Hashing Rules
+The semantic fingerprint `cleanfp-v1-<sha256>` is derived from a strict canonical dictionary containing only stable fields:
+1. `schema_version`: `1`
+2. `policy`: `id`, `version`, `reason_codes` (sorted), `rules` (sorted by code), `modifications_never_applied` (sorted), `offline_only`.
+3. `source`: `sha256`, `size_bytes`, `rows`, `columns`, `label_columns_checked`, `label_conflict_status`, `manifest_handle`, `dataset_version`.
+4. `issues`: issue breakdown counts (`negative_measurements`, `duplicate_rows`, `label_conflicts`).
+5. `exclusions`: `input_rows`, `retained_rows`, `unique_rows`, `by_reason` (sorted keys), `overlaps` (sorted pairs), `invariant`.
+6. `ledger`: `sha256`, `rows`, `columns`, `newline`, `row_identity`.
+
+Canonicalization rules:
+- Excludes: all local paths, timestamps, environment versions, and formatting whitespace.
+- Serialization: `json.dumps(canonical_dict, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('utf-8')`.
+- Digest: `cleanfp-v1-` + `hashlib.sha256(canonical_bytes).hexdigest()`.
+
+Both the raw-file SHA-256 and the semantic fingerprint are preserved as separate fields:
+- `record_sha256`: For exact byte-level integrity checks within the same host.
+- `record_fingerprint`: For cross-platform, deterministic verification across independent environments.
+
+---
+
+### 4. Distribution Options and Trade-Offs
+
+| Distribution Strategy | Security & Trust Boundary | Reproducibility & Portability | Operational Overhead |
+| :--- | :--- | :--- | :--- |
+| **Option 1: Pinned Release Asset (Recommended for Deployments)** | High: Bundle is signed and checksum-verified against pinned SHA-256 `8602d9e6...` before loading. Operator owns deployment directory; API account has read-only access. | High: Guarantees byte-identical model artifact across production containers without retraining. | Low: Instant container boot; no 717 MB download or 3-minute CPU training step during container startup. |
+| **Option 2: Local Pipeline Reproduction (Recommended for Audits & CI)** | Highest: Model is built from verified source CSV using deterministic code; no opaque binary transfers. | Deterministic: Model produces verified ID `iforest-65dd0b57a2b1a2020a0b` from fixed seed 42. | High: Requires fetching 717 MB dataset and executing full training pipeline (~3 min, ~2 GB RAM). |
+| **Option 3: Enterprise Remote Model Store (e.g., S3/MinIO/OCI)** | Medium-High: Requires IAM access controls, TLS, and pre-load hash verification to prevent man-in-the-middle tampering. | High: Centralized registry tracks model versions across deployment stages. | Moderate: Introduces network dependency on external object store; requires credential management in runtime containers. |
+

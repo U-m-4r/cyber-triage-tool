@@ -115,6 +115,11 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
     model.fit(scaled)
     if file_sha256(dataset_path) != checksum:
         raise ValueError('Dataset changed during training; no bundle was published.')
+    try:
+        training_source = dataset_path.resolve().relative_to(ROOT_DIR.resolve()).as_posix()
+    except ValueError:
+        training_source = str(dataset_path)
+
     bundle = {
         'bundle_version': BUNDLE_VERSION, 'model': model, 'scaler': scaler,
         'feature_schema': {'version': 1, 'artifact_type': 'network',
@@ -124,7 +129,9 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
                      'numpy': np.__version__, 'pandas': pd.__version__, 'joblib': joblib.__version__},
         'provenance': {
             'dataset_id': DATASET_ID, 'source_url': SOURCE_URL,
-            'dataset_path': 'data/cicids2017_cleaned.csv', 'dataset_version': str(dataset_version),
+            'dataset_path': 'data/cicids2017_cleaned.csv',
+            'training_source_path': training_source,
+            'dataset_version': str(dataset_version),
             'sha256': checksum, 'size_bytes': dataset_path.stat().st_size,
             'trained_at': datetime.now(timezone.utc).isoformat(),
             'training_policy': 'benign_only', 'label_column': label_column,
@@ -137,15 +144,20 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
         'drift_reference': build_reference(training),
     }
     if eligible:
-        from ml.cleaning import load_cleaning_record
+        from ml.cleaning import (DEFAULT_RECORD_PATH, load_cleaning_record,
+                                 cleaning_record_fingerprint, verify_cleaning_record)
         record_path = cleaning_record or DEFAULT_RECORD_PATH
         record = load_cleaning_record(record_path)
-        if record['source']['sha256'] != checksum:
-            raise ValueError('Cleaning provenance does not match the training source.')
+        try:
+            verify_cleaning_record(record, expected_source_sha=checksum)
+        except Exception as exc:
+            raise ValueError(f'Cleaning provenance does not match the training source: {exc}') from exc
         bundle['provenance']['cleaning'] = {
             'policy_id': record['policy']['id'], 'policy_version': record['policy']['version'],
             'ledger_sha256': record['ledger']['sha256'],
-            'record_sha256': file_sha256(record_path), 'exclusions': record['exclusions']}
+            'record_sha256': file_sha256(record_path),
+            'record_fingerprint': cleaning_record_fingerprint(record),
+            'exclusions': record['exclusions']}
     if split:
         bundle['provenance']['split'] = split
     bundle['provenance']['model_id'] = 'iforest-' + hashlib.sha256(json.dumps({

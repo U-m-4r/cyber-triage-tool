@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import json
 import sys
 import uuid
@@ -25,6 +26,13 @@ if ROOT_DIR not in sys.path:
 import pandas as pd
 from ml.baseline import (BASELINE_PATH, BaselineError, load_baseline,
                          infer_network, infer_network_csv, baseline_metadata)
+from ml.supervised_detector import (
+    SupervisedDetectorError,
+    load_supervised_detector,
+    infer_supervised_network,
+    infer_supervised_network_csv,
+    supervised_metadata,
+)
 from ml.preprocessor import NetworkInputError
 from ml.risk_scorer import RiskScorer
 from ml.ingestion import parse_file, ParserError, PARSER_REGISTRY
@@ -186,6 +194,15 @@ def _network_csv_inference(filepath):
     return bundle, infer_network_csv(filepath, bundle)
 
 
+def _supervised_csv_inference(filepath, threshold_override=None):
+    supervised_path = current_app.config.get('SUPERVISED_MODEL_PATH')
+    bundle = get_cached_supervised_detector(supervised_path)
+    clean, preds, scores, meta = infer_supervised_network_csv(
+        filepath, bundle, threshold_override=threshold_override
+    )
+    return bundle, (clean, preds, scores, meta)
+
+
 # ---------------------------------------------------------------------------
 # Health & analysis endpoints (existing)
 # ---------------------------------------------------------------------------
@@ -211,6 +228,39 @@ def model_status():
         return jsonify({"available": True, "baseline": baseline_metadata(bundle)})
     except BaselineError as exc:
         return jsonify({"available": False, "code": exc.code, "message": "Approved network baseline unavailable. Supply a compatible, provenance-validated models/cicids2017_baseline.joblib bundle. Uploads do not train models."})
+
+
+_SUPERVISED_CACHE = {}
+
+
+def get_cached_supervised_detector(path):
+    p = str(Path(path).resolve())
+    mtime = os.path.getmtime(p) if os.path.exists(p) else None
+    cached = _SUPERVISED_CACHE.get(p)
+    if cached and cached.get("mtime") == mtime and mtime is not None:
+        return cached["bundle"]
+    bundle = load_supervised_detector(p)
+    _SUPERVISED_CACHE[p] = {"mtime": mtime, "bundle": bundle}
+    return bundle
+
+
+@api.route("/api/model/supervised", methods=["GET"])
+def supervised_model_status():
+    supervised_path = current_app.config.get("SUPERVISED_MODEL_PATH")
+    try:
+        bundle = get_cached_supervised_detector(supervised_path)
+        return jsonify({
+            "available": True,
+            "supervised": supervised_metadata(bundle),
+            "enabled": current_app.config.get("SUPERVISED_DETECTOR_ENABLED", False),
+        })
+    except SupervisedDetectorError as exc:
+        return jsonify({
+            "available": False,
+            "code": exc.code,
+            "message": str(exc),
+            "enabled": current_app.config.get("SUPERVISED_DETECTOR_ENABLED", False),
+        }), 200
 
 
 def _readiness():
@@ -241,49 +291,99 @@ def analyze():
         return error_response
 
     try:
-        bundle, (df_clean, predictions, scores, preprocessing, drift) = _network_csv_inference(filepath)
-        source_records = df_clean.reset_index(drop=True).copy()
-        source_records["prediction"] = ["anomaly" if value == -1 else "normal" for value in predictions]
-        source_records["decision_score"] = scores
-        source_records["record_id"] = range(len(source_records))
-        results_df = pd.DataFrame(scorer.score_records(
-            json.loads(source_records.to_json(orient="records")), scores))
+        detector_req = (request.args.get("detector") or request.form.get("detector") or "").strip().lower()
+        use_supervised = (detector_req == "supervised") or (
+            current_app.config.get("SUPERVISED_DETECTOR_ENABLED") and detector_req != "baseline"
+        )
+        if use_supervised:
+            thresh_arg = request.args.get("threshold") or request.form.get("threshold")
+            try:
+                thresh_val = float(thresh_arg) if thresh_arg is not None else None
+            except ValueError:
+                return _api_error("Invalid threshold parameter; must be float", 400, "INVALID_THRESHOLD")
 
-        top_results = results_df.head(100).to_dict(orient="records")
-        summary = {
-            "total_records": int(len(results_df)),
-            "critical": int((results_df["priority"] == "CRITICAL").sum()),
-            "high": int((results_df["priority"] == "HIGH").sum()),
-            "medium": int((results_df["priority"] == "MEDIUM").sum()),
-            "low": int((results_df["priority"] == "LOW").sum()),
-        }
+            s_bundle, (df_clean, predictions, scores, meta) = _supervised_csv_inference(
+                filepath, threshold_override=thresh_val
+            )
+            source_records = df_clean.reset_index(drop=True).copy()
+            source_records["prediction"] = ["ATTACK" if value == 1 else "BENIGN" for value in predictions]
+            source_records["decision_score"] = scores
+            source_records["model_score"] = scores
+            source_records["record_id"] = range(len(source_records))
+            results_df = pd.DataFrame(scorer.score_records(
+                json.loads(source_records.to_json(orient="records")), scores))
 
-        # Chain-of-custody digest is returned so the investigator can verify the
-        # exact evidence file that produced these results (NIST FIPS 180-4).
-        response_payload = {"summary": summary, "artifacts": top_results, "evidence": custody,
-                            "baseline": baseline_metadata(bundle), "preprocessing": preprocessing,
-                            "drift": drift}
-        # Add metrics when a supported label column is available.
-        y_true, label_column = _extract_binary_ground_truth(df_clean)
-        if y_true is not None:
-            response_payload["evaluation"] = {
-                "label_column": label_column,
-                "metrics": evaluate_predictions(y_true, predictions, scores),
+            top_results = results_df.head(100).to_dict(orient="records")
+            summary = {
+                "total_records": int(len(results_df)),
+                "critical": int((results_df["priority"] == "CRITICAL").sum()),
+                "high": int((results_df["priority"] == "HIGH").sum()),
+                "medium": int((results_df["priority"] == "MEDIUM").sum()),
+                "low": int((results_df["priority"] == "LOW").sum()),
             }
+
+            response_payload = {
+                "detector": "supervised_binary",
+                "summary": summary,
+                "artifacts": top_results,
+                "evidence": custody,
+                "supervised": supervised_metadata(s_bundle),
+                "inference_metadata": meta,
+                "preprocessing": meta["preprocessing"],
+            }
+        else:
+            bundle, (df_clean, predictions, scores, preprocessing, drift) = _network_csv_inference(filepath)
+            source_records = df_clean.reset_index(drop=True).copy()
+            source_records["prediction"] = ["anomaly" if value == -1 else "normal" for value in predictions]
+            source_records["decision_score"] = scores
+            source_records["record_id"] = range(len(source_records))
+            results_df = pd.DataFrame(scorer.score_records(
+                json.loads(source_records.to_json(orient="records")), scores))
+
+            top_results = results_df.head(100).to_dict(orient="records")
+            summary = {
+                "total_records": int(len(results_df)),
+                "critical": int((results_df["priority"] == "CRITICAL").sum()),
+                "high": int((results_df["priority"] == "HIGH").sum()),
+                "medium": int((results_df["priority"] == "MEDIUM").sum()),
+                "low": int((results_df["priority"] == "LOW").sum()),
+            }
+
+            # Chain-of-custody digest is returned so the investigator can verify the
+            # exact evidence file that produced these results (NIST FIPS 180-4).
+            response_payload = {
+                "detector": "anomaly_baseline",
+                "summary": summary,
+                "artifacts": top_results,
+                "evidence": custody,
+                "baseline": baseline_metadata(bundle),
+                "preprocessing": preprocessing,
+                "drift": drift,
+            }
+            # Add metrics when a supported label column is available.
+            y_true, label_column = _extract_binary_ground_truth(df_clean)
+            if y_true is not None:
+                response_payload["evaluation"] = {
+                    "label_column": label_column,
+                    "metrics": evaluate_predictions(y_true, predictions, scores),
+                }
 
         # Persist analysis results to MongoDB if available
         response_payload["persisted"] = False
         if _intake_database_available():
             try:
                 db = get_db()
+                audit_meta = (
+                    {"supervised": response_payload.get("supervised"), "preprocessing": response_payload.get("preprocessing")}
+                    if use_supervised
+                    else {"baseline": baseline_metadata(bundle), "preprocessing": preprocessing, "drift": drift}
+                )
                 intake_id, stored = persist_intake(
                     db, results_df.to_dict(orient="records"), request.form.get("caseId"),
-                    custody, "cicids2017", {"baseline": baseline_metadata(bundle),
-                    "preprocessing": preprocessing, "drift": drift})
+                    custody, "cicids2017", audit_meta)
                 db.analysis_results.insert_one({"intake_id": intake_id, "created_at": now(),
                     "case_id": request.form.get("caseId"), "summary": summary,
-                    "evidence_custody": custody, "baseline": baseline_metadata(bundle),
-                    "preprocessing": preprocessing, "drift": drift})
+                    "evidence_custody": custody, **audit_meta})
                 response_payload.update(intake_id=intake_id, stored=stored)
                 response_payload["persisted"] = True
             except Exception:
@@ -291,6 +391,8 @@ def analyze():
                 return _api_error("Analysis persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
 
         return jsonify(response_payload)
+    except SupervisedDetectorError as exc:
+        return _api_error(str(exc), 503 if exc.code == "SUPERVISED_MODEL_MISSING" else 400, exc.code)
     except BaselineError as exc:
         return _api_error(str(exc), 503, exc.code)
     except NetworkInputError as exc:
@@ -377,14 +479,51 @@ def ingest():
 
         network_metadata = {}
         if kind == 'pcap' or any(r.get('artifact_type') == 'network' for r in records):
-            bundle = load_baseline(current_app.config.get('MODEL_PATH'))
-            clean, predictions, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
-            clean = clean.copy()
-            clean['prediction'] = ['anomaly' if value == -1 else 'normal' for value in predictions]
-            clean['decision_score'] = scores
-            scored = scorer.score_records(json.loads(clean.to_json(orient='records')), scores)
-            network_metadata = {'baseline': baseline_metadata(bundle),
-                                'preprocessing': preprocessing, 'drift': drift}
+            detector_req = (request.args.get("detector") or request.form.get("detector") or "").strip().lower()
+            use_supervised = (detector_req == "supervised") or (
+                current_app.config.get("SUPERVISED_DETECTOR_ENABLED") and detector_req != "baseline"
+            )
+            if use_supervised:
+                supervised_path = current_app.config.get("SUPERVISED_MODEL_PATH")
+                try:
+                    s_bundle = get_cached_supervised_detector(supervised_path)
+                except SupervisedDetectorError as exc:
+                    return _api_error(f"Supervised detector unavailable: {exc}", 503, exc.code)
+
+                thresh_arg = request.args.get("threshold") or request.form.get("threshold")
+                try:
+                    thresh_val = float(thresh_arg) if thresh_arg is not None else None
+                except ValueError:
+                    return _api_error("Invalid threshold parameter; must be float", 400, "INVALID_THRESHOLD")
+
+                try:
+                    clean, s_preds, s_scores, s_meta = infer_supervised_network(
+                        pd.DataFrame(records), s_bundle, threshold_override=thresh_val
+                    )
+                except SupervisedDetectorError as exc:
+                    return _api_error(str(exc), 400, exc.code)
+
+                clean = clean.copy()
+                clean['prediction'] = ['ATTACK' if val == 1 else 'BENIGN' for val in s_preds]
+                clean['decision_score'] = s_scores
+                clean['model_score'] = s_scores
+                scored = scorer.score_records(json.loads(clean.to_json(orient='records')), s_scores)
+                network_metadata = {
+                    'detector': 'supervised_binary',
+                    'supervised': supervised_metadata(s_bundle),
+                    'inference_metadata': s_meta,
+                    'preprocessing': s_meta['preprocessing'],
+                }
+            else:
+                bundle = load_baseline(current_app.config.get('MODEL_PATH'))
+                clean, predictions, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
+                clean = clean.copy()
+                clean['prediction'] = ['anomaly' if value == -1 else 'normal' for value in predictions]
+                clean['decision_score'] = scores
+                scored = scorer.score_records(json.loads(clean.to_json(orient='records')), scores)
+                network_metadata = {'detector': 'anomaly_baseline',
+                                    'baseline': baseline_metadata(bundle),
+                                    'preprocessing': preprocessing, 'drift': drift}
         else:
             # Host artifacts keep their source-specific rules; the CICIDS model
             # cannot be applied to event IDs, registry values, or file metadata.

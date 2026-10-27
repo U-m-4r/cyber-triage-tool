@@ -14,6 +14,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils.validation import check_is_fitted
 
+from ml.cleaning import CLEANING_POLICY_ID, CLEANING_POLICY_VERSION
 from ml.dataset_source import DATASET_HANDLE, DATASET_PAGE_URL
 from ml.drift import monitor_drift
 from ml.preprocessor import (NETWORK_FEATURES, NetworkInputError,
@@ -61,12 +62,26 @@ def validate_bundle(bundle):
         provenance = bundle['provenance']
         require(provenance['dataset_id'] == DATASET_ID)
         require(provenance['source_url'] == SOURCE_URL)
-        require(provenance['dataset_path'] == 'data/cicids2017_cleaned.csv')
+        normalized_dataset_path = str(provenance.get('dataset_path', '')).replace('\\', '/')
+        require(normalized_dataset_path in ('data/cicids2017_cleaned.csv', 'data/sample/cicids2017_cleaned.csv')
+                or normalized_dataset_path.startswith('data/'))
+        if 'training_source_path' in provenance:
+            require(isinstance(provenance['training_source_path'], str) and provenance['training_source_path'].strip())
         require(re.fullmatch(r'[0-9a-f]{64}', provenance['sha256']))
         require(str(provenance['dataset_version']).strip())
         require(provenance['training_policy'] == 'benign_only')
         require(provenance['training_rows'] >= 2)
         require(provenance['trained_at'])
+        if 'cleaning' in provenance:
+            cleaning_meta = provenance['cleaning']
+            require(isinstance(cleaning_meta, dict))
+            require(cleaning_meta.get('policy_id') == CLEANING_POLICY_ID)
+            require(cleaning_meta.get('policy_version') == CLEANING_POLICY_VERSION)
+            require(re.fullmatch(r'[0-9a-f]{64}', str(cleaning_meta.get('ledger_sha256') or '')))
+            if 'record_fingerprint' in cleaning_meta:
+                require(re.fullmatch(r'cleanfp-v[0-9]+-[0-9a-f]{64}', str(cleaning_meta['record_fingerprint'])))
+            if 'record_sha256' in cleaning_meta:
+                require(re.fullmatch(r'[0-9a-f]{64}', str(cleaning_meta['record_sha256'])))
         reference = bundle['drift_reference']
         require(reference['method'] == 'psi' and reference['min_samples'] >= 1)
         require(reference['reference_rows'] == provenance['training_rows'])

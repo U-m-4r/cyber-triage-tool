@@ -24,9 +24,14 @@ data/*.pcap
 data/*.json
 # Explicit KaggleHub download target (scripts/download_dataset.py)
 data/kaggle/
+data/*.raw
+data/**/*.raw
 *.evtx
 models/*.pkl
 models/*.joblib
+models/**/*.joblib
+models/**/*.pkl
+models/experiments/
 reports/*.pdf
 node_modules/
 frontend/build/

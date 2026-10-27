@@ -59,6 +59,8 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 CLEANING_POLICY_ID = 'cicids2017-offline-cleaning'
 CLEANING_POLICY_VERSION = '1.0.0'
 CLEANING_RECORD_VERSION = 1
+FINGERPRINT_SCHEMA_VERSION = 1
+FINGERPRINT_PREFIX = f'cleanfp-v{FINGERPRINT_SCHEMA_VERSION}-'
 LABEL_COLUMNS = ('Attack Type', 'Label')
 REASON_ORDER = ('negative_measurements', 'duplicate_row', 'label_conflict')
 
@@ -342,11 +344,162 @@ def _publish_bytes(path, payload, *, force, label, code):
     return 'written'
 
 
+def canonical_cleaning_payload(rec):
+    """Documented canonical representation of stable cleaning record fields."""
+    pol = rec.get('policy', {})
+    src = rec.get('source', {})
+    excl = rec.get('exclusions', {})
+    led = rec.get('ledger', {})
+    iss = rec.get('issues', {})
+
+    dver = src.get('dataset_version')
+    if isinstance(dver, dict):
+        dver_canon = {
+            'detail': dver.get('detail'),
+            'status': dver.get('status'),
+            'value': dver.get('value'),
+        }
+    else:
+        dver_canon = str(dver or '')
+
+    neg_iss = iss.get('negative_measurements', {})
+    neg_cols = neg_iss.get('columns', {})
+    non_fin = neg_iss.get('non_finite_cells_not_excluded', {})
+
+    dup_iss = iss.get('duplicate_rows', {})
+    lbl_iss = iss.get('label_conflicts', {})
+
+    return {
+        'schema_version': FINGERPRINT_SCHEMA_VERSION,
+        'policy': {
+            'id': pol.get('id'),
+            'version': pol.get('version'),
+            'reason_codes': sorted(pol.get('reason_codes', [])),
+            'rules': sorted(pol.get('rules', []), key=lambda r: r.get('code', '')),
+            'modifications_never_applied': sorted(pol.get('modifications_never_applied', [])),
+            'offline_only': bool(pol.get('offline_only', True)),
+        },
+        'source': {
+            'sha256': src.get('sha256'),
+            'size_bytes': src.get('size_bytes'),
+            'rows': src.get('rows'),
+            'columns': list(src.get('columns', [])),
+            'label_columns_checked': list(src.get('label_columns_checked', [])),
+            'label_conflict_status': src.get('label_conflict_status'),
+            'manifest_handle': src.get('manifest_handle'),
+            'dataset_version': dver_canon,
+        },
+        'issues': {
+            'negative_measurements': {
+                'rows': neg_iss.get('rows'),
+                'cells': neg_iss.get('cells'),
+                'columns': {k: neg_cols[k] for k in sorted(neg_cols.keys())},
+                'non_finite_cells_not_excluded': {k: non_fin[k] for k in sorted(non_fin.keys())},
+            },
+            'duplicate_rows': {
+                'rows': dup_iss.get('rows'),
+                'rows_in_duplicate_groups': dup_iss.get('rows_in_duplicate_groups'),
+                'comparison': dup_iss.get('comparison'),
+            },
+            'label_conflicts': {
+                'vectors': lbl_iss.get('vectors'),
+                'rows': lbl_iss.get('rows'),
+                'columns_checked': list(lbl_iss.get('columns_checked', [])),
+            },
+        },
+        'exclusions': {
+            'input_rows': excl.get('input_rows'),
+            'retained_rows': excl.get('retained_rows'),
+            'unique_rows': excl.get('unique_rows'),
+            'by_reason': {k: excl.get('by_reason', {}).get(k) for k in sorted(excl.get('by_reason', {}).keys())},
+            'overlaps': {
+                'rows_with_multiple_reasons': excl.get('overlaps', {}).get('rows_with_multiple_reasons'),
+                'pairs': {k: excl.get('overlaps', {}).get('pairs', {}).get(k)
+                          for k in sorted(excl.get('overlaps', {}).get('pairs', {}).keys())},
+            },
+            'invariant': excl.get('invariant'),
+        },
+        'ledger': {
+            'sha256': led.get('sha256'),
+            'rows': led.get('rows'),
+            'columns': list(led.get('columns', [])),
+            'newline': led.get('newline'),
+            'row_identity': led.get('row_identity'),
+        },
+    }
+
+
+def cleaning_record_fingerprint(record):
+    """Compute the deterministic, versioned semantic fingerprint of a cleaning record."""
+    payload = canonical_cleaning_payload(record)
+    encoded = json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode('utf-8')
+    return f'{FINGERPRINT_PREFIX}{hashlib.sha256(encoded).hexdigest()}'
+
+
+def verify_cleaning_record(record, *, expected_source_sha=None, expected_ledger_sha=None,
+                           expected_fingerprint=None):
+    """Validate substantive cleaning record fields and deterministic fingerprint."""
+    if not isinstance(record, dict):
+        raise CleaningError('Cleaning record must be a JSON object.', 'RECORD_UNREADABLE')
+    if record.get('record_version') != CLEANING_RECORD_VERSION:
+        raise CleaningError(
+            f'Unsupported record version {record.get("record_version")!r}; expected {CLEANING_RECORD_VERSION}.',
+            'RECORD_UNREADABLE')
+
+    pol = record.get('policy') or {}
+    if pol.get('id') != CLEANING_POLICY_ID or pol.get('version') != CLEANING_POLICY_VERSION:
+        raise CleaningError(
+            f'Cleaning policy mismatch: {pol.get("id")} v{pol.get("version")}; '
+            f'expected {CLEANING_POLICY_ID} v{CLEANING_POLICY_VERSION}.',
+            'POLICY_MISMATCH')
+
+    src = record.get('source') or {}
+    src_sha = str(src.get('sha256') or '')
+    if not re.fullmatch(r'[0-9a-f]{64}', src_sha):
+        raise CleaningError('Cleaning record missing valid source SHA-256.', 'PROVENANCE_MISMATCH')
+    if expected_source_sha and src_sha != expected_source_sha.lower():
+        raise CleaningError(
+            f'Record source SHA-256 {src_sha} does not match expected {expected_source_sha}.',
+            'SOURCE_SHA_MISMATCH')
+
+    led = record.get('ledger') or {}
+    led_sha = str(led.get('sha256') or '')
+    if not re.fullmatch(r'[0-9a-f]{64}', led_sha):
+        raise CleaningError('Cleaning record missing valid ledger SHA-256.', 'LEDGER_MISMATCH')
+    if expected_ledger_sha and led_sha != expected_ledger_sha.lower():
+        raise CleaningError(
+            f'Record ledger SHA-256 {led_sha} does not match expected {expected_ledger_sha}.',
+            'LEDGER_MISMATCH')
+
+    excl = record.get('exclusions') or {}
+    input_rows = excl.get('input_rows')
+    retained_rows = excl.get('retained_rows')
+    unique_rows = excl.get('unique_rows')
+    if not (isinstance(input_rows, int) and isinstance(retained_rows, int) and isinstance(unique_rows, int)):
+        raise CleaningError('Cleaning record exclusion counts must be integers.', 'COUNT_MISMATCH')
+    if input_rows != retained_rows + unique_rows:
+        raise CleaningError(
+            f'Record count invariant violated: {input_rows} != {retained_rows} + {unique_rows}.',
+            'COUNT_MISMATCH')
+    if led.get('rows') is not None and led.get('rows') != unique_rows:
+        raise CleaningError('Ledger row count does not match unique excluded rows.', 'LEDGER_MISMATCH')
+
+    actual_fp = cleaning_record_fingerprint(record)
+    if expected_fingerprint and actual_fp != expected_fingerprint:
+        raise CleaningError(
+            f'Semantic fingerprint mismatch: record produces {actual_fp}, expected {expected_fingerprint}.',
+            'FINGERPRINT_MISMATCH')
+    if 'fingerprint' in record and record['fingerprint'] != actual_fp:
+        raise CleaningError(
+            f'Recorded fingerprint {record["fingerprint"]} does not match computed {actual_fp}.',
+            'FINGERPRINT_MISMATCH')
+
+    return actual_fp
+
+
 def _record_signature(record):
-    """Compare records without the run timestamp."""
-    snapshot = json.loads(json.dumps(record))
-    snapshot.get('policy', {}).pop('applied_at', None)
-    return json.dumps(snapshot, sort_keys=True)
+    """Compare substantive cleaning records via deterministic fingerprint."""
+    return cleaning_record_fingerprint(record)
 
 
 def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
@@ -443,6 +596,11 @@ def clean_dataset(*, source=None, manifest_path=dataset_source.DEFAULT_MANIFEST_
     multi_reason = sum(1 for codes in reasons.values() if len(codes) > 1)
     checked_labels = [column for column in LABEL_COLUMNS if analysis['label_present'][column]]
 
+    try:
+        rel_source = source_path.resolve().relative_to(ROOT_DIR.resolve()).as_posix()
+    except ValueError:
+        rel_source = str(source_path)
+
     record = {
         'record_version': CLEANING_RECORD_VERSION,
         'policy': {
@@ -457,6 +615,7 @@ def clean_dataset(*, source=None, manifest_path=dataset_source.DEFAULT_MANIFEST_
         },
         'source': {
             'path': str(source_path.resolve()),
+            'relative_path': rel_source,
             'sha256': actual_sha,
             'size_bytes': size_bytes,
             'rows': input_rows,
@@ -513,6 +672,7 @@ def clean_dataset(*, source=None, manifest_path=dataset_source.DEFAULT_MANIFEST_
             'numpy': np.__version__,
         },
     }
+    record['fingerprint'] = cleaning_record_fingerprint(record)
 
     existing = None
     if record_path.is_file():
@@ -541,18 +701,42 @@ def clean_dataset(*, source=None, manifest_path=dataset_source.DEFAULT_MANIFEST_
 
 def _eligible_context(source=None, record_path=DEFAULT_RECORD_PATH):
     record = load_cleaning_record(record_path)
-    source_path = Path(source if source is not None else record['source']['path'])
-    if not source_path.is_file():
-        raise CleaningError(f'Source CSV not found: {source_path}', 'SOURCE_MISSING')
+    source_candidate = source if source is not None else record['source'].get('path')
+    source_path = Path(source_candidate) if source_candidate else None
+    if source_path is None or not source_path.is_file():
+        # Fallback candidates based on repo structure and manifest
+        fallbacks = [
+            ROOT_DIR / 'data' / 'cicids2017_cleaned.csv',
+            ROOT_DIR / 'data' / 'sample' / 'cicids2017_cleaned.csv',
+        ]
+        if record['source'].get('manifest_csv_path'):
+            fallbacks.insert(0, Path(record['source']['manifest_csv_path']))
+        for candidate in fallbacks:
+            if candidate.is_file():
+                source_path = candidate
+                break
+    if source_path is None or not source_path.is_file():
+        raise CleaningError(f'Source CSV not found: {source_candidate}', 'SOURCE_MISSING')
     actual_sha = dataset_source.sha256_file(source_path)
     if actual_sha != record['source']['sha256']:
         raise CleaningError(
             f'Source SHA-256 {actual_sha} no longer matches the cleaning record '
             f'{record["source"]["sha256"]}. The eligible view was not derived.',
             'SOURCE_SHA_MISMATCH')
-    ledger_path = Path(record['ledger']['path'])
-    if not ledger_path.is_file():
-        raise CleaningError(f'Exclusion ledger not found: {ledger_path}', 'LEDGER_MISSING')
+    ledger_candidate = record['ledger'].get('path')
+    ledger_path = Path(ledger_candidate) if ledger_candidate else None
+    if ledger_path is None or not ledger_path.is_file():
+        # Fallback relative to record_path or DEFAULT_LEDGER_PATH
+        fallbacks = [
+            Path(record_path).parent / Path(ledger_candidate or 'cicids2017_cleaning_ledger.csv').name,
+            DEFAULT_LEDGER_PATH,
+        ]
+        for candidate in fallbacks:
+            if candidate.is_file():
+                ledger_path = candidate
+                break
+    if ledger_path is None or not ledger_path.is_file():
+        raise CleaningError(f'Exclusion ledger not found: {ledger_candidate}', 'LEDGER_MISSING')
     payload = ledger_path.read_bytes()
     if hashlib.sha256(payload).hexdigest() != record['ledger']['sha256']:
         raise CleaningError(f'Exclusion ledger {ledger_path} does not match the cleaning record.',
