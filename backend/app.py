@@ -115,6 +115,19 @@ def _api_error(message, status_code, code):
     return jsonify({"error": {"code": code, "message": message}}), status_code
 
 
+def _scan_evidence(filepath, custody):
+    if not yara_scanner.AVAILABLE:
+        return [], {'status': 'unavailable'}
+    try:
+        matches = yara_scanner.scan_file(filepath)
+        for match in matches:
+            match['target'] = custody['original_filename']
+        return matches, {'status': 'complete', 'matches': len(matches)}
+    except Exception:
+        logger.warning('YARA scan did not complete')
+        return [], {'status': 'failed', 'message': 'YARA scan failed or timed out; no clean verdict is implied.'}
+
+
 def _request_token():
     """Extract a token from Authorization: Bearer <t> or the X-API-Key header."""
     auth = request.headers.get("Authorization", "")
@@ -384,12 +397,14 @@ def ingest():
             "low": sum(1 for a in scored if a["priority"] == "LOW"),
         }
 
+        iocs, yara_status = _scan_evidence(filepath, custody)
         stored = 0
+        intake_id = None
         if _intake_database_available():
             try:
                 db = get_db()
                 intake_id, stored = persist_intake(db, scored, case_id, custody,
-                                                   kind or "auto", network_metadata)
+                                                   kind or "auto", {**network_metadata, 'yara': yara_status}, iocs=iocs)
             except Exception:
                 logger.error("Failed to persist ingested artifacts")
                 return _api_error("Artifact persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
@@ -398,6 +413,10 @@ def ingest():
             "kind": kind or "auto",
             "summary": summary,
             "stored": stored,
+            "persisted": intake_id is not None,
+            "intake_id": intake_id,
+            "iocs": iocs,
+            "yara": yara_status,
             "artifacts": [
                 {k: v for k, v in a.items()} for a in scored[:100]
             ],
@@ -786,12 +805,7 @@ def forensics_ingest():
         scored = [row for row in all_scored if row.get("matched_rules") != "None"]
 
         # IOC surfacing: YARA-scan the raw evidence file if the engine is present.
-        iocs = []
-        if yara_scanner.AVAILABLE:
-            try:
-                iocs = yara_scanner.scan_file(filepath)
-            except Exception:
-                logger.error("YARA scan failed")
+        iocs, yara_status = _scan_evidence(filepath, custody)
 
         # Optional threat-intel enrichment on the evidence file hash (no-op w/o keys).
         intel = threat_intel.check_indicator(custody["sha256"], kind="hash")
@@ -803,6 +817,7 @@ def forensics_ingest():
             "records": records,
             "flagged_artifacts": scored[:100],
             "iocs": iocs,
+            "yara": yara_status,
             "threat_intel": intel,
             "evidence": custody,
         }
@@ -813,7 +828,7 @@ def forensics_ingest():
             # Preserve source fields and rule scores for every parsed record.
             intake_id, stored = persist_intake(get_db(), all_scored,
                 request.form.get("caseId"), custody, kind,
-                {"threat_intel": intel}, iocs=iocs)
+                {"threat_intel": intel, "yara": yara_status}, iocs=iocs)
             response_payload.update(persisted=True, stored=stored, intake_id=intake_id,
                                     custody_persisted=bool(request.form.get("caseId")))
 

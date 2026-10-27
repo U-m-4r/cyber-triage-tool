@@ -108,6 +108,7 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
         docs = []
         for row in scored:
             docs.append({**row, "artifact_id": "ART-" + uuid.uuid4().hex,
+                         "model_id": (metadata or {}).get('baseline', {}).get('provenance', {}).get('model_id'),
                          "case_id": case_id, "intake_id": intake_id, "source_kind": kind,
                          "source_file": custody["original_filename"], "ingested_at": stamp})
         if docs:

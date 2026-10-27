@@ -96,9 +96,16 @@ export default function CaseIoc({ caseRecord }) {
     [indicators, typeFilter],
   )
 
+  const recordedHits = (caseRecord?.iocs || []).length > 0 && <section className="integration-page">
+    <h3>Recorded YARA matches</h3><p>Rule matches identify patterns for review; they do not prove compromise.</p>
+    <ul>{caseRecord.iocs.map((hit, index) => <li key={`${hit.rule}-${index}`}>
+      <strong>{hit.rule}</strong> — {hit.target} · {hit.meta?.description || 'Pattern matched'}
+    </li>)}</ul></section>
+
   if (indicators.length === 0) {
     return (
       <div className="case-ioc">
+        {recordedHits}
         <Panel
           title="IOC Graph"
           subtitle={
@@ -122,6 +129,7 @@ export default function CaseIoc({ caseRecord }) {
 
   return (
     <div className="case-ioc">
+      {recordedHits}
       <div className="case-ioc__controls" role="group" aria-label="Filter indicators by type">
         <span className="case-ioc__count">
           <strong className="tabular">{indicators.length}</strong> indicators derived from{' '}

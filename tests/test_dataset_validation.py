@@ -278,5 +278,6 @@ def test_training_cli_preserves_arguments_without_fitting(monkeypatch, capsys, u
         'dataset_version': 'reviewed-test', 'expected_sha256': '0' * 64,
         'contamination': 0.2, 'overwrite': True,
         'eligible': False, 'cleaning_record': None,
+        'holdout': False,
     }
     assert json.loads(capsys.readouterr().out)['provenance'] == {}

@@ -81,5 +81,5 @@ def scan_file(filepath, rules_dir=DEFAULT_RULES_DIR, compiled_rules=None):
     rules = compiled_rules or compile_rules(rules_dir)
     if rules is None:
         return []
-    matches = rules.match(filepath)
-    return [_match_to_ioc(m, filepath) for m in matches]
+    matches = rules.match(filepath, timeout=10)
+    return [_match_to_ioc(m, os.path.basename(filepath)) for m in matches]

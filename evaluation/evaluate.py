@@ -24,6 +24,7 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
     roc_auc_score,
+    average_precision_score,
     precision_recall_fscore_support,
 )
 
@@ -134,6 +135,9 @@ def evaluate_predictions(y_true, predictions, decision_scores):
         "false_negative": int(fn),
         "true_positive": int(tp),
     }
+    metrics['false_positive_rate'] = float(fp / (tn + fp)) if tn + fp else None
+    metrics['pr_auc_average_precision'] = float(average_precision_score(
+        y_true, -np.asarray(decision_scores))) if (y_true == 1).any() else None
 
     # ROC-AUC — Fawcett 2006. Negate decision scores so higher = more likely attack.
     if len(np.unique(y_true)) > 1:

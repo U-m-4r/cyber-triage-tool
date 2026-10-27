@@ -1,0 +1,199 @@
+{
+  "model_id": "iforest-b4d469f127a6d0e75697",
+  "bundle_sha256": "2eb0f38ef3a262b14772f825c73258c3b0d2eb484a1128723681aa6a20515aa4",
+  "source_sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+  "split": {
+    "method": "numeric-feature-group-hash-v1",
+    "seed": 42,
+    "train_percent": 70,
+    "validation_percent": 15,
+    "test_percent": 15,
+    "partitions": {
+      "train": {
+        "rows": 1612277,
+        "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+      },
+      "validation": {
+        "rows": 343070,
+        "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+      },
+      "test": {
+        "rows": 345892,
+        "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+      }
+    }
+  },
+  "cleaning": {
+    "policy_id": "cicids2017-offline-cleaning",
+    "policy_version": "1.0.0",
+    "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+    "record_sha256": "77221643ef38b701dfa716b3fff0a7a91bf50d019bc04760555077049fc26965",
+    "exclusions": {
+      "unique_rows": 219512,
+      "by_reason": {
+        "negative_measurements": 107,
+        "duplicate_row": 161,
+        "label_conflict": 219323
+      },
+      "overlaps": {
+        "rows_with_multiple_reasons": 79,
+        "pairs": {
+          "negative_measurements & duplicate_row": 1,
+          "duplicate_row & label_conflict": 78
+        }
+      },
+      "input_rows": 2520751,
+      "retained_rows": 2301239,
+      "invariant": "input_rows == retained_rows + unique_rows"
+    }
+  },
+  "limitations": "Filtered benchmark; 65.34% of Port Scanning and 38.50% of Bots excluded. Anomaly detection, not attack classification. No test-set tuning. Feature-group split is not a temporal or independent-site validation.",
+  "partitions": {
+    "validation": {
+      "accuracy": 0.8276,
+      "precision": 0.4975,
+      "recall": 0.7102,
+      "f1_score": 0.5851,
+      "class_metrics": {
+        "normal_0": {
+          "precision": 0.9343,
+          "recall": 0.8518,
+          "f1_score": 0.8912,
+          "support": 284332
+        },
+        "attack_1": {
+          "precision": 0.4975,
+          "recall": 0.7102,
+          "f1_score": 0.5851,
+          "support": 58738
+        }
+      },
+      "confusion_matrix": {
+        "true_negative": 242202,
+        "false_positive": 42130,
+        "false_negative": 17022,
+        "true_positive": 41716
+      },
+      "false_positive_rate": 0.14817185543660227,
+      "pr_auc_average_precision": 0.3464928252437552,
+      "roc_auc": 0.7727,
+      "triage_top_k": {
+        "top_10_percent": {
+          "records_considered": 34307,
+          "attack_hits": 9854,
+          "precision": 0.2872,
+          "recall": 0.1678
+        },
+        "top_25_percent": {
+          "records_considered": 85767,
+          "attack_hits": 41894,
+          "precision": 0.4885,
+          "recall": 0.7132
+        }
+      },
+      "by_source_label": {
+        "Bots": {
+          "rows": 186,
+          "anomaly_rate": 0.05913978494623656
+        },
+        "Brute Force": {
+          "rows": 1381,
+          "anomaly_rate": 0.002172338884866039
+        },
+        "DDoS": {
+          "rows": 19201,
+          "anomaly_rate": 0.6298109473464923
+        },
+        "DoS": {
+          "rows": 28730,
+          "anomaly_rate": 0.8184476157326837
+        },
+        "Normal Traffic": {
+          "rows": 284332,
+          "anomaly_rate": 0.14817185543660227
+        },
+        "Port Scanning": {
+          "rows": 8938,
+          "anomaly_rate": 0.6802416648019691
+        },
+        "Web Attacks": {
+          "rows": 302,
+          "anomaly_rate": 0.04966887417218543
+        }
+      }
+    },
+    "test": {
+      "accuracy": 0.8155,
+      "precision": 0.4412,
+      "recall": 0.7076,
+      "f1_score": 0.5435,
+      "class_metrics": {
+        "normal_0": {
+          "precision": 0.9395,
+          "recall": 0.8353,
+          "f1_score": 0.8844,
+          "support": 292184
+        },
+        "attack_1": {
+          "precision": 0.4412,
+          "recall": 0.7076,
+          "f1_score": 0.5435,
+          "support": 53708
+        }
+      },
+      "confusion_matrix": {
+        "true_negative": 244058,
+        "false_positive": 48126,
+        "false_negative": 15705,
+        "true_positive": 38003
+      },
+      "false_positive_rate": 0.16471127782493222,
+      "pr_auc_average_precision": 0.30914613073752717,
+      "roc_auc": 0.7568,
+      "triage_top_k": {
+        "top_10_percent": {
+          "records_considered": 34589,
+          "attack_hits": 8109,
+          "precision": 0.2344,
+          "recall": 0.151
+        },
+        "top_25_percent": {
+          "records_considered": 86473,
+          "attack_hits": 38050,
+          "precision": 0.44,
+          "recall": 0.7085
+        }
+      },
+      "by_source_label": {
+        "Bots": {
+          "rows": 156,
+          "anomaly_rate": 0.02564102564102564
+        },
+        "Brute Force": {
+          "rows": 1284,
+          "anomaly_rate": 0.002336448598130841
+        },
+        "DDoS": {
+          "rows": 19191,
+          "anomaly_rate": 0.633005054452608
+        },
+        "DoS": {
+          "rows": 28890,
+          "anomaly_rate": 0.8182069920387678
+        },
+        "Normal Traffic": {
+          "rows": 292184,
+          "anomaly_rate": 0.16471127782493222
+        },
+        "Port Scanning": {
+          "rows": 3915,
+          "anomaly_rate": 0.5616858237547893
+        },
+        "Web Attacks": {
+          "rows": 272,
+          "anomaly_rate": 0.04044117647058824
+        }
+      }
+    }
+  }
+}

@@ -104,6 +104,21 @@ def test_yara_scan_no_rules_dir_returns_empty(tmp_path):
     assert yara_scanner.scan_file(str(target), rules_dir=str(empty_rules)) == []
 
 
+def test_yara_does_not_disclose_server_path_and_is_bounded(tmp_path):
+    from forensics import yara_scanner
+    from unittest.mock import Mock
+    if not yara_scanner.AVAILABLE:
+        pytest.skip('yara-python not installed')
+    target = tmp_path / 'safe.txt'
+    target.write_text('powershell.exe -EncodedCommand ZQBjAGgAbwA=')
+    hits = yara_scanner.scan_file(str(target))
+    assert hits and all(hit['target'] == 'safe.txt' for hit in hits)
+    rules = Mock()
+    rules.match.return_value = []
+    yara_scanner.scan_file(str(target), compiled_rules=rules)
+    rules.match.assert_called_once_with(str(target), timeout=10)
+
+
 # --- threat intel (graceful no-op without API keys) --------------------------
 
 def test_threat_intel_no_keys_is_noop(monkeypatch):

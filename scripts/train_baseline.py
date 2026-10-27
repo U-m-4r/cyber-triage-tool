@@ -61,13 +61,16 @@ def validate_dataset(data=None):
 
 
 def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
-                   contamination=0.1, overwrite=False, data=None, eligible=False, cleaning_record=None):
+                   contamination=0.1, overwrite=False, data=None, eligible=False, cleaning_record=None,
+                   holdout=False):
     """Explicit operator action; checksum must come from the reviewed download.
 
     The input defaults to the approved dataset path and can be supplied via --data.
     """
     dataset_path = Path(APPROVED_DATASET_PATH if data is None else data)
     output = Path(output)
+    if holdout and not eligible:
+        raise ValueError('Held-out training requires the verified eligible view (--eligible).')
     if not dataset_path.is_file():
         raise ValueError(f'Approved dataset not found: {dataset_path}. Download {SOURCE_URL}. '
                          'Sample files and uploaded evidence will not be substituted.')
@@ -91,7 +94,16 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
     if label_column is None:
         raise ValueError('Approved dataset requires Attack Type or Label for benign-only training.')
     labels = clean[label_column].fillna('').astype(str).str.strip().str.lower()
-    benign = clean.loc[labels.isin(BENIGN_TOKENS), list(NETWORK_FEATURES)]
+    split = None
+    train_mask = np.ones(len(clean), dtype=bool)
+    if holdout:
+        from ml.holdout import split_masks, split_metadata
+        masks = split_masks(clean)
+        if any(not mask.any() for mask in masks.values()):
+            raise ValueError('Every holdout partition must contain records.')
+        split = split_metadata(clean, masks)
+        train_mask = masks['train']
+    benign = clean.loc[labels.isin(BENIGN_TOKENS) & train_mask, list(NETWORK_FEATURES)]
     training = benign.drop_duplicates()
     if len(training) < 2:
         raise ValueError('At least two distinct valid benign rows are required.')
@@ -124,6 +136,23 @@ def train_baseline(*, dataset_version, expected_sha256, output=BASELINE_PATH,
         },
         'drift_reference': build_reference(training),
     }
+    if eligible:
+        from ml.cleaning import load_cleaning_record
+        record_path = cleaning_record or DEFAULT_RECORD_PATH
+        record = load_cleaning_record(record_path)
+        if record['source']['sha256'] != checksum:
+            raise ValueError('Cleaning provenance does not match the training source.')
+        bundle['provenance']['cleaning'] = {
+            'policy_id': record['policy']['id'], 'policy_version': record['policy']['version'],
+            'ledger_sha256': record['ledger']['sha256'],
+            'record_sha256': file_sha256(record_path), 'exclusions': record['exclusions']}
+    if split:
+        bundle['provenance']['split'] = split
+    bundle['provenance']['model_id'] = 'iforest-' + hashlib.sha256(json.dumps({
+        'source': checksum, 'trained_at': bundle['provenance']['trained_at'],
+        'split': split, 'parameters': model.get_params()}, sort_keys=True).encode()).hexdigest()[:20]
+    bundle['provenance']['decision_threshold'] = 0.0
+    bundle['provenance']['score_samples_threshold'] = float(model.offset_)
     validate_bundle(bundle)
     output.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix=output.name + '.', suffix='.tmp', dir=output.parent)
@@ -157,6 +186,8 @@ def main():
     parser.add_argument('--eligible', action='store_true',
                         help='Train from the offline cleaning eligible view (load_eligible_frame) '
                              'instead of reading the raw CSV; requires a matching cleaning record')
+    parser.add_argument('--holdout', action='store_true',
+                        help='Reserve fixed 15%% validation and 15%% test feature groups before fitting')
     parser.add_argument('--cleaning-record', type=Path, default=None,
                         help='Cleaning record for the eligible view (defaults to '
                              'data/provenance/cicids2017_cleaning.json)')
