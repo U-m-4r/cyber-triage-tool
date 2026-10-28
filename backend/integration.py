@@ -84,11 +84,19 @@ def activity(db, case_id, message, kind="note"):
 
 def finding(doc):
     rules = doc.get("matched_rules")
-    return {"id": doc["artifact_id"], "title": str(rules if rules and rules != "None" else "Scored artifact; no rule match"),
+    label = doc.get("FilePath") or doc.get("FileName") or doc.get("RegistryKey") or doc.get("Source IP")
+    if rules and rules != "None":
+        title = f"{label}: {rules}" if label else rules
+    else:
+        title = f"{label} (No rule match)" if label else "Scored artifact; no rule match"
+    rationale = f"Rule score: {doc.get('rule_score')}; anomaly score: {doc.get('anomaly_score')}"
+    if doc.get("artifact_type") in ("file", "registry", "system_log"):
+        rationale += " (Evaluated via domain heuristic rules; ML anomaly detector applies to network flows)"
+    return {"id": doc["artifact_id"], "title": str(title),
             "severity": doc["priority"], "riskScore": doc["risk_score"], "confidence": None,
             "source": doc.get("source_file"), "host": doc.get("Computer") or doc.get("Source IP"),
             "observedAt": doc.get("Timestamp") or doc.get("observed_at") or doc["ingested_at"],
-            "technique": None, "rationale": f"Rule score: {doc.get('rule_score')}; anomaly score: {doc.get('anomaly_score')}",
+            "technique": None, "rationale": rationale,
             "artifactType": doc["artifact_type"], "reviewed": False}
 
 

@@ -251,8 +251,9 @@ def _build_summary(case, styles):
 
 def _build_threat_assessment(case, styles):
     """Threat assessment section."""
-    assessment = case.get("assessment")
-    if not assessment:
+    assessment = case.get("assessment") or {}
+    threat_score = case.get("threatScore")
+    if threat_score is None and not assessment and not case.get("artifactPriorities"):
         return [
             Paragraph("2. Threat Assessment", styles["SectionHeading"]),
             Paragraph(
@@ -261,12 +262,15 @@ def _build_threat_assessment(case, styles):
             ),
         ]
 
+    score_display = f"{threat_score}/100" if threat_score is not None else "0.0/100"
+    severity_display = case.get("severity", "LOW")
+    confidence_display = assessment.get("confidence", "Domain heuristic rules (host evidence)")
     elements = [
         Paragraph("2. Threat Assessment", styles["SectionHeading"]),
         Paragraph(
-            f"<b>Threat Score: {case.get('threatScore', 'N/A')}/100</b> · "
-            f"Severity: <b>{case.get('severity', 'N/A')}</b> · "
-            f"Confidence: {assessment.get('confidence', 'N/A')}",
+            f"<b>Threat Score: {score_display}</b> · "
+            f"Severity: <b>{severity_display}</b> · "
+            f"Scoring Engine: {confidence_display}",
             styles["BodyText2"],
         ),
     ]
@@ -275,13 +279,18 @@ def _build_threat_assessment(case, styles):
     composition = assessment.get("composition", [])
     if composition:
         elements.append(Paragraph("Score Composition", styles["SubHeading"]))
-        data = [["Component", "Score", "Weight", "Contribution"]]
+        data = [[
+            Paragraph("Component", styles["CellText"]),
+            Paragraph("Score", styles["CellText"]),
+            Paragraph("Weight", styles["CellText"]),
+            Paragraph("Contribution", styles["CellText"]),
+        ]]
         for comp in composition:
             data.append([
-                comp.get("label", ""),
-                str(comp.get("score", "")),
-                f"{comp.get('weight', 0) * 100:.0f}%",
-                str(comp.get("contribution", "")),
+                Paragraph(escape(comp.get("label", "")), styles["CellText"]),
+                Paragraph(escape(str(comp.get("score", ""))), styles["CellText"]),
+                Paragraph(f"{comp.get('weight', 0) * 100:.0f}%", styles["CellText"]),
+                Paragraph(escape(str(comp.get("contribution", ""))), styles["CellText"]),
             ])
         t = Table(data, colWidths=[6 * cm, 3 * cm, 3 * cm, 4 * cm])
         t.setStyle(TableStyle([
@@ -300,13 +309,16 @@ def _build_threat_assessment(case, styles):
         elements.append(Spacer(1, 8))
 
     # Artifact priority breakdown
-    priorities = assessment.get("artifactPriorities", [])
+    priorities = case.get("artifactPriorities") or assessment.get("artifactPriorities", [])
     if priorities:
         elements.append(Paragraph("Artifact Priority Distribution", styles["SubHeading"]))
-        data = [["Priority", "Count"]]
+        data = [[Paragraph("Priority", styles["CellText"]), Paragraph("Count", styles["CellText"])]]
         for p in priorities:
-            data.append([p.get("severity", ""), f"{p.get('count', 0):,}"])
-        t = Table(data, colWidths=[6 * cm, 6 * cm])
+            data.append([
+                Paragraph(escape(str(p.get("severity", ""))), styles["CellText"]),
+                Paragraph(f"{p.get('count', 0):,}", styles["CellText"]),
+            ])
+        t = Table(data, colWidths=[8 * cm, 8 * cm])
         t.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
             ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
@@ -327,11 +339,19 @@ def _build_threat_assessment(case, styles):
     coverage = assessment.get("coverage", [])
     if coverage:
         elements.append(Paragraph("MITRE ATT&CK Tactic Coverage", styles["SubHeading"]))
-        data = [["Tactic", "State", "Note"]]
+        data = [[
+            Paragraph("Tactic", styles["CellText"]),
+            Paragraph("State", styles["CellText"]),
+            Paragraph("Note", styles["CellText"]),
+        ]]
         for c in coverage:
             state = c.get("state", "")
             state_display = state.upper()
-            data.append([c.get("tactic", ""), state_display, c.get("note", "")])
+            data.append([
+                Paragraph(escape(c.get("tactic", "")), styles["CellText"]),
+                Paragraph(escape(state_display), styles["CellText"]),
+                Paragraph(escape(c.get("note", "")), styles["CellText"]),
+            ])
         t = Table(data, colWidths=[4 * cm, 3 * cm, 9 * cm])
         t.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
@@ -349,6 +369,7 @@ def _build_threat_assessment(case, styles):
         elements.append(t)
 
     return elements
+
 
 
 def _build_findings(case, styles):
@@ -370,21 +391,31 @@ def _build_findings(case, styles):
         styles["BodyText2"],
     ))
 
-    data = [["#", "ID", "Title", "Severity", "Risk", "Technique", "Source"]]
+    data = [[
+        Paragraph("#", styles["CellText"]),
+        Paragraph("ID", styles["CellText"]),
+        Paragraph("Title", styles["CellText"]),
+        Paragraph("Severity", styles["CellText"]),
+        Paragraph("Risk", styles["CellText"]),
+        Paragraph("Technique", styles["CellText"]),
+        Paragraph("Source", styles["CellText"]),
+    ]]
     for i, f in enumerate(findings, 1):
         technique = f.get("technique") or {}
-        tech_str = f"{technique.get('id', '')} {technique.get('name', '')}"
+        tech_str = f"{technique.get('id', '')} {technique.get('name', '')}".strip() or "N/A"
+        raw_id = f.get("id", "")
+        short_id = f"ART-...{raw_id[-6:]}" if len(raw_id) > 12 else raw_id
         data.append([
-            str(i),
-            f.get("id", ""),
-            Paragraph(f.get("title", ""), styles["CellText"]),
-            f.get("severity", ""),
-            str(f.get("riskScore", "")),
-            Paragraph(tech_str, styles["CellText"]),
-            Paragraph(f.get("source", ""), styles["CellText"]),
+            Paragraph(str(i), styles["CellText"]),
+            Paragraph(escape(short_id), styles["CellText"]),
+            Paragraph(escape(f.get("title", "")), styles["CellText"]),
+            Paragraph(escape(str(f.get("severity", ""))), styles["CellText"]),
+            Paragraph(escape(str(f.get("riskScore", ""))), styles["CellText"]),
+            Paragraph(escape(tech_str), styles["CellText"]),
+            Paragraph(escape(f.get("source", "") or "N/A"), styles["CellText"]),
         ])
 
-    t = Table(data, colWidths=[1 * cm, 1.5 * cm, 3.5 * cm, 2 * cm, 1.5 * cm, 3.5 * cm, 3 * cm])
+    t = Table(data, colWidths=[0.8 * cm, 2.2 * cm, 5.0 * cm, 1.8 * cm, 1.2 * cm, 3.0 * cm, 3.4 * cm])
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
         ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
@@ -405,16 +436,19 @@ def _build_findings(case, styles):
     # Detailed rationales
     elements.append(Paragraph("Finding Details", styles["SubHeading"]))
     for f in findings:
+        title = escape(f.get('title', ''))
+        raw_id = escape(f.get('id', ''))
+        risk = escape(str(f.get('riskScore', '0.0')))
+        conf = escape(str(f.get('confidence') or 'Rules-only'))
         elements.append(Paragraph(
-            f"<b>{f.get('id', '')} — {f.get('title', '')}</b> "
-            f"(Risk: {f.get('riskScore', 'N/A')}, "
-            f"Confidence: {f.get('confidence', 'N/A')})",
+            f"<b>{raw_id} — {title}</b> (Risk: {risk}, Confidence: {conf})",
             styles["FindingTitle"],
         ))
-        elements.append(Paragraph(f.get("rationale", "No rationale provided."), styles["BodyText2"]))
-        host = f.get("host", "")
-        observed = f.get("observedAt", "")
-        if host or observed:
+        rationale = escape(f.get("rationale", "No rationale provided."))
+        elements.append(Paragraph(rationale, styles["BodyText2"]))
+        host = escape(str(f.get("host", "") or "None"))
+        observed = escape(str(f.get("observedAt", "") or "None"))
+        if host != "None" or observed != "None":
             elements.append(Paragraph(
                 f"Host: {host} · Observed: {observed}",
                 styles["SmallMono"],
@@ -422,6 +456,7 @@ def _build_findings(case, styles):
         elements.append(Spacer(1, 4))
 
     return elements
+
 
 
 def _build_recommendation(case, styles):
@@ -470,17 +505,27 @@ def _build_evidence(case, styles):
 
     if sources:
         elements.append(Paragraph("Acquired Sources", styles["SubHeading"]))
-        data = [["ID", "Label", "Kind", "Size", "Integrity", "State"]]
+        data = [[
+            Paragraph("ID", styles["CellText"]),
+            Paragraph("Label", styles["CellText"]),
+            Paragraph("Kind", styles["CellText"]),
+            Paragraph("Size", styles["CellText"]),
+            Paragraph("Integrity", styles["CellText"]),
+            Paragraph("State", styles["CellText"]),
+        ]]
         for s in sources:
+            raw_id = s.get("id", "")
+            short_id = f"IN-...{raw_id[-6:]}" if len(raw_id) > 12 else raw_id
+            raw_size = str(s.get("size", ""))
             data.append([
-                s.get("id", ""),
-                Paragraph(s.get("label", ""), styles["CellText"]),
-                s.get("kind", ""),
-                s.get("size", ""),
-                s.get("integrity", ""),
-                s.get("state", ""),
+                Paragraph(escape(short_id), styles["CellText"]),
+                Paragraph(escape(s.get("label", "")), styles["CellText"]),
+                Paragraph(escape(s.get("kind", "")), styles["CellText"]),
+                Paragraph(escape(raw_size), styles["CellText"]),
+                Paragraph(escape(s.get("integrity", "")), styles["CellText"]),
+                Paragraph(escape(s.get("state", "")), styles["CellText"]),
             ])
-        t = Table(data, colWidths=[2.2 * cm, 4.5 * cm, 2 * cm, 2 * cm, 2.8 * cm, 2.5 * cm])
+        t = Table(data, colWidths=[2.2 * cm, 4.4 * cm, 2.2 * cm, 2.6 * cm, 3.5 * cm, 2.5 * cm])
         t.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
             ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
@@ -502,7 +547,7 @@ def _build_evidence(case, styles):
         elements.append(Paragraph("Outstanding Acquisitions", styles["SubHeading"]))
         for p in pending:
             elements.append(Paragraph(
-                f"<b>{p.get('label', '')}</b>: {p.get('reason', '')}",
+                f"<b>{escape(p.get('label', ''))}</b>: {escape(p.get('reason', ''))}",
                 styles["BodyText2"],
             ))
 
@@ -519,17 +564,28 @@ def _build_activity(case, styles):
         Paragraph("6. Activity Log", styles["SectionHeading"]),
     ]
 
-    data = [["Time", "Kind", "Severity", "Message", "Actor"]]
+    data = [[
+        Paragraph("Time", styles["CellText"]),
+        Paragraph("Kind", styles["CellText"]),
+        Paragraph("Severity", styles["CellText"]),
+        Paragraph("Message", styles["CellText"]),
+        Paragraph("Actor", styles["CellText"]),
+    ]]
     for a in activity:
+        raw_time = str(a.get("relative", a.get("at", "")))
+        if "T" in raw_time and len(raw_time) >= 19:
+            display_time = raw_time[:19].replace("T", " ")
+        else:
+            display_time = raw_time
         data.append([
-            a.get("relative", a.get("at", "")),
-            a.get("kind", ""),
-            a.get("severity", ""),
-            Paragraph(a.get("message", ""), styles["CellText"]),
-            a.get("actor", ""),
+            Paragraph(escape(display_time), styles["CellText"]),
+            Paragraph(escape(a.get("kind", "")), styles["CellText"]),
+            Paragraph(escape(a.get("severity", "")), styles["CellText"]),
+            Paragraph(escape(a.get("message", "")), styles["CellText"]),
+            Paragraph(escape(a.get("actor", "")), styles["CellText"]),
         ])
 
-    t = Table(data, colWidths=[2.5 * cm, 2 * cm, 2 * cm, 6.5 * cm, 3 * cm])
+    t = Table(data, colWidths=[3.2 * cm, 1.8 * cm, 1.8 * cm, 7.6 * cm, 3.0 * cm])
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
         ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
@@ -547,6 +603,7 @@ def _build_activity(case, styles):
     elements.append(t)
 
     return elements
+
 
 
 # ---------------------------------------------------------------------------

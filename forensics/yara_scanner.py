@@ -70,7 +70,7 @@ def _match_to_ioc(match, target):
     }
 
 
-def scan_file(filepath, rules_dir=DEFAULT_RULES_DIR, compiled_rules=None):
+def scan_file(filepath, rules_dir=DEFAULT_RULES_DIR, compiled_rules=None, timeout=10):
     """Scan a single file, returning a list of IOC match dicts (possibly empty).
 
     Pass ``compiled_rules`` to reuse a previously compiled ruleset across many
@@ -81,5 +81,5 @@ def scan_file(filepath, rules_dir=DEFAULT_RULES_DIR, compiled_rules=None):
     rules = compiled_rules or compile_rules(rules_dir)
     if rules is None:
         return []
-    matches = rules.match(filepath, timeout=10)
+    matches = rules.match(filepath, timeout=timeout)
     return [_match_to_ioc(m, os.path.basename(filepath)) for m in matches]

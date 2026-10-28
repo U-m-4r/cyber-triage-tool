@@ -133,13 +133,15 @@ def _scan_evidence(filepath, custody):
     if not yara_scanner.AVAILABLE:
         return [], {'status': 'unavailable'}
     try:
-        matches = yara_scanner.scan_file(filepath)
+        size_bytes = custody.get("size_bytes", 0) if isinstance(custody, dict) else 0
+        timeout = max(30, min(180, int(size_bytes / (10 * 1024 * 1024))))
+        matches = yara_scanner.scan_file(filepath, timeout=timeout)
         for match in matches:
             match['target'] = custody['original_filename']
         return matches, {'status': 'complete', 'matches': len(matches)}
-    except Exception:
-        logger.warning('YARA scan did not complete')
-        return [], {'status': 'failed', 'message': 'YARA scan failed or timed out; no clean verdict is implied.'}
+    except Exception as exc:
+        logger.warning(f"YARA scan did not complete: {exc}")
+        return [], {'status': 'failed', 'message': f'YARA scan failed or timed out: {exc}'}
 
 
 def _request_token():
