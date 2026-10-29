@@ -1,3 +1,4 @@
+import { findingRationale } from '../../utils/finding.js'
 import { useMemo } from 'react'
 import Panel from '../dashboard/Panel.jsx'
 import Icon from '../ui/Icon.jsx'
@@ -83,7 +84,7 @@ export default function PriorityFindings({ findings = [], status }) {
                   )}
                 </div>
 
-                <p className="case-finding__rationale">{finding.rationale}</p>
+                <p className="case-finding__rationale">{findingRationale(finding)}</p>
 
                 <div className="case-finding__meta">
                   <span className="case-finding__source mono" title={finding.source}>

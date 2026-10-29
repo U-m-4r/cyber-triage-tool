@@ -1,3 +1,9 @@
+.dashboard {
+  --text-muted: #a0adb5;
+  --text-faint: #94a1aa;
+  --text-secondary: #bdc7cd;
+}
+
 .dashboard--loading {
   align-items: center;
   justify-content: center;
@@ -15,7 +21,7 @@
 /* Supporting context above the case list, not the headline of the screen. */
 .metric-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -33,6 +39,7 @@
 
 .dashboard__cases {
   grid-area: cases;
+  min-width: 0;
   /* Primary panel: a firmer hairline and a heavier header than its siblings, so
      the case list reads as the subject of the screen without being recoloured. */
   border-color: var(--border-default);

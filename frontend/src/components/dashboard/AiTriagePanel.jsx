@@ -1,3 +1,4 @@
+import { findingRationale } from '../../utils/finding.js'
 import Icon from '../ui/Icon.jsx'
 import SeverityBadge from '../ui/SeverityBadge.jsx'
 import { formatCount, formatPercent, formatTimestamp } from '../../utils/format.js'
@@ -121,7 +122,7 @@ export default function AiTriagePanel({ triage, investigation }) {
                   <SeverityBadge severity={finding.severity} size="sm" />
                 </div>
 
-                <p className="finding__rationale">{finding.rationale}</p>
+                <p className="finding__rationale">{findingRationale(finding)}</p>
 
                 <div className="finding__meta">
                   <span className="finding__source mono" title={finding.source}>

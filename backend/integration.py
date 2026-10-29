@@ -89,9 +89,15 @@ def finding(doc):
         title = f"{label}: {rules}" if label else rules
     else:
         title = f"{label} (No rule match)" if label else "Scored artifact; no rule match"
-    rationale = f"Rule score: {doc.get('rule_score')}; anomaly score: {doc.get('anomaly_score')}"
+    rule_score = doc.get("rule_score")
+    anomaly_score = doc.get("anomaly_score")
     if doc.get("artifact_type") in ("file", "registry", "system_log"):
-        rationale += " (Evaluated via domain heuristic rules; ML anomaly detector applies to network flows)"
+        rule_detail = f"Matched rules: {rules}." if rules and rules != "None" else "No configured rules matched."
+        rationale = (f"Rule score: {rule_score}. {rule_detail} "
+                     "ML anomaly: not applicable to this evidence type; the model requires network flows.")
+    else:
+        anomaly_detail = f"{anomaly_score}" if anomaly_score is not None else "unavailable"
+        rationale = f"Rule score: {rule_score}; network anomaly score: {anomaly_detail}"
     return {"id": doc["artifact_id"], "title": str(title),
             "severity": doc["priority"], "riskScore": doc["risk_score"], "confidence": None,
             "source": doc.get("source_file"), "host": doc.get("Computer") or doc.get("Source IP"),

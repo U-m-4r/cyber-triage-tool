@@ -1,3 +1,4 @@
+import { deriveIndicators } from '../../utils/relationships.js'
 import { useMemo, useState } from 'react'
 import Panel from '../dashboard/Panel.jsx'
 import Icon from '../ui/Icon.jsx'
@@ -8,72 +9,11 @@ const TYPE_META = {
   host: { label: 'Hosts', icon: 'host' },
   network: { label: 'Network endpoints', icon: 'network' },
   technique: { label: 'ATT&CK techniques', icon: 'triage' },
-  file: { label: 'File artifacts', icon: 'file' },
+  file: { label: 'Evidence files', icon: 'file' },
   registry: { label: 'Registry keys', icon: 'registry' },
 }
 
 const TYPE_ORDER = ['network', 'file', 'registry', 'technique', 'host']
-const SEVERITY_RANK = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3, INFO: 4 }
-
-// Obfuscated octets (e.g. 45.61.x.x) are kept, so a first-seen destination reads
-// the same here as it does in the finding it came from.
-const IP_RE = /\b(?:\d{1,3}|x)(?:\.(?:\d{1,3}|x)){3}(?::\d{1,5})?\b/g
-
-function worseSeverity(a, b) {
-  return (SEVERITY_RANK[a] ?? 9) <= (SEVERITY_RANK[b] ?? 9) ? a : b
-}
-
-/**
- * Derives IOC-like indicators from the case findings. Nothing is invented: an
- * indicator only exists because a ranked finding refers to it, and it inherits
- * the worst severity among the findings that do.
- */
-function deriveIndicators(findings) {
-  const map = new Map()
-
-  const push = (type, value, finding) => {
-    if (!value) return
-    const key = `${type}::${value}`
-    const existing = map.get(key)
-    if (existing) {
-      existing.severity = worseSeverity(existing.severity, finding.severity ?? 'INFO')
-      if (finding.host) existing.hosts.add(finding.host)
-      existing.findingIds.add(finding.id)
-    } else {
-      map.set(key, {
-        id: key,
-        type,
-        value,
-        severity: finding.severity ?? 'INFO',
-        hosts: new Set(finding.host ? [finding.host] : []),
-        findingIds: new Set(finding.id ? [finding.id] : []),
-      })
-    }
-  }
-
-  for (const finding of findings) {
-    if (finding.host) push('host', finding.host, finding)
-    if (finding.technique?.id) {
-      push('technique', `${finding.technique.id} · ${finding.technique.name}`, finding)
-    }
-
-    const haystack = `${finding.source ?? ''} ${finding.rationale ?? ''}`
-    const matches = haystack.match(IP_RE)
-    if (matches) {
-      for (const m of new Set(matches)) push('network', m, finding)
-    }
-
-    if (finding.artifactType === 'file' && finding.source) push('file', finding.source, finding)
-    if (finding.artifactType === 'registry' && finding.source) push('registry', finding.source, finding)
-  }
-
-  return [...map.values()].map((ind) => ({
-    ...ind,
-    hosts: [...ind.hosts],
-    findingIds: [...ind.findingIds],
-  }))
-}
-
 /**
  * IOC Graph tab of the case workspace.
  *
@@ -96,6 +36,13 @@ export default function CaseIoc({ caseRecord }) {
     [indicators, typeFilter],
   )
 
+  const explanation = <section className="integration-page">
+    <h2>How to read this view</h2>
+    <p>IOC means indicator of compromise. This view groups evidence files, network references and registry sources mentioned in saved findings. An entity is a reference for investigation, not a confirmed IOC.</p>
+    <p>Left nodes are recorded hosts; right nodes are referenced entities. A line means a finding links that host to that entity. Colors show the highest risk among its findings. “Refs” counts findings that mention the entity, not attacks or uploads.</p>
+    <p>Evidence filenames refer to uploaded sources, not individual files inside a disk image. YARA pattern matches are listed separately. Only the case’s saved ranked findings (up to 100) contribute to this view.</p>
+  </section>
+
   const recordedHits = (caseRecord?.iocs || []).length > 0 && <section className="integration-page">
     <h3>Recorded YARA matches</h3><p>Rule matches identify patterns for review; they do not prove compromise.</p>
     <ul>{caseRecord.iocs.map((hit, index) => <li key={`${hit.rule}-${index}`}>
@@ -105,9 +52,10 @@ export default function CaseIoc({ caseRecord }) {
   if (indicators.length === 0) {
     return (
       <div className="case-ioc">
+        {explanation}
         {recordedHits}
         <Panel
-          title="IOC Graph"
+          title="Evidence relationships"
           subtitle={
             typeof declaredTotal === 'number'
               ? `${declaredTotal} indicators counted during intake`
@@ -117,9 +65,7 @@ export default function CaseIoc({ caseRecord }) {
           <div className="case-ioc__empty">
             <Icon name="graph" size={16} className="case-ioc__empty-icon" />
             <p className="case-ioc__empty-copy">
-              No indicators can be shown yet. Indicators here are derived from ranked findings, and
-              this case has none. Rule hits recorded during intake are counted in the case totals but
-              are not resolved into indicators until scoring completes.
+              No supported entities were found in the saved findings. YARA matches, when present, are listed separately above.
             </p>
           </div>
         </Panel>
@@ -129,13 +75,14 @@ export default function CaseIoc({ caseRecord }) {
 
   return (
     <div className="case-ioc">
+      {explanation}
       {recordedHits}
       <div className="case-ioc__controls" role="group" aria-label="Filter indicators by type">
         <span className="case-ioc__count">
-          <strong className="tabular">{indicators.length}</strong> indicators derived from{' '}
+          <strong className="tabular">{indicators.length}</strong> entities referenced by{' '}
           {findings.length} findings
           {typeof declaredTotal === 'number' && (
-            <span className="case-ioc__count-note"> · {declaredTotal} counted at intake</span>
+            <span className="case-ioc__count-note"> · {declaredTotal} YARA matches recorded at intake</span>
           )}
         </span>
         <div className="case-ioc__chips">
@@ -151,7 +98,7 @@ export default function CaseIoc({ caseRecord }) {
       </div>
 
       <div className="case-ioc__layout">
-        <Panel className="case-ioc__list-panel" title="Indicators" subtitle="Grouped by type" flush>
+        <Panel className="case-ioc__list-panel" title="Referenced entities" subtitle="Grouped by type; refs count findings" flush>
           <IndicatorGroups
             indicators={filtered}
             types={typeFilter === 'ALL' ? presentTypes : [typeFilter]}
@@ -259,6 +206,7 @@ function RelationshipGraph({ indicators }) {
 
   return (
     <div className="case-ioc__graph">
+      {hosts.length === 0 && <p className="case-ioc__graph-empty">No host was recorded for these findings, so there are no host connections to draw. The nodes below show referenced entities only.</p>}
       <svg
         className="case-ioc__svg"
         viewBox={`0 0 ${W} ${H}`}
@@ -269,7 +217,7 @@ function RelationshipGraph({ indicators }) {
         {/* Edges first so nodes sit on top. */}
         {indicators.map((ind, i) => {
           const iy = nodeY(i, indicators.length)
-          const targets = ind.hosts.length > 0 ? ind.hosts : [null]
+          const targets = ind.hosts
           return targets.map((h, j) => {
             const hy = h != null ? hostY(h) : H / 2
             return (

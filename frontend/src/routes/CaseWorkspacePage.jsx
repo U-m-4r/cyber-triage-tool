@@ -19,14 +19,7 @@ import { fetchCase } from '../services/caseService.js'
 import '../styles/page.css'
 import './CaseWorkspacePage.css'
 
-/**
- * Case workspace — /cases/:caseId
- *
- * Reached by opening a case from the dashboard's Active Investigations list. The
- * tab is local state rather than a nested route because only Overview exists; when
- * the other sections are built they become child routes so a specific tab can be
- * linked and shared.
- */
+/** Case workspace: Evidence owns intake; other tabs read its persisted results. */
 export default function CaseWorkspacePage() {
   const { caseId } = useParams()
   return <CaseWorkspace key={caseId} />
@@ -37,7 +30,7 @@ function CaseWorkspace() {
   const [caseRecord, setCaseRecord] = useState(null)
   const [state, setState] = useState('loading') // 'loading' | 'ready' | 'missing'
   const [params, setParams] = useSearchParams()
-  const requestedTab = params.get('tab') || 'overview'
+  const requestedTab = params.get('tab') === 'ai-triage' ? 'analysis' : params.get('tab') || 'overview'
   const activeTab = CASE_TABS.some(tab => tab.id === requestedTab && tab.available)
     ? requestedTab
     : 'overview'
@@ -106,12 +99,13 @@ function CaseWorkspace() {
       <CaseHeader caseRecord={caseRecord} />
       <CaseEditor caseRecord={caseRecord} onChange={reload} />
 
+      <p className="case-workspace__workflow">Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis &amp; triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.</p>
       <CaseTabs activeTab={activeTab} onSelect={setActiveTab} />
 
-      {(activeTab === 'overview' || activeTab === 'ai-triage') ? (
+      {activeTab === 'overview' ? (
         <CaseOverview caseRecord={caseRecord} />
       ) : activeTab === 'artifacts' ? (
-        <CaseArtifacts key={caseId} caseRecord={caseRecord} onChange={reload} />
+        <CaseArtifacts key={caseId} caseRecord={caseRecord} />
       ) : activeTab === 'evidence' ? (
         <><IntakePanel key={caseId} caseId={caseId} onComplete={reload} /><CaseEvidence caseRecord={caseRecord} /><IntakeHistory key={caseId} caseId={caseId} revision={caseRecord.lastActivity?.at} /></>
       ) : activeTab === 'timeline' ? (

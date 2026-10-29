@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Panel from '../dashboard/Panel.jsx'
 import ActivityFeed from '../dashboard/ActivityFeed.jsx'
 import InvestigationSummary from './InvestigationSummary.jsx'
@@ -46,7 +47,8 @@ export default function CaseOverview({ caseRecord }) {
       </div>
 
       <div className="case-overview__findings">
-        <PriorityFindings findings={caseRecord.findings} status={caseRecord.status} />
+        <PriorityFindings findings={caseRecord.findings?.slice(0, 3)} status={caseRecord.status} />
+        <Link to={`?tab=analysis`}>View all findings in Analysis &amp; triage</Link>
       </div>
 
       <div className="case-overview__activity">

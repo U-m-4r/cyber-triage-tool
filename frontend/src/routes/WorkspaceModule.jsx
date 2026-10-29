@@ -8,10 +8,10 @@ import './Integration.css'
 
 const MODULES = {
   '/evidence': ['Evidence', 'evidence', 'Open an investigation to upload evidence and inspect its chain of custody.'],
-  '/analysis': ['Analysis', 'analysis', 'Review stored artifacts below. Open an investigation to run network inference.'],
+  '/analysis': ['Analysis', 'analysis', 'Review stored artifacts below. Upload evidence in an investigation’s Evidence tab; review its scoring in Analysis & triage.'],
   '/ai-triage': ['Triage', 'ai-triage', 'Open an investigation to review ranked artifacts and scoring rationale.'],
   '/timeline': ['Timeline', 'timeline', 'Recorded workspace activity. Open a case for its findings and event timeline.'],
-  '/ioc-graph': ['Indicators', 'ioc-graph', 'Relationships are derived from recorded findings; they are not confirmed compromise classifications.'],
+  '/ioc-graph': ['Relationships', 'ioc-graph', 'Relationships are derived from recorded findings; they are not confirmed compromise classifications.'],
   '/reports': ['Reports', 'reports', 'Open an investigation to export its current PDF report and view generation history.'],
 }
 

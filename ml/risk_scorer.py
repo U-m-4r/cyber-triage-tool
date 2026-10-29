@@ -102,7 +102,8 @@ class RiskScorer:
 
             elif artifact_type == 'file':
                 path = str(row.get('FilePath', ''))
-                if 'temp' in path.lower() and path.endswith('.exe'):
+                path_parts = path.replace('\\', '/').lower().split('/')
+                if any(part in {'temp', 'tmp'} for part in path_parts[:-1]) and path_parts[-1].endswith('.exe'):
                     rule_score += RULES['file']['executable_in_temp']['weight']
                     matched_rules.append(RULES['file']['executable_in_temp']['label'])
                 if row.get('FileSizeBytes', 0) > 100000000:

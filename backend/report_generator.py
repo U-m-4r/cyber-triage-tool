@@ -29,6 +29,7 @@ from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
     HRFlowable,
+    KeepTogether,
     PageBreak,
     PageTemplate,
     Paragraph,
@@ -104,7 +105,7 @@ def _build_styles():
         parent=styles["Heading3"],
         fontSize=12,
         leading=16,
-        textColor=colors.HexColor("#C0C4CC"),
+        textColor=colors.HexColor("#555555"),
         spaceBefore=10,
         spaceAfter=4,
     ))
@@ -264,7 +265,8 @@ def _build_threat_assessment(case, styles):
 
     score_display = f"{threat_score}/100" if threat_score is not None else "0.0/100"
     severity_display = case.get("severity", "LOW")
-    confidence_display = assessment.get("confidence", "Domain heuristic rules (host evidence)")
+    network_scored = any(f.get("artifactType") == "network" for f in case.get("findings", []))
+    confidence_display = "Network anomaly model and evidence rules" if network_scored else "Evidence-specific rules"
     elements = [
         Paragraph("2. Threat Assessment", styles["SectionHeading"]),
         Paragraph(
@@ -372,91 +374,70 @@ def _build_threat_assessment(case, styles):
 
 
 
+def _finding_label(finding):
+    """Keep long evidence paths out of the compact summary; retain them in details."""
+    title = finding.get("title") or "Untitled artifact"
+    if finding.get("artifactType") == "file":
+        path = title.split(": ", 1)[0].removesuffix(" (No rule match)")
+        return path.replace("\\", "/").rsplit("/", 1)[-1] or title
+    return title
+
+
 def _build_findings(case, styles):
-    """Priority findings section."""
     findings = case.get("findings", [])
-    elements = [
-        Paragraph("3. Priority Findings", styles["SectionHeading"]),
-    ]
-
+    elements = [Paragraph("3. Priority Findings", styles["SectionHeading"])]
     if not findings:
-        elements.append(Paragraph(
-            "No findings available — the case has not been scored yet.",
-            styles["BodyText2"],
-        ))
-        return elements
-
+        return elements + [Paragraph("No findings recorded.", styles["BodyText2"])]
     elements.append(Paragraph(
-        f"{len(findings)} findings ranked by risk score.",
-        styles["BodyText2"],
-    ))
+        f"{len(findings)} stored artifacts, ranked by risk. For rules-only evidence, zero means no configured rule matched; "
+        "it is not a clean bill of health. Network anomaly scores apply only to network flows. "
+        "Unmapped ATT&amp;CK techniques are not inferred from filenames.", styles["BodyText2"]))
 
-    data = [[
-        Paragraph("#", styles["CellText"]),
-        Paragraph("ID", styles["CellText"]),
-        Paragraph("Title", styles["CellText"]),
-        Paragraph("Severity", styles["CellText"]),
-        Paragraph("Risk", styles["CellText"]),
-        Paragraph("Technique", styles["CellText"]),
-        Paragraph("Source", styles["CellText"]),
-    ]]
-    for i, f in enumerate(findings, 1):
-        technique = f.get("technique") or {}
-        tech_str = f"{technique.get('id', '')} {technique.get('name', '')}".strip() or "N/A"
-        raw_id = f.get("id", "")
-        short_id = f"ART-...{raw_id[-6:]}" if len(raw_id) > 12 else raw_id
-        data.append([
-            Paragraph(str(i), styles["CellText"]),
-            Paragraph(escape(short_id), styles["CellText"]),
-            Paragraph(escape(f.get("title", "")), styles["CellText"]),
-            Paragraph(escape(str(f.get("severity", ""))), styles["CellText"]),
-            Paragraph(escape(str(f.get("riskScore", ""))), styles["CellText"]),
-            Paragraph(escape(tech_str), styles["CellText"]),
-            Paragraph(escape(f.get("source", "") or "N/A"), styles["CellText"]),
-        ])
+    def cell(value):
+        return Paragraph(str(value if value is not None else "Not recorded"), styles["CellText"])
 
-    t = Table(data, colWidths=[0.8 * cm, 2.2 * cm, 5.0 * cm, 1.8 * cm, 1.2 * cm, 3.0 * cm, 3.4 * cm])
-    t.setStyle(TableStyle([
+    data = [[cell(v) for v in ("#", "Artifact", "Rule result / finding", "Priority", "Risk /100")]]
+    for i, finding in enumerate(findings, 1):
+        title = finding.get("title") or ""
+        rule_result = title.split(": ", 1)[-1] if ": " in title else title
+        if "No rule match" in title or title == "Scored artifact; no rule match":
+            rule_result = "No configured rules matched"
+        elif finding.get("artifactType") == "file" and ": " not in title:
+            rule_result = "See finding details"
+        data.append([cell(i), cell(_finding_label(finding)), cell(rule_result),
+                     cell(finding.get("severity")), cell(finding.get("riskScore"))])
+    table = Table(data, colWidths=[0.7*cm, 4.8*cm, 6.2*cm, 2.4*cm, 1.9*cm], repeatRows=1)
+    table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8732A")),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE", (0, 0), (-1, -1), 7),
-        ("LEADING", (0, 0), (-1, -1), 10),
-        ("BACKGROUND", (0, 1), (-1, -1), colors.HexColor("#F9FAFB")),
         ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.HexColor("#F9FAFB"), colors.white]),
         ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#E5E7EB")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("TOPPADDING", (0, 0), (-1, -1), 3),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-        ("LEFTPADDING", (0, 0), (-1, -1), 4),
+        ("TOPPADDING", (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
     ]))
-    elements.append(t)
-    elements.append(Spacer(1, 10))
-
-    # Detailed rationales
-    elements.append(Paragraph("Finding Details", styles["SubHeading"]))
-    for f in findings:
-        title = escape(f.get('title', ''))
-        raw_id = escape(f.get('id', ''))
-        risk = escape(str(f.get('riskScore', '0.0')))
-        conf = escape(str(f.get('confidence') or 'Rules-only'))
-        elements.append(Paragraph(
-            f"<b>{raw_id} — {title}</b> (Risk: {risk}, Confidence: {conf})",
-            styles["FindingTitle"],
-        ))
-        rationale = escape(f.get("rationale", "No rationale provided."))
-        elements.append(Paragraph(rationale, styles["BodyText2"]))
-        host = escape(str(f.get("host", "") or "None"))
-        observed = escape(str(f.get("observedAt", "") or "None"))
-        if host != "None" or observed != "None":
-            elements.append(Paragraph(
-                f"Host: {host} · Observed: {observed}",
-                styles["SmallMono"],
-            ))
-        elements.append(Spacer(1, 4))
-
+    elements.extend([table, Spacer(1, 10), Paragraph("Finding Details", styles["SubHeading"])])
+    for i, finding in enumerate(findings, 1):
+        technique = finding.get("technique") or {}
+        technique_label = " ".join(str(technique.get(k) or "") for k in ("id", "name")).strip() or "Not mapped"
+        rationale = finding.get("rationale") or "Scoring details unavailable."
+        rationale = rationale.replace("anomaly score: None", "ML anomaly: not applicable to file/log/registry evidence")
+        details = [
+            Paragraph(f"{i}. {_finding_label(finding)} - {finding.get('severity', 'Not recorded')} "
+                      f"(risk {finding.get('riskScore', 'Not recorded')}/100)", styles["FindingTitle"]),
+            Paragraph(f"<b>Finding:</b> {finding.get('title', '')}", styles["BodyText2"]),
+            Paragraph(f"<b>Artifact ID:</b> {finding.get('id', '')}", styles["BodyText2"]),
+            Paragraph(f"<b>Source evidence:</b> {finding.get('source') or 'Not recorded'}", styles["BodyText2"]),
+            Paragraph(rationale, styles["BodyText2"]),
+            Paragraph(f"<b>ATT&amp;CK technique:</b> {technique_label}. "
+                      f"<b>Confidence:</b> {finding.get('confidence') if finding.get('confidence') is not None else 'Not calibrated'}.", styles["BodyText2"]),
+            Paragraph(f"<b>Host:</b> {finding.get('host') or 'Not recorded'} · "
+                      f"<b>Recorded:</b> {finding.get('observedAt') or 'Not recorded'}", styles["BodyText2"]),
+            Spacer(1, 10),
+        ]
+        elements.append(KeepTogether(details))
     return elements
-
 
 
 def _build_recommendation(case, styles):

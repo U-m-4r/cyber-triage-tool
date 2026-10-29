@@ -67,3 +67,35 @@ class TestScoreRecords(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_temp_executable_rules_handle_case_and_path_components():
+    scorer = RiskScorer()
+    for path in [r'C:\Windows\TEMP\UPDATER.EXE', '/tmp/update.exe']:
+        row = scorer.score_records([{'FileName': 'UPDATER.EXE', 'FilePath': path}])[0]
+        assert row['risk_score'] == 80
+        assert 'Executable in Temp' in row['matched_rules']
+    for path in ['/Documents/templates/setup.exe', '/Documents/attempt.exe']:
+        row = scorer.score_records([{'FileName': 'setup.exe', 'FilePath': path}])[0]
+        assert row['risk_score'] == 0
+
+
+def test_host_and_network_findings_explain_model_applicability():
+    from backend.integration import finding
+    base = {'artifact_id': 'ART-unit', 'priority': 'LOW', 'risk_score': 0,
+            'rule_score': 0, 'anomaly_score': None, 'matched_rules': 'None',
+            'ingested_at': '2026-10-29T00:00:00Z'}
+    host = finding({**base, 'artifact_type': 'file', 'FilePath': '/$Boot'})
+    assert 'No configured rules matched' in host['rationale']
+    assert 'not applicable' in host['rationale']
+    assert 'None' not in host['rationale']
+    network = finding({**base, 'artifact_type': 'network', 'anomaly_score': 72.5})
+    assert 'network anomaly score: 72.5' in network['rationale']
+
+
+def test_report_shortens_file_titles_without_losing_rule_labels():
+    from backend.report_generator import _finding_label
+    item = {'artifactType': 'file', 'title': '/$Extend/$RmMetadata/$TxfLog/$TxfLogContainer00000000000000000001 (No rule match)'}
+    assert _finding_label(item) == '$TxfLogContainer00000000000000000001'
+    assert _finding_label({'artifactType': 'file', 'title': '/Windows/Temp/updater.exe: Executable in Temp'}) == 'updater.exe'
+    assert _finding_label({'artifactType': 'network', 'title': 'High Packet Rate'}) == 'High Packet Rate'

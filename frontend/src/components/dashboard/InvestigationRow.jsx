@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Icon from '../ui/Icon.jsx'
 import SeverityBadge, { StatusBadge } from '../ui/SeverityBadge.jsx'
-import { formatCount, formatDate } from '../../utils/format.js'
+import { formatCount, formatDate, formatTimestamp } from '../../utils/format.js'
 import './InvestigationRow.css'
 
 const SEVERITY_CLASS = {
@@ -34,7 +34,6 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
     threatScore,
     severity,
     status,
-    progress,
     examiner,
     openedAt,
     lastActivity,
@@ -86,11 +85,11 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
       <div className="inv-row__score">
         <div className="inv-row__score-line">
           <span className="inv-row__score-value tabular">{threatScore ?? 'Not scored'}</span>
-          <span className="inv-row__score-max">/100</span>
+          {threatScore != null && <span className="inv-row__score-max">/100</span>}
         </div>
         <span className="inv-row__score-label">Threat score</span>
         <div className="inv-row__meter" role="presentation">
-          <span className="inv-row__meter-fill" style={{ width: `${threatScore ?? 'Not scored'}%` }} />
+          <span className="inv-row__meter-fill" style={{ width: `${threatScore ?? 0}%` }} />
         </div>
       </div>
 
@@ -123,7 +122,7 @@ export default function InvestigationRow({ investigation, selected, onSelect }) 
       </dl>
 
       <div className="inv-row__tail">
-        <span className="inv-row__activity">{lastActivity}</span>
+        <span className="inv-row__activity">Updated {formatTimestamp(typeof lastActivity === 'string' ? lastActivity : lastActivity?.at)}</span>
         <Link className="inv-row__open" to={`/cases/${id}`} aria-label={`Open case ${id}`}>
           Open
           <Icon name="chevronRight" size={14} className="inv-row__chevron" />

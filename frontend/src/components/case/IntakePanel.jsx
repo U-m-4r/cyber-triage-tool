@@ -49,6 +49,7 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   }
   return <section className="integration-page">
     <h3>{networkOnly ? 'Network ML inference' : 'Upload evidence'}</h3>
+    <p>Upload once here to update this case’s evidence, artifacts, analysis, timeline and relationships. Reports use the latest saved results when generated.</p>
     <p>Network CSVs use the approved CICIDS2017 baseline. Host evidence uses forensic rules. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.</p>
     <p>Network model: {model.loading ? 'Checking…' : model.error || (model.data?.available ? 'Available' : model.data?.message || 'Unavailable')}</p>
     <button type="button" onClick={() => refresh(v => v + 1)} disabled={pending}>Refresh service status</button>

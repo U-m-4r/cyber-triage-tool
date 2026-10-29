@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import SeverityBadge from '../ui/SeverityBadge.jsx'
 import useApi from '../../hooks/useApi.js'
-import IntakePanel from './IntakePanel.jsx'
 import './CaseArtifacts.css'
 
 const TYPE_OPTIONS = [
@@ -55,7 +54,7 @@ export default function CaseArtifacts({ caseRecord, onChange }) {
   return <div className="case-artifacts">
     <p>Model predictions mark statistical anomalies, not attack types. Negative decision scores are anomalous.
       Risk combines batch-relative anomaly rankings and forensic rules; it is not a probability of compromise.</p>
-    {caseRecord && <IntakePanel caseId={caseRecord.id} onComplete={async () => { refresh(v => v + 1); await onChange?.() }} />}
+    {caseRecord && <p>Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.</p>}
     <div className="integration-controls"><input aria-label="Search artifacts" placeholder="Search source, path, rules" value={query} onChange={e => filter(setQuery, e.target.value)} />
       <button onClick={() => refresh(v => v + 1)}>Refresh artifacts</button></div>
     {error && <p role="alert">Artifacts unavailable: {error}</p>}

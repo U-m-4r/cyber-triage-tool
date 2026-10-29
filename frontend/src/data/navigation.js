@@ -1,10 +1,4 @@
-/**
- * Sidebar destinations for the investigator application shell.
- *
- * `phase` documents what still has to be built behind each destination — the
- * placeholder route surfaces it so the shell is honest about what is mock and
- * what is real.
- */
+/** Workspace destinations; each opens the corresponding case result view. */
 
 export const NAV_ITEMS = [
   {
@@ -26,16 +20,10 @@ export const NAV_ITEMS = [
     phase: 'Disk image, log, registry and PCAP ingestion',
   },
   {
-    label: 'Analysis',
+    label: 'Analysis & triage',
     path: '/analysis',
     icon: 'analysis',
     phase: 'Artifact explorer over the anomaly detection pipeline',
-  },
-  {
-    label: 'AI Triage',
-    path: '/ai-triage',
-    icon: 'triage',
-    phase: 'Ranked findings with per-artifact scoring rationale',
   },
   {
     label: 'Timeline',
@@ -44,7 +32,7 @@ export const NAV_ITEMS = [
     phase: 'Interactive event timeline with zoom-to-second',
   },
   {
-    label: 'IOC Graph',
+    label: 'Relationships',
     path: '/ioc-graph',
     icon: 'graph',
     phase: 'Indicator relationship graph and threat-intel enrichment',
@@ -57,14 +45,7 @@ export const NAV_ITEMS = [
   },
 ]
 
-/**
- * Investigation tabs inside a case workspace (/cases/:caseId).
- *
- * Only Overview is implemented. The rest are listed because an investigator
- * needs to see the full shape of the workflow, but `available: true` keeps them
- * visibly disabled rather than pretending to work — `phase` says what each one
- * is waiting on.
- */
+/** Distinct steps of an investigation. Legacy ai-triage links resolve to analysis. */
 export const CASE_TABS = [
   {
     id: 'overview',
@@ -86,15 +67,9 @@ export const CASE_TABS = [
   },
   {
     id: 'analysis',
-    label: 'Analysis',
+    label: 'Analysis & triage',
     available: true,
     phase: 'Correlation and per-feature score breakdown',
-  },
-  {
-    id: 'ai-triage',
-    label: 'AI Triage',
-    available: true,
-    phase: 'Ranked findings with per-artifact scoring rationale',
   },
   {
     id: 'timeline',
@@ -104,7 +79,7 @@ export const CASE_TABS = [
   },
   {
     id: 'ioc-graph',
-    label: 'IOC Graph',
+    label: 'Relationships',
     available: true,
     phase: null,
   },
