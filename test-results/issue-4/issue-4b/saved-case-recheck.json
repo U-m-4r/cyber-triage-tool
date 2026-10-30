@@ -1,0 +1,82 @@
+{
+  "browser_verification": "BLOCKED",
+  "screenshots_captured": [],
+  "browser_tool_error": "Local browser use is disabled in Work settings.",
+  "alternative_automation": "Not permitted: UI automation must use cua_repl; project frontend uses Node service tests, not browser automation.",
+  "backend_health": {
+    "attack_family_model": {
+      "code": "MODEL_MISSING",
+      "status": "unavailable"
+    },
+    "default_detector": "baseline",
+    "max_upload_bytes": 134217728,
+    "mongo": "connected",
+    "network_baseline": {
+      "status": "ready"
+    },
+    "network_supervised": {
+      "status": "ready"
+    },
+    "ready": true,
+    "service": "cyber-triage-backend",
+    "status": "ok"
+  },
+  "frontend_http_status": 200,
+  "database": "cyber_triage_test_817fc3c335cf496fa7ff25a55b4ee01a",
+  "cases": {
+    "supervised": {
+      "case_id": "CASE-02C1EFF54BC5",
+      "model_id": "xgb-bin-12ad91fa39",
+      "summary": {
+        "classified_attacks": 3,
+        "classified_benign": 57,
+        "critical": 1,
+        "high": 0,
+        "low": 38,
+        "medium": 21,
+        "total_records": 60
+      },
+      "artifact_fields_match_saved_api": "PASS",
+      "mongo_direct_read": "PASS",
+      "frontend_proxy_case_and_history": "PASS",
+      "pdf_http_content_check": "PASS",
+      "pdf_pages": 20,
+      "pdf_path": ".test-artifacts\\issue4b\\supervised-rechecked.pdf",
+      "pdf_sha256": "5143db8c9f555f7720ca0492c2d7be557aef6079ebd34d498b2375660d598554",
+      "browser_upload_refresh_and_download": "NOT_VERIFIED"
+    },
+    "baseline": {
+      "case_id": "CASE-3EACD8C7674C",
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "summary": {
+        "classified_attacks": 19,
+        "classified_benign": 41,
+        "critical": 0,
+        "high": 22,
+        "low": 31,
+        "medium": 7,
+        "total_records": 60
+      },
+      "artifact_fields_match_saved_api": "PASS",
+      "mongo_direct_read": "PASS",
+      "frontend_proxy_case_and_history": "PASS",
+      "pdf_http_content_check": "PASS",
+      "pdf_pages": 20,
+      "pdf_path": ".test-artifacts\\issue4b\\baseline-rechecked.pdf",
+      "pdf_sha256": "6ac6ae51ee81370fc2dd435e39e334802346febb36a8504a1373e2e9784a261f",
+      "browser_upload_refresh_and_download": "NOT_VERIFIED"
+    }
+  },
+  "protected_hashes_before": {
+    "test-results\\issue-4\\evaluation.json": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683",
+    "models\\supervised_binary.joblib": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+    "models\\cicids2017_baseline.joblib": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "models\\pe\\EMBER2024_PE.model": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99"
+  },
+  "protected_hashes_after": {
+    "test-results\\issue-4\\evaluation.json": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683",
+    "models\\supervised_binary.joblib": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+    "models\\cicids2017_baseline.joblib": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "models\\pe\\EMBER2024_PE.model": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99"
+  }
+}

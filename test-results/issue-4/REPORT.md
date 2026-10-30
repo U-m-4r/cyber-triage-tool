@@ -202,3 +202,17 @@ The overflow guard separately inspects a saved-scaler transform, but never passe
 Both external balanced accuracies are below 0.5 and attack recall is extremely low. Aggregate accuracy must not be presented as acceptable external detection. XGBoost score-ranking ROC-AUC differs from thresholded recall; this observation does not justify choosing a new threshold from external labels.
 
 Both official CSVs have 1,048,575 source records. Evaluating every row in these files does not establish completeness of the underlying daily packet captures.
+
+## Issue 4B final verification — 30 October 2026 (Asia/Calcutta)
+
+**Overall completion remains PARTIAL. Browser acceptance is BLOCKED.** The approved browser inventory still returned Local browser use is disabled in Work settings. No new browser screenshots were captured. The runtime requires all UI automation through cua_repl; local Playwright is not an authorized bypass. The project currently uses Node service tests/Vite build rather than a browser-test framework.
+
+The existing backend and owned MongoDB environment were reused. React was restarted with --host 127.0.0.1 --port 5219 after its default localhost binding collided with an existing listener. Both services now respond successfully through IPv4, including frontend-proxy case/history reads. These HTTP checks do not establish real React upload/refresh/download acceptance.
+
+Fresh regression: **367 passed, 46 skipped, zero failures/errors**; **17 frontend tests passed**, production build passed, Ruff passed. The first run had one 1.5-second dedicated MongoDB setup timeout (366 passed/46 skipped/1 error); its original log is retained. The unchanged full suite was rerun serially and passed without assertion or timeout changes. See issue-4b/regression-final.txt/XML and frontend.txt.
+
+Saved-case recheck: XGBoost case CASE-02C1EFF54BC5 retains 60 flows, 3 attack and 57 benign decisions; IF case CASE-3EACD8C7674C retains 60 flows, 19 anomaly/attack and 41 normal/benign decisions. Direct MongoDB fields exactly match saved API predictions, scores, thresholds and priorities. Both freshly downloaded API PDFs have 20 pages and the expected case/model/dataset/compatibility text. They were not generated through a browser UI, so frontend report download remains unverified. Evidence: issue-4b/saved-case-recheck.json. Original cases were not re-ingested or replaced.
+
+Evaluation JSON, both network model artifacts and the EMBER2024 model have identical before/after SHA-256 hashes. No full external reevaluation, retraining, recalibration, retuning or Issue 5 implementation occurred. XGBoost TP=38/FN=286515 and IF TP=174 remain unchanged.
+
+Exact manual A-F steps and six required genuine screenshots are in [the manual guide](issue-4b/MANUAL_BROWSER_VERIFICATION.md). Missing-model checks use an isolated configuration, never renamed/deleted real weights. Until actual browser evidence is reviewed, leave PR #24 draft and main unchanged. Vercel deployment is out of scope per the owner. The planning-only next-issue handoff is in docs/issue-5-handoff.md.
