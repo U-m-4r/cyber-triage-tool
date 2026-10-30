@@ -1,0 +1,92 @@
+{
+  "cicids2017-iforest.pdf": {
+    "pages": 29,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      26
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "cicids2017-xgb.pdf": {
+    "pages": 30,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      26
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "disk.pdf": {
+    "pages": 6,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      5
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "event-export.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      3
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "external-csv.pdf": {
+    "pages": 23,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      19
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "native-evtx.pdf": {
+    "pages": 32,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      30
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "native-registry.pdf": {
+    "pages": 38,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      37
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "pcap.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      2
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "registry-export.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      3
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  },
+  "standalone-pe.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "outside_page_text_blocks": [],
+    "coverage_pages": [
+      2
+    ],
+    "visual_review": "Shared layouts sampled visually: detailed disk/PE coverage and large network/registry contact sheets. All pages rendered and geometry checked; not every page individually inspected."
+  }
+}

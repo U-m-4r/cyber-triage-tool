@@ -9,6 +9,7 @@ TimeCreated (@SystemTime), Channel, Provider (@Name) and Computer. See Microsoft
 "Event Schema" (schemas.microsoft.com/win/2004/08/events/event).
 """
 import pandas as pd
+import time
 
 try:
     from Evtx.Evtx import Evtx
@@ -50,7 +51,7 @@ def _flatten_system(system):
     }
 
 
-def parse_evtx(filepath, limit=None):
+def parse_evtx(filepath, limit=None, max_seconds=60):
     """Parse an .evtx file into a DataFrame with the normalized COLUMNS.
 
     ``limit`` optionally caps the number of records read (useful for large logs).
@@ -60,18 +61,35 @@ def parse_evtx(filepath, limit=None):
     if not AVAILABLE:
         raise RuntimeError(UNAVAILABLE_REASON)
 
-    rows = []
+    rows, failed, truncated = [], 0, False
+    started = time.monotonic()
     with Evtx(filepath) as log:
         for i, record in enumerate(log.records()):
-            if limit is not None and i >= limit:
+            if (limit is not None and i >= limit) or time.monotonic()-started > max_seconds:
+                truncated = True
                 break
             try:
                 parsed = xmltodict.parse(record.xml())
                 system = parsed.get("Event", {}).get("System", {})
                 if system:
-                    rows.append(_flatten_system(system))
+                    row = _flatten_system(system)
+                    row['artifact_type'] = 'system_log'
+                    row['record_id'] = i
+                    row['EventID'] = int(row['EventID'])
+                    # Preserve native EventRecordID; no raw signature is mapped to it.
+                    # Hour rules only apply to actual login events with timestamps.
+                    if row['EventID'] in (4624, 4625) and len(row['TimeCreated']) >= 13:
+                        row['LoginHour'] = int(row['TimeCreated'][11:13])
+                    rows.append(row)
+                else:
+                    failed += 1
             except Exception:
-                # Skip a single corrupt record; keep parsing the rest.
+                failed += 1
                 continue
 
-    return pd.DataFrame(rows, columns=COLUMNS)
+    result = pd.DataFrame(rows, columns=list(dict.fromkeys(COLUMNS + ['artifact_type', 'record_id'] +
+        [key for row in rows for key in row])))
+    result.attrs['parsing'] = {'status':'PARTIAL' if failed or truncated else 'COMPLETED',
+        'skipped':failed, 'enumeration_complete':not truncated, 'skipped_count_exact':not truncated,
+        'reason':f'{failed} malformed records; enumeration truncated: {truncated}' if failed or truncated else None}
+    return result

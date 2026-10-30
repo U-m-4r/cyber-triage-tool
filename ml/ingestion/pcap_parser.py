@@ -109,7 +109,7 @@ def _flows_from_packets(packet_iter, source):
         all_lens = fwd + bwd
         total_pkts = len(all_lens)
         total_bytes = sum(all_lens)
-        dur_s = duration_us / 1_000_000 or 1e-6
+        dur_s = duration_us / 1_000_000
         row = _blank_flow(source)
         row.update({
             "Flow Duration": round(duration_us, 2),
@@ -121,28 +121,47 @@ def _flows_from_packets(packet_iter, source):
             "Fwd Packet Length Mean": round(sum(fwd) / len(fwd), 2) if fwd else 0,
             "Bwd Packet Length Max": max(bwd) if bwd else 0,
             "Bwd Packet Length Min": min(bwd) if bwd else 0,
-            "Flow Bytes/s": round(total_bytes / dur_s, 2),
-            "Flow Packets/s": round(total_pkts / dur_s, 2),
             "Packet Length Mean": round(total_bytes / total_pkts, 2) if total_pkts else 0,
+            'Source IP':src, 'Destination IP':dst,
         })
+        if dur_s > 0:
+            row['Flow Bytes/s'] = round(total_bytes / dur_s, 2)
+            row['Flow Packets/s'] = round(total_pkts / dur_s, 2)
+        else:
+            row.pop('Flow Bytes/s', None); row.pop('Flow Packets/s', None)
+            row['measurement_warning'] = 'Rates unavailable: no elapsed capture duration'
         rows.append(row)
     return rows
 
 
-def _parse_native_pcap(path):
+class CaptureRecords(list):
+    """Records with packet exclusions; compatible with historical list callers."""
+
+
+def _parse_native_pcap(path, max_packets=100000):
     """Native .pcap via scapy, if installed. Returns None when unavailable."""
     scapy = optional_import("scapy.all")
     if scapy is None:
         return None
-    packets = scapy.rdpcap(path)
-
-    def gen():
-        for pkt in packets:
-            if not pkt.haslayer("IP"):
-                continue
-            ip = pkt["IP"]
-            yield float(pkt.time), ip.src, ip.dst, len(pkt), True
-    return _flows_from_packets(gen(), path)
+    counts = {'packets_read':0, 'non_ipv4_skipped':0, 'truncated':False}
+    with scapy.PcapReader(path) as packets:
+        def gen():
+            for index, pkt in enumerate(packets):
+                if index >= max_packets:
+                    counts['truncated'] = True
+                    break
+                counts['packets_read'] += 1
+                if not pkt.haslayer('IP'):
+                    counts['non_ipv4_skipped'] += 1
+                    continue
+                ip = pkt['IP']
+                yield float(pkt.time), ip.src, ip.dst, len(pkt), True
+        rows = CaptureRecords(_flows_from_packets(gen(), path))
+    rows.parsing = {'status':'PARTIAL' if counts['truncated'] or counts['non_ipv4_skipped'] else 'COMPLETED',
+        'skipped':counts['non_ipv4_skipped'], 'enumeration_complete':not counts['truncated'],
+        'skipped_count_exact':not counts['truncated'], **counts,
+        'reason':'Address-pair packet summaries, not verified CICFlowMeter flows; non-IPv4 packets excluded; remaining count unknown when truncated'}
+    return rows
 
 
 def parse(path):

@@ -15,6 +15,8 @@ RULES = {
         'low_packet_size':     {'weight': 0.4, 'label': 'Low Packet Size'},
     },
     'system_log': {
+        'audit_log_cleared':   {'weight': 0.9, 'label': 'Security Audit Log Cleared'},
+        'service_installed':   {'weight': 0.6, 'label': 'Service Installation Requires Review'},
         'high_failed_logins':  {'weight': 0.9, 'label': 'High Failed Logins'},
         'odd_login_hour':      {'weight': 0.6, 'label': 'Odd Hour Login'},
         'privilege_escalation':{'weight': 1.0, 'label': 'Privilege Escalation'},
@@ -85,11 +87,17 @@ class RiskScorer:
                 if row.get('Flow Bytes/s', 0) > 1000000:
                     rule_score += RULES['network']['large_byte_transfer']['weight']
                     matched_rules.append(RULES['network']['large_byte_transfer']['label'])
-                if row.get('Packet Length Mean', 0) < 10:
+                if 'Packet Length Mean' in row and row['Packet Length Mean'] < 10:
                     rule_score += RULES['network']['low_packet_size']['weight']
                     matched_rules.append(RULES['network']['low_packet_size']['label'])
 
             elif artifact_type == 'system_log':
+                # Event identity is an indicator, not proof of malicious intent.
+                event = str(row.get('EventID', ''))
+                for number, rule in (('1102', 'audit_log_cleared'), ('7045', 'service_installed')):
+                    if event == number:
+                        rule_score += RULES['system_log'][rule]['weight']
+                        matched_rules.append(RULES['system_log'][rule]['label'])
                 if row.get('FailedLogins', 0) > 5:
                     rule_score += RULES['system_log']['high_failed_logins']['weight']
                     matched_rules.append(RULES['system_log']['high_failed_logins']['label'])
@@ -120,7 +128,7 @@ class RiskScorer:
 
             elif artifact_type == 'registry':
                 key = str(row.get('RegistryKey', ''))
-                if 'autorun' in key.lower() or 'run' in key.lower():
+                if any(part in {'run', 'runonce', 'autorun'} for part in key.replace('/', '\\').lower().split('\\')):
                     rule_score += RULES['registry']['autorun_entry']['weight']
                     matched_rules.append(RULES['registry']['autorun_entry']['label'])
                 if any(s in key.lower() for s in ('cmd','powershell','wscript','temp')):
@@ -146,10 +154,7 @@ class RiskScorer:
         return round(min(risk, 100), 2)
 
     def assign_priority(self, risk_score):
-        # Priority bands are aligned to the CVSS v3.1 qualitative severity rating
-        # scale (FIRST, "Common Vulnerability Scoring System v3.1: Specification",
-        # §5 Qualitative Severity Rating Scale): None/Low 0.0-3.9, Medium 4.0-6.9,
-        # High 7.0-8.9, Critical 9.0-10.0 -> mapped here onto our 0-100 risk score.
+        # Project triage policy bands; these are not CVSS vulnerability ratings.
         if risk_score >= 75:
             return 'CRITICAL'
         elif risk_score >= 50:

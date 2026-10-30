@@ -1,0 +1,26 @@
+{
+  "python": "3.14.7",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "versions": {
+    "Flask": "3.1.3",
+    "pymongo": "4.19.0",
+    "yara-python": "4.5.4",
+    "pytsk3": "20260715",
+    "python-evtx": "0.8.1",
+    "python-registry": "1.3.1",
+    "lightgbm": "4.6.0",
+    "xgboost": "3.4.1",
+    "scikit-learn": "1.8.0",
+    "scapy": "2.8.0",
+    "reportlab": "4.5.1"
+  },
+  "git_branch": "codex/issue-5-unified-screening",
+  "issue4_merge": "bee69ac4112e65d90d1426e8cfce22bff5c60103",
+  "browser_status": "UNVERIFIED: Local browser use is disabled in Work settings.",
+  "backend_regression": {
+    "passed": 390,
+    "skipped": 46,
+    "failed": 0,
+    "errors": 0
+  }
+}

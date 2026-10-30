@@ -47,10 +47,11 @@ def _from_record(lc, source):
 def _parse_csv(path):
     rows = []
     with open(path, newline="", encoding="utf-8-sig", errors="replace") as fh:
-        for r in csv.DictReader(fh):
+        for index, r in enumerate(csv.DictReader(fh)):
             lc = {k.strip().lower(): (v or "") for k, v in r.items() if k}
             row = _from_record(lc, path)
             if row:
+                row['source_row'] = index
                 rows.append(row)
     return rows
 
@@ -61,10 +62,11 @@ def _parse_json(path):
     if isinstance(data, dict):
         data = data.get("files") or data.get("entries") or [data]
     rows = []
-    for e in data:
+    for index, e in enumerate(data):
         lc = {str(k).lower(): v for k, v in e.items()}
         row = _from_record(lc, path)
         if row:
+            row['source_row'] = index
             rows.append(row)
     return rows
 

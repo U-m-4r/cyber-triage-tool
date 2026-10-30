@@ -10,8 +10,9 @@ from ml.supervised_detector import load_supervised_detector
 from scripts.acquire_external_dataset import RAW,sha
 
 
-def main():
-    root=Path('test-results/issue-4');scratch=Path('.test-artifacts/issue4')
+def main(output_root=None, scratch=None):
+    root=Path('test-results/issue-4');scratch=Path(scratch or '.test-artifacts/issue4')
+    output_root=Path(output_root or root);scratch.mkdir(parents=True,exist_ok=True);output_root.mkdir(parents=True,exist_ok=True)
     sources=json.loads((root/'dataset-manifest.json').read_text())['sources']
     models=[load_baseline(),load_supervised_detector()]
     counts=collections.Counter();demo=[];manifest=[]
@@ -36,7 +37,7 @@ def main():
     summary={'selection':'first 10 eligible source rows per original label per day; before inference',
              'records':len(demo),'labels':dict(collections.Counter(r['original_label'] for r in manifest)),
              'csv_sha256':sha(scratch/'demo.csv'),'manifest_sha256':sha(scratch/'demo-labels.json')}
-    (root/'demo-manifest-summary.json').write_text(json.dumps(summary,indent=2));print(json.dumps(summary,indent=2))
+    (output_root/'demo-manifest-summary.json').write_text(json.dumps(summary,indent=2));print(json.dumps(summary,indent=2))
 
 
 if __name__=='__main__':main()

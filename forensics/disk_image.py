@@ -124,7 +124,7 @@ class ScanLimits:
             raise ValueError('Scan limits must be positive integers')
 
 
-def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None):
+def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, yara_enabled=True):
     """Read-only raw filesystem analysis. Never scans container bytes as a file.
 
     Native reads are bounded in size; duration is checked between native calls.
@@ -145,8 +145,8 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None):
     directory = rules_dir or os.environ.get('YARA_RULES_DIR', yara_scanner.DEFAULT_RULES_DIR)
     rules, rule_id, rule_error = None, None, None
     engine_status = 'READY'
-    if not yara_scanner.AVAILABLE:
-        engine_status, rule_error = 'YARA_UNAVAILABLE', yara_scanner.UNAVAILABLE_REASON
+    if not yara_enabled or not yara_scanner.AVAILABLE:
+        engine_status, rule_error = 'YARA_UNAVAILABLE', yara_scanner.UNAVAILABLE_REASON or 'Disabled by deployment configuration'
     else:
         try:
             rules = yara_scanner.compile_rules(directory)

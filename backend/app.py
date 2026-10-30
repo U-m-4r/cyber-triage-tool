@@ -46,6 +46,7 @@ from ml.triage_engine import (evaluate_triage_signals, build_binary_signal,
 from backend.db import init_db, get_db, check_connection, close_db, DatabaseUnavailable
 from backend.config import load_config
 from backend.report_generator import generate_case_report
+from backend import screening
 from evaluation.evaluate import (
     extract_binary_ground_truth,
     evaluate_predictions,
@@ -127,22 +128,40 @@ def _save_uploaded_file():
 
 
 def _api_error(message, status_code, code):
-    return jsonify({"error": {"code": code, "message": message}}), status_code
+    payload = {"error": {"code": code, "message": message}}
+    if request.path in ('/api/analyze', '/api/ingest', '/api/forensics/ingest'):
+        payload.update(overall_scan_status='UNAVAILABLE' if status_code == 503 else
+                       'SKIPPED_LIMIT' if status_code == 413 else 'INVALID_INPUT' if status_code == 400 else 'FAILED',
+                       warnings=[message])
+    return jsonify(payload), status_code
 
 
 def _scan_evidence(filepath, custody):
-    if not yara_scanner.AVAILABLE:
-        return [], {'status': 'unavailable'}
-    try:
-        size_bytes = custody.get("size_bytes", 0) if isinstance(custody, dict) else 0
-        timeout = max(30, min(180, int(size_bytes / (10 * 1024 * 1024))))
-        matches = yara_scanner.scan_file(filepath, timeout=timeout)
-        for match in matches:
-            match['target'] = custody['original_filename']
-        return matches, {'status': 'complete', 'matches': len(matches)}
-    except Exception as exc:
-        logger.warning(f"YARA scan did not complete: {exc}")
-        return [], {'status': 'failed', 'message': f'YARA scan failed or timed out: {exc}'}
+    return screening.raw_yara(filepath, custody, current_app.config)
+
+
+def _native_upload():
+    """Route actual native bytes through the same forensic engine on all intakes."""
+    upload = request.files.get('file')
+    if upload is None:
+        return False
+    position = upload.stream.tell()
+    head = upload.stream.read(8)
+    upload.stream.seek(position)
+    ext = Path(upload.filename or '').suffix.lower()
+    return head.startswith((b'MZ', b'ElfFile\x00', b'regf')) or ext in _DISK_EXTS
+
+
+def _parsing_coverage(metadata, total):
+    """Keep source exclusion accounting even when inference returns valid rows only."""
+    external = metadata.get('external_dataset', {})
+    preprocessing = metadata.get('preprocessing', metadata)
+    invalid = external.get('excluded_rows', preprocessing.get('dropped_invalid_rows', 0))
+    limited = getattr(g, 'network_rows_excluded', 0)
+    skipped = invalid + limited
+    return {'status': 'PARTIAL' if skipped else 'COMPLETED', 'skipped': skipped,
+            'invalid_rows':invalid, 'rows_excluded_by_limit':limited,
+            'records_retained': total, 'reason': f'{invalid} invalid rows; {limited} rows excluded by record limit' if skipped else None}
 
 
 def _request_token():
@@ -196,9 +215,11 @@ def _extract_binary_ground_truth(df):
 
 
 def _read_selected_network_csv(filepath):
+    if screening.identify(filepath) != 'network_csv':
+        raise NetworkInputError('Expected structurally valid network-flow CSV.', 'INVALID_NETWORK_FORMAT')
     dataset=request.form.get('dataset') or request.args.get('dataset')
     if not dataset:
-        return read_network_csv(filepath)
+        return _bound_network_records(read_network_csv(filepath))
     if dataset!='cse-cic-ids2018':
         raise NetworkInputError('Unsupported external dataset adapter','UNSUPPORTED_DATASET')
     if request.form.get('threshold') is not None or request.args.get('threshold') is not None:
@@ -209,7 +230,13 @@ def _read_selected_network_csv(filepath):
     if features.empty:
         raise NetworkInputError('No valid external measurements remain','EMPTY_NETWORK_DATA')
     g.external_dataset_report=report
-    return features
+    return _bound_network_records(features)
+
+
+def _bound_network_records(frame):
+    limit = current_app.config.get('SCREENING_LIMITS', {}).get('max_records', 100000)
+    g.network_rows_excluded = max(0, len(frame)-limit)
+    return frame.iloc[:limit].copy()
 
 
 def _network_csv_inference(filepath):
@@ -249,6 +276,7 @@ def _network_metadata(bundle, supervised=False):
 
 
 def _scored_network_records(clean, predictions, scores, metadata, supervised=False):
+    rule_started = time.monotonic()
     records = json.loads(clean.reset_index(drop=True).to_json(orient='records'))
     feature_values = clean.loc[:, list(NETWORK_FEATURES)].itertuples(index=False, name=None)
     for i,(row,pred,score,values) in enumerate(zip(records,predictions,scores,feature_values)):
@@ -262,7 +290,9 @@ def _scored_network_records(clean, predictions, scores, metadata, supervised=Fal
                    model_score=float(score), decision_score=float(score),
                    model_id=metadata['model_id'], detector=metadata['detector_type'],
                    decision_threshold=metadata['active_threshold'], score_interpretation=metadata['score_interpretation'])
-    return scorer.score_records(records,scores,network_score_kind='supervised' if supervised else 'anomaly')
+    result = scorer.score_records(records,scores,network_score_kind='supervised' if supervised else 'anomaly')
+    g.rule_seconds = time.monotonic()-rule_started
+    return result
 
 
 def _supervised_csv_inference(filepath, threshold_override=None):
@@ -392,6 +422,8 @@ def readiness():
 @api.route("/api/analyze", methods=["POST"])
 def analyze():
     """Main analysis endpoint."""
+    if _native_upload():
+        return forensics_ingest()
     filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
@@ -467,6 +499,14 @@ def analyze():
         summary.update(classified_attacks=int((predictions == (1 if use_supervised else -1)).sum()),
                        classified_benign=int((predictions == (0 if use_supervised else 1)).sum()))
         response_payload['timings'] = meta['timings']
+        unified = screening.summarize(filepath, custody,
+            'cse-cic-ids2018' if hasattr(g, 'external_dataset_report') else 'network_csv',
+            results_df.to_dict(orient='records'), current_app.config, network=meta,
+            parsing=_parsing_coverage({**meta, 'preprocessing':response_payload['preprocessing']}, len(results_df)),
+            rule_seconds=g.rule_seconds)
+        response_payload.update(unified)
+        supplementary_iocs = unified['iocs']
+        response_payload['iocs'] = supplementary_iocs
         response_payload["persisted"] = False
         if _intake_database_available():
             try:
@@ -478,9 +518,11 @@ def analyze():
                 )
                 # JSON responses stringify label-map keys; BSON requires the same.
                 audit_meta = json.loads(json.dumps(audit_meta))
+                audit_meta['screening_result'] = unified
                 intake_id, stored = persist_intake(
                     db, results_df.to_dict(orient="records"), request.form.get("caseId"),
-                    custody, "cse-cic-ids2018" if hasattr(g,'external_dataset_report') else "cicids2017", audit_meta)
+                    custody, "cse-cic-ids2018" if hasattr(g,'external_dataset_report') else "cicids2017", audit_meta,
+                    iocs=supplementary_iocs)
                 db.analysis_results.insert_one({"intake_id": intake_id, "created_at": now(),
                     "case_id": request.form.get("caseId"), "summary": summary,
                     "evidence_custody": custody, **audit_meta})
@@ -721,6 +763,8 @@ def ingest():
     artifacts, and persist them. Form fields: `file` (required), `kind`
     (evtx|registry|pcap|file, optional — sniffed from extension otherwise),
     `caseId` (optional — links artifacts to a case and updates its counts)."""
+    if _native_upload():
+        return forensics_ingest()
     filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
@@ -728,57 +772,34 @@ def ingest():
     kind = (request.form.get("kind") or "").strip().lower() or None
     case_id = request.form.get("caseId")
     try:
+        evidence_type = screening.identify(filepath, kind)
+        if evidence_type in ('invalid', 'unsupported'):
+            return _api_error('Unsupported or invalid evidence structure.', 400, 'UNSUPPORTED_FILE_TYPE')
+        if evidence_type == 'network_csv':
+            # Exported flows must use the verified CSV contract, not packet statistics.
+            request.files['file'].stream.seek(0)
+            return analyze()
+        if custody['size_bytes'] > current_app.config.get('SCREENING_LIMITS', {}).get('max_parse_bytes', 16*1024*1024):
+            return _api_error('Export/capture exceeds bounded parser byte limit.', 413, 'PARSER_BYTE_LIMIT')
+        if kind is None:
+            kind = evidence_type.replace('_export', '')
         try:
-            records = parse_file(filepath, kind=kind)
-        except ParserError as exc:
+            max_records = current_app.config.get('SCREENING_LIMITS', {}).get('max_records', 100000)
+            records, parsing = screening.parse_export(filepath, kind, max_records,
+                timeout=current_app.config.get('SCREENING_LIMITS', {}).get('max_parser_seconds', 60))
+        except TimeoutError as exc:
+            return _api_error(str(exc), 422, 'PARSER_TIMEOUT')
+        except (ParserError, ValueError) as exc:
             return _api_error(str(exc), 400, "PARSE_FAILED")
 
         if not records:
             return _api_error("No records were parsed from the upload.", 400, "EMPTY_INPUT")
 
-        network_metadata = {}
-        if kind == 'pcap' or any(r.get('artifact_type') == 'network' for r in records):
-            use_supervised = _selected_network_detector() == 'supervised'
-            if use_supervised:
-                supervised_path = current_app.config.get("SUPERVISED_MODEL_PATH")
-                try:
-                    s_bundle = get_cached_supervised_detector(supervised_path)
-                except SupervisedDetectorError as exc:
-                    return _api_error(f"Supervised detector unavailable: {exc}", 503, exc.code)
-
-                thresh_arg = request.args.get("threshold") or request.form.get("threshold")
-                try:
-                    thresh_val = float(thresh_arg) if thresh_arg is not None else None
-                except ValueError:
-                    return _api_error("Invalid threshold parameter; must be float", 400, "INVALID_THRESHOLD")
-
-                try:
-                    clean, s_preds, s_scores, s_meta = infer_supervised_network(
-                        pd.DataFrame(records), s_bundle, threshold_override=thresh_val
-                    )
-                except SupervisedDetectorError as exc:
-                    return _api_error(str(exc), 400, exc.code)
-
-                s_meta.update({**_network_metadata(s_bundle,True),'active_threshold':s_meta['active_threshold']})
-                scored = _scored_network_records(clean,s_preds,s_scores,s_meta,True)
-                network_metadata = {
-                    'detector': 'supervised_binary',
-                    'supervised': supervised_metadata(s_bundle),
-                    'inference_metadata': s_meta,
-                    'preprocessing': s_meta['preprocessing'],
-                }
-            else:
-                bundle = load_baseline(current_app.config.get('MODEL_PATH'))
-                clean, predictions, scores, preprocessing, drift = infer_network(pd.DataFrame(records), bundle)
-                b_meta = _network_metadata(bundle)
-                scored = _scored_network_records(clean,predictions,scores,b_meta)
-                network_metadata = {'detector': 'anomaly_baseline',
-                                    'baseline': baseline_metadata(bundle),
-                                    'preprocessing': preprocessing, 'drift': drift, 'inference_metadata':b_meta}
-        else:
-            # Host artifacts keep their source-specific rules; the CICIDS model
-            # cannot be applied to event IDs, registry values, or file metadata.
-            scored = scorer.score_records(records)
+        max_records = current_app.config.get('SCREENING_LIMITS', {}).get('max_records', 100000)
+        # Packet-derived statistics are rule-only, never sent to unverified ML.
+        rule_started = time.monotonic()
+        scored = scorer.score_records(records[:max_records])
+        rule_seconds = time.monotonic()-rule_started
         summary = {
             "total_records": len(scored),
             "critical": sum(1 for a in scored if a["priority"] == "CRITICAL"),
@@ -786,20 +807,17 @@ def ingest():
             "medium": sum(1 for a in scored if a["priority"] == "MEDIUM"),
             "low": sum(1 for a in scored if a["priority"] == "LOW"),
         }
-        if network_metadata:
-            summary.update(classified_attacks=sum(a['binary_prediction']=='ATTACK' for a in scored),
-                           classified_benign=sum(a['binary_prediction']=='BENIGN' for a in scored))
-            network_metadata['network_summary'] = summary
-            network_metadata = json.loads(json.dumps(network_metadata))
-
         iocs, yara_status = _scan_evidence(filepath, custody)
+        unified = screening.summarize(filepath, custody, evidence_type, scored, current_app.config,
+            iocs=iocs, yara=yara_status, rule_seconds=rule_seconds, parsing=parsing)
         stored = 0
         intake_id = None
         if _intake_database_available():
             try:
                 db = get_db()
                 intake_id, stored = persist_intake(db, scored, case_id, custody,
-                                                   kind or "auto", {**network_metadata, 'yara': yara_status}, iocs=iocs)
+                                                   kind or "auto", {'yara': yara_status,
+                                                       'screening_result':unified}, iocs=iocs)
             except Exception:
                 logger.error("Failed to persist ingested artifacts")
                 return _api_error("Artifact persistence was not confirmed.", 503, "PERSISTENCE_FAILED")
@@ -816,7 +834,7 @@ def ingest():
                 {k: v for k, v in a.items()} for a in scored[:100]
             ],
             "evidence": custody,
-            **network_metadata,
+            **unified,
         })
     except BaselineError as exc:
         return _api_error(str(exc), 503, exc.code)
@@ -1156,7 +1174,8 @@ def forensics_capabilities():
                  "reason": "" if pcap_available else "Install a supported PCAP parser (scapy, or pyshark with tshark); exported flow CSVs remain supported."},
         "evtx": {"available": evtx_parser.AVAILABLE, "reason": evtx_parser.UNAVAILABLE_REASON},
         "registry": {"available": registry_parser.AVAILABLE, "reason": registry_parser.UNAVAILABLE_REASON},
-        "yara": {"available": yara_scanner.AVAILABLE, "reason": yara_scanner.UNAVAILABLE_REASON},
+        "yara": {"available": yara_scanner.AVAILABLE and current_app.config.get('SCREENING_YARA_ENABLED', True),
+                 "reason": yara_scanner.UNAVAILABLE_REASON or (None if current_app.config.get('SCREENING_YARA_ENABLED', True) else 'Disabled by deployment configuration')},
         "disk_image": {"available": disk_image.AVAILABLE, "reason": disk_image.UNAVAILABLE_REASON},
         "pe_malware_ml": disk_image.pe_malware_detector.get_model_metadata(
             (current_app.config.get('PE_ML_OPTIONS') or {}).get('model_path')),
@@ -1182,24 +1201,62 @@ def forensics_ingest():
 
     ext = os.path.splitext(custody["original_filename"])[1].lower()
     try:
+        evidence_type = screening.identify(filepath)
         disk_scan = None
+        parsing = None
         try:
-            if ext in _DISK_EXTS:
+            if evidence_type == 'disk_image':
                 disk_scan = disk_image.analyze_disk_image(filepath,
                     limits=disk_image.ScanLimits(**current_app.config.get('DISK_SCAN_LIMITS', {})),
                     rules_dir=current_app.config.get('YARA_RULES_DIR'),
-                    pe_options=current_app.config.get('PE_ML_OPTIONS'))
+                    pe_options=current_app.config.get('PE_ML_OPTIONS'),
+                    yara_enabled=current_app.config.get('SCREENING_YARA_ENABLED', True))
                 for artifact in disk_scan['findings']:
                     artifact['evidence_sha256'] = custody['sha256']
                     artifact['evidence_source'] = custody['original_filename']
                 kind, df = 'disk_image', pd.DataFrame(disk_scan['findings'])
+            elif evidence_type == 'pe':
+                maximum = min(2*1024*1024, current_app.config.get('SCREENING_LIMITS', {}).get('max_pe_bytes', 2*1024*1024))
+                iocs, yara_status = _scan_evidence(filepath, custody)
+                if custody['size_bytes'] > maximum:
+                    pe = {'status':'SKIPPED_TOO_LARGE', 'reason':'Standalone PE byte limit exceeded'}
+                else:
+                    from ml.pe_malware_detector import predict_file
+                    with open(filepath, 'rb') as source:
+                        pe = predict_file(source.read(maximum+1), **current_app.config.get('PE_ML_OPTIONS', {}))
+                kind = 'pe'
+                df = pd.DataFrame([{'artifact_type':'file', 'FileName':custody['original_filename'],
+                    'FilePath':custody['original_filename'], 'FileSizeBytes':custody['size_bytes'],
+                    'sha256':custody['sha256'], 'evidence_sha256':custody['sha256'],
+                    'yara_matches':iocs, 'pe_ml':pe,
+                    'scan_status':'MATCHED' if iocs else 'SCANNED_NO_MATCH' if yara_status['status']=='COMPLETED' else yara_status['status']}])
+            elif evidence_type in ('evtx', 'registry'):
+                if custody['size_bytes'] > current_app.config.get('SCREENING_LIMITS', {}).get('max_parse_bytes', 16*1024*1024):
+                    return _api_error('Native host container exceeds bounded parser byte limit.', 413, 'PARSER_BYTE_LIMIT')
+                limit = current_app.config.get('SCREENING_LIMITS', {}).get('max_records', 100000)
+                parser = evtx_parser if evidence_type == 'evtx' else registry_parser
+                if not parser.AVAILABLE:
+                    raise RuntimeError(parser.UNAVAILABLE_REASON)
+                native_rows, parsing = screening.parse_export(filepath, 'native_'+evidence_type, limit,
+                    timeout=current_app.config.get('SCREENING_LIMITS', {}).get('max_parser_seconds', 60))
+                df = pd.DataFrame(native_rows)
+                kind = evidence_type
+            elif evidence_type == 'registry_export':
+                if custody['size_bytes'] > current_app.config.get('SCREENING_LIMITS', {}).get('max_parse_bytes', 16*1024*1024):
+                    return _api_error('Registry export exceeds bounded parser byte limit.', 413, 'PARSER_BYTE_LIMIT')
+                limit = current_app.config.get('SCREENING_LIMITS', {}).get('max_records', 100000)
+                native_rows, parsing = screening.parse_export(filepath, 'registry', limit,
+                    timeout=current_app.config.get('SCREENING_LIMITS', {}).get('max_parser_seconds', 60))
+                kind, df = 'registry', pd.DataFrame(native_rows)
             else:
-                kind, df = _dispatch_forensic_parser(filepath, ext)
+                kind, df = None, None
         except ValueError as exc:
-            return _api_error(str(exc), 400, 'INVALID_DISK_IMAGE')
+            return _api_error(str(exc), 400, 'INVALID_DISK_IMAGE' if evidence_type == 'disk_image' else 'INVALID_EVIDENCE')
         except RuntimeError as exc:
             # Parser's optional dependency is unavailable on this host.
             return _api_error(str(exc), 503, "PARSER_UNAVAILABLE")
+        except TimeoutError as exc:
+            return _api_error(str(exc), 422, 'PARSER_TIMEOUT')
 
         if kind is None:
             return _api_error(
@@ -1212,8 +1269,10 @@ def forensics_ingest():
 
         if df.empty and disk_scan is None:
             return _api_error("No records were parsed from the evidence.", 400, "EMPTY_INPUT")
+        rule_started = time.monotonic()
         all_scored = scorer.score_records(disk_scan['findings'] if disk_scan is not None else json.loads(df.to_json(orient="records")),
             pe_malicious_floor=current_app.config.get('PE_MALICIOUS_RISK_FLOOR', 50))
+        rule_seconds = time.monotonic()-rule_started
         scored = [row for row in all_scored if row.get("matched_rules") != "None" or
                   ((row.get('pe_ml') or {}).get('status') == 'CLASSIFIED' and row['pe_ml'].get('prediction') == 'malicious')]
 
@@ -1222,8 +1281,12 @@ def forensics_ingest():
             iocs = [dict(hit, evidence_sha256=custody['sha256'])
                     for row in disk_scan['findings'] for hit in row['yara_matches']]
             yara_status = {'status': disk_scan['yara_status'], 'ruleset_id': disk_scan['ruleset_id']}
-        else:
+        elif evidence_type != 'pe':
             iocs, yara_status = _scan_evidence(filepath, custody)
+
+        unified = screening.summarize(filepath, custody, evidence_type, all_scored,
+            current_app.config, disk=disk_scan, parsing=parsing, iocs=iocs,
+            yara=yara_status if disk_scan is None else None, rule_seconds=rule_seconds)
 
         # Optional threat-intel enrichment on the evidence file hash (no-op w/o keys).
         intel = threat_intel.check_indicator(custody["sha256"], kind="hash")
@@ -1238,6 +1301,7 @@ def forensics_ingest():
             "yara": yara_status,
             "threat_intel": intel,
             "evidence": custody,
+            **unified,
         }
 
         response_payload["custody_persisted"] = False
@@ -1252,6 +1316,7 @@ def forensics_ingest():
             intake_id, stored = persist_intake(get_db(), all_scored,
                 request.form.get("caseId"), custody, kind,
                 {"threat_intel": intel, "yara": yara_status,
+                 'screening_result':unified,
                  **({'disk_scan': {k: v for k, v in disk_scan.items() if k != 'findings'}} if disk_scan else {})}, iocs=iocs)
             response_payload.update(persisted=True, stored=stored, intake_id=intake_id,
                                     custody_persisted=bool(request.form.get("caseId")))

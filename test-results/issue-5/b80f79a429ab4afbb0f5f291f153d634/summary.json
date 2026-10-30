@@ -1,0 +1,333 @@
+{
+  "run": "b80f79a429ab4afbb0f5f291f153d634",
+  "database": "cyber_triage_test_b80f79a429ab4afbb0f5f291f153d634",
+  "results": {
+    "disk": {
+      "case_id": "CASE-556F3388948A",
+      "intake_id": "IN-c609adb7fd734ada963b9f7205e84983",
+      "stored": 6,
+      "source_size": 1474560,
+      "sha256_before": "758ca0776e1922f46770b85e0e19059c640c344723a49aedb391e218663a134b",
+      "sha256_after": "758ca0776e1922f46770b85e0e19059c640c344723a49aedb391e218663a134b",
+      "status": "COMPLETED",
+      "http_seconds": 10.238470200001757,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 6,
+      "pdf_sha256": "59991d70d64070dc83d3a3829b84001ff39de53840fb5794c2b8dc863c95fdb3"
+    },
+    "standalone-pe": {
+      "case_id": "CASE-9D0A0B6C56DE",
+      "intake_id": "IN-186f53832d0241eaa3754fa67ee694cd",
+      "stored": 1,
+      "source_size": 108032,
+      "sha256_before": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "sha256_after": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "status": "COMPLETED",
+      "http_seconds": 4.82614310000281,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "784f14db6180cff94edcb2c2411279c32979f2edda8e0304ab011a732ae47ced"
+    },
+    "cicids2017-xgb": {
+      "case_id": "CASE-BA9A85B6CF65",
+      "intake_id": "IN-263e618e0abe4c678c1eab3b5b62b03c",
+      "stored": 84,
+      "source_size": 7102,
+      "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "status": "COMPLETED",
+      "http_seconds": 1.289425899998605,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 30,
+      "pdf_sha256": "d2a62a5a58442749661ff3e4e36c254eb92288f4471a10fd31c931000c7878e0"
+    },
+    "cicids2017-iforest": {
+      "case_id": "CASE-410BA7B01EC5",
+      "intake_id": "IN-cc24dd37ad084b6f9a051b31e80497e8",
+      "stored": 84,
+      "source_size": 7102,
+      "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "status": "COMPLETED",
+      "http_seconds": 1.4411346999986563,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 29,
+      "pdf_sha256": "61336c4c88bbfe4597e9c3631953595bf83fea5b88122f8cbdd9b481ce82b08f"
+    },
+    "external-csv": {
+      "case_id": "CASE-AA78F960523A",
+      "intake_id": "IN-2c5b4ff3add44fd89a4e3e0a578e9be1",
+      "stored": 60,
+      "source_size": 21738,
+      "sha256_before": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+      "sha256_after": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+      "status": "COMPLETED",
+      "http_seconds": 0.8201076999976067,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 23,
+      "pdf_sha256": "4c9de98799774341cbf16f0d97910555609bf24945a4542032e3fe9815d228a3"
+    },
+    "native-evtx": {
+      "case_id": "CASE-AFEAB723719C",
+      "intake_id": "IN-a08d46257deb4f4dac177b8492a3dcc2",
+      "stored": 1601,
+      "source_size": 1118208,
+      "sha256_before": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+      "sha256_after": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+      "status": "COMPLETED",
+      "http_seconds": 8.819936900003086,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 32,
+      "pdf_sha256": "20f47e5ec6c168cc42132c664dcfbd3622102fa4297677aa7f8692fee8642c61"
+    },
+    "native-registry": {
+      "case_id": "CASE-841E33BBEDE4",
+      "intake_id": "IN-2e74fa430891440295398df39403a3c4",
+      "stored": 2000,
+      "source_size": 7602176,
+      "sha256_before": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+      "sha256_after": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+      "status": "PARTIAL",
+      "http_seconds": 3.3300202999998874,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 38,
+      "pdf_sha256": "f355d9bfc9b095905a50c4362d067c45585a331257ecf4b44ed53bcd10e6838a"
+    },
+    "event-export": {
+      "case_id": "CASE-E79A95E4EA69",
+      "intake_id": "IN-d8d51b7c6b3c49a4967e6eddd4707000",
+      "stored": 2,
+      "source_size": 91,
+      "sha256_before": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68",
+      "sha256_after": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68",
+      "status": "COMPLETED",
+      "http_seconds": 0.4061164999984612,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "0768197afb8cf94f6db4033c6c1f81feecb85a3d8c92594d87154fdebc4fc623"
+    },
+    "registry-export": {
+      "case_id": "CASE-A820300E8415",
+      "intake_id": "IN-f206b44e23c04a2a8bb2967892f04aba",
+      "stored": 2,
+      "source_size": 136,
+      "sha256_before": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "sha256_after": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "status": "COMPLETED",
+      "http_seconds": 0.39927869999883114,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "8ad8d2c26447c337078d3fbad71fba2e21275060694903e8524d1967925e3155"
+    },
+    "pcap": {
+      "case_id": "CASE-7AF463FD931F",
+      "intake_id": "IN-5b583a0672e642de8aec533d8b10a0c5",
+      "stored": 1,
+      "source_size": 106,
+      "sha256_before": "cbf14b9fe04eddecd03554c597778da52cb2f01340445da9794a1d25d6579fc9",
+      "sha256_after": "cbf14b9fe04eddecd03554c597778da52cb2f01340445da9794a1d25d6579fc9",
+      "status": "COMPLETED",
+      "http_seconds": 26.72825450000164,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "eca4d8aa8781417738963c9cfc20e1c0014a301c70933ea604efddc276436baf"
+    }
+  },
+  "frozen_artifacts": {
+    "models/cicids2017_baseline.joblib": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "models/supervised_binary.joblib": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+    "models/pe/EMBER2024_PE.model": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+    "test-results/issue-4/evaluation.json": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683"
+  },
+  "frozen_artifacts_unchanged": true,
+  "pe_fixture_provenance": [
+    {
+      "file_path": "/LAUNCH64.BIN",
+      "source": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\.venv\\Lib\\site-packages\\pip\\_vendor\\distlib\\t64.exe",
+      "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "size_bytes": 108032,
+      "description": "Harmless PyPA distlib console launcher bundled with pip; never executed"
+    },
+    {
+      "file_path": "/LAUNCH32.EXE",
+      "source": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\.venv\\Lib\\site-packages\\pip\\_vendor\\distlib\\t32.exe",
+      "sha256": "6b4195e640a85ac32eb6f9628822a622057df1e459df7c17a12f97aeabc9415b",
+      "size_bytes": 97792,
+      "description": "Harmless PyPA distlib console launcher bundled with pip; never executed"
+    }
+  ],
+  "missing_scanner": {
+    "screening": {
+      "forensic_rules": {
+        "applicable": true,
+        "examined": 2,
+        "findings": 0,
+        "findings_unit": "flagged_records",
+        "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+        "input_scope": "parsed_records",
+        "processing_seconds": 6.3e-05,
+        "reason": null,
+        "scanner": "Forensic rules",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 0,
+        "skipped_count_exact": true,
+        "status": "COMPLETED"
+      },
+      "network_ml": {
+        "applicable": false,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "attack_or_anomaly_decisions",
+        "identifier": null,
+        "input_scope": "none",
+        "processing_seconds": 0,
+        "reason": "Not applicable to this evidence representation",
+        "scanner": "network_ml",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 0,
+        "status": "NOT_APPLICABLE"
+      },
+      "pe_ml": {
+        "applicable": false,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "malicious_predictions",
+        "identifier": null,
+        "input_scope": "none",
+        "processing_seconds": 0,
+        "reason": "No supported PE content available",
+        "scanner": "PE malware ML",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 0,
+        "status": "NOT_APPLICABLE"
+      },
+      "yara": {
+        "applicable": true,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "matched_rules",
+        "identifier": null,
+        "input_scope": "uploaded_container_bytes",
+        "processing_seconds": 0,
+        "reason": "Disabled by deployment configuration",
+        "scanner": "YARA",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 1,
+        "status": "UNAVAILABLE"
+      }
+    },
+    "overall_scan_status": "PARTIAL",
+    "warnings": [
+      "yara: UNAVAILABLE: Disabled by deployment configuration"
+    ]
+  },
+  "limits": {
+    "screening": {
+      "forensic_rules": {
+        "applicable": true,
+        "examined": 1,
+        "findings": 0,
+        "findings_unit": "flagged_records",
+        "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+        "input_scope": "parsed_records",
+        "processing_seconds": 3e-05,
+        "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+        "scanner": "Forensic rules",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 1,
+        "skipped_count_exact": true,
+        "status": "PARTIAL"
+      },
+      "network_ml": {
+        "applicable": false,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "attack_or_anomaly_decisions",
+        "identifier": null,
+        "input_scope": "none",
+        "processing_seconds": 0,
+        "reason": "Not applicable to this evidence representation",
+        "scanner": "network_ml",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 0,
+        "status": "NOT_APPLICABLE"
+      },
+      "pe_ml": {
+        "applicable": false,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "malicious_predictions",
+        "identifier": null,
+        "input_scope": "none",
+        "processing_seconds": 0,
+        "reason": "No supported PE content available",
+        "scanner": "PE malware ML",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 0,
+        "status": "NOT_APPLICABLE"
+      },
+      "yara": {
+        "applicable": true,
+        "examined": 0,
+        "findings": 0,
+        "findings_unit": "matched_rules",
+        "identifier": null,
+        "input_scope": "uploaded_container_bytes",
+        "processing_seconds": 0,
+        "reason": "Container exceeds 1 byte scan limit; no prefix-only verdict",
+        "scanner": "YARA",
+        "scanner_version": "unified-screening-v1",
+        "skipped": 1,
+        "status": "SKIPPED_LIMIT"
+      }
+    },
+    "overall_scan_status": "PARTIAL",
+    "coverage": {
+      "findings_returned": 0,
+      "findings_total": 0,
+      "findings_truncated": false,
+      "parsing": {
+        "enumeration_complete": true,
+        "processing_seconds": 0.000695,
+        "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+        "records_parsed": 2,
+        "skipped": 1,
+        "source_records": 2,
+        "status": "PARTIAL"
+      },
+      "records_examined": 1,
+      "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+    },
+    "warnings": [
+      "yara: SKIPPED_LIMIT: Container exceeds 1 byte scan limit; no prefix-only verdict",
+      "forensic_rules: PARTIAL: 0 malformed or unparsed records; 1 excluded by record limit",
+      "0 malformed or unparsed records; 1 excluded by record limit"
+    ]
+  },
+  "unsupported": {
+    "error": {
+      "code": "UNSUPPORTED_FILE_TYPE",
+      "message": "Unsupported or invalid evidence structure."
+    },
+    "overall_scan_status": "INVALID_INPUT",
+    "warnings": [
+      "Unsupported or invalid evidence structure."
+    ]
+  },
+  "browser": "UNVERIFIED: Local browser use is disabled in Work settings; no bypass or fabricated screenshots",
+  "limitations": [
+    "Native registry enumeration capped at 2000 records; skipped remainder unknown and explicitly partial",
+    "Harmless PE predictions demonstrate inference, not malware evaluation",
+    "Packet capture is rule-only; no verified CICIDS feature equivalence"
+  ]
+}

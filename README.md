@@ -2,6 +2,10 @@
 
 AI-assisted cyber triage tool for early-stage digital forensic analysis.
 
+For evidence-aware screening, supported formats, coverage states and reproducible
+live checks, see [unified screening](docs/unified-screening.md) and the
+[Issue 5 verification report](test-results/issue-5/REPORT.md).
+
 For the current frozen network detectors, model download, explicit detector
 selection and measured limitations, see [network deployment](docs/network_reliability.md)
 and the [Issue 3 verification report](test-results/issue-3/REPORT.md).

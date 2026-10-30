@@ -1,0 +1,73 @@
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\fs\__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_ab791d0084324a7fbdf9abc5c6a235f5'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:00] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:08] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:08] "GET /api/cases/CASE-A513451CE4C6 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-A513451CE4C6 (13766 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:08] "GET /api/report/CASE-A513451CE4C6 HTTP/1.1" 200 -
+disk {"case_id": "CASE-A513451CE4C6", "intake_id": "IN-82947532c13a4a73a131180449139175", "stored": 6, "source_size": 1474560, "sha256_before": "891ad2b5fbd07fbe25352f9c8d8fdaf5bdd2a5f7f5b23c70cc54053d1704dbec", "sha256_after": "891ad2b5fbd07fbe25352f9c8d8fdaf5bdd2a5f7f5b23c70cc54053d1704dbec", "status": "COMPLETED", "http_seconds": 8.22487419999743, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 6, "pdf_sha256": "2ac6fd54f0c17763abd9f5b5ce9a41eba5bdfec7e9f74d3b2b0090dcd3f672a2"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:08] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:12] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:12] "GET /api/cases/CASE-CB3610AD03CE HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-CB3610AD03CE (7894 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:12] "GET /api/report/CASE-CB3610AD03CE HTTP/1.1" 200 -
+standalone-pe {"case_id": "CASE-CB3610AD03CE", "intake_id": "IN-5681fd5a78e0477aa44728d83913d91f", "stored": 1, "source_size": 108032, "sha256_before": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7", "sha256_after": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7", "status": "COMPLETED", "http_seconds": 4.5564874000010605, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 3, "pdf_sha256": "9e339e477009fe9296b8ad188206a75c9673e892008ad14a801c8c3c3a00beb1"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:12] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:13] "POST /api/analyze HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:13] "GET /api/cases/CASE-2ED06DCF845F HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-2ED06DCF845F (56996 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:13] "GET /api/report/CASE-2ED06DCF845F HTTP/1.1" 200 -
+cicids2017-xgb {"case_id": "CASE-2ED06DCF845F", "intake_id": "IN-669a59101b4a4546bf50cf9744bc3f2a", "stored": 84, "source_size": 7102, "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e", "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e", "status": "COMPLETED", "http_seconds": 1.1628168000024743, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 30, "pdf_sha256": "9f0bad2b1897022a883f13533cc317478ee1f696c032342ac71bdf66049ef0fa"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:13] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:14] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:14] "GET /api/cases/CASE-9CDD61754E33 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-9CDD61754E33 (55913 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:14] "GET /api/report/CASE-9CDD61754E33 HTTP/1.1" 200 -
+cicids2017-iforest {"case_id": "CASE-9CDD61754E33", "intake_id": "IN-468fffe8de204512a6640827f9c0b610", "stored": 84, "source_size": 7102, "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e", "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e", "status": "COMPLETED", "http_seconds": 1.4197974999988219, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 29, "pdf_sha256": "b5a0b88be796bec7a26a1fa8078960454b32e5e72317d5755adf9e4f35494050"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:15] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:15] "POST /api/analyze HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:15] "GET /api/cases/CASE-75FC1703FDFA HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-75FC1703FDFA (44667 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:15] "GET /api/report/CASE-75FC1703FDFA HTTP/1.1" 200 -
+external-csv {"case_id": "CASE-75FC1703FDFA", "intake_id": "IN-5cd2d7348be3429585f660850fb1b754", "stored": 60, "source_size": 21738, "sha256_before": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8", "sha256_after": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8", "status": "COMPLETED", "http_seconds": 0.8797607000014978, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 23, "pdf_sha256": "7636bf2eaae6b798bd0b4da7949ddbd20c8a0a0f6556f701c9b6d8613304784a"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:16] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:27] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:27] "GET /api/cases/CASE-0D96A1F4A668 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-0D96A1F4A668 (55431 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:28] "GET /api/report/CASE-0D96A1F4A668 HTTP/1.1" 200 -
+native-evtx {"case_id": "CASE-0D96A1F4A668", "intake_id": "IN-9dcc962a6f784db8b1e914241646947e", "stored": 1601, "source_size": 1118208, "sha256_before": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e", "sha256_after": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e", "status": "COMPLETED", "http_seconds": 12.633856400003424, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 32, "pdf_sha256": "a931a45a8a00572e8d365c509355fddc56c88835bbffc78a21da02973ee77fa4"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:28] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:30] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:30] "GET /api/cases/CASE-BCE279AB203A HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-BCE279AB203A (66531 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:31] "GET /api/report/CASE-BCE279AB203A HTTP/1.1" 200 -
+native-registry {"case_id": "CASE-BCE279AB203A", "intake_id": "IN-19d7356365114b4e9ae404021120d036", "stored": 2000, "source_size": 7602176, "sha256_before": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b", "sha256_after": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b", "status": "PARTIAL", "http_seconds": 3.18798809999862, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 38, "pdf_sha256": "0f6b5317974aba31b85341e0890020978d210e37e43017344cb3204570739e12"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "GET /api/cases/CASE-86014C44B155 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-86014C44B155 (7422 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "GET /api/report/CASE-86014C44B155 HTTP/1.1" 200 -
+event-export {"case_id": "CASE-86014C44B155", "intake_id": "IN-c2a11fc8542e4fbd844b5b95e382014f", "stored": 2, "source_size": 91, "sha256_before": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68", "sha256_after": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68", "status": "COMPLETED", "http_seconds": 0.3506299999971816, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 3, "pdf_sha256": "8a4f817bc539914cc990ec351c4235058735d44f1419533bc9a6d300fa7b5909"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "GET /api/cases/CASE-16F6A558A396 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-16F6A558A396 (7992 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "GET /api/report/CASE-16F6A558A396 HTTP/1.1" 200 -
+registry-export {"case_id": "CASE-16F6A558A396", "intake_id": "IN-667e4b1121ff4e0b96bb007d7fa7ec76", "stored": 2, "source_size": 136, "sha256_before": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a", "sha256_after": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a", "status": "COMPLETED", "http_seconds": 0.3252061000021058, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 3, "pdf_sha256": "62a679e3d6931f3493a997b0c32be2c0d924460e9f7d118c4408b5abc79ba98c"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:32] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:38] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:38] "GET /api/cases/CASE-F34FCF69F083 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-F34FCF69F083 (7306 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:38] "GET /api/report/CASE-F34FCF69F083 HTTP/1.1" 200 -
+pcap {"case_id": "CASE-F34FCF69F083", "intake_id": "IN-0c67f40b6bd24c1ea88bb9727c74069b", "stored": 1, "source_size": 106, "sha256_before": "ce53394dffb75d4e3479ba9033382c4033ac6b4f484679ce70aef9fb2ed258d2", "sha256_after": "ce53394dffb75d4e3479ba9033382c4033ac6b4f484679ce70aef9fb2ed258d2", "status": "COMPLETED", "http_seconds": 6.0774338000010175, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 3, "pdf_sha256": "b5979179a767dd92c0979bf235ec34cb22c323054376b43b820d9ff2bf9f3a28"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:39] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:39] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:27:39] "[31m[1mPOST /api/ingest HTTP/1.1[0m" 400 -

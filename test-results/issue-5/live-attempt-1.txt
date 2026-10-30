@@ -1,0 +1,18 @@
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\fs\__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_4c32b894fd9f4504afec3f35349de193'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:12:42] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:12:51] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:12:51] "GET /api/cases/CASE-C22CDB6FF292 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-C22CDB6FF292 (14389 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:12:51] "GET /api/report/CASE-C22CDB6FF292 HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue5.py", line 153, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue5.py", line 108, in main
+    assert token in text, token
+           ^^^^^^^^^^^^^
+AssertionError: No detection does not establish safety
