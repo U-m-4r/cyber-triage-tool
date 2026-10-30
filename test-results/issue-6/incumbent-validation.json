@@ -1,0 +1,213 @@
+{
+  "threshold": 0.4343418846451664,
+  "overall": {
+    "samples": 24722,
+    "benign": 14644,
+    "attack": 10078,
+    "confusion_matrix": {
+      "tn": 14574,
+      "fp": 70,
+      "fn": 10074,
+      "tp": 4
+    },
+    "accuracy": 0.5896772105816681,
+    "precision": 0.05405405405405406,
+    "recall": 0.00039690414764834294,
+    "f1": 0.0007880220646178094,
+    "macro_f1": 0.3713092100550107,
+    "roc_auc": 0.8750931243538855,
+    "average_precision": 0.7497619165717025,
+    "specificity": 0.9952198852772467,
+    "false_positive_rate": 0.004780114722753304,
+    "false_negative_rate": 0.9996030958523516,
+    "balanced_accuracy": 0.49780839471244753,
+    "status": "EVALUATED"
+  },
+  "per_family": {
+    "Benign": {
+      "samples": 14644,
+      "binary_label": 0,
+      "true_positive": null,
+      "false_negative": null,
+      "recall": null,
+      "false_positive": 70,
+      "false_positive_rate": 0.004780114722753346,
+      "small_sample": false
+    },
+    "Bot": {
+      "samples": 10016,
+      "binary_label": 1,
+      "true_positive": 2,
+      "false_negative": 10014,
+      "recall": 0.00019968051118210862,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": false
+    },
+    "Brute Force -Web": {
+      "samples": 28,
+      "binary_label": 1,
+      "true_positive": 1,
+      "false_negative": 27,
+      "recall": 0.03571428571428571,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    },
+    "Brute Force -XSS": {
+      "samples": 20,
+      "binary_label": 1,
+      "true_positive": 0,
+      "false_negative": 20,
+      "recall": 0.0,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    },
+    "SQL Injection": {
+      "samples": 14,
+      "binary_label": 1,
+      "true_positive": 1,
+      "false_negative": 13,
+      "recall": 0.07142857142857142,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    }
+  },
+  "top_k": [
+    {
+      "fraction": 0.001,
+      "k": 24,
+      "boundary_score": 0.8662762641906738,
+      "tie_group_size": 2,
+      "certain_true_positives": 2,
+      "recall_lower_bound": 0.00019845207382417147,
+      "recall_upper_bound": 0.00019845207382417147
+    },
+    {
+      "fraction": 0.01,
+      "k": 247,
+      "boundary_score": 0.02067619375884533,
+      "tie_group_size": 1,
+      "certain_true_positives": 47,
+      "recall_lower_bound": 0.00466362373486803,
+      "recall_upper_bound": 0.00466362373486803
+    },
+    {
+      "fraction": 0.05,
+      "k": 1236,
+      "boundary_score": 0.0015351446345448494,
+      "tie_group_size": 25,
+      "certain_true_positives": 180,
+      "recall_lower_bound": 0.017860686644175432,
+      "recall_upper_bound": 0.017860686644175432
+    },
+    {
+      "fraction": 0.1,
+      "k": 2472,
+      "boundary_score": 0.0009446748299524188,
+      "tie_group_size": 3735,
+      "certain_true_positives": 467,
+      "recall_lower_bound": 0.06727525302639413,
+      "recall_upper_bound": 0.06727525302639413
+    },
+    {
+      "fraction": 0.2,
+      "k": 4944,
+      "boundary_score": 0.0009446748299524188,
+      "tie_group_size": 3735,
+      "certain_true_positives": 467,
+      "recall_lower_bound": 0.31256201627307006,
+      "recall_upper_bound": 0.31256201627307006
+    }
+  ],
+  "validation_only_retuned_points": {
+    "0.01": {
+      "threshold": 0.05718839541077614,
+      "constraint": 0.01,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 14500,
+          "fp": 144,
+          "fn": 10037,
+          "tp": 41
+        },
+        "accuracy": 0.5881805679152172,
+        "precision": 0.22162162162162163,
+        "recall": 0.004068267513395515,
+        "f1": 0.007989866510766832,
+        "macro_f1": 0.37407226665677695,
+        "roc_auc": 0.8750931243538855,
+        "average_precision": 0.7497619165717025,
+        "specificity": 0.9901666211417646,
+        "false_positive_rate": 0.009833378858235431,
+        "false_negative_rate": 0.9959317324866045,
+        "balanced_accuracy": 0.49711744432758004,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    },
+    "0.05": {
+      "threshold": 0.0020553909707814455,
+      "constraint": 0.05,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 13949,
+          "fp": 695,
+          "fn": 9950,
+          "tp": 128
+        },
+        "accuracy": 0.5694118598818866,
+        "precision": 0.15552855407047386,
+        "recall": 0.012700932724746974,
+        "f1": 0.023484084028988165,
+        "macro_f1": 0.3736495219719442,
+        "roc_auc": 0.8750931243538855,
+        "average_precision": 0.7497619165717025,
+        "specificity": 0.9525402895383774,
+        "false_positive_rate": 0.04745971046162256,
+        "false_negative_rate": 0.9872990672752531,
+        "balanced_accuracy": 0.4826206111315622,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    },
+    "0.1": {
+      "threshold": 0.0013741741422563791,
+      "constraint": 0.1,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 13407,
+          "fp": 1237,
+          "fn": 9897,
+          "tp": 181
+        },
+        "accuracy": 0.5496319068036567,
+        "precision": 0.12764456981664316,
+        "recall": 0.017959912681087518,
+        "f1": 0.031489213639526795,
+        "macro_f1": 0.36904385842722626,
+        "roc_auc": 0.8750931243538855,
+        "average_precision": 0.7497619165717025,
+        "specificity": 0.9155285441136302,
+        "false_positive_rate": 0.08447145588636984,
+        "false_negative_rate": 0.9820400873189125,
+        "balanced_accuracy": 0.46674422839735885,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    }
+  },
+  "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+  "input_contract": "Original float64 measurements restored by source row; incumbent scaler applied once before native float32"
+}

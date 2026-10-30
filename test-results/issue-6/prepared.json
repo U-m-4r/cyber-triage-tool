@@ -1,0 +1,113 @@
+{
+  "protocol_sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3",
+  "lock_sha256": "bce4fb91e4eafcbbbc1cb0d506f09cd3bb23029cab30805d7280f02d6a520d56",
+  "schema": {
+    "version": "network-generalization-11-v1",
+    "columns": [
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Length of Fwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Packet Length Mean"
+    ],
+    "preprocessing": "identity-float32-no-fit",
+    "duration_unit": "microseconds",
+    "counts_unit": "packets",
+    "lengths_unit": "bytes",
+    "rates_unit": "per-second",
+    "calibrated": false
+  },
+  "unlabeled_final_features": {
+    "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "eligible_features": 1048574,
+      "excluded_features": 1
+    },
+    "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "eligible_features": 1042867,
+      "excluded_features": 5708
+    }
+  },
+  "development_quality": {
+    "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "invalid": 5619,
+      "embargo_or_bad_timestamp": 98173,
+      "train_before_sampling": 421940,
+      "validation_before_sampling": 522843
+    },
+    "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "invalid": 4050,
+      "embargo_or_bad_timestamp": 106782,
+      "train_before_sampling": 428837,
+      "validation_before_sampling": 508906
+    }
+  },
+  "cicids2017": {
+    "cicids2017_original_train_rows": 1612277,
+    "cicids2017_invalid": 0
+  },
+  "partitions": {
+    "train": {
+      "sampled_rows": 123663,
+      "quarantined_against_unlabeled_test": 46514,
+      "purged_against_validation": 11759,
+      "conflicting_label_rows_excluded": 0,
+      "duplicate_training_rows_removed": 11418,
+      "retained_rows": 53972,
+      "groups": {
+        "('CICIDS2017', 'Bots', 1)": 847,
+        "('CICIDS2017', 'Brute Force', 1)": 5031,
+        "('CICIDS2017', 'DDoS', 1)": 9996,
+        "('CICIDS2017', 'DoS', 1)": 9720,
+        "('CICIDS2017', 'Normal Traffic', 0)": 8829,
+        "('CICIDS2017', 'Port Scanning', 1)": 618,
+        "('CICIDS2017', 'Web Attacks', 1)": 146,
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 9505,
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Bot', 1)": 1212,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 8033,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -Web', 1)": 15,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -XSS', 1)": 16,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'SQL Injection', 1)": 4
+      },
+      "source_identity_sha256": "670b1cdee65c88007faed60d9b7ba340f8682ad78369c752994cbaeff2189a01"
+    },
+    "validation": {
+      "sampled_rows": 60189,
+      "quarantined_against_unlabeled_test": 35467,
+      "retained_rows": 24722,
+      "groups": {
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 7836,
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Bot', 1)": 10016,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 6808,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -Web', 1)": 28,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -XSS', 1)": 20,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'SQL Injection', 1)": 14
+      },
+      "source_identity_sha256": "4a003c423c40a5beddc0f296d1dd1ba10ac881e288cdf0032db564453e0b6254"
+    }
+  },
+  "overlap_checks": {
+    "exact_model_input_train_validation": 0,
+    "near_bins_train_validation": 0,
+    "train_final_exact": 0,
+    "validation_final_exact": 0,
+    "train_final_near": 0,
+    "validation_final_near": 0
+  },
+  "artifacts": {
+    "train.npz": "0d21663aee3321f8b22b914d4efddddcda1e4dcd628344d28914b7e8920fca77",
+    "validation.npz": "589c0ae9bc2b176edf1a82a7269103ab2d28ea9f5e7b38ef534f91a48582fdaa",
+    "quarantine.npz": "f80589c06e61f303ae05eaa12342d5cc49f84f5c8853e52b4f57dc1785df6ce7"
+  },
+  "elapsed_seconds": 168.7302088000033,
+  "no_final_label_access": true
+}

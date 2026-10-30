@@ -21,6 +21,33 @@ def read_partition(partition, prepared):
     return np.load(path,allow_pickle=False)
 
 
+def validation_raw(val):
+    """Restore source float64 for the incumbent's scaler-before-float32 contract.
+
+    Candidate arrays are identity float32; converting those back to float64 is
+    not byte-equivalent to raw measurements before incumbent standardization.
+    Only already sampled validation row identities are read; no final labels.
+    """
+    from scripts.prepare_issue6 import external_chunks
+    from ml.external_dataset_adapter import adapt_frame
+    from ml.network_experiment import validate_features
+    values=np.empty((len(val['y']),len(SCHEMA['columns'])),dtype=float)
+    seen=np.zeros(len(values),dtype=bool)
+    for source in np.unique(val['source']):
+        positions=np.flatnonzero(val['source']==source)
+        locations=pd.Series(positions,index=val['source_row'][positions])
+        for chunk in external_chunks(Path('.test-artifacts/issue4/raw')/str(source),labels=False):
+            indices=chunk.index.intersection(locations.index)
+            if len(indices):
+                frame,_,_,_,_=adapt_frame(chunk.loc[indices])
+                target=locations.loc[frame.index].to_numpy()
+                values[target]=frame.to_numpy(dtype=float);seen[target]=True
+    assert seen.all()
+    frame=pd.DataFrame(values,columns=SCHEMA['columns'])
+    np.testing.assert_array_equal(validate_features(frame),val['x'])
+    return frame
+
+
 def worker(name):
     import importlib.metadata
     prepared=json.loads((OUT/'prepared.json').read_text())
@@ -86,20 +113,26 @@ def main():
             process=subprocess.Popen([sys.executable,'-m','scripts.train_issue6','--worker',name],stdout=log,stderr=subprocess.STDOUT)
             started=time.monotonic();peak=0
             while process.poll() is None:
-                try:peak=max(peak,psutil.Process(process.pid).memory_info().rss)
+                try:
+                    parent=psutil.Process(process.pid)
+                    peak=max(peak,sum(p.memory_info().rss for p in [parent,*parent.children(recursive=True)] if p.is_running()))
                 except psutil.Error:pass
                 if time.monotonic()-started>120:
+                    try:
+                        for child in psutil.Process(process.pid).children(recursive=True):child.kill()
+                    except psutil.Error:pass
                     process.kill();process.wait();raise TimeoutError('Candidate exceeded predeclared 120-second budget')
                 time.sleep(.2)
             if process.returncode:raise RuntimeError('Candidate failed: see '+str(OUT/(name+'-training.log')))
         resources[name]={'wall_seconds':time.monotonic()-started,'peak_worker_rss_bytes':peak}
     from ml.supervised_detector import load_supervised_detector,infer_supervised_network
     val=read_partition('validation',prepared);original=load_supervised_detector()
-    frame=pd.DataFrame(val['x'].astype(float),columns=SCHEMA['columns'])
+    frame=validation_raw(val)
     _,_,score,_=infer_supervised_network(frame,original)
     frozen=measured_result(val['y'],score,original['threshold_config']['threshold'],val['family'])
     frozen['validation_only_retuned_points']={str(b):operating_point(val['y'],score,b) for b in (.01,.05,.10)}
     frozen['model_sha256']=original['_artifact_sha256']
+    frozen['input_contract']='Original float64 measurements restored by source row; incumbent scaler applied once before native float32'
     np.savez_compressed(WORK/'incumbent-validation.npz',score=score,truth=val['y'],family=val['family'])
     write_once(OUT/'incumbent-validation.json',frozen)
     candidates={name:json.loads((OUT/(name+'-validation.json')).read_text()) for name in ('xgboost','lightgbm')}
