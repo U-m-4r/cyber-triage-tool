@@ -4,10 +4,10 @@ import json
 from pathlib import Path
 from urllib.parse import quote
 import requests
-from ml.network_experiment import sha, write_once, SCHEMA
+from ml.network_experiment import sha, write_once, SCHEMA, RESULTS_DIR, WORK_DIR
 
-ROOT = Path('test-results/issue-6')
-RAW = Path('.test-artifacts/issue6/raw')
+ROOT = RESULTS_DIR
+RAW = WORK_DIR/'raw'
 SOURCES = {'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv':333723605,
            'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv':382840456}
 

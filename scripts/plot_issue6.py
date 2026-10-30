@@ -5,9 +5,9 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from ml.network_experiment import SCHEMA
+from ml.network_experiment import SCHEMA, RESULTS_DIR, WORK_DIR, repo_path
 
-OUT=Path('test-results/issue-6');WORK=Path('.test-artifacts/issue6')
+OUT=RESULTS_DIR;WORK=WORK_DIR
 
 
 def save(fig,name):
@@ -80,7 +80,7 @@ def main():
     from ml.external_dataset_adapter import adapt_frame
     lock=json.loads((OUT/'locked-test.json').read_text());total=0
     for source in lock['sources']:
-        for frame in external_chunks(source['path'],labels=False):
+        for frame in external_chunks(repo_path(source['path']),labels=False):
             x,*_=adapt_frame(frame);x=x.loc[(x.to_numpy()<=np.finfo(np.float32).max).all(axis=1)];total+=len(x)
             for i,column in enumerate(SCHEMA['columns']):counts[i]+=np.histogram(np.log1p(x[column].to_numpy()),bins[i])[0]
     fig,axes=plt.subplots(3,4,figsize=(15,10))

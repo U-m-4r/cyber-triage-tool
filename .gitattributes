@@ -6,3 +6,6 @@ data/provenance/cicids2017_cleaning.json -text
 *.pdf binary
 *.png binary
 *.jpg binary
+# Sealed experimental hash chains must not undergo checkout newline conversion.
+test-results/issue-6/PROTOCOL.md -text
+test-results/issue-6/*.json -text whitespace=cr-at-eol

@@ -1,0 +1,17 @@
+{
+  "reviewed_staged_files": 69,
+  "sensitive_or_large_paths": [],
+  "unknown_secret_matches": [],
+  "dummy_test_userinfo_only": [
+    "test-results/issue-6/regression-final.xml",
+    "test-results/issue-6/regression.xml"
+  ],
+  "historical_frozen_files": 181,
+  "historical_changes": [],
+  "private_evidence_excluded": "dfr-01-ntfs.dd/",
+  "production_detector_changes": false,
+  "candidate_deployment_allowed": false,
+  "scope": "Research modules/tests/docs/actual results only; no binaries or raw data in Git",
+  "final_staged_files": 74,
+  "final_staged_scan": "PASS"
+}

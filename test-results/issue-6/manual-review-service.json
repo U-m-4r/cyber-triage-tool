@@ -1,0 +1,12 @@
+{
+  "frontend": {
+    "status_code": 200
+  },
+  "proxy": {
+    "status_code": 200
+  },
+  "saved_case": {
+    "status_code": 200
+  },
+  "browser_acceptance": "UNVERIFIED; HTTP service checks are not browser interactions"
+}

@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 
 from ml.network_experiment import (SCHEMA, development_blocks, fingerprints, overlaps,
-    operating_point, review_budgets, validate_features, write_once, deployment_gates, sha)
+    operating_point, review_budgets, validate_features, write_once, deployment_gates, sha, load_candidate)
 
 
 def test_feature_order_is_fixed_and_no_scaler_fit():
@@ -85,3 +85,48 @@ def test_executed_protocol_and_test_selection_lock():
         assert selection['final_labels_accessed'] is False
         assert selection['lock_sha256']==sha(root/'locked-test.json')
         assert selection['protocol_sha256']==sha(root/'PROTOCOL.md')
+
+
+def test_real_candidate_serialization_and_order_consistency():
+    root=Path('test-results/issue-6');path=root/'selection.json'
+    if not path.exists():pytest.skip('Candidate selection not executed')
+    selected=json.loads(path.read_text());directory=Path('.test-artifacts/issue6/candidates')/selected['selected']
+    if not directory.exists():pytest.skip('Research candidate text model is intentionally outside Git')
+    predict,metadata=load_candidate(directory,selected['model_sha256'])
+    sample=np.load('.test-artifacts/issue6/validation.npz',allow_pickle=False)['x'][:40]
+    frame=pd.DataFrame(sample,columns=SCHEMA['columns'])
+    np.testing.assert_array_equal(predict(frame),predict(frame[frame.columns[::-1]]))
+    assert metadata['sha256']==selected['model_sha256']
+    with pytest.raises(ValueError,match='integrity'):load_candidate(directory,'0'*64)
+
+
+def test_original_models_and_historical_science_unchanged():
+    checkpoint=json.loads(Path('test-results/issue-6/checkpoint.json').read_text())
+    portable=json.loads(Path('test-results/issue-6/checkpoint-portable.json').read_text())
+    for filename,checksum in checkpoint['frozen_sha256'].items():
+        path=Path(filename.replace('\\','/'))
+        if filename.replace('\\','/').startswith('test-results/'):
+            assert path.exists(),filename
+        if path.exists():
+            if filename in portable['canonical_lf_text_sha256']:
+                import hashlib
+                # Historical tracked text has platform checkout conversions.
+                # Compare all scientific content, accepting only CRLF/LF changes.
+                normalized=path.read_bytes().replace(b'\r\n',b'\n')
+                assert hashlib.sha256(normalized).hexdigest()==portable['canonical_lf_text_sha256'][filename],filename
+            else:
+                assert sha(path)==checksum,filename
+
+
+def test_final_receipt_blocks_label_reopening(tmp_path,monkeypatch):
+    from scripts import evaluate_issue6
+    (tmp_path/'final-test-receipt.json').write_text('{}')
+    monkeypatch.setattr(evaluate_issue6,'OUT',tmp_path)
+    with pytest.raises(RuntimeError,match='second evaluation'):evaluate_issue6.main()
+
+
+def test_final_receipt_blocks_retraining_worker(tmp_path,monkeypatch):
+    from scripts import train_issue6
+    (tmp_path/'final-test-receipt.json').write_text('{}')
+    monkeypatch.setattr(train_issue6,'OUT',tmp_path)
+    with pytest.raises(RuntimeError,match='frozen'):train_issue6.worker('lightgbm')

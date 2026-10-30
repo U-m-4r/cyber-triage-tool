@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 import numpy as np
 from sklearn.metrics import roc_curve, precision_recall_curve
-from ml.network_experiment import sha, write_once, operating_point, review_budgets
+from ml.network_experiment import sha, write_once, operating_point, review_budgets, RESULTS_DIR, WORK_DIR
 
-OUT=Path('test-results/issue-6');WORK=Path('.test-artifacts/issue6')
+OUT=RESULTS_DIR;WORK=WORK_DIR
 
 
 def downsample(values, maximum=1500):

@@ -6,6 +6,10 @@ For evidence-aware screening, supported formats, coverage states and reproducibl
 live checks, see [unified screening](docs/unified-screening.md) and the
 [Issue 5 verification report](test-results/issue-5/REPORT.md).
 
+Issue 6's [network generalization study](docs/network-generalization.md) records
+real recall gains that failed the prespecified false-positive and attack-family
+deployment gates. The research challenger is not a production detector.
+
 For the current frozen network detectors, model download, explicit detector
 selection and measured limitations, see [network deployment](docs/network_reliability.md)
 and the [Issue 3 verification report](test-results/issue-3/REPORT.md).

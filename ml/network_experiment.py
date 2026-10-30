@@ -5,12 +5,21 @@ Identity preprocessing is explicit. No functions here tune on final-test labels.
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.metrics import roc_curve
 from evaluation.external_metrics import binary_metrics
 from ml.preprocessor import NETWORK_FEATURES, NetworkInputError
+
+RESULTS_DIR = Path(os.getenv('ISSUE6_RESULTS_DIR', 'test-results/issue-6'))
+WORK_DIR = Path(os.getenv('ISSUE6_WORK_DIR', '.test-artifacts/issue6'))
+
+
+def repo_path(value):
+    """Read repository-relative manifest paths captured on either operating system."""
+    return Path(str(value).replace('\\','/'))
 
 SCHEMA = {'version':'network-generalization-11-v1', 'columns':list(NETWORK_FEATURES),
           'preprocessing':'identity-float32-no-fit', 'duration_unit':'microseconds',
@@ -140,16 +149,26 @@ def deployment_gates(challenger, incumbent, per_day, throughput, loading_seconds
 def load_candidate(directory, expected_sha):
     directory = Path(directory); metadata = json.loads((directory/'metadata.json').read_text())
     model = directory/metadata['filename']
+    if model.resolve().parent != directory.resolve():
+        raise ValueError('Candidate model path must stay within reviewed artifact directory')
     if metadata['feature_schema'] != SCHEMA or sha(model)!=expected_sha or metadata['sha256']!=expected_sha:
         raise ValueError('Candidate model integrity/schema mismatch')
     if metadata['estimator']=='lightgbm':
         import lightgbm
+        if metadata['versions']['lightgbm'] != lightgbm.__version__:
+            raise ValueError('Candidate LightGBM runtime version mismatch')
         booster = lightgbm.Booster(model_file=str(model))
+        if booster.num_feature()!=len(SCHEMA['columns']) or booster.params.get('objective')!='binary':
+            raise ValueError('Candidate LightGBM objective/dimension mismatch')
         def predict(frame):
             return booster.predict(validate_features(frame), num_threads=2)
     elif metadata['estimator']=='xgboost':
         import xgboost
+        if metadata['versions']['xgboost'] != xgboost.__version__:
+            raise ValueError('Candidate XGBoost runtime version mismatch')
         booster = xgboost.Booster(); booster.load_model(model)
+        if booster.num_features()!=len(SCHEMA['columns']):
+            raise ValueError('Candidate XGBoost feature dimension mismatch')
         def predict(frame):
             return booster.inplace_predict(validate_features(frame), iteration_range=(0,metadata['best_iteration']+1))
     else:

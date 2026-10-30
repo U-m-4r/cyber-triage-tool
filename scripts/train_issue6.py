@@ -11,9 +11,9 @@ import numpy as np
 import pandas as pd
 import psutil
 from ml.network_experiment import (SCHEMA, sha, write_once, operating_point,
-                                  measured_result, load_candidate)
+                                  measured_result, load_candidate, RESULTS_DIR, WORK_DIR)
 
-OUT=Path('test-results/issue-6');WORK=Path('.test-artifacts/issue6')
+OUT=RESULTS_DIR;WORK=WORK_DIR
 
 
 def read_partition(partition, prepared):
@@ -49,6 +49,8 @@ def validation_raw(val):
 
 
 def worker(name):
+    if (OUT/'final-test-receipt.json').exists():
+        raise RuntimeError('Final test was opened; this experiment is frozen against further fitting')
     import importlib.metadata
     prepared=json.loads((OUT/'prepared.json').read_text())
     assert prepared['protocol_sha256']==sha(OUT/'PROTOCOL.md')
@@ -103,6 +105,8 @@ def worker(name):
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--worker',choices=['xgboost','lightgbm']);args=parser.parse_args()
     if args.worker:return worker(args.worker)
+    if (OUT/'final-test-receipt.json').exists():
+        raise RuntimeError('Final test was opened; start a separately labeled replay or new protocol')
     if (OUT/'selection.json').exists():raise RuntimeError('Selection sealed; new fitting would invalidate untouched test')
     prepared=json.loads((OUT/'prepared.json').read_text())
     assert prepared['protocol_sha256']==sha(OUT/'PROTOCOL.md')

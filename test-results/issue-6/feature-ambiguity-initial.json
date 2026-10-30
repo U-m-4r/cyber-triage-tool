@@ -1,0 +1,35 @@
+{
+  "scope": "Post-test diagnostic; exact float32 candidate input vectors; not used to modify model, threshold or test population",
+  "rows": 2091441,
+  "unique_vectors": 1273913,
+  "conflicting_binary_groups": 6889,
+  "rows_in_conflicting_groups": 372711,
+  "minimum_errors_for_any_deterministic_classifier_on_these_vectors": 32568,
+  "minimum_error_rate_from_observed_label_ambiguity": 0.015572038608786956,
+  "explanation": "Identical eleven-feature vectors carry both publisher labels. A deterministic classifier using only these inputs cannot classify every such record correctly. Could reflect information loss, label errors, or dataset construction; this audit does not establish which.",
+  "source_alignment": [
+    {
+      "source": "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+      "exact_archive_row_alignment": true,
+      "eligible_rows": 1048574
+    },
+    {
+      "source": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+      "exact_archive_row_alignment": true,
+      "eligible_rows": 1042867
+    }
+  ],
+  "zero_duration_counts": {
+    "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "checked_positive_duration": 0,
+      "packet_rate_close": 0,
+      "zero_duration": 0
+    },
+    "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "checked_positive_duration": 0,
+      "packet_rate_close": 0,
+      "zero_duration": 0
+    }
+  },
+  "no_post_test_tuning": true
+}

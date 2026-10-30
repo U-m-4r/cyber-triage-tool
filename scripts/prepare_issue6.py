@@ -13,9 +13,9 @@ from ml.holdout import split_masks
 from ml.external_dataset_adapter import MAPPING, adapt_frame, validate_columns
 from ml.preprocessor import NETWORK_FEATURES
 from ml.network_experiment import (SCHEMA, sha, write_once, validate_features, fingerprints,
-                                   overlaps, development_blocks)
+                                   overlaps, development_blocks, RESULTS_DIR, WORK_DIR, repo_path)
 
-OUT=Path('test-results/issue-6'); WORK=Path('.test-artifacts/issue6')
+OUT=RESULTS_DIR; WORK=WORK_DIR
 
 
 def external_chunks(path, labels=True):
@@ -59,7 +59,7 @@ def main():
     started=time.perf_counter();exact_parts=[];near_parts=[];test_audit={}
     with gzip.open(WORK/'unlabeled-test-exclusions.jsonl.gz','wt',encoding='utf-8') as ledger:
         for source in lock['sources']:
-            path=Path(source['path']);assert sha(path)==source['sha256']
+            path=repo_path(source['path']);assert sha(path)==source['sha256']
             counts=collections.Counter()
             for chunk in external_chunks(path,labels=False):
                 x,_,_,reasons,report=adapt_frame(chunk)

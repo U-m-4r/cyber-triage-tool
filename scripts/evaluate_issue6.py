@@ -10,15 +10,17 @@ import pandas as pd
 import psutil
 from ml.external_dataset_adapter import adapt_frame
 from ml.network_experiment import (sha, write_once, load_candidate, measured_result,
-                                   deployment_gates, validate_features, fingerprints)
+                                   deployment_gates, validate_features, fingerprints, RESULTS_DIR, WORK_DIR, repo_path)
 from ml.supervised_detector import load_supervised_detector, infer_supervised_network
 from scripts.prepare_issue6 import external_chunks
 from scripts.diagnose_issue6 import curves
 
-OUT=Path('test-results/issue-6');WORK=Path('.test-artifacts/issue6')
+OUT=RESULTS_DIR;WORK=WORK_DIR
 
 
 def main():
+    if (OUT/'final-test-receipt.json').exists():
+        raise RuntimeError('Final test already opened; refusing a second evaluation in this experiment')
     selection=json.loads((OUT/'selection.json').read_text());lock=json.loads((OUT/'locked-test.json').read_text())
     assert selection['protocol_sha256']==sha(OUT/'PROTOCOL.md')==lock['protocol_sha256']
     assert selection['lock_sha256']==sha(OUT/'locked-test.json')
@@ -40,7 +42,7 @@ def main():
     prediction_dir=WORK/'final-chunks';prediction_dir.mkdir(exist_ok=False)
     with gzip.open(WORK/'final-exclusions.jsonl.gz','wt',encoding='utf-8') as ledger:
         for day,source in enumerate(lock['sources']):
-            path=Path(source['path']);assert sha(path)==source['sha256']
+            path=repo_path(source['path']);assert sha(path)==source['sha256']
             count={'source_rows':0,'eligible':0,'excluded':0,'reason_counts':{}}
             for chunk_number,chunk in enumerate(external_chunks(path,labels=True)):
                 x,labels,truth,reasons,_=adapt_frame(chunk,require_labels=True)

@@ -1,0 +1,779 @@
+{
+  "selection_sha256": "226679afca4f289c7d9116d18946d3368a2b74e7a5a508681004ee8361cabdae",
+  "receipt_sha256": "ef4da3fa839fafae813cb6ac1d8b7b6520657e36fac6401377e620cc455e038c",
+  "population": "All eligible rows on two locked, previously unused capture days",
+  "models": {
+    "incumbent": {
+      "threshold": 0.4343418846451664,
+      "overall": {
+        "samples": 2091441,
+        "benign": 1489073,
+        "attack": 602368,
+        "confusion_matrix": {
+          "tn": 1366823,
+          "fp": 122250,
+          "fn": 602344,
+          "tp": 24
+        },
+        "accuracy": 0.6535431790808347,
+        "precision": 0.00019628048481279748,
+        "recall": 3.9842753931151724e-05,
+        "f1": 6.623960521195294e-05,
+        "macro_f1": 0.39526971413960976,
+        "roc_auc": 0.7410254446025929,
+        "average_precision": 0.468640272540242,
+        "specificity": 0.9179019430209264,
+        "false_positive_rate": 0.08209805697907357,
+        "false_negative_rate": 0.9999601572460689,
+        "balanced_accuracy": 0.45897089288742876,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1489073,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 122250,
+          "false_positive_rate": 0.08209805697907356,
+          "small_sample": false
+        },
+        "DoS attacks-SlowHTTPTest": {
+          "samples": 139890,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 139890,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "DoS attacks-Hulk": {
+          "samples": 461912,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 461912,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 21,
+          "false_negative": 341,
+          "recall": 0.058011049723756904,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 151,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 3,
+          "false_negative": 50,
+          "recall": 0.05660377358490566,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 2091,
+          "boundary_score": 0.9259073138237,
+          "tie_group_size": 81089,
+          "certain_true_positives": 2,
+          "recall_lower_bound": 3.3202294942626434e-06,
+          "recall_upper_bound": 3.3202294942626434e-06
+        },
+        {
+          "fraction": 0.01,
+          "k": 20914,
+          "boundary_score": 0.9259073138237,
+          "tie_group_size": 81089,
+          "certain_true_positives": 2,
+          "recall_lower_bound": 3.3202294942626434e-06,
+          "recall_upper_bound": 3.3202294942626434e-06
+        },
+        {
+          "fraction": 0.05,
+          "k": 104572,
+          "boundary_score": 0.7803411483764648,
+          "tie_group_size": 26436,
+          "certain_true_positives": 23,
+          "recall_lower_bound": 3.81826391840204e-05,
+          "recall_upper_bound": 3.81826391840204e-05
+        },
+        {
+          "fraction": 0.1,
+          "k": 209144,
+          "boundary_score": 0.02105354703962803,
+          "tie_group_size": 14870,
+          "certain_true_positives": 61155,
+          "recall_lower_bound": 0.12448370431364215,
+          "recall_upper_bound": 0.12520253399915002
+        },
+        {
+          "fraction": 0.2,
+          "k": 418288,
+          "boundary_score": 0.0020798479672521353,
+          "tie_group_size": 49253,
+          "certain_true_positives": 209964,
+          "recall_lower_bound": 0.3485643327666808,
+          "recall_upper_bound": 0.3567403978963026
+        }
+      ],
+      "per_day": {
+        "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "threshold": 0.4343418846451664,
+          "overall": {
+            "samples": 1048574,
+            "benign": 446772,
+            "attack": 601802,
+            "confusion_matrix": {
+              "tn": 446607,
+              "fp": 165,
+              "fn": 601802,
+              "tp": 0
+            },
+            "accuracy": 0.4259184378021961,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "macro_f1": 0.29869761587393096,
+            "roc_auc": 0.8059488665717531,
+            "average_precision": 0.9073661611922975,
+            "specificity": 0.9996306841073299,
+            "false_positive_rate": 0.0003693158926700857,
+            "false_negative_rate": 1.0,
+            "balanced_accuracy": 0.49981534205366496,
+            "status": "EVALUATED"
+          },
+          "per_family": {
+            "Benign": {
+              "samples": 446772,
+              "binary_label": 0,
+              "true_positive": null,
+              "false_negative": null,
+              "recall": null,
+              "false_positive": 165,
+              "false_positive_rate": 0.00036931589267008677,
+              "small_sample": false
+            },
+            "DoS attacks-SlowHTTPTest": {
+              "samples": 139890,
+              "binary_label": 1,
+              "true_positive": 0,
+              "false_negative": 139890,
+              "recall": 0.0,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "DoS attacks-Hulk": {
+              "samples": 461912,
+              "binary_label": 1,
+              "true_positive": 0,
+              "false_negative": 461912,
+              "recall": 0.0,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            }
+          },
+          "top_k": [
+            {
+              "fraction": 0.001,
+              "k": 1048,
+              "boundary_score": 0.11484714597463608,
+              "tie_group_size": 10267,
+              "certain_true_positives": 0,
+              "recall_lower_bound": 0.0014124246845307925,
+              "recall_upper_bound": 0.0014439965304203044
+            },
+            {
+              "fraction": 0.01,
+              "k": 10485,
+              "boundary_score": 0.05502402037382126,
+              "tie_group_size": 10174,
+              "certain_true_positives": 10249,
+              "recall_lower_bound": 0.017047135104236943,
+              "recall_upper_bound": 0.017080368626225903
+            },
+            {
+              "fraction": 0.05,
+              "k": 52428,
+              "boundary_score": 0.02428566664457321,
+              "tie_group_size": 28948,
+              "certain_true_positives": 31959,
+              "recall_lower_bound": 0.08648691762406904,
+              "recall_upper_bound": 0.08665308523401384
+            },
+            {
+              "fraction": 0.1,
+              "k": 104857,
+              "boundary_score": 0.014250424690544605,
+              "tie_group_size": 23856,
+              "certain_true_positives": 92885,
+              "recall_lower_bound": 0.17331614052462438,
+              "recall_upper_bound": 0.17343578120378464
+            },
+            {
+              "fraction": 0.2,
+              "k": 209714,
+              "boundary_score": 0.0022068542893975973,
+              "tie_group_size": 332,
+              "certain_true_positives": 208314,
+              "recall_lower_bound": 0.34666717624733717,
+              "recall_upper_bound": 0.3466721612756355
+            }
+          ]
+        },
+        "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "threshold": 0.4343418846451664,
+          "overall": {
+            "samples": 1042867,
+            "benign": 1042301,
+            "attack": 566,
+            "confusion_matrix": {
+              "tn": 920216,
+              "fp": 122085,
+              "fn": 542,
+              "tp": 24
+            },
+            "accuracy": 0.8824135771867362,
+            "precision": 0.00019654570916148687,
+            "recall": 0.04240282685512368,
+            "f1": 0.00039127776645608316,
+            "macro_f1": 0.46896198772959485,
+            "roc_auc": 0.835577817274442,
+            "average_precision": 0.002276802181690855,
+            "specificity": 0.8828697276506499,
+            "false_positive_rate": 0.11713027234935014,
+            "false_negative_rate": 0.9575971731448764,
+            "balanced_accuracy": 0.46263627725288675,
+            "status": "EVALUATED"
+          },
+          "per_family": {
+            "Benign": {
+              "samples": 1042301,
+              "binary_label": 0,
+              "true_positive": null,
+              "false_negative": null,
+              "recall": null,
+              "false_positive": 122085,
+              "false_positive_rate": 0.11713027234935014,
+              "small_sample": false
+            },
+            "Brute Force -Web": {
+              "samples": 362,
+              "binary_label": 1,
+              "true_positive": 21,
+              "false_negative": 341,
+              "recall": 0.058011049723756904,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "Brute Force -XSS": {
+              "samples": 151,
+              "binary_label": 1,
+              "true_positive": 0,
+              "false_negative": 151,
+              "recall": 0.0,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "SQL Injection": {
+              "samples": 53,
+              "binary_label": 1,
+              "true_positive": 3,
+              "false_negative": 50,
+              "recall": 0.05660377358490566,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            }
+          },
+          "top_k": [
+            {
+              "fraction": 0.001,
+              "k": 1042,
+              "boundary_score": 0.9259073138237,
+              "tie_group_size": 81089,
+              "certain_true_positives": 2,
+              "recall_lower_bound": 0.0035335689045936395,
+              "recall_upper_bound": 0.0035335689045936395
+            },
+            {
+              "fraction": 0.01,
+              "k": 10428,
+              "boundary_score": 0.9259073138237,
+              "tie_group_size": 81089,
+              "certain_true_positives": 2,
+              "recall_lower_bound": 0.0035335689045936395,
+              "recall_upper_bound": 0.0035335689045936395
+            },
+            {
+              "fraction": 0.05,
+              "k": 52143,
+              "boundary_score": 0.9259073138237,
+              "tie_group_size": 81089,
+              "certain_true_positives": 2,
+              "recall_lower_bound": 0.0035335689045936395,
+              "recall_upper_bound": 0.0035335689045936395
+            },
+            {
+              "fraction": 0.1,
+              "k": 104286,
+              "boundary_score": 0.7803411483764648,
+              "tie_group_size": 26436,
+              "certain_true_positives": 23,
+              "recall_lower_bound": 0.04063604240282685,
+              "recall_upper_bound": 0.04063604240282685
+            },
+            {
+              "fraction": 0.2,
+              "k": 208573,
+              "boundary_score": 0.0020798479672521353,
+              "tie_group_size": 7294,
+              "certain_true_positives": 442,
+              "recall_lower_bound": 0.7809187279151943,
+              "recall_upper_bound": 0.7809187279151943
+            }
+          ]
+        }
+      },
+      "model_id": "xgb-bin-12ad91fa39",
+      "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+      "inference_seconds": 6.177079299995967,
+      "records_per_second": 338580.88886787737
+    },
+    "challenger": {
+      "threshold": 0.1372658878286815,
+      "overall": {
+        "samples": 2091441,
+        "benign": 1489073,
+        "attack": 602368,
+        "confusion_matrix": {
+          "tn": 1327857,
+          "fp": 161216,
+          "fn": 394223,
+          "tp": 208145
+        },
+        "accuracy": 0.7344228213944357,
+        "precision": 0.563527280898633,
+        "recall": 0.34554458404164895,
+        "f1": 0.4284013341168165,
+        "macro_f1": 0.6277147537431598,
+        "roc_auc": 0.7721770730763533,
+        "average_precision": 0.5172771006815317,
+        "specificity": 0.8917339848348603,
+        "false_positive_rate": 0.10826601516513967,
+        "false_negative_rate": 0.6544554159583511,
+        "balanced_accuracy": 0.6186392844382547,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1489073,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 161216,
+          "false_positive_rate": 0.10826601516513966,
+          "small_sample": false
+        },
+        "DoS attacks-SlowHTTPTest": {
+          "samples": 139890,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 139890,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "DoS attacks-Hulk": {
+          "samples": 461912,
+          "binary_label": 1,
+          "true_positive": 207690,
+          "false_negative": 254222,
+          "recall": 0.44963109856422867,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 286,
+          "false_negative": 76,
+          "recall": 0.7900552486187845,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 133,
+          "false_negative": 18,
+          "recall": 0.8807947019867549,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 36,
+          "false_negative": 17,
+          "recall": 0.6792452830188679,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 2091,
+          "boundary_score": 0.9483922657493103,
+          "tie_group_size": 374,
+          "certain_true_positives": 241,
+          "recall_lower_bound": 0.00040008765405864853,
+          "recall_upper_bound": 0.00040008765405864853
+        },
+        {
+          "fraction": 0.01,
+          "k": 20914,
+          "boundary_score": 0.7742928334333983,
+          "tie_group_size": 11004,
+          "certain_true_positives": 1741,
+          "recall_lower_bound": 0.006678641627709307,
+          "recall_upper_bound": 0.007810839885252868
+        },
+        {
+          "fraction": 0.05,
+          "k": 104572,
+          "boundary_score": 0.6453255284306374,
+          "tie_group_size": 26335,
+          "certain_true_positives": 60696,
+          "recall_lower_bound": 0.1007623246918827,
+          "recall_upper_bound": 0.1007623246918827
+        },
+        {
+          "fraction": 0.1,
+          "k": 209144,
+          "boundary_score": 0.6018891427063223,
+          "tie_group_size": 81274,
+          "certain_true_positives": 84482,
+          "recall_lower_bound": 0.14024981406714832,
+          "recall_upper_bound": 0.14024981406714832
+        },
+        {
+          "fraction": 0.2,
+          "k": 418288,
+          "boundary_score": 0.1178871669001181,
+          "tie_group_size": 11946,
+          "certain_true_positives": 219101,
+          "recall_lower_bound": 0.3637328012112197,
+          "recall_upper_bound": 0.36471558914152147
+        }
+      ],
+      "per_day": {
+        "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "threshold": 0.1372658878286815,
+          "overall": {
+            "samples": 1048574,
+            "benign": 446772,
+            "attack": 601802,
+            "confusion_matrix": {
+              "tn": 445321,
+              "fp": 1451,
+              "fn": 394112,
+              "tp": 207690
+            },
+            "accuracy": 0.6227610068531167,
+            "precision": 0.9930620968628819,
+            "recall": 0.3451135090943533,
+            "f1": 0.5122184913119664,
+            "macro_f1": 0.6023378795051753,
+            "roc_auc": 0.8008463859743475,
+            "average_precision": 0.8958832910146501,
+            "specificity": 0.9967522584226406,
+            "false_positive_rate": 0.0032477415773594087,
+            "false_negative_rate": 0.6548864909056467,
+            "balanced_accuracy": 0.6709328837584969,
+            "status": "EVALUATED"
+          },
+          "per_family": {
+            "Benign": {
+              "samples": 446772,
+              "binary_label": 0,
+              "true_positive": null,
+              "false_negative": null,
+              "recall": null,
+              "false_positive": 1451,
+              "false_positive_rate": 0.003247741577359369,
+              "small_sample": false
+            },
+            "DoS attacks-SlowHTTPTest": {
+              "samples": 139890,
+              "binary_label": 1,
+              "true_positive": 0,
+              "false_negative": 139890,
+              "recall": 0.0,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "DoS attacks-Hulk": {
+              "samples": 461912,
+              "binary_label": 1,
+              "true_positive": 207690,
+              "false_negative": 254222,
+              "recall": 0.44963109856422867,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            }
+          },
+          "top_k": [
+            {
+              "fraction": 0.001,
+              "k": 1048,
+              "boundary_score": 0.8262872641790822,
+              "tie_group_size": 162,
+              "certain_true_positives": 978,
+              "recall_lower_bound": 0.0016251192252601354,
+              "recall_upper_bound": 0.0016251192252601354
+            },
+            {
+              "fraction": 0.01,
+              "k": 10485,
+              "boundary_score": 0.7742928334333983,
+              "tie_group_size": 10333,
+              "certain_true_positives": 1341,
+              "recall_lower_bound": 0.017118587176513204,
+              "recall_upper_bound": 0.017146835670203822
+            },
+            {
+              "fraction": 0.05,
+              "k": 52428,
+              "boundary_score": 0.6503174835613363,
+              "tie_group_size": 8300,
+              "certain_true_positives": 51943,
+              "recall_lower_bound": 0.08667634869940612,
+              "recall_upper_bound": 0.08671290557359397
+            },
+            {
+              "fraction": 0.1,
+              "k": 104857,
+              "boundary_score": 0.47323110360300713,
+              "tie_group_size": 13820,
+              "certain_true_positives": 94806,
+              "recall_lower_bound": 0.1735620685873427,
+              "recall_upper_bound": 0.17364847574451397
+            },
+            {
+              "fraction": 0.2,
+              "k": 209714,
+              "boundary_score": 0.12936731439921395,
+              "tie_group_size": 3633,
+              "certain_true_positives": 208225,
+              "recall_lower_bound": 0.34601912256855244,
+              "recall_upper_bound": 0.3460307543012486
+            }
+          ]
+        },
+        "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "threshold": 0.1372658878286815,
+          "overall": {
+            "samples": 1042867,
+            "benign": 1042301,
+            "attack": 566,
+            "confusion_matrix": {
+              "tn": 882536,
+              "fp": 159765,
+              "fn": 111,
+              "tp": 455
+            },
+            "accuracy": 0.8466956956160278,
+            "precision": 0.0028398452128323556,
+            "recall": 0.803886925795053,
+            "f1": 0.0056596967397659,
+            "macro_f1": 0.46130249282573316,
+            "roc_auc": 0.9514179322391639,
+            "average_precision": 0.374715187297241,
+            "specificity": 0.8467189420330595,
+            "false_positive_rate": 0.15328105796694047,
+            "false_negative_rate": 0.19611307420494695,
+            "balanced_accuracy": 0.8253029339140563,
+            "status": "EVALUATED"
+          },
+          "per_family": {
+            "Benign": {
+              "samples": 1042301,
+              "binary_label": 0,
+              "true_positive": null,
+              "false_negative": null,
+              "recall": null,
+              "false_positive": 159765,
+              "false_positive_rate": 0.15328105796694044,
+              "small_sample": false
+            },
+            "Brute Force -Web": {
+              "samples": 362,
+              "binary_label": 1,
+              "true_positive": 286,
+              "false_negative": 76,
+              "recall": 0.7900552486187845,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "Brute Force -XSS": {
+              "samples": 151,
+              "binary_label": 1,
+              "true_positive": 133,
+              "false_negative": 18,
+              "recall": 0.8807947019867549,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            },
+            "SQL Injection": {
+              "samples": 53,
+              "binary_label": 1,
+              "true_positive": 36,
+              "false_negative": 17,
+              "recall": 0.6792452830188679,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "small_sample": false
+            }
+          },
+          "top_k": [
+            {
+              "fraction": 0.001,
+              "k": 1042,
+              "boundary_score": 0.9491559562785583,
+              "tie_group_size": 735,
+              "certain_true_positives": 233,
+              "recall_lower_bound": 0.411660777385159,
+              "recall_upper_bound": 0.4134275618374558
+            },
+            {
+              "fraction": 0.01,
+              "k": 10428,
+              "boundary_score": 0.8262872641790822,
+              "tie_group_size": 9932,
+              "certain_true_positives": 370,
+              "recall_lower_bound": 0.6537102473498233,
+              "recall_upper_bound": 0.6908127208480566
+            },
+            {
+              "fraction": 0.05,
+              "k": 52143,
+              "boundary_score": 0.6018891427063223,
+              "tie_group_size": 81272,
+              "certain_true_positives": 438,
+              "recall_lower_bound": 0.773851590106007,
+              "recall_upper_bound": 0.773851590106007
+            },
+            {
+              "fraction": 0.1,
+              "k": 104286,
+              "boundary_score": 0.6018891427063223,
+              "tie_group_size": 81272,
+              "certain_true_positives": 438,
+              "recall_lower_bound": 0.773851590106007,
+              "recall_upper_bound": 0.773851590106007
+            },
+            {
+              "fraction": 0.2,
+              "k": 208573,
+              "boundary_score": 0.10088855692971618,
+              "tie_group_size": 26122,
+              "certain_true_positives": 509,
+              "recall_lower_bound": 0.8992932862190812,
+              "recall_upper_bound": 0.9169611307420494
+            }
+          ]
+        }
+      },
+      "model_id": "issue6-lightgbm-51b83bd3bc4f",
+      "model_sha256": "51b83bd3bc4f94ff83582086df9ad312cc69ca6d2ff7bff85be7bbc71582032f",
+      "inference_seconds": 17.28617699998722,
+      "records_per_second": 120989.21583422097
+    }
+  },
+  "quality": {
+    "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "eligible": 1048574,
+      "excluded": 1,
+      "reason_counts": {
+        "nonnumeric_measurement;unknown_label": 1
+      }
+    },
+    "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "source_rows": 1048575,
+      "eligible": 1042867,
+      "excluded": 5708,
+      "reason_counts": {
+        "nan_measurement;infinite_measurement": 3754,
+        "infinite_measurement": 1954
+      }
+    }
+  },
+  "duplicates": {
+    "population_rows": 2091441,
+    "unique_float32_vectors": 1273913,
+    "duplicate_copies_retained": 817528,
+    "conflicting_binary_label_groups_retained": 6889
+  },
+  "deployment_gates": {
+    "recall_gain_at_least_10pp": true,
+    "overall_fpr_at_most_5pct": false,
+    "every_day_fpr_at_most_5pct": false,
+    "precision_at_least_20pct": true,
+    "balanced_accuracy_at_least_60pct": true,
+    "supported_family_recall_at_least_10pct": false,
+    "inference_at_least_1000_flows_per_second": true,
+    "loading_under_5seconds": true
+  },
+  "deployment_eligible": false,
+  "candidate_loading_seconds": 0.5324188999984472,
+  "elapsed_seconds": 95.56431620000149,
+  "peak_observed_rss_bytes": 315019264,
+  "final_score_archives": {
+    "incumbent": "e72e28e3d71beb038a6cfba532fedb86e61b18cdd0217b245a8a244385da0f97",
+    "challenger": "0a544a72163906c63644585da8532db23f4a8f9e8d12e5d52c315348c77b257a"
+  },
+  "no_post_test_model_changes": true,
+  "limitations": [
+    "Final labels untouched until sealed selection, but unlabeled test features informed duplicate quarantine",
+    "Feature semantics conditional on CICFlowMeter family; same testbed may reuse hosts/sessions across days",
+    "No independent bot scenario; development bot validation is within the known March 2 capture",
+    "64-bit fingerprints and rounded-log bins are a conservative surrogate, not all possible near-duplicate relations"
+  ]
+}
