@@ -209,4 +209,3 @@ def test_detail_cap_retains_all_container_signatures(client, isolated_app, tmp_p
     assert result['findings'][0]['detection_sources'] == ['forensic_rules']
     assert len(result['iocs']) == 1
     assert result['iocs'][0]['rule'] == 'HarmlessMarker'
-
