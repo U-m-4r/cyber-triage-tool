@@ -119,6 +119,8 @@ def test_original_models_and_historical_science_unchanged():
 
 
 def test_final_receipt_blocks_label_reopening(tmp_path,monkeypatch):
+    import sys
+    monkeypatch.setitem(sys.modules,'psutil',None)
     from scripts import evaluate_issue6
     (tmp_path/'final-test-receipt.json').write_text('{}')
     monkeypatch.setattr(evaluate_issue6,'OUT',tmp_path)
@@ -126,6 +128,8 @@ def test_final_receipt_blocks_label_reopening(tmp_path,monkeypatch):
 
 
 def test_final_receipt_blocks_retraining_worker(tmp_path,monkeypatch):
+    import sys
+    monkeypatch.setitem(sys.modules,'psutil',None)
     from scripts import train_issue6
     (tmp_path/'final-test-receipt.json').write_text('{}')
     monkeypatch.setattr(train_issue6,'OUT',tmp_path)

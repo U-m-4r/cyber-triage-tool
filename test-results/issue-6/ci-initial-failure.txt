@@ -1,0 +1,161 @@
+GitHub transcript; trailing whitespace normalized; raw retained in ignored artifacts.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	﻿2026-10-30T15:58:08.5583393Z ##[group]Run .venv/bin/python scripts/check.py --all --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5583929Z ^[[36;1m.venv/bin/python scripts/check.py --all --no-training^[[0m
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5606524Z shell: /usr/bin/bash -e {0}
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5606800Z env:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5607084Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5607537Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.9/x64/lib/pkgconfig
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5607965Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5608354Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5608728Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5609110Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.9/x64/lib
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.5609487Z ##[endgroup]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.9017916Z Python syntax: 126 files passed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:08.9018708Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m pip check
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.1524645Z No broken requirements found.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.1857962Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m ruff check .
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.2320763Z All checks passed!
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.2331858Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m ruff format --check backend/config.py tests/test_foundation.py scripts/check.py
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.2582713Z 3 files already formatted
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:09.2588269Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m flask --app backend.app check-config
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:12.4078085Z Configuration valid: environment=development, database=mongo, auth=disabled
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:12.6491942Z Running: git diff --check
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:12.7067816Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m pytest -q --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:16.2630298Z sssssssss.ssssssssss.s..s..sssssss.......ssssssssss...ss...s............ [ 15%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:18.0114230Z .....................s.................................................. [ 31%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:19.1610934Z ..............................................ssssssssssssss...ss....... [ 47%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:20.2807419Z .............s...ss.....sss.........s......................s............ [ 63%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:21.5325562Z ......................s..................s.s.....................s.FF... [ 79%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:22.8810134Z ...sss.................s.s....ss........................................ [ 95%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6651374Z ..s..s....sss....ss..s                                                   [100%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6652311Z =================================== FAILURES ===================================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6653117Z __________________ test_final_receipt_blocks_label_reopening ___________________
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6653628Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6655000Z tmp_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/.test-artifacts/pytest-d6d689e335ca47e29f5c7fa6697d9734/test_final_receipt_blocks_labe0')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6656458Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fcdd75c7620>
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6656913Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6657268Z     def test_final_receipt_blocks_label_reopening(tmp_path,monkeypatch):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6657926Z >       from scripts import evaluate_issue6
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6658228Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6658464Z tests/test_network_experiment.py:122:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6659099Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6659462Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6659879Z     """One-shot final comparison, only after validation selection has been sealed."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6660565Z     from datetime import datetime, timezone
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6660999Z     import gzip
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6661299Z     import json
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6662034Z     from pathlib import Path
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6662393Z     import time
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6662971Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6663242Z     import numpy as np
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6663577Z     import pandas as pd
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6663922Z >   import psutil
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6664375Z E   ModuleNotFoundError: No module named 'psutil'
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6664873Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6665165Z scripts/evaluate_issue6.py:10: ModuleNotFoundError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6665934Z _________________ test_final_receipt_blocks_retraining_worker __________________
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6666392Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6667512Z tmp_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/.test-artifacts/pytest-d6d689e335ca47e29f5c7fa6697d9734/test_final_receipt_blocks_retr0')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6668948Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fcdd707d4e0>
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6669411Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6669839Z     def test_final_receipt_blocks_retraining_worker(tmp_path,monkeypatch):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6670529Z >       from scripts import train_issue6
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6670810Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6671052Z tests/test_network_experiment.py:129:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6671663Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6672036Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6672460Z     """Two predeclared, bounded training candidates; never reads final CSV labels."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6673094Z     import argparse
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6673482Z     from datetime import datetime, timezone
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6673905Z     import json
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6674215Z     from pathlib import Path
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6674570Z     import subprocess
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6675109Z     import sys
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6675385Z     import time
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6675655Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6675918Z     import numpy as np
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6676255Z     import pandas as pd
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6676595Z >   import psutil
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6677035Z E   ModuleNotFoundError: No module named 'psutil'
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6677388Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6677667Z scripts/train_issue6.py:12: ModuleNotFoundError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6678316Z =============================== warnings summary ===============================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6679335Z tests/test_external_validation.py::test_external_api_selected_frozen_model[supervised]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6680372Z tests/test_supervised_detector.py::test_infer_reorders_shuffled_features_correctly
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6681372Z tests/test_supervised_detector.py::test_infer_handles_or_rejects_non_finite_values
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6682255Z tests/test_supervised_detector.py::test_score_and_decision_semantics
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6683061Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6683893Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6684904Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6685770Z tests/test_supervised_detector.py::test_api_analyze_with_supervised_detector
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6687449Z   /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6688750Z     warnings.warn(
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6688949Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6689441Z tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6690405Z tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6692112Z   /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but IsolationForest was fitted with feature names
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6693467Z     warnings.warn(
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6693657Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6694083Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6695275Z =========================== short test summary info ============================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6696486Z SKIPPED [11] tests/test_attack_family.py: Synthetic RandomForest/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6697773Z SKIPPED [8] tests/test_attack_family.py:98: Synthetic RandomForest/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6698879Z SKIPPED [9] tests/test_baseline.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6699850Z SKIPPED [6] tests/test_baseline.py:73: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6700823Z SKIPPED [3] tests/test_baseline.py:179: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6701886Z SKIPPED [3] tests/test_baseline.py:216: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6703051Z SKIPPED [1] tests/test_chain_of_custody.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6704120Z SKIPPED [1] tests/test_cleaning.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6705246Z SKIPPED [1] tests/test_disk_file_yara.py:19: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6706154Z SKIPPED [1] tests/test_disk_file_yara.py:41: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6707049Z SKIPPED [1] tests/test_disk_file_yara.py:60: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6707941Z SKIPPED [1] tests/test_disk_file_yara.py:71: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6708823Z SKIPPED [4] tests/test_disk_file_yara.py:97: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6709737Z SKIPPED [1] tests/test_disk_file_yara.py:111: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6710639Z SKIPPED [1] tests/test_disk_file_yara.py:118: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6711531Z SKIPPED [1] tests/test_disk_file_yara.py:128: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6712452Z SKIPPED [2] tests/test_disk_file_yara.py:137: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6713345Z SKIPPED [1] tests/test_disk_file_yara.py:145: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6714376Z SKIPPED [2] tests/test_endpoints.py: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6715751Z SKIPPED [1] tests/test_external_validation.py:84: Official external source absent; real inference not verified
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6717052Z SKIPPED [2] tests/test_external_validation.py:118: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6718050Z SKIPPED [1] tests/test_forensics.py:75: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6718792Z SKIPPED [1] tests/test_forensics.py:99: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6719519Z SKIPPED [1] tests/test_forensics.py:111: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6720704Z SKIPPED [1] tests/test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6721916Z SKIPPED [1] tests/test_foundation.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6722888Z SKIPPED [1] tests/test_holdout.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6724024Z SKIPPED [1] tests/test_integration_views.py:130: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6725350Z SKIPPED [1] tests/test_ml_core.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6726454Z SKIPPED [1] tests/test_network_experiment.py:94: Research candidate text model is intentionally outside Git
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6727685Z SKIPPED [2] tests/test_network_reliability.py:71: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6728730Z SKIPPED [1] tests/test_network_reliability.py:105: Real held-out CSV fixture absent
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6729813Z SKIPPED [1] tests/test_pe_malware.py:62: Official model/dependencies not installed; real inference unverified
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6730999Z SKIPPED [1] tests/test_pe_malware.py:82: Official model unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6732086Z SKIPPED [1] tests/test_pe_malware.py:112: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6733028Z SKIPPED [1] tests/test_pe_malware.py:144: Real parser/model unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6733838Z SKIPPED [1] tests/test_unified_screening.py:43: Real YARA engine unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6734696Z SKIPPED [1] tests/test_unified_screening.py:73: Real YARA compiler unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6735742Z SKIPPED [1] tests/test_unified_screening.py:107: Real YARA compiler unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6736703Z SKIPPED [2] tests/test_unified_screening.py:122: Pinned native parser fixtures not acquired
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6737625Z SKIPPED [1] tests/test_unified_screening.py:161: Real YARA compiler unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6738504Z SKIPPED [1] tests/test_unified_screening.py:171: Real capture parser unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6739399Z SKIPPED [1] tests/test_unified_screening.py:203: Real YARA engine unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6740616Z FAILED tests/test_network_experiment.py::test_final_receipt_blocks_label_reopening - ModuleNotFoundError: No module named 'psutil'
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6742085Z FAILED tests/test_network_experiment.py::test_final_receipt_blocks_retraining_worker - ModuleNotFoundError: No module named 'psutil'
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:23.6743077Z 2 failed, 367 passed, 85 skipped, 10 warnings in 10.46s
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1733503Z Traceback (most recent call last):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1739566Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 59, in <module>
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1740112Z     main()
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1740335Z     ~~~~^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1740830Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 51, in main
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1741562Z     run([sys.executable, "-m", "pytest", "-q", *(["--no-training"] if args.no_training else [])])
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1742144Z     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1742777Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 15, in run
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1743329Z     subprocess.run(command, cwd=ROOT, check=True)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1743698Z     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1744238Z   File "/opt/hostedtoolcache/Python/3.14.9/x64/lib/python3.14/subprocess.py", line 578, in run
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1744991Z     raise CalledProcessError(retcode, process.args,
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1745404Z                              output=stdout, stderr=stderr)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1746418Z subprocess.CalledProcessError: Command '['/home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python', '-m', 'pytest', '-q', '--no-training']' returned non-zero exit status 1.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T15:58:24.1852930Z ##[error]Process completed with exit code 1.

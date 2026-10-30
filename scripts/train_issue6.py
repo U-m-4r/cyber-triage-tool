@@ -9,7 +9,6 @@ import time
 
 import numpy as np
 import pandas as pd
-import psutil
 from ml.network_experiment import (SCHEMA, sha, write_once, operating_point,
                                   measured_result, load_candidate, RESULTS_DIR, WORK_DIR)
 
@@ -107,6 +106,7 @@ def main():
     if args.worker:return worker(args.worker)
     if (OUT/'final-test-receipt.json').exists():
         raise RuntimeError('Final test was opened; start a separately labeled replay or new protocol')
+    import psutil
     if (OUT/'selection.json').exists():raise RuntimeError('Selection sealed; new fitting would invalidate untouched test')
     prepared=json.loads((OUT/'prepared.json').read_text())
     assert prepared['protocol_sha256']==sha(OUT/'PROTOCOL.md')

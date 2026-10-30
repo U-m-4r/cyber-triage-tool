@@ -29,8 +29,8 @@ March 2 scenario; independent bot detection has not been established.
 
 ## Reproduce the recorded stages
 
-Prerequisites: the project native Python environment; `requirements/network-ml.txt`
-and `requirements/pe-malware.txt` (LightGBM); reviewed CICIDS2017 cleaned source
+Prerequisites: the project native Python environment and
+`requirements/network-research.txt` (network models, LightGBM and psutil); reviewed CICIDS2017 cleaned source
 and its cleaning ledger; the original Issue 4 development CSVs; frozen incumbent
 downloads; official test sources pinned in locked-test.json. No additional full
 dataset, PCAP or malware download is required. Consult the existing dataset
@@ -85,6 +85,11 @@ Sealed protocol and JSON hash-chain files are stored byte-for-byte using
 checksums. The initial raw checkpoint is preserved. Historical text comparison
 also records a separate canonical-LF digest; this accepts only newline conversion,
 not scientific content changes. Production binaries remain byte-exact.
+
+The first fresh-checkout CI run exposed eager `psutil` imports before sealed-test
+guards. These now load only when an actual research stage starts. Receipt guards
+remain testable without optional research/native dependencies; no guard assertion
+was skipped or weakened. The original CI failure transcript is preserved.
 
 Both trained text-format candidate artifacts and their metadata are packaged
 outside source Git history. `research-artifacts.json` records the prerelease

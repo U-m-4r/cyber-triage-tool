@@ -181,6 +181,10 @@ def main():
         'Automated React tests/build are distinct from browser acceptance. Rendered genuine PDF sample pages '
         'and geometry checks are recorded; raw PDFs remain ignored.', '',
         '## 8. Reproducibility, figures and known limits', '',
+        'Fresh-checkout CI initially exposed two eager optional psutil imports before sealed-test guards '
+        '(367 passed, 85 skipped, two failures). Imports now occur only when research work starts; '
+        'guard tests additionally simulate absent psutil without skipping or weakening assertions. '
+        'The original CI failure transcript is preserved; research dependencies are separately pinned.',
         '[Exact commands, input setup, optional artifact download and non-overwriting replay](../../docs/network-generalization.md). '
         'The original stages are write-once; final label receipt prevents another final evaluation or fitting under '
         'the same experiment. Replay is labeled already-disclosed reproduction, not new validation. '
