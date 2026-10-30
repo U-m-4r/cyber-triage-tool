@@ -62,6 +62,10 @@ def main():
         'Initial backend run: 380 passed, 46 skipped, two supervised persistence failures. '
         'New screening provenance retained integer label-map keys, which BSON rejects. Normalizing keys fixed the defect; '
         'a BSON regression test now protects it. The initial XML is retained.',
+        'Fresh-checkout CI initially reported 351 passed, 84 skipped, one failure: YARA was absent, '
+        'but a resource-limit test assumed the optional engine was installed. The assertion now explicitly '
+        'checks UNAVAILABLE when the dependency is absent, matching the documented precedence. '
+        'No scanner failure is reinterpreted as a negative detection. Original CI log: ci-first-failure.txt.',
         'An early live attempt stopped at unavailable test MongoDB; a fresh isolated service was started. '
         'Another stopped on PDF text whitespace across wrapped lines; normalizing extracted whitespace fixed the check without changing its required text. '
         'The subsequent supervised persistence failure was fixed as above. Attempt logs are retained, with no failed attempt counted as a pass.', '',

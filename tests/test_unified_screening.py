@@ -61,7 +61,10 @@ def test_missing_or_skipped_not_negative(client, isolated_app, configuration, ex
     isolated_app.config.update(configuration)
     code, result = upload(client, b'FileName,FilePath\nordinary.txt,/ordinary.txt\n', kind='file')
     assert code == 200
-    assert result['screening']['yara']['status'] == expected
+    # Dependency/deployment availability is checked before eligibility limits.
+    # A host without YARA must report UNAVAILABLE even for oversized targets.
+    actual_expected = expected if yara_scanner.AVAILABLE else 'UNAVAILABLE'
+    assert result['screening']['yara']['status'] == actual_expected
     assert result['overall_scan_status'] == 'PARTIAL'
     assert result['screening']['pe_ml']['status'] == 'NOT_APPLICABLE'
     assert result['warnings']

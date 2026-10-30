@@ -80,6 +80,9 @@ with unique path-derived namespaces and content-based ruleset IDs. Missing rules
 compiler errors and timeouts remain visible; matching identical namespace/rule
 pairs on one raw container is deduplicated. A skipped oversized raw target is not
 partially prefix-scanned and then labeled complete.
+Dependency/deployment availability is checked before byte eligibility. A host
+without YARA reports UNAVAILABLE, including when the same input also exceeds its
+scan byte limit; it cannot truthfully claim the unavailable scanner ran.
 
 Native parser errors/limits remain visible. Registry values exceeding 16,384
 characters are marked truncated; unreadable value data is marked and coverage
