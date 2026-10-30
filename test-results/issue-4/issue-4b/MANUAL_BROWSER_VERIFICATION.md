@@ -63,7 +63,7 @@ For read-only comparison, original cases are:
 - XGBoost: http://127.0.0.1:5219/cases/CASE-02C1EFF54BC5?tab=artifacts
 - IF: http://127.0.0.1:5219/cases/CASE-3EACD8C7674C?tab=artifacts
 
-Open Reports on the actual case and use its generate/download control. Confirm a
+Open Reports on the actual case and click **Generate PDF Report**. Confirm a
 real PDF opens/downloads for that exact case. Inspect source/detector section:
 CSE-CIC-IDS2018, compatibility CONDITIONAL, model ID/version/hash, fixed threshold,
 60 flows, actual decision totals and separate risk ranking. Capture

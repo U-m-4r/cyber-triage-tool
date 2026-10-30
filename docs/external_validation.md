@@ -82,7 +82,7 @@ No dataset/model download, training or external experiment is triggered by CI.
 In a separate PowerShell terminal, start React with:
 
 ```powershell
-rtk proxy powershell -NoProfile -Command '$env:BACKEND_PROXY_TARGET="http://127.0.0.1:5049"; npm --prefix frontend run dev -- --port 5219 --strictPort'
+rtk proxy powershell -NoProfile -Command '$env:BACKEND_PROXY_TARGET="http://127.0.0.1:5049"; npm --prefix frontend run dev -- --host 127.0.0.1 --port 5219 --strictPort'
 ```
 
 If the dedicated test MongoDB service is not already listening on 27018, create a
