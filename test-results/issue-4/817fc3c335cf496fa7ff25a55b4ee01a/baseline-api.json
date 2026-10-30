@@ -1,0 +1,888 @@
+{
+  "baseline": {
+    "bundle_version": 1,
+    "feature_schema": {
+      "artifact_type": "network",
+      "columns": [
+        "Flow Duration",
+        "Total Fwd Packets",
+        "Total Length of Fwd Packets",
+        "Fwd Packet Length Max",
+        "Fwd Packet Length Min",
+        "Fwd Packet Length Mean",
+        "Bwd Packet Length Max",
+        "Bwd Packet Length Min",
+        "Flow Bytes/s",
+        "Flow Packets/s",
+        "Packet Length Mean"
+      ],
+      "dtype": "float64",
+      "flow_duration_unit": "microseconds",
+      "version": 1
+    },
+    "provenance": {
+      "cleaning": {
+        "exclusions": {
+          "by_reason": {
+            "duplicate_row": 161,
+            "label_conflict": 219323,
+            "negative_measurements": 107
+          },
+          "input_rows": 2520751,
+          "invariant": "input_rows == retained_rows + unique_rows",
+          "overlaps": {
+            "pairs": {
+              "duplicate_row & label_conflict": 78,
+              "negative_measurements & duplicate_row": 1
+            },
+            "rows_with_multiple_reasons": 79
+          },
+          "retained_rows": 2301239,
+          "unique_rows": 219512
+        },
+        "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+        "policy_id": "cicids2017-offline-cleaning",
+        "policy_version": "1.0.0",
+        "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+      },
+      "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "dataset_path": "data/cicids2017_cleaned.csv",
+      "dataset_version": "local-manual",
+      "decision_threshold": 0.0,
+      "dropped_benign_duplicates": 310489,
+      "dropped_invalid_rows": 0,
+      "excluded_non_benign_rows": 363117,
+      "input_rows": 2301239,
+      "label_column": "Attack Type",
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_parameters": {
+        "bootstrap": false,
+        "contamination": 0.1,
+        "max_features": 1.0,
+        "max_samples": "auto",
+        "n_estimators": 100,
+        "n_jobs": -1,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "score_samples_threshold": -0.47321778481357596,
+      "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+      "size_bytes": 717247573,
+      "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "split": {
+        "method": "numeric-feature-group-hash-v1",
+        "partitions": {
+          "test": {
+            "rows": 345892,
+            "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+          },
+          "train": {
+            "rows": 1612277,
+            "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+          },
+          "validation": {
+            "rows": 343070,
+            "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+          }
+        },
+        "seed": 42,
+        "test_percent": 15,
+        "train_percent": 70,
+        "validation_percent": 15
+      },
+      "trained_at": "2026-10-27T07:59:07.227722+00:00",
+      "training_policy": "benign_only",
+      "training_rows": 1051117,
+      "valid_rows": 2301239
+    }
+  },
+  "detector": "anomaly_baseline",
+  "drift": {
+    "batch_rows": 60,
+    "drift_detected": null,
+    "features": {},
+    "method": "psi",
+    "min_samples": 100,
+    "reference_rows": 1051117,
+    "retraining_triggered": false,
+    "status": "insufficient_data",
+    "threshold": 0.2
+  },
+  "evidence": {
+    "algorithm": "SHA-256",
+    "ingested_at": "2026-10-30T13:33:13.946741+00:00",
+    "original_filename": "demo.csv",
+    "sha256": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+    "size_bytes": 21738
+  },
+  "inference_metadata": {
+    "active_threshold": 0.0,
+    "calibrated": false,
+    "detector_type": "anomaly_baseline",
+    "external_dataset": {
+      "compatibility": {
+        "adapter_version": "cse-cic-ids2018-v1",
+        "dataset": "CSE-CIC-IDS2018",
+        "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+        "mapping": {
+          "Bwd Packet Length Max": "Bwd Pkt Len Max",
+          "Bwd Packet Length Min": "Bwd Pkt Len Min",
+          "Flow Bytes/s": "Flow Byts/s",
+          "Flow Duration": "Flow Duration",
+          "Flow Packets/s": "Flow Pkts/s",
+          "Fwd Packet Length Max": "Fwd Pkt Len Max",
+          "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+          "Fwd Packet Length Min": "Fwd Pkt Len Min",
+          "Packet Length Mean": "Pkt Len Mean",
+          "Total Fwd Packets": "Tot Fwd Pkts",
+          "Total Length of Fwd Packets": "TotLen Fwd Pkts"
+        },
+        "status": "CONDITIONALLY_COMPATIBLE",
+        "threshold_changes": false,
+        "units": {
+          "Bwd Packet Length Max": "bytes",
+          "Bwd Packet Length Min": "bytes",
+          "Flow Bytes/s": "bytes/second",
+          "Flow Duration": "microseconds",
+          "Flow Packets/s": "packets/second",
+          "Fwd Packet Length Max": "bytes",
+          "Fwd Packet Length Mean": "bytes",
+          "Fwd Packet Length Min": "bytes",
+          "Packet Length Mean": "bytes",
+          "Total Fwd Packets": "packets",
+          "Total Length of Fwd Packets": "bytes"
+        },
+        "values_changed": false
+      },
+      "duplicates_policy": "retained; no prediction-dependent exclusions",
+      "excluded_rows": 0,
+      "input_rows": 60,
+      "reason_counts": {
+        "infinite_measurement": 0,
+        "missing_measurement": 0,
+        "nan_measurement": 0,
+        "negative_measurement": 0,
+        "nonnumeric_measurement": 0
+      },
+      "unknown_labels": {},
+      "valid_rows": 60,
+      "zero_duration_rows": 0
+    },
+    "model_id": "iforest-65dd0b57a2b1a2020a0b",
+    "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "model_version": 1,
+    "provenance": {
+      "cleaning": {
+        "exclusions": {
+          "by_reason": {
+            "duplicate_row": 161,
+            "label_conflict": 219323,
+            "negative_measurements": 107
+          },
+          "input_rows": 2520751,
+          "invariant": "input_rows == retained_rows + unique_rows",
+          "overlaps": {
+            "pairs": {
+              "duplicate_row & label_conflict": 78,
+              "negative_measurements & duplicate_row": 1
+            },
+            "rows_with_multiple_reasons": 79
+          },
+          "retained_rows": 2301239,
+          "unique_rows": 219512
+        },
+        "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+        "policy_id": "cicids2017-offline-cleaning",
+        "policy_version": "1.0.0",
+        "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+      },
+      "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "dataset_path": "data/cicids2017_cleaned.csv",
+      "dataset_version": "local-manual",
+      "decision_threshold": 0.0,
+      "dropped_benign_duplicates": 310489,
+      "dropped_invalid_rows": 0,
+      "excluded_non_benign_rows": 363117,
+      "input_rows": 2301239,
+      "label_column": "Attack Type",
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_parameters": {
+        "bootstrap": false,
+        "contamination": 0.1,
+        "max_features": 1.0,
+        "max_samples": "auto",
+        "n_estimators": 100,
+        "n_jobs": -1,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "score_samples_threshold": -0.47321778481357596,
+      "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+      "size_bytes": 717247573,
+      "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "split": {
+        "method": "numeric-feature-group-hash-v1",
+        "partitions": {
+          "test": {
+            "rows": 345892,
+            "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+          },
+          "train": {
+            "rows": 1612277,
+            "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+          },
+          "validation": {
+            "rows": 343070,
+            "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+          }
+        },
+        "seed": 42,
+        "test_percent": 15,
+        "train_percent": 70,
+        "validation_percent": 15
+      },
+      "trained_at": "2026-10-27T07:59:07.227722+00:00",
+      "training_policy": "benign_only",
+      "training_rows": 1051117,
+      "valid_rows": 2301239
+    },
+    "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal",
+    "timings": {
+      "csv_inference_seconds": 0.05298380000022007,
+      "model_loading_seconds": 0.04296239999894169,
+      "records_per_second": 1132.4216081094746
+    }
+  },
+  "intake_id": "IN-213e40dea9504296b6f6692e1b5e3e2e",
+  "persisted": true,
+  "preprocessing": {
+    "dropped_invalid_rows": 0,
+    "duplicates_preserved": true,
+    "input_rows": 60,
+    "timings": {
+      "csv_inference_seconds": 0.05298380000022007,
+      "model_loading_seconds": 0.04296239999894169,
+      "records_per_second": 1132.4216081094746
+    },
+    "valid_rows": 60
+  },
+  "stored": 60,
+  "summary": {
+    "classified_attacks": 19,
+    "classified_benign": 41,
+    "critical": 0,
+    "high": 22,
+    "low": 31,
+    "medium": 7,
+    "total_records": 60
+  },
+  "timings": {
+    "csv_inference_seconds": 0.05298380000022007,
+    "model_loading_seconds": 0.04296239999894169,
+    "records_per_second": 1132.4216081094746
+  },
+  "artifact_predictions": [
+    {
+      "record_id": 0,
+      "source_row": 0,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.09401382982130757,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 6.67,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 1,
+      "source_row": 1,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.028635493926080058,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 58.93,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 2,
+      "source_row": 2,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.08863282636807063,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.8,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 3,
+      "source_row": 3,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.08863282636807063,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.8,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 4,
+      "source_row": 4,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.0860322425951538,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.29,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 5,
+      "source_row": 5,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.0860322425951538,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.29,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 6,
+      "source_row": 6,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.0536128616686567,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 54.66,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 7,
+      "source_row": 7,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.0860322425951538,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.29,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 8,
+      "source_row": 8,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.0860322425951538,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 42.29,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 9,
+      "source_row": 9,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.1009622907507774,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 69.24,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 10,
+      "source_row": 10,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.08173294700676048,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 9.1,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 11,
+      "source_row": 11,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.012137552392773365,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 62.87,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 12,
+      "source_row": 12,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.04791388999936319,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 15.79,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 13,
+      "source_row": 13,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.031265970918740005,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 71.45,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 14,
+      "source_row": 14,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10546535114331418,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 4.4,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 15,
+      "source_row": 15,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01713641008781175,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.66,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 16,
+      "source_row": 16,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10769179423273906,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.96,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 17,
+      "source_row": 17,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.031265970918740005,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 71.45,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 18,
+      "source_row": 18,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.09815428308250207,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 5.85,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 19,
+      "source_row": 19,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.0022453665789142763,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 64.82,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 20,
+      "source_row": 20,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.11208940330181721,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.09,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 21,
+      "source_row": 21,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01846527521187591,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.92,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 22,
+      "source_row": 22,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.1751184205068131,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 59.91,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 23,
+      "source_row": 23,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.07718269445230402,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 50.0,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 24,
+      "source_row": 24,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.11208940330181721,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.09,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 25,
+      "source_row": 25,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01713641008781175,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.66,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 26,
+      "source_row": 26,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.17555722433849302,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 60.0,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 27,
+      "source_row": 27,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.07474852593240433,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 50.48,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 28,
+      "source_row": 28,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.12772922613743504,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 16.0,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 29,
+      "source_row": 29,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.1751184205068131,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 59.91,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 30,
+      "source_row": 30,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.0845567605308053,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 8.54,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 31,
+      "source_row": 31,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.012137552392773365,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 62.87,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 32,
+      "source_row": 32,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10546535114331418,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 4.4,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 33,
+      "source_row": 33,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01846527521187591,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.92,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 34,
+      "source_row": 34,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.019559995298652377,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 21.4,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 35,
+      "source_row": 35,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01846527521187591,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.92,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 36,
+      "source_row": 36,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10978794011377091,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.55,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 37,
+      "source_row": 37,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10702701090119421,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 4.1,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 38,
+      "source_row": 38,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": -0.01713641008781175,
+      "decision_threshold": 0.0,
+      "binary_prediction": "ATTACK",
+      "risk_score": 68.66,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 39,
+      "source_row": 39,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10702701090119421,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 4.1,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 40,
+      "source_row": 40,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.09950984825646048,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 5.58,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 41,
+      "source_row": 41,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.08100967835968209,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 41.24,
+      "priority": "MEDIUM"
+    },
+    {
+      "record_id": 42,
+      "source_row": 42,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.0855831004119672,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 8.34,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 43,
+      "source_row": 43,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.07187021525797765,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 51.05,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 44,
+      "source_row": 44,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.08051254611988884,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 9.34,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 45,
+      "source_row": 45,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.0933279519268746,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 22.81,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 46,
+      "source_row": 46,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.12683961987849862,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 16.18,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 47,
+      "source_row": 47,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.07474852593240433,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 50.48,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 48,
+      "source_row": 48,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.043651435780375725,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 16.63,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 49,
+      "source_row": 49,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.05330629593767283,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 54.72,
+      "priority": "HIGH"
+    },
+    {
+      "record_id": 50,
+      "source_row": 50,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.11125177669967323,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.26,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 51,
+      "source_row": 51,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10806525710332715,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 19.89,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 52,
+      "source_row": 52,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10934776345578723,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.64,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 53,
+      "source_row": 53,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.1051692034845732,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 20.46,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 54,
+      "source_row": 54,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10934776345578723,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.64,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 55,
+      "source_row": 55,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.1051692034845732,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 20.46,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 56,
+      "source_row": 56,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10934776345578723,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.64,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 57,
+      "source_row": 57,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10689012511791884,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 20.12,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 58,
+      "source_row": 58,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10934776345578723,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 3.64,
+      "priority": "LOW"
+    },
+    {
+      "record_id": 59,
+      "source_row": 59,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "model_score": 0.10806525710332715,
+      "decision_threshold": 0.0,
+      "binary_prediction": "BENIGN",
+      "risk_score": 19.89,
+      "priority": "LOW"
+    }
+  ]
+}

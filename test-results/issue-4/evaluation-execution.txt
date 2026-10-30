@@ -1,0 +1,134 @@
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 25000, "valid_so_far": 24873}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 50000, "valid_so_far": 49658}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 75000, "valid_so_far": 74553}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 100000, "valid_so_far": 99377}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 125000, "valid_so_far": 124250}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 150000, "valid_so_far": 149094}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 175000, "valid_so_far": 173935}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 200000, "valid_so_far": 198838}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 225000, "valid_so_far": 223693}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 250000, "valid_so_far": 248559}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 275000, "valid_so_far": 273467}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 300000, "valid_so_far": 298333}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 325000, "valid_so_far": 323218}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 350000, "valid_so_far": 348067}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 375000, "valid_so_far": 372979}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 400000, "valid_so_far": 397834}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 425000, "valid_so_far": 422726}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 450000, "valid_so_far": 447635}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 475000, "valid_so_far": 472541}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 500000, "valid_so_far": 497352}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 525000, "valid_so_far": 522217}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 550000, "valid_so_far": 547146}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 575000, "valid_so_far": 571998}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 600000, "valid_so_far": 596851}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 625000, "valid_so_far": 621715}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 650000, "valid_so_far": 646603}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 675000, "valid_so_far": 671497}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 700000, "valid_so_far": 696373}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 725000, "valid_so_far": 721248}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 750000, "valid_so_far": 746105}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 775000, "valid_so_far": 771024}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 800000, "valid_so_far": 795824}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 825000, "valid_so_far": 820674}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 850000, "valid_so_far": 845419}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 875000, "valid_so_far": 870272}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 900000, "valid_so_far": 895201}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 925000, "valid_so_far": 920053}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 950000, "valid_so_far": 944895}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 975000, "valid_so_far": 969769}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1000000, "valid_so_far": 994582}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1025000, "valid_so_far": 1019480}
+{"progress_source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1048575, "valid_so_far": 1042956}
+{"source_complete": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv", "quality": {"counts": {"source_records": 1048575, "valid_records": 1042956, "excluded_records": 5619, "zero_duration_rows": 5610}, "source_labels": {"Benign": 1048213, "Brute Force -Web": 249, "Brute Force -XSS": 79, "SQL Injection": 34}, "valid_labels": {"Benign": 1042594, "Brute Force -Web": 249, "Brute Force -XSS": 79, "SQL Injection": 34}, "excluded_labels": {"Benign": 5619}, "exclusion_reasons": {"infinite_measurement": 5610, "nan_measurement": 3569, "negative_measurement": 9}, "exclusions_by_label_and_reason": {"Benign": {"infinite_measurement": 5610, "nan_measurement": 3569, "negative_measurement": 9}}, "duplicate_copies_retained": 3278}}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 25000, "valid_so_far": 24968}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 50000, "valid_so_far": 49946}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 75000, "valid_so_far": 74921}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 100000, "valid_so_far": 99892}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 125000, "valid_so_far": 124892}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 150000, "valid_so_far": 149858}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 175000, "valid_so_far": 174825}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 200000, "valid_so_far": 199824}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 225000, "valid_so_far": 224807}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 250000, "valid_so_far": 249730}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 275000, "valid_so_far": 274730}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 300000, "valid_so_far": 299704}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 325000, "valid_so_far": 324685}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 350000, "valid_so_far": 349685}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 375000, "valid_so_far": 374567}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 400000, "valid_so_far": 399472}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 425000, "valid_so_far": 424277}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 450000, "valid_so_far": 449120}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 475000, "valid_so_far": 473969}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 500000, "valid_so_far": 498806}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 525000, "valid_so_far": 523674}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 550000, "valid_so_far": 548536}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 575000, "valid_so_far": 573377}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 600000, "valid_so_far": 598262}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 625000, "valid_so_far": 623118}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 650000, "valid_so_far": 647989}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 675000, "valid_so_far": 672883}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 700000, "valid_so_far": 697809}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 725000, "valid_so_far": 722642}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 750000, "valid_so_far": 747475}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 775000, "valid_so_far": 772342}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 800000, "valid_so_far": 797165}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 825000, "valid_so_far": 822032}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 850000, "valid_so_far": 846878}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 875000, "valid_so_far": 871690}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 900000, "valid_so_far": 896569}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 925000, "valid_so_far": 921444}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 950000, "valid_so_far": 946327}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 975000, "valid_so_far": 971234}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1000000, "valid_so_far": 996169}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1025000, "valid_so_far": 1021052}
+{"progress_source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "source_rows_processed": 1048575, "valid_so_far": 1044525}
+{"source_complete": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv", "quality": {"counts": {"source_records": 1048575, "valid_records": 1044525, "excluded_records": 4050, "zero_duration_rows": 4050}, "source_labels": {"Benign": 762384, "Bot": 286191}, "valid_labels": {"Benign": 758334, "Bot": 286191}, "excluded_labels": {"Benign": 4050}, "exclusion_reasons": {"nan_measurement": 2558, "infinite_measurement": 4050}, "exclusions_by_label_and_reason": {"Benign": {"nan_measurement": 2558, "infinite_measurement": 4050}}, "duplicate_copies_retained": 5459}}
+{
+  "supervised": {
+    "samples": 2087481,
+    "benign": 1800928,
+    "attack": 286553,
+    "confusion_matrix": {
+      "tn": 1625170,
+      "fp": 175758,
+      "fn": 286515,
+      "tp": 38
+    },
+    "accuracy": 0.7785498406931608,
+    "precision": 0.00021615963958224304,
+    "recall": 0.0001326107212278357,
+    "f1": 0.0001643779915172305,
+    "macro_f1": 0.4378250940601971,
+    "roc_auc": 0.7890358240601749,
+    "average_precision": 0.2811777098151359,
+    "specificity": 0.9024069812896462,
+    "false_positive_rate": 0.09759301871035375,
+    "false_negative_rate": 0.9998673892787722,
+    "balanced_accuracy": 0.45126979600543704,
+    "status": "EVALUATED"
+  },
+  "baseline": {
+    "samples": 2087481,
+    "benign": 1800928,
+    "attack": 286553,
+    "confusion_matrix": {
+      "tn": 1676227,
+      "fp": 124701,
+      "fn": 286379,
+      "tp": 174
+    },
+    "accuracy": 0.8030736567183127,
+    "precision": 0.0013933933933933933,
+    "recall": 0.0006072175129906161,
+    "f1": 0.0008458345081034835,
+    "macro_f1": 0.44580935457599435,
+    "roc_auc": 0.28420514857711304,
+    "average_precision": 0.1161560830450224,
+    "specificity": 0.9307573650917749,
+    "false_positive_rate": 0.06924263490822513,
+    "false_negative_rate": 0.9993927824870094,
+    "balanced_accuracy": 0.46568229130238276,
+    "status": "EVALUATED"
+  }
+}

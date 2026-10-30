@@ -1,0 +1,5 @@
+{
+  "initial_run": "d2888527ef754404b68cb05d79486448",
+  "status": "INTERRUPTED_RESOURCE_OPTIMIZATION",
+  "reason": "Per-row disk lookups for overlap were IO-bound; replaced by tested sorted bulk join. No completed metrics were claimed from this attempt. Population, preprocessing, models, thresholds and row eligibility unchanged. Partial scratch data retained."
+}

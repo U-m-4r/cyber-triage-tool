@@ -1,0 +1,8 @@
+{
+  "forbidden_raw_or_binary_artifacts": [],
+  "files_over_2MB": [],
+  "credential_pattern_hits": [],
+  "source_feature_records_in_public_api_artifacts": [],
+  "private_evidence_staged": false,
+  "reviewed_staged_files_before_audit": 68
+}

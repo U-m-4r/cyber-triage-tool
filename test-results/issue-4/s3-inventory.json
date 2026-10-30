@@ -1,0 +1,68 @@
+[
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/",
+    "Size": "0",
+    "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+    "LastModified": "2018-10-11T16:02:25.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "352368373",
+    "ETag": "\"2cef2d9c87fc74df84d7424f6949f1b3-22\"",
+    "LastModified": "2018-10-11T16:02:49.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "333723605",
+    "ETag": "\"e68ef27c09c98ba91fe3c6b1108a18b9-20\"",
+    "LastModified": "2018-10-11T16:03:10.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "382840456",
+    "ETag": "\"472d63fb3c1285ce2f1e25617ba8cba5-23\"",
+    "LastModified": "2018-10-11T16:03:33.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "4054925350",
+    "ETag": "\"49075d3ee07bcd47e1aae3f059953799-242\"",
+    "LastModified": "2018-10-11T16:03:59.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "107842858",
+    "ETag": "\"5889e4b7e0a421070747a2441a2772d7-7\"",
+    "LastModified": "2018-10-11T16:08:38.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "375945899",
+    "ETag": "\"eb1dc2ec76efe09c8995f28bfa4c8656-23\"",
+    "LastModified": "2018-10-11T16:08:48.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "382636202",
+    "ETag": "\"2bfbfdc038eb59f60bb725d9f3ede5d7-23\"",
+    "LastModified": "2018-10-11T16:09:20.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "358223333",
+    "ETag": "\"46c0f45f8e6fe1edf1f08487448c102f-22\"",
+    "LastModified": "2018-10-11T16:09:44.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "328893673",
+    "ETag": "\"3a1d6b804ba9f6a3085973c2fa425883-20\"",
+    "LastModified": "2018-10-11T16:10:12.000Z"
+  },
+  {
+    "Key": "Processed Traffic Data for ML Algorithms/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv",
+    "Size": "209249758",
+    "ETag": "\"af10d2362a17be6331cfc6d1ce2474f2-13\"",
+    "LastModified": "2018-10-11T16:10:33.000Z"
+  }
+]

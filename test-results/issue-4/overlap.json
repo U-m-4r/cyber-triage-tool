@@ -1,0 +1,13 @@
+{
+  "status": "AUDITED",
+  "matching_rows": {
+    "raw_rows_matching_any_2017_partition": 251041,
+    "supervised_rows_matching_any_2017_partition": 367354,
+    "supervised_rows_matching_2017_training": 275354,
+    "baseline_rows_matching_any_2017_partition": 368140,
+    "baseline_rows_matching_2017_training": 275554
+  },
+  "rows_removed": 0,
+  "source": ".test-artifacts\\issue3\\513da53c9db64dd9a545e980271dad37.sqlite",
+  "external_conflicting_feature_groups_retained": 627
+}

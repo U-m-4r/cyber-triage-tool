@@ -1,0 +1,116 @@
+{
+  "run": "817fc3c335cf496fa7ff25a55b4ee01a",
+  "database": "cyber_triage_test_817fc3c335cf496fa7ff25a55b4ee01a",
+  "records": 60,
+  "input_sha256_before": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+  "input_sha256_after": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+  "sampling": "first 10 eligible rows per original label per source, before predictions; scenario-balanced demo, not representative accuracy",
+  "results": {
+    "supervised": {
+      "case_id": "CASE-02C1EFF54BC5",
+      "model_id": "xgb-bin-12ad91fa39",
+      "summary": {
+        "classified_attacks": 3,
+        "classified_benign": 57,
+        "critical": 1,
+        "high": 0,
+        "low": 38,
+        "medium": 21,
+        "total_records": 60
+      },
+      "http_seconds": 1.8886947999999393,
+      "timings": {
+        "csv_inference_seconds": 0.10438129999965895,
+        "model_loading_seconds": 1.3190873000003194,
+        "records_per_second": 574.8156039462629
+      },
+      "metrics": {
+        "samples": 60,
+        "benign": 20,
+        "attack": 40,
+        "confusion_matrix": {
+          "tn": 19,
+          "fp": 1,
+          "fn": 38,
+          "tp": 2
+        },
+        "accuracy": 0.35,
+        "precision": 0.6666666666666666,
+        "recall": 0.05,
+        "f1": 0.09302325581395349,
+        "macro_f1": 0.2932648746602235,
+        "roc_auc": 0.47625000000000006,
+        "average_precision": 0.6268293099372102,
+        "specificity": 0.95,
+        "false_positive_rate": 0.050000000000000044,
+        "false_negative_rate": 0.95,
+        "balanced_accuracy": 0.5,
+        "status": "EVALUATED"
+      },
+      "direct_inference_and_exact_feature_roundtrip": "PASS",
+      "persistence": "PASS",
+      "pdf": "PASS",
+      "pdf_sha256": "09216007f58ff705cd6d07890bdb0728c386acba7f8f56fc769d553602e42773",
+      "pdf_path": ".test-artifacts\\issue4\\817fc3c335cf496fa7ff25a55b4ee01a\\supervised.pdf"
+    },
+    "baseline": {
+      "case_id": "CASE-3EACD8C7674C",
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "summary": {
+        "classified_attacks": 19,
+        "classified_benign": 41,
+        "critical": 0,
+        "high": 22,
+        "low": 31,
+        "medium": 7,
+        "total_records": 60
+      },
+      "http_seconds": 0.1555281000000832,
+      "timings": {
+        "csv_inference_seconds": 0.05298380000022007,
+        "model_loading_seconds": 0.04296239999894169,
+        "records_per_second": 1132.4216081094746
+      },
+      "metrics": {
+        "samples": 60,
+        "benign": 20,
+        "attack": 40,
+        "confusion_matrix": {
+          "tn": 12,
+          "fp": 8,
+          "fn": 29,
+          "tp": 11
+        },
+        "accuracy": 0.38333333333333336,
+        "precision": 0.5789473684210527,
+        "recall": 0.275,
+        "f1": 0.3728813559322034,
+        "macro_f1": 0.38316198944151153,
+        "roc_auc": 0.326875,
+        "average_precision": 0.6203871053775076,
+        "specificity": 0.6,
+        "false_positive_rate": 0.4,
+        "false_negative_rate": 0.725,
+        "balanced_accuracy": 0.4375,
+        "status": "EVALUATED"
+      },
+      "direct_inference_and_exact_feature_roundtrip": "PASS",
+      "persistence": "PASS",
+      "pdf": "PASS",
+      "pdf_sha256": "9452acff5075932f0af65ce4992001a04ce0e3083b0149363cab57df17995a0c",
+      "pdf_path": ".test-artifacts\\issue4\\817fc3c335cf496fa7ff25a55b4ee01a\\baseline.pdf"
+    }
+  },
+  "missing_feature": {
+    "error": {
+      "code": "INCOMPATIBLE_EXTERNAL_SCHEMA",
+      "message": "External schema missing: ['Flow Duration']; ambiguous target aliases: []"
+    }
+  },
+  "threshold_override": {
+    "error": {
+      "code": "FROZEN_THRESHOLD_REQUIRED",
+      "message": "External validation uses the frozen model threshold"
+    }
+  }
+}

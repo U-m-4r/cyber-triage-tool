@@ -515,6 +515,13 @@ def _build_evidence(case, styles):
                     f"Flows: {summary.get('total_records')}; attack/anomaly decisions: {summary.get('classified_attacks')}; "
                     f"benign/normal decisions: {summary.get('classified_benign')}. "
                     f"{model['score_interpretation']}. Scores and risk priorities are not accuracy or calibrated confidence."), styles['BodyText2']))
+                if model.get('external_dataset'):
+                    external=model['external_dataset']; compatibility=external['compatibility']
+                    elements.append(Paragraph(escape(
+                        f"External source: {compatibility['dataset']}; adapter {compatibility['adapter_version']}; "
+                        f"compatibility {compatibility['status']}; model bundle version {model.get('model_version')}. "
+                        f"Source rows: {external['input_rows']}; valid: {external['valid_rows']}; excluded: {external['excluded_rows']}. "
+                        f"{compatibility['limitations']} Frozen scaler and threshold; no retraining."),styles['BodyText2']))
             if s.get('disk_scan'):
                 scan = s['disk_scan']
                 if scan.get('pe_ml'):

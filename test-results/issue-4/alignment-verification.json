@@ -1,0 +1,39 @@
+{
+  "eligible_rows": 2087481,
+  "source_row_identity_sha256": "ccb709b36b7563ab8e9dc1fa8cce205931ad22be6f3d0dd934eff09d3dc100d2",
+  "traceability_archive": ".test-artifacts\\issue4\\e8843c65027e4fd5946756bdf8b5a378\\source-row-index.npz",
+  "traceability_sha256": "a269fa70172451995edfd1110ab1b8387e0d81efc1c326384b5ca9d096965fb6",
+  "original_label_names": [
+    "Benign",
+    "Bot",
+    "Brute Force -Web",
+    "Brute Force -XSS",
+    "SQL Injection"
+  ],
+  "original_label_counts": {
+    "Benign": 1800928,
+    "Bot": 286191,
+    "Brute Force -Web": 249,
+    "Brute Force -XSS": 79,
+    "SQL Injection": 34
+  },
+  "checks": {
+    "supervised": {
+      "source_labels_and_order": "EXACT_MATCH",
+      "all_frozen_threshold_decisions": "EXACT_MATCH",
+      "independent_metric_recomputation": "EXACT_MATCH",
+      "deterministic_direct_inference_sample_rows": 84,
+      "direct_scores_and_predictions": "EXACT_MATCH",
+      "prediction_array_sha256": "5db1177a4b7b25cdb9bf4389e0fdeb78900f2c7af096594b4d0eec414e861991"
+    },
+    "baseline": {
+      "source_labels_and_order": "EXACT_MATCH",
+      "all_frozen_threshold_decisions": "EXACT_MATCH",
+      "independent_metric_recomputation": "EXACT_MATCH",
+      "deterministic_direct_inference_sample_rows": 84,
+      "direct_scores_and_predictions": "EXACT_MATCH",
+      "prediction_array_sha256": "d54c8915d9784a18f52941367e4430965a2800dc31b8d1559cc035f497c912f9"
+    }
+  },
+  "selection": "First eligible row of each fixed 25000-row source chunk; no prediction-based selection"
+}

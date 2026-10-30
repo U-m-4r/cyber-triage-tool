@@ -1,0 +1,269 @@
+{
+  "run": "e8843c65027e4fd5946756bdf8b5a378",
+  "chunk_size": 25000,
+  "selection_protocol": "PROTOCOL.md",
+  "status": "CONDITIONALLY_COMPATIBLE_EVALUATION",
+  "models": {
+    "supervised": {
+      "model_id": "xgb-bin-12ad91fa39",
+      "sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+      "threshold": 0.4343418846451664,
+      "overall": {
+        "samples": 2087481,
+        "benign": 1800928,
+        "attack": 286553,
+        "confusion_matrix": {
+          "tn": 1625170,
+          "fp": 175758,
+          "fn": 286515,
+          "tp": 38
+        },
+        "accuracy": 0.7785498406931608,
+        "precision": 0.00021615963958224304,
+        "recall": 0.0001326107212278357,
+        "f1": 0.0001643779915172305,
+        "macro_f1": 0.4378250940601971,
+        "roc_auc": 0.7890358240601749,
+        "average_precision": 0.2811777098151359,
+        "specificity": 0.9024069812896462,
+        "false_positive_rate": 0.09759301871035375,
+        "false_negative_rate": 0.9998673892787722,
+        "balanced_accuracy": 0.45126979600543704,
+        "status": "EVALUATED"
+      },
+      "per_day": {
+        "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 924925,
+            "fp": 117669,
+            "fn": 359,
+            "tp": 3
+          },
+          "accuracy": 0.8868331933466033,
+          "precision": 2.5494595145829083e-05,
+          "recall": 0.008287292817679558,
+          "f1": 5.083281088499924e-05,
+          "macro_f1": 0.47003676873521094,
+          "roc_auc": 0.8201513676729622,
+          "average_precision": 0.0019256827505109682,
+          "specificity": 0.8871382340585118,
+          "false_positive_rate": 0.11286176594148822,
+          "false_negative_rate": 0.9917127071823204,
+          "balanced_accuracy": 0.4477127634380957,
+          "status": "EVALUATED"
+        },
+        "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+          "samples": 1044525,
+          "benign": 758334,
+          "attack": 286191,
+          "confusion_matrix": {
+            "tn": 700245,
+            "fp": 58089,
+            "fn": 286156,
+            "tp": 35
+          },
+          "accuracy": 0.6704291424331634,
+          "precision": 0.0006021608973917831,
+          "recall": 0.0001222959492087452,
+          "f1": 0.00020330220873328203,
+          "macro_f1": 0.4014491336733528,
+          "roc_auc": 0.7970445446895692,
+          "average_precision": 0.48474003968310425,
+          "specificity": 0.9233991882204938,
+          "false_positive_rate": 0.07660081177950617,
+          "false_negative_rate": 0.9998777040507912,
+          "balanced_accuracy": 0.4617607420848513,
+          "status": "EVALUATED"
+        }
+      },
+      "per_label": {
+        "Benign": {
+          "samples": 1800928,
+          "binary_label": 0,
+          "correct": 1625170,
+          "incorrect": 175758,
+          "detected": null,
+          "missed": null,
+          "attack_recall": null,
+          "false_positive_rate": 0.09759301871035378
+        },
+        "Bot": {
+          "samples": 286191,
+          "binary_label": 1,
+          "correct": 35,
+          "incorrect": 286156,
+          "detected": 35,
+          "missed": 286156,
+          "attack_recall": 0.0001222959492087452,
+          "false_positive_rate": null
+        },
+        "Brute Force -Web": {
+          "samples": 249,
+          "binary_label": 1,
+          "correct": 1,
+          "incorrect": 248,
+          "detected": 1,
+          "missed": 248,
+          "attack_recall": 0.004016064257028112,
+          "false_positive_rate": null
+        },
+        "Brute Force -XSS": {
+          "samples": 79,
+          "binary_label": 1,
+          "correct": 0,
+          "incorrect": 79,
+          "detected": 0,
+          "missed": 79,
+          "attack_recall": 0.0,
+          "false_positive_rate": null
+        },
+        "SQL Injection": {
+          "samples": 34,
+          "binary_label": 1,
+          "correct": 2,
+          "incorrect": 32,
+          "detected": 2,
+          "missed": 32,
+          "attack_recall": 0.058823529411764705,
+          "false_positive_rate": null
+        }
+      },
+      "inference_seconds": 3.4598393000087526,
+      "records_per_second": 603346.2305589508
+    },
+    "baseline": {
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+      "threshold": 0,
+      "overall": {
+        "samples": 2087481,
+        "benign": 1800928,
+        "attack": 286553,
+        "confusion_matrix": {
+          "tn": 1676227,
+          "fp": 124701,
+          "fn": 286379,
+          "tp": 174
+        },
+        "accuracy": 0.8030736567183127,
+        "precision": 0.0013933933933933933,
+        "recall": 0.0006072175129906161,
+        "f1": 0.0008458345081034835,
+        "macro_f1": 0.44580935457599435,
+        "roc_auc": 0.28420514857711304,
+        "average_precision": 0.1161560830450224,
+        "specificity": 0.9307573650917749,
+        "false_positive_rate": 0.06924263490822513,
+        "false_negative_rate": 0.9993927824870094,
+        "balanced_accuracy": 0.46568229130238276,
+        "status": "EVALUATED"
+      },
+      "per_day": {
+        "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 970733,
+            "fp": 71861,
+            "fn": 221,
+            "tp": 141
+          },
+          "accuracy": 0.9308868255228409,
+          "precision": 0.0019582789366962027,
+          "recall": 0.38950276243093923,
+          "f1": 0.003896965341882704,
+          "macro_f1": 0.48404923219367435,
+          "roc_auc": 0.6896941123487818,
+          "average_precision": 0.00582836521047857,
+          "specificity": 0.9310747999700747,
+          "false_positive_rate": 0.0689252000299253,
+          "false_negative_rate": 0.6104972375690607,
+          "balanced_accuracy": 0.6602887812005069,
+          "status": "EVALUATED"
+        },
+        "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+          "samples": 1044525,
+          "benign": 758334,
+          "attack": 286191,
+          "confusion_matrix": {
+            "tn": 705494,
+            "fp": 52840,
+            "fn": 286158,
+            "tp": 33
+          },
+          "accuracy": 0.6754524783992724,
+          "precision": 0.0006241370831993645,
+          "recall": 0.00011530760925395977,
+          "f1": 0.00019465351674020245,
+          "macro_f1": 0.4032399804710284,
+          "roc_auc": 0.26607251322534925,
+          "average_precision": 0.22731094913437314,
+          "specificity": 0.9303209403771953,
+          "false_positive_rate": 0.06967905962280474,
+          "false_negative_rate": 0.9998846923907461,
+          "balanced_accuracy": 0.4652181239932246,
+          "status": "EVALUATED"
+        }
+      },
+      "per_label": {
+        "Benign": {
+          "samples": 1800928,
+          "binary_label": 0,
+          "correct": 1676227,
+          "incorrect": 124701,
+          "detected": null,
+          "missed": null,
+          "attack_recall": null,
+          "false_positive_rate": 0.06924263490822509
+        },
+        "Bot": {
+          "samples": 286191,
+          "binary_label": 1,
+          "correct": 33,
+          "incorrect": 286158,
+          "detected": 33,
+          "missed": 286158,
+          "attack_recall": 0.00011530760925395977,
+          "false_positive_rate": null
+        },
+        "Brute Force -Web": {
+          "samples": 249,
+          "binary_label": 1,
+          "correct": 94,
+          "incorrect": 155,
+          "detected": 94,
+          "missed": 155,
+          "attack_recall": 0.37751004016064255,
+          "false_positive_rate": null
+        },
+        "Brute Force -XSS": {
+          "samples": 79,
+          "binary_label": 1,
+          "correct": 39,
+          "incorrect": 40,
+          "detected": 39,
+          "missed": 40,
+          "attack_recall": 0.4936708860759494,
+          "false_positive_rate": null
+        },
+        "SQL Injection": {
+          "samples": 34,
+          "binary_label": 1,
+          "correct": 8,
+          "incorrect": 26,
+          "detected": 8,
+          "missed": 26,
+          "attack_recall": 0.23529411764705882,
+          "false_positive_rate": null
+        }
+      },
+      "inference_seconds": 19.20736509999915,
+      "records_per_second": 108681.27872469567
+    }
+  },
+  "total_seconds": 629.9490331000015
+}

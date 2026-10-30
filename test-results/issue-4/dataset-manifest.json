@@ -1,0 +1,28 @@
+{
+  "dataset": "CSE-CIC-IDS2018",
+  "official_documentation": "https://www.unb.ca/cic/datasets/ids-2018.html",
+  "registry": "https://registry.opendata.aws/cse-cic-ids2018/",
+  "etag_note": "Multipart ETags are object identifiers, not SHA-256 authenticity signatures; HTTPS official origin and locally measured SHA-256 are recorded.",
+  "sources": [
+    {
+      "filename": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+      "s3_uri": "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+      "url": "https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com/Processed%20Traffic%20Data%20for%20ML%20Algorithms/Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+      "size_bytes": 382636202,
+      "sha256": "da33c927018274f9d49b145baa00e4ce0526c25b3b890b34c489e247b5e24544",
+      "etag": "\"2bfbfdc038eb59f60bb725d9f3ede5d7-23\"",
+      "last_modified": "Thu, 11 Oct 2018 16:09:20 GMT",
+      "verified_at": "2026-10-30T13:18:25.456378+00:00"
+    },
+    {
+      "filename": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+      "s3_uri": "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+      "url": "https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com/Processed%20Traffic%20Data%20for%20ML%20Algorithms/Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+      "size_bytes": 352368373,
+      "sha256": "d96f38e7496aba83475031e6fb8c6fdf1abf6aa1b71325a917798f3c7de93de1",
+      "etag": "\"2cef2d9c87fc74df84d7424f6949f1b3-22\"",
+      "last_modified": "Thu, 11 Oct 2018 16:02:49 GMT",
+      "verified_at": "2026-10-30T13:19:10.332080+00:00"
+    }
+  ]
+}
