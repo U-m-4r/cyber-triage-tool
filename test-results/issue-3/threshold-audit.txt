@@ -1,0 +1,39 @@
+{
+  "validation_rows": 343070,
+  "threshold_reproduced": {
+    "selected_threshold": 0.4343418846451664,
+    "fallback": false,
+    "fallback_reason": null,
+    "max_fpr_constraint": 0.002,
+    "objective": "f1_score",
+    "selected_at": "2026-10-30T11:38:22.373807+00:00",
+    "metrics": {
+      "threshold": 0.4343418846451664,
+      "accuracy": 0.9976739440930422,
+      "precision": 0.9948752989408951,
+      "recall": 0.9915216725118322,
+      "f1_score": 0.9931956547690105,
+      "false_positive_rate": 0.0010551045960356202,
+      "confusion_matrix": {
+        "true_negative": 284032,
+        "false_positive": 300,
+        "false_negative": 498,
+        "true_positive": 58240
+      },
+      "support": {
+        "total": 343070,
+        "positives": 58738,
+        "negatives": 284332
+      }
+    },
+    "candidate_count": 201,
+    "feasible_candidate_count": 89
+  },
+  "saved_threshold": 0.4343418846451664,
+  "experimental_threshold": 0.5,
+  "continuous_scores_identical_to_experimental": true,
+  "maximum_score_difference": 0.0,
+  "changed_test_decisions_due_to_threshold": 32,
+  "no_test_labels_used_for_threshold_selection": true,
+  "limitation": "Historical candidate comparison inspected test results; future independent evaluation is needed for unbiased model-selection assessment."
+}

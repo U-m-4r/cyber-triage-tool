@@ -19,6 +19,11 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   const [result, setResult] = useState(null)
   const [revision, refresh] = useState(0)
   const model = useApi('/model', revision)
+  const [detectorChoice, setDetectorChoice] = useState('')
+  const network = ['cicids2017', 'pcap'].includes(kind)
+  const availableModels = Object.entries(model.data?.models || {}).filter(([, m]) => m.available)
+  const detector = detectorChoice || (model.data?.models?.[model.data?.default_detector]?.available ? model.data.default_detector : '')
+  const selectedModel = model.data?.models?.[detector]
   const capabilities = useApi('/forensics/capabilities', revision)
   const health = useApi('/health', revision)
   const ext = file?.name.split('.').pop()?.toLowerCase()
@@ -27,7 +32,7 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   const unavailable = !caseId ? 'Select an investigation first.'
     : health.loading ? 'Checking database…'
     : health.error || (health.data?.mongo !== 'connected' ? 'MongoDB is unavailable. Start MongoDB, then refresh service status.' : null)
-    || (['cicids2017', 'pcap'].includes(kind) ? model.error || (model.loading ? 'Checking model…' : !model.data?.available ? model.data?.message || 'Approved network baseline unavailable.' : null) : null)
+    || (network ? model.error || (model.loading ? 'Checking models…' : !selectedModel?.available ? 'Select an available network detector.' : null) : null)
     || (kind === 'pcap' && ['pcap', 'pcapng'].includes(ext) && !capabilities.data?.pcap?.available ? capabilities.data?.pcap?.reason || 'PCAP parser unavailable.' : null)
     || (kind === 'native' ? capabilities.error || (!native?.available ? native?.reason || 'Native parser unavailable.' : null) : null)
 
@@ -41,7 +46,7 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
     setPending(true)
     try {
       const path = kind === 'cicids2017' ? '/analyze' : kind === 'native' ? '/forensics/ingest' : '/ingest'
-      const data = await postFile(path, file, { data: { caseId, ...(kind !== 'native' && kind !== 'cicids2017' ? { kind } : {}) } })
+      const data = await postFile(path, file, { data: { caseId, ...(network ? {detector} : {}), ...(kind !== 'native' && kind !== 'cicids2017' ? { kind } : {}) } })
       if (data.persisted === false || (data.stored == null && !data.persisted)) throw new Error('Processing finished but persistence was not confirmed.')
       setResult(data)
       await onComplete?.()
@@ -50,21 +55,27 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   return <section className="integration-page">
     <h3>{networkOnly ? 'Network ML inference' : 'Upload evidence'}</h3>
     <p>Upload once here to update this case’s evidence, artifacts, analysis, timeline and relationships. Reports use the latest saved results when generated.</p>
-    <p>Network CSVs use the approved CICIDS2017 baseline. Host evidence uses forensic rules; supported PE files also use the static malware classifier. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.</p>
-    <p>Network model: {model.loading ? 'Checking…' : model.error || (model.data?.available ? 'Available' : model.data?.message || 'Unavailable')}</p>
+    <p>Network CSVs use the selected frozen detector. Host evidence uses forensic rules; supported PE files also use the static malware classifier. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.</p>
+    <p>Network models: {model.loading ? 'Checking…' : model.error || availableModels.map(([,m]) => m.name).join(' · ') || 'Unavailable'}</p>
     <p>PE malware model: {capabilities.loading ? 'Checking…' : capabilities.data?.pe_malware_ml?.available ? capabilities.data.pe_malware_ml.model_id : 'Unavailable; eligible files will retain an explicit model status'}</p>
     <button type="button" onClick={() => refresh(v => v + 1)} disabled={pending}>Refresh service status</button>
-    {model.data?.available && <details><summary>Model provenance</summary><pre>{JSON.stringify(model.data.baseline, null, 2)}</pre></details>}
+    {network && selectedModel && <details><summary>Selected detector provenance</summary><pre>{JSON.stringify(selectedModel, null, 2)}</pre></details>}
     <form onSubmit={submit} className="integration-form">
       {!networkOnly && <label>Evidence type<select value={kind} disabled={pending} onChange={e => { setKind(e.target.value); setFile(null); setResult(null) }}>
         {OPTIONS.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
       </select></label>}
+      {network && <label>Network detector<select value={detector} disabled={pending} onChange={e => setDetectorChoice(e.target.value)}>
+        <option value="">Choose an available detector</option>
+        {availableModels.map(([id,m]) => <option key={id} value={id}>{m.name}</option>)}
+      </select></label>}
+      {network && selectedModel && <p>Selected: {selectedModel.name} · {selectedModel.model_id} · threshold {selectedModel.active_threshold}. Scores are not accuracy.</p>}
       <label>Evidence file<input key={kind} type="file" accept={OPTIONS.find(o => o[0] === kind)[2]} disabled={pending}
         onChange={e => { setFile(e.target.files?.[0] || null); setResult(null); setError(null) }} /></label>
       <button disabled={pending || !file || Boolean(unavailable)}>{pending ? 'Processing…' : 'Upload and process'}</button>
       {unavailable && <p role="status">{unavailable}</p>}{error && <p role="alert">{error}</p>}
     </form>
     {result && <div role="status"><p>Stored {result.stored} records. Evidence SHA-256: <code>{result.evidence.sha256}</code></p>
+      {result.inference_metadata && <p>Analyzed by {result.inference_metadata.model_id} · threshold {result.inference_metadata.active_threshold} · {result.summary.total_records} flows · {result.summary.classified_attacks} attack/anomaly decisions · {result.summary.classified_benign} benign/normal decisions</p>}
       <details><summary>Processing results and provenance</summary><pre>{JSON.stringify(result, null, 2)}</pre></details>
     </div>}
   </section>

@@ -267,6 +267,12 @@ def _build_threat_assessment(case, styles):
     severity_display = case.get("severity", "LOW")
     network_scored = any(f.get("artifactType") == "network" for f in case.get("findings", []))
     confidence_display = "Network anomaly model and evidence rules" if network_scored else "Evidence-specific rules"
+    network_detectors = {s.get('network_analysis', {}).get('model', {}).get('detector_type')
+                         for s in case.get('evidence', {}).get('sources', [])}
+    if 'supervised_binary' in network_detectors:
+        confidence_display = 'Supervised XGBoost detector and evidence rules'
+        if 'anomaly_baseline' in network_detectors:
+            confidence_display = 'XGBoost / Isolation Forest detectors and evidence rules'
     if any(s.get('disk_scan', {}).get('pe_ml', {}).get('files_classified', 0)
            for s in case.get('evidence', {}).get('sources', [])):
         confidence_display += ' and static PE malware classifier'
@@ -500,6 +506,15 @@ def _build_evidence(case, styles):
             Paragraph("State", styles["CellText"]),
         ]]
         for s in sources:
+            if s.get('network_analysis'):
+                analysis = s['network_analysis']
+                model, summary = analysis['model'], analysis['summary']
+                elements.append(Paragraph(escape(
+                    f"Network analysis: {model['detector_type']}; model {model['model_id']}; "
+                    f"SHA-256 {model.get('model_sha256')}; threshold {model['active_threshold']}. "
+                    f"Flows: {summary.get('total_records')}; attack/anomaly decisions: {summary.get('classified_attacks')}; "
+                    f"benign/normal decisions: {summary.get('classified_benign')}. "
+                    f"{model['score_interpretation']}. Scores and risk priorities are not accuracy or calibrated confidence."), styles['BodyText2']))
             if s.get('disk_scan'):
                 scan = s['disk_scan']
                 if scan.get('pe_ml'):

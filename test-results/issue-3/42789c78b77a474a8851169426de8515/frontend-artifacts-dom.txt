@@ -1,0 +1,407 @@
+- banner:
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE3 VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE3 VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-B2C4773FE166" [level=1]
+  - generic: INGESTING
+  - generic: CRITICAL
+  - paragraph: Issue 3 browser-selected XGBoost upload
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "99.93"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "84"
+  - term: IOCs
+  - definition: "0"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested demo.csv: 84 records (cicids2017)."': 30 Oct 2026, 17:12:14
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence"
+    - tab "Artifacts" [active] [selected]
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - paragraph: Network intrusion predictions and anomaly decisions use the selected detector. PE malware predictions use static file features. YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.
+  - paragraph: Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.
+  - textbox "Search artifacts":
+    - /placeholder: Search source, path, rules
+  - button "Refresh artifacts"
+  - combobox "Filter by type":
+    - option "All types" [selected]
+    - option "Network"
+    - option "System log"
+    - option "File"
+    - option "Registry"
+  - combobox "Filter by severity":
+    - option "All severities" [selected]
+    - option "Critical"
+    - option "High"
+    - option "Medium"
+    - option "Low"
+  - generic: 25 shown of 84
+  - table:
+    - rowgroup:
+      - row "Triage priority Risk ML prediction / score Type Detail YARA / forensic rules Source":
+        - columnheader "Triage priority"
+        - columnheader "Risk"
+        - columnheader "ML prediction / score"
+        - columnheader "Type"
+        - columnheader "Detail"
+        - columnheader "YARA / forensic rules"
+        - columnheader "Source"
+    - rowgroup:
+      - row "CRITICAL 99.93 ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13274.33628 pkt/s · 61946.90265 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.93"
+        - cell "ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998806 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13274.33628 pkt/s · 61946.90265 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.93 ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 12244.89796 pkt/s · 57142.85714 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.93"
+        - cell "ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998806 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "12244.89796 pkt/s · 57142.85714 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.93 ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13274.33628 pkt/s · 61946.90265 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.93"
+        - cell "ATTACK Score 0.998806 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998806 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13274.33628 pkt/s · 61946.90265 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.92 ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 11673.15175 pkt/s · 54474.70817 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.92"
+        - cell "ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998743 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "11673.15175 pkt/s · 54474.70817 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.92 ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 11320.75472 pkt/s · 52830.18868 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.92"
+        - cell "ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998743 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "11320.75472 pkt/s · 52830.18868 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.92 ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 11363.63636 pkt/s · 53030.30303 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.92"
+        - cell "ATTACK Score 0.998743 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.998743 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "11363.63636 pkt/s · 53030.30303 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.82 ATTACK Score 0.996953 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 16666.66667 pkt/s · 66666.66667 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.82"
+        - cell "ATTACK Score 0.996953 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.996953 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "16666.66667 pkt/s · 66666.66667 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.69 ATTACK Score 0.994783 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13605.44218 pkt/s · 54421.76871 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.69"
+        - cell "ATTACK Score 0.994783 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.994783 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13605.44218 pkt/s · 54421.76871 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.69 ATTACK Score 0.994783 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13605.44218 pkt/s · 54421.76871 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.69"
+        - cell "ATTACK Score 0.994783 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.994783 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13605.44218 pkt/s · 54421.76871 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.49 ATTACK Score 0.991538 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 14814.81481 pkt/s · 44444.44444 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.49"
+        - cell "ATTACK Score 0.991538 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.991538 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "14814.81481 pkt/s · 44444.44444 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 99.47 ATTACK Score 0.991124 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13245.03311 pkt/s · 39735.09934 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "99.47"
+        - cell "ATTACK Score 0.991124 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.991124 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13245.03311 pkt/s · 39735.09934 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 97.87 ATTACK Score 0.964490 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 28169.01408 pkt/s · 112676.0563 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "97.87"
+        - cell "ATTACK Score 0.964490 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.964490 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "28169.01408 pkt/s · 112676.0563 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 87.99 ATTACK Score 0.999895 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 5870.841487 pkt/s · 7588388.78 B/s Large Byte Transfer demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "87.99"
+        - cell "ATTACK Score 0.999895 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999895 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "5870.841487 pkt/s · 7588388.78 B/s"
+        - cell "Large Byte Transfer"
+        - cell "demo.csv"
+      - row "CRITICAL 75.95 ATTACK Score 0.999223 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 0.473978183 pkt/s · 2.843869098 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.95"
+        - cell "ATTACK Score 0.999223 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999223 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "0.473978183 pkt/s · 2.843869098 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 75.95 ATTACK Score 0.999223 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 0.474833075 pkt/s · 2.848998452 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.95"
+        - cell "ATTACK Score 0.999223 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999223 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "0.474833075 pkt/s · 2.848998452 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 75.94 ATTACK Score 0.999030 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 0.383620958 pkt/s · 2.301725748 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.94"
+        - cell "ATTACK Score 0.999030 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999030 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "0.383620958 pkt/s · 2.301725748 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 75.94 ATTACK Score 0.999030 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 0.383967661 pkt/s · 2.303805964 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.94"
+        - cell "ATTACK Score 0.999030 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999030 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "0.383967661 pkt/s · 2.303805964 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 75.36 ATTACK Score 0.989321 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 4926.108374 pkt/s · 16420.36125 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.36"
+        - cell "ATTACK Score 0.989321 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.989321 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "4926.108374 pkt/s · 16420.36125 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "CRITICAL 75.36 ATTACK Score 0.989321 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 4580.152672 pkt/s · 15267.17557 B/s Low Packet Size demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "75.36"
+        - cell "ATTACK Score 0.989321 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.989321 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "4580.152672 pkt/s · 15267.17557 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 62.01 ATTACK Score 0.766768 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 5673.758865 pkt/s · 0 B/s Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "62.01"
+        - cell "ATTACK Score 0.766768 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.766768 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "5673.758865 pkt/s · 0 B/s"
+        - cell "Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 60 ATTACK Score 0.999986 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 11.72032377 pkt/s · 17042.81581 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "ATTACK Score 0.999986 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999986 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "11.72032377 pkt/s · 17042.81581 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 60 ATTACK Score 0.999988 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 28.23054474 pkt/s · 41050.74088 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "ATTACK Score 0.999988 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999988 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "28.23054474 pkt/s · 41050.74088 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 60 ATTACK Score 0.999984 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13.45756158 pkt/s · 17394.64598 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "ATTACK Score 0.999984 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999984 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13.45756158 pkt/s · 17394.64598 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 60 ATTACK Score 0.999983 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 5.436561967 pkt/s · 7027.058373 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "ATTACK Score 0.999983 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999983 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "5.436561967 pkt/s · 7027.058373 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 60 ATTACK Score 0.999959 · threshold 0.4343418846451664 xgb-bin-12ad91fa39 network 13.66667881 pkt/s · 17664.94163 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "ATTACK Score 0.999959 · threshold 0.4343418846451664 xgb-bin-12ad91fa39":
+          - text: ATTACK
+          - paragraph: Score 0.999959 · threshold 0.4343418846451664
+          - generic: xgb-bin-12ad91fa39
+        - cell "network"
+        - cell "13.66667881 pkt/s · 17664.94163 B/s"
+        - cell "None"
+        - cell "demo.csv"
+  - button "Previous" [disabled]
+  - generic: Page 1
+  - button "Next"

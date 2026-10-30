@@ -1,0 +1,23 @@
+{
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "cpu": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+  "logical_cpus": 12,
+  "ram_total_bytes": 8299266048,
+  "ram_available_bytes_at_recording": 1581707264,
+  "disk_free_bytes_at_recording": 50877915136,
+  "dependencies": {
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.4.1",
+    "lightgbm": "4.6.0",
+    "catboost": "1.2.10",
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "pymongo": "4.19.0",
+    "pytsk3": "20260715",
+    "yara-python": "4.5.4",
+    "pefile": "2024.8.26",
+    "reportlab": "4.5.1",
+    "pymupdf": "2.0"
+  }
+}

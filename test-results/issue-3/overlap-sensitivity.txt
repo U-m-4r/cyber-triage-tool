@@ -1,0 +1,76 @@
+{
+  "Isolation Forest": {
+    "model_input_train_test_alias_groups": 8713,
+    "test_rows_with_training_alias": 36200,
+    "remaining_rows": 309692,
+    "remaining_class_distribution": {
+      "Normal Traffic": 256411,
+      "DoS": 28721,
+      "DDoS": 19185,
+      "Port Scanning": 3663,
+      "Brute Force": 1284,
+      "Web Attacks": 272,
+      "Bots": 156
+    },
+    "metrics_on_nonaliased_subset": {
+      "accuracy": 0.829353034627953,
+      "precision": 0.5028650072121429,
+      "recall": 0.7131998273305681,
+      "f1": 0.58984229479697,
+      "macro_f1": 0.7410535413512225,
+      "fpr": 0.14651087511846217,
+      "fnr": 0.28680017266943186,
+      "support": {
+        "total": 309692,
+        "benign": 256411,
+        "attack": 53281
+      },
+      "roc_auc": 0.7767961611591157,
+      "pr_auc": 0.36023309039951773,
+      "confusion_matrix": {
+        "tn": 218844,
+        "fp": 37567,
+        "fn": 15281,
+        "tp": 38000
+      }
+    },
+    "limitations": "Post-hoc diagnostic exclusion; not a newly independent test set and not directly denominator-comparable across models. Does not address near-duplicate/session leakage or historical test-informed model selection."
+  },
+  "Production XGBoost": {
+    "model_input_train_test_alias_groups": 8744,
+    "test_rows_with_training_alias": 36090,
+    "remaining_rows": 309802,
+    "remaining_class_distribution": {
+      "Normal Traffic": 256551,
+      "DoS": 28705,
+      "DDoS": 19172,
+      "Port Scanning": 3663,
+      "Brute Force": 1284,
+      "Web Attacks": 271,
+      "Bots": 156
+    },
+    "metrics_on_nonaliased_subset": {
+      "accuracy": 0.9974693513921795,
+      "precision": 0.9940488521441082,
+      "recall": 0.9912114326491521,
+      "f1": 0.9926281147155618,
+      "macro_f1": 0.9955503029593739,
+      "fpr": 0.0012317239067475862,
+      "fnr": 0.008788567350847872,
+      "support": {
+        "total": 309802,
+        "benign": 256551,
+        "attack": 53251
+      },
+      "roc_auc": 0.9999156870185366,
+      "pr_auc": 0.9995812415406136,
+      "confusion_matrix": {
+        "tn": 256235,
+        "fp": 316,
+        "fn": 468,
+        "tp": 52783
+      }
+    },
+    "limitations": "Post-hoc diagnostic exclusion; not a newly independent test set and not directly denominator-comparable across models. Does not address near-duplicate/session leakage or historical test-informed model selection."
+  }
+}

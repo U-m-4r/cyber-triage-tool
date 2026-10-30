@@ -5,6 +5,8 @@ never an uploaded artifact. Legacy bare estimators are deliberately rejected.
 """
 from pathlib import Path
 import re
+import io
+import hashlib
 
 import joblib
 import numpy as np
@@ -105,10 +107,13 @@ def load_baseline(path=BASELINE_PATH):
         raise BaselineError('Approved CICIDS2017 baseline is missing. Run scripts/train_baseline.py; '
                             'uploaded evidence cannot train a model.', 'MODEL_MISSING')
     try:
-        bundle = joblib.load(path)
+        payload = path.read_bytes()
+        bundle = joblib.load(io.BytesIO(payload))
     except Exception as exc:
         raise BaselineError('Could not load the approved baseline bundle.') from exc
-    return validate_bundle(bundle)
+    bundle = validate_bundle(bundle)
+    bundle['_artifact_sha256'] = hashlib.sha256(payload).hexdigest()
+    return bundle
 
 
 def infer_network(frame, bundle):

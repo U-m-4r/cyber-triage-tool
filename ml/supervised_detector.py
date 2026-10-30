@@ -6,6 +6,8 @@ validation-selected decision thresholding.
 """
 from pathlib import Path
 import re
+import io
+import hashlib
 from typing import Any, Dict, Optional, Tuple, Union
 
 import joblib
@@ -64,15 +66,25 @@ def validate_supervised_bundle(bundle: Any) -> Dict[str, Any]:
             "Feature schema columns must strictly match approved NETWORK_FEATURES in order",
         )
         require(schema.get("dtype") == "float64", "Feature dtype must be float64")
+        require(schema.get('flow_duration_unit') == 'microseconds', 'Flow duration unit mismatch')
+        require(bundle.get('versions', {}).get('scikit_learn') == sklearn.__version__, 'scikit-learn version mismatch')
 
         # Estimator & Scaler validation
         model = bundle.get("model")
         scaler = bundle.get("scaler")
         require(model is not None, "Model estimator is missing")
+        from xgboost import XGBClassifier, __version__ as xgb_version
+        require(isinstance(model, XGBClassifier) and bundle.get('model_type') == 'xgboost_binary', 'Expected XGBoost binary estimator')
+        require(bundle.get('versions', {}).get('xgboost') == xgb_version, 'XGBoost runtime version mismatch')
+        check_is_fitted(model)
+        require(model.n_features_in_ == len(NETWORK_FEATURES), 'Model feature count mismatch')
+        require(list(model.classes_) == [0, 1], 'Expected labels 0=BENIGN, 1=ATTACK')
         require(isinstance(scaler, StandardScaler), "Scaler must be a fitted StandardScaler")
 
         check_is_fitted(scaler)
         require(scaler.n_features_in_ == len(NETWORK_FEATURES), "Scaler feature count mismatch")
+        if hasattr(scaler, 'feature_names_in_'):
+            require(list(scaler.feature_names_in_) == list(NETWORK_FEATURES), 'Scaler feature order mismatch')
         require(
             np.isfinite(scaler.mean_).all() and np.isfinite(scaler.scale_).all(),
             "Scaler parameters must be finite",
@@ -84,7 +96,7 @@ def validate_supervised_bundle(bundle: Any) -> Dict[str, Any]:
         require(isinstance(t_cfg, dict), "threshold_config must be a dictionary")
         thresh = t_cfg.get("threshold")
         require(isinstance(thresh, (int, float)) and 0.0 <= float(thresh) <= 1.0, "Invalid threshold")
-        require(t_cfg.get("calibrated") is False or t_cfg.get("calibrated") is True, "calibrated flag must be boolean")
+        require(t_cfg.get('calibrated') is False, 'This XGBoost bundle has no probability calibrator')
 
         # Provenance validation
         prov = bundle.get("provenance", {})
@@ -92,6 +104,7 @@ def validate_supervised_bundle(bundle: Any) -> Dict[str, Any]:
         require(prov.get("source_url") == DATASET_PAGE_URL, "source_url mismatch")
         require(re.fullmatch(r"[0-9a-f]{64}", str(prov.get("sha256") or "")), "Dataset sha256 mismatch")
         require(isinstance(prov.get("model_id"), str) and len(prov.get("model_id")) > 0, "Invalid model_id")
+        require(prov.get('positive_class') == 'ATTACK' and prov.get('negative_class') == 'BENIGN', 'Label semantics mismatch')
 
     except (KeyError, TypeError, ValueError, AttributeError) as exc:
         raise SupervisedDetectorError(
@@ -111,14 +124,17 @@ def load_supervised_detector(path: Union[str, Path] = DEFAULT_SUPERVISED_PATH) -
             code="SUPERVISED_MODEL_MISSING",
         )
     try:
-        bundle = joblib.load(p)
+        payload = p.read_bytes()
+        bundle = joblib.load(io.BytesIO(payload))
     except Exception as exc:
         raise SupervisedDetectorError(
             f"Could not load the supervised model artifact from '{p}': {exc}",
             code="SUPERVISED_MODEL_INVALID",
         ) from exc
 
-    return validate_supervised_bundle(bundle)
+    bundle = validate_supervised_bundle(bundle)
+    bundle['_artifact_sha256'] = hashlib.sha256(payload).hexdigest()
+    return bundle
 
 
 def infer_supervised_network(
@@ -190,6 +206,8 @@ def infer_supervised_network(
         ) from exc
 
     scores = np.asarray(scores, dtype=np.float64)
+    if scores.shape != (len(clean),) or not np.isfinite(scores).all() or ((scores < 0) | (scores > 1)).any():
+        raise SupervisedDetectorError('Invalid binary model score output', code='PREDICTION_FAILED')
 
     # Threshold application
     configured_threshold = float(bundle["threshold_config"]["threshold"])

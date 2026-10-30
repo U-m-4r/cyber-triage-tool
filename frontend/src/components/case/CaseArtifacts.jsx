@@ -52,7 +52,7 @@ export default function CaseArtifacts({ caseRecord, onChange }) {
   const { data, loading, error } = useApi(`/artifacts?${params}`, revision)
   function filter(setter, value) { setter(value); setOffset(0) }
   return <div className="case-artifacts">
-    <p>Network models identify statistical flow anomalies. PE malware predictions use static file features.
+    <p>Network intrusion predictions and anomaly decisions use the selected detector. PE malware predictions use static file features.
       YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.</p>
     {caseRecord && <p>Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.</p>}
     <div className="integration-controls"><input aria-label="Search artifacts" placeholder="Search source, path, rules" value={query} onChange={e => filter(setQuery, e.target.value)} />
@@ -121,7 +121,7 @@ function ArtifactTable({ rows, total, loading, type, setType, severity, setSever
                     {a.pe_ml?.status === 'CLASSIFIED' && <div>{a.pe_ml.prediction} · model score {a.pe_ml.model_score?.toFixed(6)} · threshold {a.pe_ml.threshold}<p>Not calibrated confidence</p><p>{a.pe_ml.model_id}</p><p>{a.pe_ml.file_type}</p></div>}
                     {a.pe_ml?.reason && <p>{a.pe_ml.reason}</p>}
                     {a.pe_ml && <p>{a.risk_explanation}</p>}
-                    {a.decision_score != null && <small> · decision {Number(a.decision_score).toFixed(5)}</small>}
+                    {a.decision_score != null && <p>Score {Number(a.model_score ?? a.decision_score).toFixed(6)} · threshold {a.decision_threshold ?? 'Not recorded'}</p>}
                     {a.model_id && <div className="mono">{a.model_id}</div>}</td>
                   <td className="artifacts-type">{a.artifact_type}</td>
                   <td className="artifacts-detail mono">{artifactDetail(a)}

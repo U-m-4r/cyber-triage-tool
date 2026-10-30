@@ -1,7 +1,8 @@
 """Controlled benchmark of supervised models for CICIDS2017 intrusion detection.
 
-Evaluates 5 candidates across two leakage-resistant tasks on identical approved
-features and fixed data partitions:
+Exploratory comparison of 5 candidates on identical approved features and fixed
+feature-group partitions. This is not independent external validation, and
+float32 model-input aliases can cross these partitions (see Issue #3 audit).
 1. LightGBM
 2. XGBoost
 3. Extra Trees
@@ -93,6 +94,9 @@ def load_dataset_and_partitions(data_path=None, record_path=DEFAULT_RECORD_PATH)
         "y_val_bin": y_binary[val_mask],
         "y_val_multi": y_multiclass[val_mask],
         "X_test": X_test_scaled,
+        # Baseline bundles own their scaler. Keep raw units for transform-only inference.
+        "raw_validation": df.loc[val_mask, list(NETWORK_FEATURES)].copy(),
+        "raw_test": df.loc[test_mask, list(NETWORK_FEATURES)].copy(),
         "y_test_bin": y_binary[test_mask],
         "y_test_multi": y_multiclass[test_mask],
     }
@@ -106,7 +110,7 @@ def evaluate_binary(y_true, y_pred, y_prob):
     f1 = float(f1_score(y_true, y_pred, zero_division=0))
     macro_f1 = float(f1_score(y_true, y_pred, average="macro", zero_division=0))
 
-    cm = confusion_matrix(y_true, y_pred)
+    cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
     tn, fp, fn, tp = [int(v) for v in cm.ravel()]
     fpr = float(fp / (fp + tn)) if (fp + tn) > 0 else 0.0
 
@@ -127,6 +131,8 @@ def evaluate_binary(y_true, y_pred, y_prob):
         "f1": f1,
         "macro_f1": macro_f1,
         "fpr": fpr,
+        "fnr": float(fn / (fn + tp)) if fn + tp else None,
+        "support": {"total": int(len(y_true)), "benign": tn + fp, "attack": fn + tp},
         "roc_auc": roc_auc,
         "pr_auc": pr_auc,
         "confusion_matrix": {"tn": tn, "fp": fp, "fn": fn, "tp": tp},
@@ -347,10 +353,7 @@ def benchmark_binary_task(data, models_dir):
     print("\n--- Evaluating Baseline Isolation Forest (Unsupervised) ---")
     if BASELINE_PATH.is_file():
         bundle = load_baseline(BASELINE_PATH)
-        df_val = pd.DataFrame(data["X_val"], columns=NETWORK_FEATURES)
-        df_test = pd.DataFrame(data["X_test"], columns=NETWORK_FEATURES)
-
-        _, iforest_pred_test, iforest_scores_test, _, _ = infer_network(df_test, bundle)
+        _, iforest_pred_test, iforest_scores_test, _, _ = infer_baseline_partition(data, bundle)
         # Convert -1 (anomaly/attack) / 1 (normal) to 1 / 0
         bin_iforest_pred = (iforest_pred_test == -1).astype(int)
         norm_scores = -iforest_scores_test  # higher = more anomalous
@@ -371,6 +374,12 @@ def benchmark_binary_task(data, models_dir):
               f"FPR: {iforest_metrics['fpr']:.4%}")
 
     return results
+
+
+def infer_baseline_partition(data, bundle, partition='test'):
+    """Raw feature units are required; never feed a supervised-scaled matrix here."""
+    key = 'raw_test' if partition == 'test' else 'raw_validation'
+    return infer_network(data[key], bundle)
 
 
 def benchmark_multiclass_task(data, models_dir):
@@ -430,6 +439,7 @@ def benchmark_multiclass_task(data, models_dir):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--train-candidates', action='store_true', help='Explicitly authorize candidate fitting into fresh directories')
     parser.add_argument("--data", type=Path, default=None,
                         help="Path to reviewed CICIDS2017 dataset CSV")
     parser.add_argument("--record", type=Path, default=DEFAULT_RECORD_PATH,
@@ -439,6 +449,11 @@ def main():
     parser.add_argument("--models-dir", type=Path, default=ROOT_DIR / "models" / "experiments",
                         help="Directory to store experimental model artifacts")
     args = parser.parse_args()
+
+    if not args.train_candidates:
+        parser.error('Training requires --train-candidates. For frozen inference use scripts/verify_network_models.py.')
+    if (args.output_dir / 'benchmark_results.json').exists() or any(args.models_dir.glob('*.joblib')):
+        parser.error('Choose fresh output/model directories; historical metrics and estimators cannot be overwritten.')
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     args.models_dir.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,12 @@
+{
+  "baseline": {
+    "pages": 26,
+    "text_blocks_outside_page": [],
+    "rendered_all_pages": true
+  },
+  "supervised": {
+    "pages": 26,
+    "text_blocks_outside_page": [],
+    "rendered_all_pages": true
+  }
+}

@@ -1,0 +1,918 @@
+{
+  "dataset_sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+  "split": {
+    "method": "numeric-feature-group-hash-v1",
+    "seed": 42,
+    "train_percent": 70,
+    "validation_percent": 15,
+    "test_percent": 15,
+    "partitions": {
+      "train": {
+        "rows": 1612277,
+        "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+      },
+      "validation": {
+        "rows": 343070,
+        "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+      },
+      "test": {
+        "rows": 345892,
+        "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+      }
+    }
+  },
+  "models": {
+    "Isolation Forest": {
+      "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+      "threshold": 0.0,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "metrics": {
+        "accuracy": 0.8154597388780312,
+        "precision": 0.4412334985893253,
+        "recall": 0.707585462128547,
+        "f1": 0.5435328275063109,
+        "macro_f1": 0.7139429270778044,
+        "fpr": 0.16471127782493222,
+        "fnr": 0.29241453787145305,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.7567903718584763,
+        "pr_auc": 0.30914613073752717,
+        "confusion_matrix": {
+          "tn": 244058,
+          "fp": 48126,
+          "fn": 15705,
+          "tp": 38003
+        }
+      },
+      "loading_seconds": 0.02518099999997503,
+      "inference_seconds": 3.7449538999999277,
+      "records_per_second": 92362.15164090716,
+      "by_attack_type": {
+        "Bots": {
+          "rows": 156,
+          "attack_prediction_rate": 0.02564102564102564
+        },
+        "Brute Force": {
+          "rows": 1284,
+          "attack_prediction_rate": 0.002336448598130841
+        },
+        "DDoS": {
+          "rows": 19191,
+          "attack_prediction_rate": 0.633005054452608
+        },
+        "DoS": {
+          "rows": 28890,
+          "attack_prediction_rate": 0.8182069920387678
+        },
+        "Normal Traffic": {
+          "rows": 292184,
+          "attack_prediction_rate": 0.16471127782493222
+        },
+        "Port Scanning": {
+          "rows": 3915,
+          "attack_prediction_rate": 0.5616858237547893
+        },
+        "Web Attacks": {
+          "rows": 272,
+          "attack_prediction_rate": 0.04044117647058824
+        }
+      }
+    },
+    "Production XGBoost": {
+      "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+      "threshold": 0.4343418846451664,
+      "model_id": "xgb-bin-12ad91fa39",
+      "metrics": {
+        "accuracy": 0.9976813571866363,
+        "precision": 0.9939315856299947,
+        "recall": 0.9911186415431593,
+        "f1": 0.9925231205250596,
+        "macro_f1": 0.9955755272782008,
+        "fpr": 0.0011123127892013252,
+        "fnr": 0.008881358456840694,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.9999225554347315,
+        "pr_auc": 0.9995672500492574,
+        "confusion_matrix": {
+          "tn": 291859,
+          "fp": 325,
+          "fn": 477,
+          "tp": 53231
+        }
+      },
+      "loading_seconds": 0.012605599999915285,
+      "inference_seconds": 0.4134161000001768,
+      "records_per_second": 836667.9478613727,
+      "by_attack_type": {
+        "Bots": {
+          "rows": 156,
+          "attack_prediction_rate": 0.6153846153846154
+        },
+        "Brute Force": {
+          "rows": 1284,
+          "attack_prediction_rate": 0.9961059190031153
+        },
+        "DDoS": {
+          "rows": 19191,
+          "attack_prediction_rate": 0.9990620603407847
+        },
+        "DoS": {
+          "rows": 28890,
+          "attack_prediction_rate": 0.9958116995500174
+        },
+        "Normal Traffic": {
+          "rows": 292184,
+          "attack_prediction_rate": 0.0011123127892013252
+        },
+        "Port Scanning": {
+          "rows": 3915,
+          "attack_prediction_rate": 0.9946360153256705
+        },
+        "Web Attacks": {
+          "rows": 272,
+          "attack_prediction_rate": 0.07352941176470588
+        }
+      }
+    },
+    "Historical double-scaled IF reconstruction": {
+      "metrics": {
+        "accuracy": 0.8447260994761371,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "macro_f1": 0.45791410427597967,
+        "fpr": 0.0,
+        "fnr": 1.0,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.2245776495938969,
+        "pr_auc": 0.10978830135267516,
+        "confusion_matrix": {
+          "tn": 292184,
+          "fp": 0,
+          "fn": 53708,
+          "tp": 0
+        }
+      },
+      "invalid_preprocessing": true
+    },
+    "Experimental binary lightgbm": {
+      "model_sha256": "097f8281f3d1d9ccac127519a53131bec0f0bd868647ab048a201639f4b05ef3",
+      "threshold": 0.5,
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9972650422675285,
+        "precision": 0.9888267121257042,
+        "recall": 0.9936136143591271,
+        "f1": 0.991214383892418,
+        "macro_f1": 0.9947974101935194,
+        "fpr": 0.0020637680365796895,
+        "fnr": 0.006386385640872868,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.9998732996326338,
+        "pr_auc": 0.9989960729653398,
+        "confusion_matrix": {
+          "tn": 291581,
+          "fp": 603,
+          "fn": 343,
+          "tp": 53365
+        }
+      },
+      "estimator": "lightgbm.sklearn.LGBMClassifier"
+    },
+    "Experimental binary xgboost": {
+      "model_sha256": "1c82ab0f4c00342fe766d7ed751f4453e4e41ba1aa5553ac6e9ed09a81ea1fbe",
+      "threshold": 0.5,
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.997675575034982,
+        "precision": 0.9942082056647485,
+        "recall": 0.9908021151411336,
+        "f1": 0.9925022381378693,
+        "macro_f1": 0.9955634129281636,
+        "fpr": 0.0010609752758535718,
+        "fnr": 0.009197884858866462,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.9999225554347315,
+        "pr_auc": 0.9995672500492574,
+        "confusion_matrix": {
+          "tn": 291874,
+          "fp": 310,
+          "fn": 494,
+          "tp": 53214
+        }
+      },
+      "estimator": "xgboost.sklearn.XGBClassifier"
+    },
+    "Experimental binary extra_trees": {
+      "model_sha256": "9a16ffc7af7d8f8cf4c278596dc77ec06b8a350c981f01d386b239db55192dcb",
+      "threshold": 0.5,
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9876753437489159,
+        "precision": 0.9392065945388974,
+        "recall": 0.984341252699784,
+        "f1": 0.9612443975744793,
+        "macro_f1": 0.9769584868101759,
+        "fpr": 0.011711798045067492,
+        "fnr": 0.01565874730021598,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.9989132245999744,
+        "pr_auc": 0.9949590558840984,
+        "confusion_matrix": {
+          "tn": 288762,
+          "fp": 3422,
+          "fn": 841,
+          "tp": 52867
+        }
+      },
+      "estimator": "sklearn.ensemble._forest.ExtraTreesClassifier"
+    },
+    "Experimental binary random_forest": {
+      "model_sha256": "bdb394feb2b0225fc4c2f8316c92e9ba204492189d8a0348295a43106955263b",
+      "threshold": 0.5,
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9976032981393036,
+        "precision": 0.9915410213984271,
+        "recall": 0.9930364191554331,
+        "f1": 0.9922881568787966,
+        "macro_f1": 0.9954346667975168,
+        "fpr": 0.0015572379048818554,
+        "fnr": 0.006963580844566918,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.999890042536555,
+        "pr_auc": 0.999404761042046,
+        "confusion_matrix": {
+          "tn": 291729,
+          "fp": 455,
+          "fn": 374,
+          "tp": 53334
+        }
+      },
+      "estimator": "sklearn.ensemble._forest.RandomForestClassifier"
+    },
+    "Experimental binary catboost": {
+      "model_sha256": "a9684b220c3ae4a662628722bdce16b1cdbba3865b302d82423b3a7d37518e7e",
+      "threshold": 0.5,
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9964410856567946,
+        "precision": 0.9838998211091234,
+        "recall": 0.9933343263573396,
+        "f1": 0.9885945650461869,
+        "macro_f1": 0.9932430788108577,
+        "fpr": 0.002987843276839252,
+        "fnr": 0.006665673642660312,
+        "support": {
+          "total": 345892,
+          "benign": 292184,
+          "attack": 53708
+        },
+        "roc_auc": 0.9998763236977819,
+        "pr_auc": 0.9993133321668203,
+        "confusion_matrix": {
+          "tn": 291311,
+          "fp": 873,
+          "fn": 358,
+          "tp": 53350
+        }
+      },
+      "estimator": "catboost.core.CatBoostClassifier"
+    },
+    "Experimental multiclass lightgbm": {
+      "model_sha256": "694cf3387c3538ea36b26f49cb77648b837f98a568db38f03ea56305b8b4ed8e",
+      "threshold": "argmax",
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9874932059718062,
+        "macro_f1": 0.8047137571275699,
+        "weighted_f1": 0.9898175465690229,
+        "roc_auc_ovr_macro": 0.9994044294818819,
+        "per_class": {
+          "Normal Traffic": {
+            "precision": 0.9955758306076777,
+            "recall": 0.9896674698135421,
+            "f1": 0.9926128581579516,
+            "support": 292184
+          },
+          "DoS": {
+            "precision": 0.9853725222146275,
+            "recall": 0.9979923849082728,
+            "f1": 0.9916423043852106,
+            "support": 28890
+          },
+          "DDoS": {
+            "precision": 0.996984820128925,
+            "recall": 0.9993225991350112,
+            "f1": 0.9981523408020402,
+            "support": 19191
+          },
+          "Port Scanning": {
+            "precision": 0.976693372177713,
+            "recall": 0.6850574712643678,
+            "f1": 0.8052844918180453,
+            "support": 3915
+          },
+          "Brute Force": {
+            "precision": 0.9138790035587189,
+            "recall": 1.0,
+            "f1": 0.9550018594272964,
+            "support": 1284
+          },
+          "Web Attacks": {
+            "precision": 0.10747103475829005,
+            "recall": 0.9889705882352942,
+            "f1": 0.19387387387387386,
+            "support": 272
+          },
+          "Bots": {
+            "precision": 0.5342465753424658,
+            "recall": 1.0,
+            "f1": 0.6964285714285714,
+            "support": 156
+          }
+        },
+        "confusion_matrix": {
+          "Normal Traffic": {
+            "Normal Traffic": 289165,
+            "DoS": 417,
+            "DDoS": 57,
+            "Port Scanning": 58,
+            "Brute Force": 121,
+            "Web Attacks": 2230,
+            "Bots": 136
+          },
+          "DoS": {
+            "Normal Traffic": 49,
+            "DoS": 28832,
+            "DDoS": 1,
+            "Port Scanning": 6,
+            "Brute Force": 0,
+            "Web Attacks": 2,
+            "Bots": 0
+          },
+          "DDoS": {
+            "Normal Traffic": 11,
+            "DoS": 2,
+            "DDoS": 19178,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Port Scanning": {
+            "Normal Traffic": 1222,
+            "DoS": 9,
+            "DDoS": 0,
+            "Port Scanning": 2682,
+            "Brute Force": 0,
+            "Web Attacks": 2,
+            "Bots": 0
+          },
+          "Brute Force": {
+            "Normal Traffic": 0,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 1284,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Web Attacks": {
+            "Normal Traffic": 3,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 269,
+            "Bots": 0
+          },
+          "Bots": {
+            "Normal Traffic": 0,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 156
+          }
+        }
+      },
+      "estimator": "lightgbm.sklearn.LGBMClassifier"
+    },
+    "Experimental multiclass xgboost": {
+      "model_sha256": "7059f38b53d69e0cf5ac4aee13690388e91394bfe2cd91c54a104aaddc291538",
+      "threshold": "argmax",
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9977362876273519,
+        "macro_f1": 0.8385489386456249,
+        "weighted_f1": 0.9974071052136166,
+        "roc_auc_ovr_macro": 0.9995607337016507,
+        "per_class": {
+          "Normal Traffic": {
+            "precision": 0.9983718925722729,
+            "recall": 0.9989869397366044,
+            "f1": 0.9986793214586313,
+            "support": 292184
+          },
+          "DoS": {
+            "precision": 0.9929934766851897,
+            "recall": 0.995846313603323,
+            "f1": 0.9944178490572559,
+            "support": 28890
+          },
+          "DDoS": {
+            "precision": 0.9979701243949409,
+            "recall": 0.99911416809963,
+            "f1": 0.9985418185605666,
+            "support": 19191
+          },
+          "Port Scanning": {
+            "precision": 0.9964038016953506,
+            "recall": 0.9908045977011494,
+            "f1": 0.9935963114754098,
+            "support": 3915
+          },
+          "Brute Force": {
+            "precision": 0.9617117117117117,
+            "recall": 0.9976635514018691,
+            "f1": 0.9793577981651376,
+            "support": 1284
+          },
+          "Web Attacks": {
+            "precision": 1.0,
+            "recall": 0.07720588235294118,
+            "f1": 0.14334470989761092,
+            "support": 272
+          },
+          "Bots": {
+            "precision": 1.0,
+            "recall": 0.6153846153846154,
+            "f1": 0.7619047619047619,
+            "support": 156
+          }
+        },
+        "confusion_matrix": {
+          "Normal Traffic": {
+            "Normal Traffic": 291888,
+            "DoS": 194,
+            "DDoS": 39,
+            "Port Scanning": 12,
+            "Brute Force": 51,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "DoS": {
+            "Normal Traffic": 118,
+            "DoS": 28770,
+            "DDoS": 0,
+            "Port Scanning": 2,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "DDoS": {
+            "Normal Traffic": 17,
+            "DoS": 0,
+            "DDoS": 19174,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Port Scanning": {
+            "Normal Traffic": 27,
+            "DoS": 9,
+            "DDoS": 0,
+            "Port Scanning": 3879,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Brute Force": {
+            "Normal Traffic": 3,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 1281,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Web Attacks": {
+            "Normal Traffic": 251,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 21,
+            "Bots": 0
+          },
+          "Bots": {
+            "Normal Traffic": 60,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 96
+          }
+        }
+      },
+      "estimator": "xgboost.sklearn.XGBClassifier"
+    },
+    "Experimental multiclass extra_trees": {
+      "model_sha256": "940ea87076a5c28663c68e228e0364d58adfe2fd32a2def1556ec2135fa78ef9",
+      "threshold": "argmax",
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9659228892255386,
+        "macro_f1": 0.7293624880397312,
+        "weighted_f1": 0.974182481503562,
+        "roc_auc_ovr_macro": 0.9986112788298833,
+        "per_class": {
+          "Normal Traffic": {
+            "precision": 0.9994632714140488,
+            "recall": 0.9623490677107576,
+            "f1": 0.9805551002758414,
+            "support": 292184
+          },
+          "DoS": {
+            "precision": 0.981895559353961,
+            "recall": 0.9743163724472136,
+            "f1": 0.978091283423389,
+            "support": 28890
+          },
+          "DDoS": {
+            "precision": 0.9284849658645233,
+            "recall": 0.9992183836173206,
+            "f1": 0.9625539604457384,
+            "support": 19191
+          },
+          "Port Scanning": {
+            "precision": 0.4488714877936435,
+            "recall": 0.9956577266922094,
+            "f1": 0.6187792681958886,
+            "support": 3915
+          },
+          "Brute Force": {
+            "precision": 0.8753424657534247,
+            "recall": 0.9953271028037384,
+            "f1": 0.9314868804664723,
+            "support": 1284
+          },
+          "Web Attacks": {
+            "precision": 0.05711831651277646,
+            "recall": 0.9779411764705882,
+            "f1": 0.10793264353824306,
+            "support": 272
+          },
+          "Bots": {
+            "precision": 0.35697940503432496,
+            "recall": 1.0,
+            "f1": 0.5261382799325464,
+            "support": 156
+          }
+        },
+        "confusion_matrix": {
+          "Normal Traffic": {
+            "Normal Traffic": 281183,
+            "DoS": 506,
+            "DDoS": 1375,
+            "Port Scanning": 4618,
+            "Brute Force": 182,
+            "Web Attacks": 4040,
+            "Bots": 280
+          },
+          "DoS": {
+            "Normal Traffic": 125,
+            "DoS": 28148,
+            "DDoS": 102,
+            "Port Scanning": 166,
+            "Brute Force": 0,
+            "Web Attacks": 349,
+            "Bots": 0
+          },
+          "DDoS": {
+            "Normal Traffic": 15,
+            "DoS": 0,
+            "DDoS": 19176,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Port Scanning": {
+            "Normal Traffic": 1,
+            "DoS": 13,
+            "DDoS": 0,
+            "Port Scanning": 3898,
+            "Brute Force": 0,
+            "Web Attacks": 2,
+            "Bots": 1
+          },
+          "Brute Force": {
+            "Normal Traffic": 4,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 2,
+            "Brute Force": 1278,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Web Attacks": {
+            "Normal Traffic": 6,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 266,
+            "Bots": 0
+          },
+          "Bots": {
+            "Normal Traffic": 0,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 156
+          }
+        }
+      },
+      "estimator": "sklearn.ensemble._forest.ExtraTreesClassifier"
+    },
+    "Experimental multiclass random_forest": {
+      "model_sha256": "2485297e093752dd55657f52ff2b87a38dad6f47c6919e8616ded9c81b4dc91e",
+      "threshold": "argmax",
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9916794837695003,
+        "macro_f1": 0.8448615630444498,
+        "weighted_f1": 0.9942206822290197,
+        "roc_auc_ovr_macro": 0.9990575005904441,
+        "per_class": {
+          "Normal Traffic": {
+            "precision": 0.9995269255339353,
+            "recall": 0.9906702625742683,
+            "f1": 0.9950788873438196,
+            "support": 292184
+          },
+          "DoS": {
+            "precision": 0.987517146776406,
+            "recall": 0.9967462789892696,
+            "f1": 0.9921102497846684,
+            "support": 28890
+          },
+          "DDoS": {
+            "precision": 0.9980737192836319,
+            "recall": 0.9989578448230941,
+            "f1": 0.9985155863433943,
+            "support": 19191
+          },
+          "Port Scanning": {
+            "precision": 0.9954011241696474,
+            "recall": 0.99514687100894,
+            "f1": 0.9952739813513859,
+            "support": 3915
+          },
+          "Brute Force": {
+            "precision": 0.9615094339622642,
+            "recall": 0.9922118380062306,
+            "f1": 0.9766193944039862,
+            "support": 1284
+          },
+          "Web Attacks": {
+            "precision": 0.10824108241082411,
+            "recall": 0.9705882352941176,
+            "f1": 0.19476208041313167,
+            "support": 272
+          },
+          "Bots": {
+            "precision": 0.6175298804780877,
+            "recall": 0.9935897435897436,
+            "f1": 0.7616707616707616,
+            "support": 156
+          }
+        },
+        "confusion_matrix": {
+          "Normal Traffic": {
+            "Normal Traffic": 289458,
+            "DoS": 353,
+            "DDoS": 37,
+            "Port Scanning": 17,
+            "Brute Force": 51,
+            "Web Attacks": 2172,
+            "Bots": 96
+          },
+          "DoS": {
+            "Normal Traffic": 91,
+            "DoS": 28796,
+            "DDoS": 0,
+            "Port Scanning": 1,
+            "Brute Force": 0,
+            "Web Attacks": 2,
+            "Bots": 0
+          },
+          "DDoS": {
+            "Normal Traffic": 19,
+            "DoS": 1,
+            "DDoS": 19171,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Port Scanning": {
+            "Normal Traffic": 8,
+            "DoS": 10,
+            "DDoS": 0,
+            "Port Scanning": 3896,
+            "Brute Force": 0,
+            "Web Attacks": 1,
+            "Bots": 0
+          },
+          "Brute Force": {
+            "Normal Traffic": 10,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 1274,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Web Attacks": {
+            "Normal Traffic": 8,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 264,
+            "Bots": 0
+          },
+          "Bots": {
+            "Normal Traffic": 1,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 155
+          }
+        }
+      },
+      "estimator": "sklearn.ensemble._forest.RandomForestClassifier"
+    },
+    "Experimental multiclass catboost": {
+      "model_sha256": "31a29d7394310f9adbedd5ff0f40de8b5bc2600decc249c144057abb13004fde",
+      "threshold": "argmax",
+      "preprocessing": "Verified production training-only scaler; experimental scaler was not packaged. Historical code contract, not complete artifact provenance.",
+      "metrics": {
+        "accuracy": 0.9850097718362957,
+        "macro_f1": 0.785011295615649,
+        "weighted_f1": 0.9887545483852197,
+        "roc_auc_ovr_macro": 0.9992485980812303,
+        "per_class": {
+          "Normal Traffic": {
+            "precision": 0.999564913208887,
+            "recall": 0.9828532705418503,
+            "f1": 0.9911386529026736,
+            "support": 292184
+          },
+          "DoS": {
+            "precision": 0.964771011575239,
+            "recall": 0.9953271028037384,
+            "f1": 0.979810886787631,
+            "support": 28890
+          },
+          "DDoS": {
+            "precision": 0.9904939036991114,
+            "recall": 0.9990099525819395,
+            "f1": 0.9947337017147897,
+            "support": 19191
+          },
+          "Port Scanning": {
+            "precision": 0.8873463814292216,
+            "recall": 0.9959131545338442,
+            "f1": 0.9385004212299916,
+            "support": 3915
+          },
+          "Brute Force": {
+            "precision": 0.9040225829216655,
+            "recall": 0.9976635514018691,
+            "f1": 0.948537578674565,
+            "support": 1284
+          },
+          "Web Attacks": {
+            "precision": 0.08620689655172414,
+            "recall": 0.9926470588235294,
+            "f1": 0.15863689776733256,
+            "support": 272
+          },
+          "Bots": {
+            "precision": 0.31901840490797545,
+            "recall": 1.0,
+            "f1": 0.48372093023255813,
+            "support": 156
+          }
+        },
+        "confusion_matrix": {
+          "Normal Traffic": {
+            "Normal Traffic": 287174,
+            "DoS": 1035,
+            "DDoS": 183,
+            "Port Scanning": 480,
+            "Brute Force": 128,
+            "Web Attacks": 2851,
+            "Bots": 333
+          },
+          "DoS": {
+            "Normal Traffic": 102,
+            "DoS": 28755,
+            "DDoS": 1,
+            "Port Scanning": 15,
+            "Brute Force": 8,
+            "Web Attacks": 9,
+            "Bots": 0
+          },
+          "DDoS": {
+            "Normal Traffic": 19,
+            "DoS": 0,
+            "DDoS": 19172,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Port Scanning": {
+            "Normal Traffic": 0,
+            "DoS": 14,
+            "DDoS": 0,
+            "Port Scanning": 3899,
+            "Brute Force": 0,
+            "Web Attacks": 2,
+            "Bots": 0
+          },
+          "Brute Force": {
+            "Normal Traffic": 3,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 1281,
+            "Web Attacks": 0,
+            "Bots": 0
+          },
+          "Web Attacks": {
+            "Normal Traffic": 1,
+            "DoS": 1,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 270,
+            "Bots": 0
+          },
+          "Bots": {
+            "Normal Traffic": 0,
+            "DoS": 0,
+            "DDoS": 0,
+            "Port Scanning": 0,
+            "Brute Force": 0,
+            "Web Attacks": 0,
+            "Bots": 156
+          }
+        }
+      },
+      "estimator": "catboost.core.CatBoostClassifier"
+    }
+  },
+  "python": "3.14.7",
+  "total_seconds": 193.70625459999974
+}

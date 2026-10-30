@@ -2,6 +2,10 @@
 
 AI-assisted cyber triage tool for early-stage digital forensic analysis.
 
+For the current frozen network detectors, model download, explicit detector
+selection and measured limitations, see [network deployment](docs/network_reliability.md)
+and the [Issue 3 verification report](test-results/issue-3/REPORT.md).
+
 Start with [development setup and verification](docs/development.md) and the
 [current Phase 1 results/checklist](docs/phase1-progress.md). Older handoff notes
 describe historical states; the current source and these documents take precedence.
@@ -16,8 +20,9 @@ Missing/invalid models return 503; missing network features return 400.
 Basic per-batch PSI reports drift without retraining. Host forensic workflows
 continue using their source-specific parsers and rules.
 
-The real dataset was absent during this implementation. No new production model
-or metrics were generated. The legacy model is preserved but ignored.
+The original Phase 1 implementation did not have the real dataset. Subsequent
+training and frozen-artifact verification are documented in the Issue 3 report;
+the older setup notes below describe that earlier development stage.
 See [baseline training, commands, and remaining work](docs/baseline.md),
 [preprocessing](docs/preprocessing.md), and [API contracts](docs/flask_api.md).
 

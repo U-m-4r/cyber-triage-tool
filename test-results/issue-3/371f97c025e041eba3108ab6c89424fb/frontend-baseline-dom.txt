@@ -1,0 +1,407 @@
+- banner:
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE3 VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE3 VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-D47197A0879A" [level=1]
+  - generic: INGESTING
+  - generic: CRITICAL
+  - paragraph: Issue 3 baseline real held-out network flows
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "93.43"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "84"
+  - term: IOCs
+  - definition: "0"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested demo.csv: 84 records (cicids2017)."': 30 Oct 2026, 17:30:57
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence"
+    - tab "Artifacts" [selected]
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - paragraph: Network intrusion predictions and anomaly decisions use the selected detector. PE malware predictions use static file features. YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.
+  - paragraph: Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.
+  - textbox "Search artifacts":
+    - /placeholder: Search source, path, rules
+  - button "Refresh artifacts"
+  - combobox "Filter by type":
+    - option "All types" [selected]
+    - option "Network"
+    - option "System log"
+    - option "File"
+    - option "Registry"
+  - combobox "Filter by severity":
+    - option "All severities" [selected]
+    - option "Critical"
+    - option "High"
+    - option "Medium"
+    - option "Low"
+  - generic: 25 shown of 84
+  - table:
+    - rowgroup:
+      - row "Triage priority Risk ML prediction / score Type Detail YARA / forensic rules Source":
+        - columnheader "Triage priority"
+        - columnheader "Risk"
+        - columnheader "ML prediction / score"
+        - columnheader "Type"
+        - columnheader "Detail"
+        - columnheader "YARA / forensic rules"
+        - columnheader "Source"
+    - rowgroup:
+      - row "CRITICAL 93.43 anomaly Score -0.152585 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 25000 pkt/s · 4612500 B/s High Packet Rate, Large Byte Transfer demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "93.43"
+        - cell "anomaly Score -0.152585 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.152585 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "25000 pkt/s · 4612500 B/s"
+        - cell "High Packet Rate, Large Byte Transfer"
+        - cell "demo.csv"
+      - row "CRITICAL 83.81 anomaly Score -0.165252 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 5870.841487 pkt/s · 7588388.78 B/s Large Byte Transfer demo.csv":
+        - cell "CRITICAL":
+          - generic: CRITICAL
+        - cell "83.81"
+        - cell "anomaly Score -0.165252 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.165252 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "5870.841487 pkt/s · 7588388.78 B/s"
+        - cell "Large Byte Transfer"
+        - cell "demo.csv"
+      - row "HIGH 71.56 anomaly Score -0.036059 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 66666.66667 pkt/s · 400000 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "71.56"
+        - cell "anomaly Score -0.036059 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.036059 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "66666.66667 pkt/s · 400000 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 67.14 anomaly Score -0.012498 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 21276.59574 pkt/s · 2127659.574 B/s High Packet Rate, Large Byte Transfer demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "67.14"
+        - cell "anomaly Score -0.012498 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.012498 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "21276.59574 pkt/s · 2127659.574 B/s"
+        - cell "High Packet Rate, Large Byte Transfer"
+        - cell "demo.csv"
+      - row "HIGH 66.81 anomaly Score -0.010706 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 50632.91139 pkt/s · 101265.8228 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "66.81"
+        - cell "anomaly Score -0.010706 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.010706 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "50632.91139 pkt/s · 101265.8228 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 62.22 normal Score 0.013723 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 20833.33333 pkt/s · 1697916.667 B/s High Packet Rate, Large Byte Transfer demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "62.22"
+        - cell "normal Score 0.013723 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.013723 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "20833.33333 pkt/s · 1697916.667 B/s"
+        - cell "High Packet Rate, Large Byte Transfer"
+        - cell "demo.csv"
+      - row "HIGH 61.65 anomaly Score -0.068512 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 0.425550955 pkt/s · 67.37890125 B/s Long Flow Duration demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "61.65"
+        - cell "anomaly Score -0.068512 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.068512 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "0.425550955 pkt/s · 67.37890125 B/s"
+        - cell "Long Flow Duration"
+        - cell "demo.csv"
+      - row "HIGH 61.14 normal Score 0.019500 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 28169.01408 pkt/s · 112676.0563 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "61.14"
+        - cell "normal Score 0.019500 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.019500 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "28169.01408 pkt/s · 112676.0563 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 60 anomaly Score -0.187585 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 9.814111517 pkt/s · 3940.159328 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "60"
+        - cell "anomaly Score -0.187585 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.187585 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "9.814111517 pkt/s · 3940.159328 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 54.31 normal Score 0.055883 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 16666.66667 pkt/s · 66666.66667 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "54.31"
+        - cell "normal Score 0.055883 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.055883 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "16666.66667 pkt/s · 66666.66667 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 53.6 normal Score 0.059675 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13605.44218 pkt/s · 54421.76871 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "53.6"
+        - cell "normal Score 0.059675 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.059675 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13605.44218 pkt/s · 54421.76871 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 53.6 normal Score 0.059675 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13605.44218 pkt/s · 54421.76871 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "53.6"
+        - cell "normal Score 0.059675 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.059675 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13605.44218 pkt/s · 54421.76871 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 52.68 normal Score 0.064563 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 14814.81481 pkt/s · 44444.44444 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "52.68"
+        - cell "normal Score 0.064563 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.064563 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "14814.81481 pkt/s · 44444.44444 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 52.58 normal Score 0.065116 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13245.03311 pkt/s · 39735.09934 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "52.58"
+        - cell "normal Score 0.065116 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.065116 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13245.03311 pkt/s · 39735.09934 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 52.21 anomaly Score -0.146101 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 6.043806662 pkt/s · 2588.95572 B/s None demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "52.21"
+        - cell "anomaly Score -0.146101 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.146101 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "6.043806662 pkt/s · 2588.95572 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "HIGH 50 normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13274.33628 pkt/s · 61946.90265 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "50"
+        - cell "normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.078847 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13274.33628 pkt/s · 61946.90265 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 50 normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 12244.89796 pkt/s · 57142.85714 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "50"
+        - cell "normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.078847 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "12244.89796 pkt/s · 57142.85714 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "HIGH 50 normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13274.33628 pkt/s · 61946.90265 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "HIGH":
+          - generic: HIGH
+        - cell "50"
+        - cell "normal Score 0.078847 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.078847 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13274.33628 pkt/s · 61946.90265 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "MEDIUM 49.69 normal Score 0.080483 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 11673.15175 pkt/s · 54474.70817 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "49.69"
+        - cell "normal Score 0.080483 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.080483 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "11673.15175 pkt/s · 54474.70817 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "MEDIUM 48.77 normal Score 0.085398 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 11320.75472 pkt/s · 52830.18868 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "48.77"
+        - cell "normal Score 0.085398 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.085398 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "11320.75472 pkt/s · 52830.18868 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "MEDIUM 48.77 normal Score 0.085398 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 11363.63636 pkt/s · 53030.30303 B/s High Packet Rate, Low Packet Size demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "48.77"
+        - cell "normal Score 0.085398 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: normal
+          - paragraph: Score 0.085398 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "11363.63636 pkt/s · 53030.30303 B/s"
+        - cell "High Packet Rate, Low Packet Size"
+        - cell "demo.csv"
+      - row "MEDIUM 42.53 anomaly Score -0.094473 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 655.7854853 pkt/s · 847201.9819 B/s None demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "42.53"
+        - cell "anomaly Score -0.094473 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.094473 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "655.7854853 pkt/s · 847201.9819 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "MEDIUM 33.56 anomaly Score -0.046712 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 13.45756158 pkt/s · 17394.64598 B/s None demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "33.56"
+        - cell "anomaly Score -0.046712 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.046712 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "13.45756158 pkt/s · 17394.64598 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "MEDIUM 33.56 anomaly Score -0.046712 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 11.72032377 pkt/s · 17042.81581 B/s None demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "33.56"
+        - cell "anomaly Score -0.046712 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.046712 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "11.72032377 pkt/s · 17042.81581 B/s"
+        - cell "None"
+        - cell "demo.csv"
+      - row "MEDIUM 33.18 anomaly Score -0.044644 · threshold 0 iforest-65dd0b57a2b1a2020a0b network 28.23054474 pkt/s · 41050.74088 B/s None demo.csv":
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "33.18"
+        - cell "anomaly Score -0.044644 · threshold 0 iforest-65dd0b57a2b1a2020a0b":
+          - text: anomaly
+          - paragraph: Score -0.044644 · threshold 0
+          - generic: iforest-65dd0b57a2b1a2020a0b
+        - cell "network"
+        - cell "28.23054474 pkt/s · 41050.74088 B/s"
+        - cell "None"
+        - cell "demo.csv"
+  - button "Previous" [disabled]
+  - generic: Page 1
+  - button "Next"

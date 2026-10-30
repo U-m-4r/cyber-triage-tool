@@ -207,7 +207,7 @@ class RiskScorer:
         print("[+] Scoring complete")
         return df_results
 
-    def score_records(self, records, anomaly_scores=None, pe_malicious_floor=50):
+    def score_records(self, records, anomaly_scores=None, pe_malicious_floor=50, network_score_kind='anomaly'):
         """Score a list of artifact dicts (from the ingestion parsers).
 
         When `anomaly_scores` is provided (one raw IsolationForest score per
@@ -224,19 +224,29 @@ class RiskScorer:
                 raise ValueError('Anomaly scores must align with network records.')
             if any(self.detect_artifact_type(row) != 'network' for row in records):
                 raise ValueError('Network anomaly scores cannot score non-network artifacts.')
-            normalized = minmax_normalize_scores(anomaly_scores)
+            if network_score_kind == 'supervised':
+                values = np.asarray(anomaly_scores, dtype=float)
+                if not np.isfinite(values).all() or ((values < 0) | (values > 1)).any():
+                    raise ValueError('Supervised scores must be finite and in [0,1].')
+                normalized = values * 100
+            elif network_score_kind == 'anomaly':
+                normalized = minmax_normalize_scores(anomaly_scores)
+            else:
+                raise ValueError('Unknown network score semantics')
         for i, row in enumerate(records):
             artifact_type = self.detect_artifact_type(row)
             r_score, rules = self.apply_rules(row, artifact_type)
             if anomaly_scores is not None:
                 a_score = float(normalized[i])
                 risk = self.compute_risk_score(a_score, r_score)
-                anomaly_out = round(a_score, 2)
+                anomaly_out = round(a_score, 2) if network_score_kind == 'anomaly' else None
             else:
                 anomaly_out = None
                 risk = round(min(r_score * 100, 100), 2)
             explanation = ('Existing network anomaly/rule scoring policy.' if anomaly_scores is not None
                            else 'Existing evidence rules; no network anomaly model applied.')
+            if anomaly_scores is not None and network_score_kind == 'supervised':
+                explanation = 'Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.'
             pe_ml = row.get('pe_ml') or {}
             if artifact_type == 'file' and pe_ml.get('status') == 'CLASSIFIED':
                 if pe_ml.get('prediction') == 'malicious':

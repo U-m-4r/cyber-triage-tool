@@ -1,0 +1,483 @@
+python.exe : INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_371f97c025e041eba3108ab6c89424fb'
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.verify_issue3 --serve *> test-r ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:backend.db...108ab6c89424fb':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "GET /__issue3_371f97c025e041eba3108ab6c89424fb HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "GET /api/model HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684:
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with
+scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "POST /api/analyze HTTP/1.1" 200 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684:
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "GET /api/artifacts?case_id=CASE-89F07A357C7B&limit=100 HTTP/1.1"
+200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:55] "GET /api/ingestions?case_id=CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-89F07A357C7B (50318 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:56] "GET /api/report/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with
+scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "POST /api/analyze HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "GET /api/artifacts?case_id=CASE-D47197A0879A&limit=100 HTTP/1.1"
+200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "GET /api/cases/CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "GET /api/ingestions?case_id=CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-D47197A0879A (50342 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:57] "GET /api/report/CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:58] "[31m[1mPOST /api/analyze HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:30:58] "[35m[1mPOST /api/analyze HTTP/1.1[0m" 503 -
+{
+  "run": "371f97c025e041eba3108ab6c89424fb",
+  "database": "cyber_triage_test_371f97c025e041eba3108ab6c89424fb",
+  "records": 84,
+  "input_bytes": 7102,
+  "csv_sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+  "csv_sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+  "source_sampling": {
+    "sampling": "First 12 held-out source-order records per class, no prediction selection",
+    "source_indices": [
+      1,
+      14,
+      16,
+      21,
+      29,
+      33,
+      35,
+      45,
+      47,
+      52,
+      53,
+      68,
+      35292,
+      37715,
+      38652,
+      38730,
+      39379,
+      39391,
+      39630,
+      40746,
+      40756,
+      40837,
+      41877,
+      41890,
+      225837,
+      228329,
+      231558,
+      231560,
+      231750,
+      231791,
+      231960,
+      231992,
+      232741,
+      232943,
+      232980,
+      233037,
+      386283,
+      386526,
+      386587,
+      386596,
+      386604,
+      386607,
+      386692,
+      386802,
+      387227,
+      387375,
+      388102,
+      388118,
+      807978,
+      807983,
+      807991,
+      807996,
+      807997,
+      807998,
+      808005,
+      808007,
+      808011,
+      808012,
+      808014,
+      808023,
+      1565553,
+      1570932,
+      1573600,
+      1575564,
+      1577084,
+      1581604,
+      1587972,
+      1588558,
+      1590784,
+      1591960,
+      1594299,
+      1595652,
+      1955567,
+      1955570,
+      1955572,
+      1955573,
+      1955574,
+      1955583,
+      1955587,
+      1955590,
+      1955593,
+      1955599,
+      1955615,
+      1955620
+    ],
+    "csv_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+    "class_counts": {
+      "Normal Traffic": 12,
+      "Port Scanning": 12,
+      "Web Attacks": 12,
+      "Brute Force": 12,
+      "DDoS": 12,
+      "Bots": 12,
+      "DoS": 12
+    }
+  },
+  "model_inventory": {
+    "active_model_available": true,
+    "available": true,
+    "baseline": {
+      "bundle_version": 1,
+      "feature_schema": {
+        "artifact_type": "network",
+        "columns": [
+          "Flow Duration",
+          "Total Fwd Packets",
+          "Total Length of Fwd Packets",
+          "Fwd Packet Length Max",
+          "Fwd Packet Length Min",
+          "Fwd Packet Length Mean",
+          "Bwd Packet Length Max",
+          "Bwd Packet Length Min",
+          "Flow Bytes/s",
+          "Flow Packets/s",
+          "Packet Length Mean"
+        ],
+        "dtype": "float64",
+        "flow_duration_unit": "microseconds",
+        "version": 1
+      },
+      "provenance": {
+        "cleaning": {
+          "exclusions": {
+            "by_reason": {
+              "duplicate_row": 161,
+              "label_conflict": 219323,
+              "negative_measurements": 107
+            },
+            "input_rows": 2520751,
+            "invariant": "input_rows == retained_rows + unique_rows",
+            "overlaps": {
+              "pairs": {
+                "duplicate_row & label_conflict": 78,
+                "negative_measurements & duplicate_row": 1
+              },
+              "rows_with_multiple_reasons": 79
+            },
+            "retained_rows": 2301239,
+            "unique_rows": 219512
+          },
+          "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+          "policy_id": "cicids2017-offline-cleaning",
+          "policy_version": "1.0.0",
+          "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+        },
+        "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+        "dataset_path": "data/cicids2017_cleaned.csv",
+        "dataset_version": "local-manual",
+        "decision_threshold": 0.0,
+        "dropped_benign_duplicates": 310489,
+        "dropped_invalid_rows": 0,
+        "excluded_non_benign_rows": 363117,
+        "input_rows": 2301239,
+        "label_column": "Attack Type",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_parameters": {
+          "bootstrap": false,
+          "contamination": 0.1,
+          "max_features": 1.0,
+          "max_samples": "auto",
+          "n_estimators": 100,
+          "n_jobs": -1,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "score_samples_threshold": -0.47321778481357596,
+        "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+        "size_bytes": 717247573,
+        "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+        "split": {
+          "method": "numeric-feature-group-hash-v1",
+          "partitions": {
+            "test": {
+              "rows": 345892,
+              "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+            },
+            "train": {
+              "rows": 1612277,
+              "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+            },
+            "validation": {
+              "rows": 343070,
+              "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+            }
+          },
+          "seed": 42,
+          "test_percent": 15,
+          "train_percent": 70,
+          "validation_percent": 15
+        },
+        "trained_at": "2026-10-27T07:59:07.227722+00:00",
+        "training_policy": "benign_only",
+        "training_rows": 1051117,
+        "valid_rows": 2301239
+      }
+    },
+    "default_detector": "baseline",
+    "models": {
+      "baseline": {
+        "active_threshold": 0.0,
+        "available": true,
+        "calibrated": false,
+        "detector_type": "anomaly_baseline",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+        "name": "Isolation Forest \u2014 Unsupervised Anomaly Detection",
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_path": "data/cicids2017_cleaned.csv",
+          "dataset_version": "local-manual",
+          "decision_threshold": 0.0,
+          "dropped_benign_duplicates": 310489,
+          "dropped_invalid_rows": 0,
+          "excluded_non_benign_rows": 363117,
+          "input_rows": 2301239,
+          "label_column": "Attack Type",
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_parameters": {
+            "bootstrap": false,
+            "contamination": 0.1,
+            "max_features": 1.0,
+            "max_samples": "auto",
+            "n_estimators": 100,
+            "n_jobs": -1,
+            "random_state": 42,
+            "verbose": 0,
+            "warm_start": false
+          },
+          "score_samples_threshold": -0.47321778481357596,
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "size_bytes": 717247573,
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T07:59:07.227722+00:00",
+          "training_policy": "benign_only",
+          "training_rows": 1051117,
+          "valid_rows": 2301239
+        },
+        "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal"
+      },
+      "supervised": {
+        "active_threshold": 0.4343418846451664,
+        "available": true,
+        "calibrated": false,
+        "detector_type": "supervised_binary",
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+        "name": "XGBoost \u2014 Supervised Intrusion Detection",
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_version": "1.0",
+          "fit_duration_seconds": 20.111487,
+          "label_column": "Attack Type",
+          "model_id": "xgb-bin-12ad91fa39",
+          "negative_class": "BENIGN",
+          "positive_class": "ATTACK",
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T09:45:55.376787+00:00",
+          "training_rows": 1612277,
+          "validation_rows": 343070
+        },
+        "score_interpretation": "Uncalibrated tree score; higher indicates attack"
+      }
+    }
+  },
+  "results": [
+    {
+      "detector": "supervised",
+      "case_id": "CASE-89F07A357C7B",
+      "model_id": "xgb-bin-12ad91fa39",
+      "summary": {
+        "classified_attacks": 55,
+        "classified_benign": 29,
+        "critical": 19,
+        "high": 35,
+        "low": 24,
+        "medium": 6,
+        "total_records": 84
+      },
+      "timings": {
+        "csv_inference_seconds": 0.014492199999949662,
+        "model_loading_seconds": 0.014969900001233327,
+        "records_per_second": 5796.221415678211
+      },
+      "http_request_seconds": 0.09157599999889499,
+      "direct_inference_consistency": "PASS",
+      "persistence": "PASS",
+      "pdf_content": "PASS"
+    },
+    {
+      "detector": "baseline",
+      "case_id": "CASE-D47197A0879A",
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "summary": {
+        "classified_attacks": 16,
+        "classified_benign": 68,
+        "critical": 2,
+        "high": 16,
+        "low": 55,
+        "medium": 11,
+        "total_records": 84
+      },
+      "timings": {
+        "csv_inference_seconds": 0.029854399999749148,
+        "model_loading_seconds": 0.023755599999276455,
+        "records_per_second": 2813.655608577155
+      },
+      "http_request_seconds": 0.10561109999980545,
+      "direct_inference_consistency": "PASS",
+      "persistence": "PASS",
+      "pdf_content": "PASS"
+    }
+  ],
+  "missing_features": {
+    "error": {
+      "code": "INPUT_DATA_INVALID",
+      "message": "Missing required network features: Flow Duration"
+    }
+  },
+  "model_unavailable": {
+    "error": {
+      "code": "SUPERVISED_MODEL_MISSING",
+      "message": "Approved supervised detector is missing at '.test-artifacts\\issue3\\371f97c025e041eba3108ab6c89424fb\\absent.joblib'. Uploaded evidence cannot train a model."
+    }
+  },
+  "output": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\test-results\\issue-3\\371f97c025e041eba3108ab6c89424fb"
+}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:32] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:32] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:32] "GET
+/api/artifacts?type=&severity=&q=&offset=0&limit=25&case_id=CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:37] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:37] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:37] "GET
+/api/artifacts?type=&severity=&q=&offset=0&limit=25&case_id=CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:58] "GET /api/cases/CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:58] "GET /api/cases/CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:31:58] "GET
+/api/artifacts?type=&severity=&q=&offset=0&limit=25&case_id=CASE-D47197A0879A HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:34:14] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:34:14] "GET /api/cases/CASE-89F07A357C7B HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 17:34:14] "GET
+/api/artifacts?type=&severity=&q=&offset=0&limit=25&case_id=CASE-89F07A357C7B HTTP/1.1" 200 -

@@ -1,0 +1,142 @@
+- banner:
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE3 VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE3 VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-B2C4773FE166" [level=1]
+  - generic: INGESTING
+  - generic: CRITICAL
+  - paragraph: Issue 3 browser-selected XGBoost upload
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "99.93"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "84"
+  - term: IOCs
+  - definition: "0"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested demo.csv: 84 records (cicids2017)."': 30 Oct 2026, 17:12:14
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence" [selected]
+    - tab "Artifacts"
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - heading "Upload evidence" [level=3]
+  - paragraph: Upload once here to update this case’s evidence, artifacts, analysis, timeline and relationships. Reports use the latest saved results when generated.
+  - paragraph: Network CSVs use the selected frozen detector. Host evidence uses forensic rules; supported PE files also use the static malware classifier. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.
+  - paragraph: "Network models: Isolation Forest — Unsupervised Anomaly Detection · XGBoost — Supervised Intrusion Detection"
+  - paragraph: "PE malware model: EMBER2024_PE@425202786349"
+  - button "Refresh service status"
+  - generic "Selected detector provenance"
+  - text: Evidence type
+  - combobox "Evidence type":
+    - option "CICIDS2017 network-flow CSV" [selected]
+    - option "Packet capture / exported network flows"
+    - option "Exported event logs (CSV / JSON / XML)"
+    - option "Registry export (.reg / CSV / JSON)"
+    - option "File listing (CSV / JSON)"
+    - option "Native forensic evidence (.evtx / hive / disk image)"
+  - text: Network detector
+  - combobox "Network detector":
+    - option "Choose an available detector"
+    - option "Isolation Forest — Unsupervised Anomaly Detection"
+    - option "XGBoost — Supervised Intrusion Detection" [selected]
+  - paragraph: "Selected: XGBoost — Supervised Intrusion Detection · xgb-bin-12ad91fa39 · threshold 0.4343418846451664. Scores are not accuracy."
+  - text: Evidence file
+  - button "Evidence file"
+  - button "Upload and process"
+  - status:
+    - paragraph:
+      - text: "Stored 84 records. Evidence SHA-256:"
+      - code: 31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e
+    - paragraph: Analyzed by xgb-bin-12ad91fa39 · threshold 0.4343418846451664 · 84 flows · 55 attack/anomaly decisions · 29 benign/normal decisions
+    - generic "Processing results and provenance"
+  - generic: "1"
+  - generic: Sources acquired
+  - generic: "1"
+  - generic: Parsed
+  - text: "0"
+  - generic: Hash-verified
+  - generic: "0"
+  - generic: Outstanding
+  - generic: "1"
+  - generic: Case evidence count
+  - heading "Acquired sources" [level=2]
+  - paragraph: 1 in hand · 0 hash-verified · 1 digested
+  - table:
+    - rowgroup:
+      - row "Source Type Size Acquired Custodian Integrity State":
+        - columnheader "Source"
+        - columnheader "Type"
+        - columnheader "Size"
+        - columnheader "Acquired"
+        - columnheader "Custodian"
+        - columnheader "Integrity"
+        - columnheader "State"
+    - rowgroup:
+      - row "demo.csv cicids2017 7102 bytes 30 Oct 2026, 17:12:14 — SHA-256 recorded Parsed":
+        - cell "demo.csv":
+          - generic: demo.csv
+        - cell "cicids2017"
+        - cell "7102 bytes"
+        - cell "30 Oct 2026, 17:12:14"
+        - cell "—"
+        - cell "SHA-256 recorded":
+          - text: SHA-256 recorded
+        - cell "Parsed"
+  - heading "Ingestion history" [level=3]
+  - 'generic "demo.csv — cicids2017 — storage: complete — 84 stored"'
+  - button "Previous" [disabled]
+  - button "Next" [disabled]

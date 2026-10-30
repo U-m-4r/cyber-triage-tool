@@ -1,0 +1,98 @@
+{
+  "dataset_sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+  "dataset_bytes": 717247573,
+  "split": {
+    "method": "numeric-feature-group-hash-v1",
+    "seed": 42,
+    "train_percent": 70,
+    "validation_percent": 15,
+    "test_percent": 15,
+    "partitions": {
+      "train": {
+        "rows": 1612277,
+        "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+      },
+      "validation": {
+        "rows": 343070,
+        "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+      },
+      "test": {
+        "rows": 345892,
+        "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+      }
+    }
+  },
+  "class_distributions": {
+    "train": {
+      "Normal Traffic": 1361606,
+      "Port Scanning": 18583,
+      "Web Attacks": 1414,
+      "Brute Force": 6258,
+      "DDoS": 89566,
+      "Bots": 856,
+      "DoS": 133994
+    },
+    "validation": {
+      "Normal Traffic": 284332,
+      "Port Scanning": 8938,
+      "Web Attacks": 302,
+      "Brute Force": 1381,
+      "DDoS": 19201,
+      "Bots": 186,
+      "DoS": 28730
+    },
+    "test": {
+      "Normal Traffic": 292184,
+      "Port Scanning": 3915,
+      "Web Attacks": 272,
+      "Brute Force": 1284,
+      "DDoS": 19191,
+      "Bots": 156,
+      "DoS": 28890
+    }
+  },
+  "overlaps": {
+    "canonical_raw_float64": {
+      "unique_vectors": 1825940,
+      "cross_partition_groups": 0,
+      "duplicate_copies": 475299
+    },
+    "supervised_scaled_float64": {
+      "unique_vectors": 1825933,
+      "cross_partition_groups": 3,
+      "duplicate_copies": 475306
+    },
+    "baseline_scaled_float64": {
+      "unique_vectors": 1825940,
+      "cross_partition_groups": 0,
+      "duplicate_copies": 475299
+    },
+    "supervised_model_float32": {
+      "unique_vectors": 1783427,
+      "cross_partition_groups": 19449,
+      "duplicate_copies": 517812
+    },
+    "baseline_model_float32": {
+      "unique_vectors": 1783648,
+      "cross_partition_groups": 19407,
+      "duplicate_copies": 517591
+    }
+  },
+  "scaler_training_moments": {
+    "supervised": {
+      "rows": 1612277,
+      "matches_saved_sample_count": true,
+      "mean_matches": true,
+      "variance_matches": true
+    },
+    "baseline": {
+      "rows": 1051117,
+      "matches_saved_sample_count": true,
+      "mean_matches": true,
+      "variance_matches": true
+    }
+  },
+  "cleaning_record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f",
+  "hash_method": "SHA-256 of canonical numeric little-endian row bytes; assumes no cryptographic collisions",
+  "limitations": "Feature-group split is not session, host, time or independent-site separation. Float32 model-input collisions are audited separately."
+}

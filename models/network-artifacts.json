@@ -1,0 +1,20 @@
+{
+  "release": "network-models-v1",
+  "repository": "U-m-4r/cyber-triage-tool",
+  "trust": "Operator-owned joblib bundles only. Verify these reviewed checksums before deserialization. Never load an uploaded model.",
+  "dataset_sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+  "artifacts": {
+    "cicids2017_baseline.joblib": {
+      "sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+      "size_bytes": 760117,
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "decision_threshold": 0.0
+    },
+    "supervised_binary.joblib": {
+      "sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+      "size_bytes": 1299382,
+      "model_id": "xgb-bin-12ad91fa39",
+      "decision_threshold": 0.4343418846451664
+    }
+  }
+}

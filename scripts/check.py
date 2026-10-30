@@ -18,6 +18,9 @@ def run(command):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--all", action="store_true", help="Also run backend tests and frontend tests/build")
+    parser.add_argument(
+        "--no-training", action="store_true", help="Run tests with model/scaler fitting prohibited"
+    )
     args = parser.parse_args()
     sources = [
         p
@@ -45,7 +48,7 @@ def main():
     run([sys.executable, "-m", "flask", "--app", "backend.app", "check-config"])
     run(["git", "diff", "--check"])
     if args.all:
-        run([sys.executable, "-m", "pytest", "-q"])
+        run([sys.executable, "-m", "pytest", "-q", *(["--no-training"] if args.no_training else [])])
         npm = shutil.which("npm.cmd" if sys.platform == "win32" else "npm")
         if not npm:
             raise RuntimeError("npm not found. Install the documented Node version.")

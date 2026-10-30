@@ -17,5 +17,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: python -m venv .venv
       - run: .venv/bin/python -m pip install -r requirements/dev.txt
+      - run: .venv/bin/python -m pip install -r requirements/network-ml.txt
+      - run: .venv/bin/python -m scripts.acquire_network_models
       - run: npm --prefix frontend ci --ignore-scripts
-      - run: .venv/bin/python scripts/check.py --all
+      - run: .venv/bin/python scripts/check.py --all --no-training

@@ -22,6 +22,8 @@ def boolean(value):
 
 
 def validate_config(config):
+    if config.get("NETWORK_DEFAULT_DETECTOR", "baseline") not in ("baseline", "supervised"):
+        raise ConfigurationError("NETWORK_DEFAULT_DETECTOR must be baseline or supervised.")
     for key in ("TESTING", "DEBUG", "SUPERVISED_DETECTOR_ENABLED"):
         if key in config and not isinstance(config[key], bool):
             raise ConfigurationError(f"{key} must be a boolean.")
@@ -105,6 +107,10 @@ def load_config(overrides=None):
             except ValueError:
                 raise ConfigurationError(f"{key} must be a positive integer.") from None
     config.update(overrides)
+    if "NETWORK_DEFAULT_DETECTOR" not in overrides:
+        config["NETWORK_DEFAULT_DETECTOR"] = (
+            os.getenv("NETWORK_DEFAULT_DETECTOR") if not testing else None
+        ) or ("supervised" if config["SUPERVISED_DETECTOR_ENABLED"] else "baseline")
     config["CORS_ORIGINS"] = [origin.strip() for origin in config["CORS_ORIGINS"] if origin.strip()]
     validate_config(config)
     return config

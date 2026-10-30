@@ -1,0 +1,102 @@
+Python syntax: 87 files passed
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m pip check
+No broken requirements found.
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m ruff check .
+All checks passed!
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m ruff format --check backend/config.py tests/test_foundation.py scripts/check.py
+3 files already formatted
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m flask --app backend.app check-config
+Configuration valid: environment=development, database=mongo, auth=disabled
+Running: git diff --check
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m pytest -q --no-training
+sssssssss.ssssssssss.s..s..sssssss.......ssssssssss...ss...s............ [ 18%]
+.....................s.................................................. [ 36%]
+.................................................s.............ss....... [ 55%]
+..............s......................s.................................. [ 73%]
+s..................s.s.............ss.........................s......... [ 92%]
+...............................                                          [100%]
+============================== warnings summary ===============================
+tests/test_network_reliability.py::test_supervised_evaluation_selects_requested_model
+tests/test_supervised_detector.py::test_infer_reorders_shuffled_features_correctly
+tests/test_supervised_detector.py::test_infer_handles_or_rejects_non_finite_values
+tests/test_supervised_detector.py::test_score_and_decision_semantics
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_api_analyze_with_supervised_detector
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+    warnings.warn(
+
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but IsolationForest was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [11] tests\test_attack_family.py: Synthetic RandomForest/scaler fitting prohibited by --no-training
+SKIPPED [8] tests\test_attack_family.py:98: Synthetic RandomForest/scaler fitting prohibited by --no-training
+SKIPPED [9] tests\test_baseline.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [6] tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_chain_of_custody.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_cleaning.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_disk_file_yara.py:71: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [2] tests\test_endpoints.py: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [1] tests\test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+SKIPPED [1] tests\test_foundation.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_holdout.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_integration_views.py:130: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [1] tests\test_ml_core.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [2] tests\test_network_reliability.py:71: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [1] tests\test_pe_malware.py:112: Requires --run-integration and dedicated MongoDB on port 27018
+338 passed, 53 skipped, 10 warnings in 24.90s
+Running: C:\Program Files\nodejs\npm.cmd --prefix frontend run check
+
+> cyber-triage-frontend@0.1.0 check
+> npm run test && npm run build
+
+
+> cyber-triage-frontend@0.1.0 test
+> node --test tests/*.test.js
+
+✔ shared evidence is one entity with distinct finding references and highest severity (3.7077ms)
+✔ host associations come only from findings with recorded hosts (0.2604ms)
+✔ API configuration is validated and demo mode cannot enable fixtures (1.9287ms)
+✔ network failure never substitutes a known sample case (47.4206ms)
+✔ only case 404 maps to a missing case (4.786ms)
+✔ database failure cannot look like an empty artifact collection (0.4594ms)
+✔ dashboard failures propagate and a subsequent retry can recover (1.6159ms)
+✔ concurrent dashboard reads share one request (0.4862ms)
+✔ malformed dashboard response is an error (0.3817ms)
+✔ API requests carry the session token without putting it in the URL (0.484ms)
+✔ PDF downloads use the same authenticated request path (1.7393ms)
+✔ sign in validates token before storing a session (1.6243ms)
+✔ unauthorized request clears the browser session (0.2951ms)
+✔ cancellation remains AbortError instead of a false service outage (0.6122ms)
+✔ multipart carries evidence and case ID without forcing a content type (0.6597ms)
+✔ case mutations use persisted API routes and propagate failures (0.5386ms)
+✔ dashboard refetches after earlier request completes (0.3744ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.9381
+
+> cyber-triage-frontend@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 105 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.78 kB │ gzip:  0.44 kB
+dist/assets/index-DkngZtH1.css   76.23 kB │ gzip: 14.08 kB
+dist/assets/index-BSN1EgYh.js   327.14 kB │ gzip: 98.06 kB
+
+✓ built in 229ms

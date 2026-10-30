@@ -1,0 +1,2 @@
+# Frozen production network-model runtime. No training on upload.
+xgboost==3.4.1

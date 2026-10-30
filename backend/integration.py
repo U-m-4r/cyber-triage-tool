@@ -108,8 +108,14 @@ def finding(doc):
             rationale += f" Content scan: {doc['scan_status']}; {doc.get('scan_reason', '')}. SHA-256: {doc.get('sha256') or 'unavailable'}. YARA indicators require investigation, not proof of malware."
             rationale += f" Volume offset: {doc.get('volume_offset')}; inode: {doc.get('inode')}. Evidence SHA-256: {doc.get('evidence_sha256')}."
     else:
-        anomaly_detail = f"{anomaly_score}" if anomaly_score is not None else "unavailable"
+        anomaly_detail = f"{anomaly_score}" if anomaly_score is not None else (
+            'not applicable to supervised detection' if doc.get('detector') == 'supervised_binary' else 'unavailable')
         rationale = f"Rule score: {rule_score}; network anomaly score: {anomaly_detail}"
+        if doc.get('model_id'):
+            rationale += (f" Detector: {doc.get('detector')}; model: {doc['model_id']}; "
+                          f"prediction: {doc.get('prediction')}; model score: {doc.get('model_score')}; "
+                          f"threshold: {doc.get('decision_threshold')}. {doc.get('score_interpretation')}. "
+                          'Triage risk is a separate review ranking, not accuracy or calibrated confidence.')
     return {"id": doc["artifact_id"], "title": str(title),
             "severity": doc["priority"], "riskScore": doc["risk_score"], "confidence": None,
             "source": doc.get("source_file"), "host": doc.get("Computer") or doc.get("Source IP"),
@@ -134,7 +140,7 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
         docs = []
         for row in scored:
             docs.append({**row, "artifact_id": "ART-" + uuid.uuid4().hex,
-                         "model_id": (metadata or {}).get('baseline', {}).get('provenance', {}).get('model_id'),
+                         "model_id": row.get('model_id') or (metadata or {}).get('inference_metadata', {}).get('model_id') or (metadata or {}).get('baseline', {}).get('provenance', {}).get('model_id'),
                          "case_id": case_id, "intake_id": intake_id, "source_kind": kind,
                          "source_file": custody["original_filename"], "ingested_at": stamp})
         if docs:
@@ -144,6 +150,9 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
                       "size": f"{custody['size_bytes']} bytes", "acquiredAt": custody["ingested_at"],
                       "sha256": custody["sha256"], "integrity": "SHA-256 recorded",
                       "state": "PARSED", "detail": f"{len(scored)} records; original file is not retained"}
+            if (metadata or {}).get('inference_metadata'):
+                source['network_analysis'] = {'model':metadata['inference_metadata'],
+                                              'summary':metadata.get('network_summary', {})}
             if (metadata or {}).get('disk_scan'):
                 scan = metadata['disk_scan']
                 source['state'] = scan['scan_status']

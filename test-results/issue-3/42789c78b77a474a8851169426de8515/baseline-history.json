@@ -1,0 +1,239 @@
+{
+  "ingestions": [
+    {
+      "baseline": {
+        "bundle_version": 1,
+        "feature_schema": {
+          "artifact_type": "network",
+          "columns": [
+            "Flow Duration",
+            "Total Fwd Packets",
+            "Total Length of Fwd Packets",
+            "Fwd Packet Length Max",
+            "Fwd Packet Length Min",
+            "Fwd Packet Length Mean",
+            "Bwd Packet Length Max",
+            "Bwd Packet Length Min",
+            "Flow Bytes/s",
+            "Flow Packets/s",
+            "Packet Length Mean"
+          ],
+          "dtype": "float64",
+          "flow_duration_unit": "microseconds",
+          "version": 1
+        },
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_path": "data/cicids2017_cleaned.csv",
+          "dataset_version": "local-manual",
+          "decision_threshold": 0.0,
+          "dropped_benign_duplicates": 310489,
+          "dropped_invalid_rows": 0,
+          "excluded_non_benign_rows": 363117,
+          "input_rows": 2301239,
+          "label_column": "Attack Type",
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_parameters": {
+            "bootstrap": false,
+            "contamination": 0.1,
+            "max_features": 1.0,
+            "max_samples": "auto",
+            "n_estimators": 100,
+            "n_jobs": -1,
+            "random_state": 42,
+            "verbose": 0,
+            "warm_start": false
+          },
+          "score_samples_threshold": -0.47321778481357596,
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "size_bytes": 717247573,
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T07:59:07.227722+00:00",
+          "training_policy": "benign_only",
+          "training_rows": 1051117,
+          "valid_rows": 2301239
+        }
+      },
+      "case_id": "CASE-812DABD2E5EF",
+      "created_at": "2026-10-30T11:35:05.449090+00:00",
+      "drift": {
+        "batch_rows": 84,
+        "drift_detected": null,
+        "features": {},
+        "method": "psi",
+        "min_samples": 100,
+        "reference_rows": 1051117,
+        "retraining_triggered": false,
+        "status": "insufficient_data",
+        "threshold": 0.2
+      },
+      "evidence": {
+        "algorithm": "SHA-256",
+        "ingested_at": "2026-10-30T11:35:05.379055+00:00",
+        "original_filename": "demo.csv",
+        "sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+        "size_bytes": 7102
+      },
+      "id": "IN-b67290ca77c340a48fb6d3b9205634a7",
+      "inference_metadata": {
+        "active_threshold": 0.0,
+        "calibrated": false,
+        "detector_type": "anomaly_baseline",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_path": "data/cicids2017_cleaned.csv",
+          "dataset_version": "local-manual",
+          "decision_threshold": 0.0,
+          "dropped_benign_duplicates": 310489,
+          "dropped_invalid_rows": 0,
+          "excluded_non_benign_rows": 363117,
+          "input_rows": 2301239,
+          "label_column": "Attack Type",
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_parameters": {
+            "bootstrap": false,
+            "contamination": 0.1,
+            "max_features": 1.0,
+            "max_samples": "auto",
+            "n_estimators": 100,
+            "n_jobs": -1,
+            "random_state": 42,
+            "verbose": 0,
+            "warm_start": false
+          },
+          "score_samples_threshold": -0.47321778481357596,
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "size_bytes": 717247573,
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T07:59:07.227722+00:00",
+          "training_policy": "benign_only",
+          "training_rows": 1051117,
+          "valid_rows": 2301239
+        },
+        "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal",
+        "timings": {
+          "csv_inference_seconds": 0.024178800000299816,
+          "model_loading_seconds": 0.02091119999931834,
+          "records_per_second": 3474.1178221813493
+        }
+      },
+      "kind": "cicids2017",
+      "network_summary": {
+        "classified_attacks": 16,
+        "classified_benign": 68,
+        "critical": 2,
+        "high": 16,
+        "low": 55,
+        "medium": 11,
+        "total_records": 84
+      },
+      "preprocessing": {
+        "dropped_invalid_rows": 0,
+        "duplicates_preserved": true,
+        "input_rows": 84,
+        "timings": {
+          "csv_inference_seconds": 0.024178800000299816,
+          "model_loading_seconds": 0.02091119999931834,
+          "records_per_second": 3474.1178221813493
+        },
+        "valid_rows": 84
+      },
+      "record_count": 84,
+      "status": "complete",
+      "stored": 84
+    }
+  ],
+  "total": 1
+}
