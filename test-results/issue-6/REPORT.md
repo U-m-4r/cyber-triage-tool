@@ -152,3 +152,9 @@ Fresh-checkout CI initially exposed two eager optional psutil imports before sea
 Figures: model-comparison.png, confusion-matrices.png, final-roc-pr.png, attack-family-recall.png, feature-distributions.png, top-k-recall.png, inference-throughput.png, historical-score-diagnosis.png, historical-threshold-review.png. Figures contain actual populations/protocols, never illustrative values.
 Limits: no independent site/bot scenario; conditional extractor semantics; quota-sampled validation; tiny rare-class training counts; finite one-seed/two-model budget; incomplete session/host independence; unmeasured training peak RSS; browser interactions unavailable. High recall on the known development scenario did not transfer under the fixed FPR gate. The original 2017 cleaned source has historical label-conflict cleaning and partition limitations documented in Issue 3; they are not erased here.
 Current production model hashes and all historical Issue 3–5 scientific files are verified against checkpoint.json. Research code and honest negative deployment results may be published, as authorized. Final commit/remote SHA is reported from Git after publication; no self-referential hash is embedded here. No further development issue was started.
+
+## Publication verification addendum
+
+Fresh-checkout GitHub CI run 41085896071 succeeded: 369 passed, 85 skipped. This smaller environment lacks native extras/data; it is separate from the local 408/46 run.
+
+[Rejected research prerelease](https://github.com/U-m-4r/cyber-triage-tool/releases/tag/issue-6-research-v1): archive SHA-256 `855b2aac38d61bfeab4c0d2d60bb6395438da35ab0a56f568f88247f6e8dbb10`. Fresh public download, nine member hashes, both native model loads and 100 validation-score comparisons per model passed with maximum score error zero. No final evaluation was repeated or model deployed.

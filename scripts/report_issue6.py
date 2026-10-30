@@ -203,6 +203,16 @@ def main():
         'No further development issue was started.', '']
     # Avoid falsely giving the challenger load measurement to the incumbent.
     lines=[line.replace(f"| incumbent | {final['candidate_loading_seconds']:.6f} (challenger only)", '| incumbent | Not measured in final harness') for line in lines]
+    if (ROOT/'ci-success.json').exists():
+        ci=load('ci-success.json')
+        lines += ['## Publication verification addendum', '',
+            f"Fresh-checkout GitHub CI run {ci['run']} succeeded: {ci['backend'][0]} passed, {ci['backend'][1]} skipped. "
+            'This smaller environment lacks native extras/data; it is separate from the local 408/46 run.', '']
+    if (ROOT/'release-verification.json').exists():
+        release=load('release-verification.json')
+        lines += [f"[Rejected research prerelease]({release['release_url']}): archive SHA-256 `{release['archive_sha256']}`. "
+            'Fresh public download, nine member hashes, both native model loads and 100 validation-score comparisons '
+            'per model passed with maximum score error zero. No final evaluation was repeated or model deployed.', '']
     (ROOT/'REPORT.md').write_text('\n'.join(lines),encoding='utf-8')
     # Git ignores .log by policy; publish text transcripts without changing raw logs.
     for log in ROOT.glob('*.log'):

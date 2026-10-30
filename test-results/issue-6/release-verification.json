@@ -1,0 +1,24 @@
+{
+  "archive_sha256": "855b2aac38d61bfeab4c0d2d60bb6395438da35ab0a56f568f88247f6e8dbb10",
+  "members_verified": 9,
+  "deployment_allowed": false,
+  "destination": ".test-artifacts\\issue6\\released-research",
+  "models": {
+    "xgboost": {
+      "sha256": "b351853eb0389cc81b09f66eb3ff74358c0f9a4715ff1bdb55fefa89a022a711",
+      "genuine_downloaded_model_load": "PASS",
+      "validation_rows": 100,
+      "score_reproduction": "PASS",
+      "max_absolute_error": 0.0
+    },
+    "lightgbm": {
+      "sha256": "51b83bd3bc4f94ff83582086df9ad312cc69ca6d2ff7bff85be7bbc71582032f",
+      "genuine_downloaded_model_load": "PASS",
+      "validation_rows": 100,
+      "score_reproduction": "PASS",
+      "max_absolute_error": 0.0
+    }
+  },
+  "release_url": "https://github.com/U-m-4r/cyber-triage-tool/releases/tag/issue-6-research-v1",
+  "scope": "Research artifact verification only; no final rerun or deployment"
+}
