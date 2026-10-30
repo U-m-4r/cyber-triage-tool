@@ -1,0 +1,48 @@
+{
+  "protocol_sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3",
+  "locked_at": "2026-10-30T15:30:10.529819+00:00",
+  "sources": [
+    {
+      "filename": "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+      "path": ".test-artifacts\\issue6\\raw\\Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+      "url": "https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com/Processed%20Traffic%20Data%20for%20ML%20Algorithms/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+      "size_bytes": 333723605,
+      "sha256": "1a4919faa0c49c7af97230b0c2d076eba23ee6dd81103a3801d51ac316355d8b",
+      "etag": "\"e68ef27c09c98ba91fe3c6b1108a18b9-20\"",
+      "last_modified": "Thu, 11 Oct 2018 16:03:10 GMT"
+    },
+    {
+      "filename": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+      "path": ".test-artifacts\\issue6\\raw\\Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+      "url": "https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com/Processed%20Traffic%20Data%20for%20ML%20Algorithms/Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+      "size_bytes": 382840456,
+      "sha256": "d0a7f5059d9823b6e9b392b759e306481a3502d190dea7a1b5502ae079ea069b",
+      "etag": "\"472d63fb3c1285ce2f1e25617ba8cba5-23\"",
+      "last_modified": "Thu, 11 Oct 2018 16:03:33 GMT"
+    }
+  ],
+  "feature_schema": {
+    "version": "network-generalization-11-v1",
+    "columns": [
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Length of Fwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Packet Length Mean"
+    ],
+    "preprocessing": "identity-float32-no-fit",
+    "duration_unit": "microseconds",
+    "counts_unit": "packets",
+    "lengths_unit": "bytes",
+    "rates_unit": "per-second",
+    "calibrated": false
+  },
+  "label_access": "No CSV parsing or label access during byte acquisition and locking",
+  "official_origin": "UNB/CIC official AWS public bucket; multipart ETag is not an authenticity signature"
+}
