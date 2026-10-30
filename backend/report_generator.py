@@ -506,6 +506,48 @@ def _build_evidence(case, styles):
             Paragraph("State", styles["CellText"]),
         ]]
         for s in sources:
+            coverage = s.get('screening_result')
+            if coverage:
+                elements.append(Paragraph(escape(
+                    f"Unified screening: {coverage['overall_scan_status']}; type {coverage['evidence_type']}; "
+                    f"SHA-256 {coverage['evidence_sha256']}. "
+                    f"Findings: {coverage['coverage']['findings_total']}; details returned: {coverage['coverage']['findings_returned']}. "
+                    "No detection does not establish safety. Risk bands are project review policy, not CVSS."), styles['BodyText2']))
+                for scan in coverage['screening'].values():
+                    elements.append(Paragraph(escape(
+                        f"{scan['scanner']}: {scan['status']}; scope {scan['input_scope']}; "
+                        f"examined {scan['examined']}; skipped {scan['skipped']}; findings {scan['findings']}; "
+                        f"seconds {scan['processing_seconds']}; version {scan['scanner_version']}; "
+                        f"identifier {scan.get('identifier')}. {scan.get('reason') or ''}"), styles['BodyText2']))
+                    if scan.get('skipped_count_exact') is False:
+                        elements.append(Paragraph('Enumeration stopped; the remaining skipped population is unknown. Counts are lower bounds.', styles['BodyText2']))
+                for warning in coverage.get('warnings', []):
+                    elements.append(Paragraph(escape('Screening limitation: '+warning), styles['BodyText2']))
+                container_hits = [hit for hit in coverage.get('iocs', []) if hit.get('input_scope') == 'uploaded_container_bytes']
+                if container_hits:
+                    elements.append(Paragraph(escape('Container-level signatures (no verified record association): '+
+                        ', '.join(hit['namespace']+':'+hit['rule'] for hit in container_hits)), styles['BodyText2']))
+                for indicator in coverage.get('findings', []):
+                    identity = '; '.join(f'{key}: {value}' for key,value in indicator['artifact'].items())
+                    elements.append(Paragraph(escape(
+                        f"Screening finding: {identity}; engines {', '.join(indicator['detection_sources'])}; "
+                        f"priority {indicator['priority']}; risk {indicator['risk_score']}. {indicator.get('risk_explanation')}. "
+                        f"YARA rules: {[hit['rule'] for hit in indicator.get('yara_matches', [])]}; "
+                        f"forensic rules: {', '.join(indicator.get('forensic_rule_matches', [])) or 'none'}."), styles['BodyText2']))
+                    pe = indicator.get('pe_ml') or {}
+                    if pe.get('status') == 'CLASSIFIED':
+                        elements.append(Paragraph(escape(
+                            f"PE ML prediction: {pe['prediction']}; model score {pe['model_score']}; threshold {pe['threshold']}. "
+                            f"Model {pe['model_id']}; version {pe['model_version']}; SHA-256 {pe['model_sha256']}; "
+                            f"extractor {pe['feature_extractor_version']}. Score is not calibrated confidence."), styles['BodyText2']))
+                    network = indicator.get('network_ml') or {}
+                    if network:
+                        elements.append(Paragraph(escape(
+                            f"Network prediction: {network.get('binary_prediction')}; model score {network.get('model_score')}; "
+                            f"threshold {network.get('decision_threshold')}; model {network.get('model_id')}. "
+                            "Score is not calibrated confidence."), styles['BodyText2']))
+            else:
+                elements.append(Paragraph('Unified screening coverage was not recorded for this historical evidence.', styles['BodyText2']))
             if s.get('network_analysis'):
                 analysis = s['network_analysis']
                 model, summary = analysis['model'], analysis['summary']

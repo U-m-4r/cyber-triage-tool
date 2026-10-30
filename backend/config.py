@@ -22,6 +22,21 @@ def boolean(value):
 
 
 def validate_config(config):
+    for key, value in config.get("SCREENING_LIMITS", {}).items():
+        if key not in {
+            "max_yara_bytes",
+            "max_parse_bytes",
+            "max_pe_bytes",
+            "max_records",
+            "max_findings",
+            "max_parser_seconds",
+            "yara_timeout",
+        }:
+            raise ConfigurationError("Unknown screening limit.")
+        if type(value) is not int or value <= 0:
+            raise ConfigurationError("Screening limits must be positive integers.")
+    if not isinstance(config.get("SCREENING_YARA_ENABLED", True), bool):
+        raise ConfigurationError("SCREENING_YARA_ENABLED must be a boolean.")
     if config.get("NETWORK_DEFAULT_DETECTOR", "baseline") not in ("baseline", "supervised"):
         raise ConfigurationError("NETWORK_DEFAULT_DETECTOR must be baseline or supervised.")
     for key in ("TESTING", "DEBUG", "SUPERVISED_DETECTOR_ENABLED"):
@@ -92,6 +107,17 @@ def load_config(overrides=None):
             else []
         ),
         "MAX_CONTENT_LENGTH": 128 * 1024 * 1024,
+        "SCREENING_YARA_ENABLED": True if testing else boolean(os.getenv("SCREENING_YARA_ENABLED", "true")),
+        "YARA_RULES_DIR": None if testing else os.getenv("YARA_RULES_DIR"),
+        "SCREENING_LIMITS": {
+            "max_yara_bytes": 16 * 1024 * 1024,
+            "max_parse_bytes": 16 * 1024 * 1024,
+            "max_pe_bytes": 2 * 1024 * 1024,
+            "max_records": 100000,
+            "max_findings": 1000,
+            "max_parser_seconds": 60,
+            "yara_timeout": 10,
+        },
         "TEMP_DIR": str(ROOT / (".test-artifacts/uploads" if testing else "temp")),
         "MODEL_PATH": str(ROOT / "models/cicids2017_baseline.joblib"),
         "SUPERVISED_MODEL_PATH": str(ROOT / "models/supervised_binary.joblib"),
@@ -101,6 +127,11 @@ def load_config(overrides=None):
         ),
     }
     if not testing:
+        for key, default in config["SCREENING_LIMITS"].items():
+            try:
+                config["SCREENING_LIMITS"][key] = int(os.getenv("SCREENING_" + key.upper(), str(default)))
+            except ValueError:
+                raise ConfigurationError("Screening limits must be positive integers.") from None
         for key in ("MAX_CONTENT_LENGTH", "MONGO_TIMEOUT_MS"):
             try:
                 config[key] = int(os.getenv(key, str(config[key])))

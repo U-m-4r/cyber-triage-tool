@@ -1,0 +1,32 @@
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\fs\__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_80d20262820f480d85e47b3a72c6617f'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:13:50] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:13:57] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:13:57] "GET /api/cases/CASE-6380584517CF HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-6380584517CF (14391 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:13:57] "GET /api/report/CASE-6380584517CF HTTP/1.1" 200 -
+disk {"case_id": "CASE-6380584517CF", "intake_id": "IN-d02e5b3d0ec9471aa995dd9745914ca0", "stored": 6, "source_size": 1474560, "sha256_before": "bc1e14f97b9d9f3229e2de0f1e8c59f9e43b578daceb47c9448ef1c229aace68", "sha256_after": "bc1e14f97b9d9f3229e2de0f1e8c59f9e43b578daceb47c9448ef1c229aace68", "status": "COMPLETED", "http_seconds": 7.662298100000044, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 6, "pdf_sha256": "05ea7bf7ce98203a3665f848e2286920a2f431f3be3296c3cf38ceeaf94a58d6"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:13:57] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:14:01] "POST /api/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:14:01] "GET /api/cases/CASE-AEB90363EE8A HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-AEB90363EE8A (8091 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:14:01] "GET /api/report/CASE-AEB90363EE8A HTTP/1.1" 200 -
+standalone-pe {"case_id": "CASE-AEB90363EE8A", "intake_id": "IN-b1f0cf924206403fba7e1c3bf6ef8b26", "stored": 1, "source_size": 108032, "sha256_before": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7", "sha256_after": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7", "status": "COMPLETED", "http_seconds": 3.9333255999990797, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 3, "pdf_sha256": "73d6913fb0b1e4ac8589c0646e0783e9729e308145962af0014aeec9bfd01a15"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:14:01] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+ERROR:backend.app:Failed to persist analysis results
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 20:14:01] "[35m[1mPOST /api/analyze HTTP/1.1[0m" 503 -
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue5.py", line 153, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue5.py", line 78, in main
+    response.raise_for_status(); result = response.json()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 503 Server Error: SERVICE UNAVAILABLE for url: http://127.0.0.1:5069/api/analyze

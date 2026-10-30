@@ -140,6 +140,9 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
         docs = []
         for row in scored:
             docs.append({**row, "artifact_id": "ART-" + uuid.uuid4().hex,
+                         'evidence_sha256':custody['sha256'],
+                         'scanner_coverage':{key:value['status'] for key,value in
+                             (metadata or {}).get('screening_result', {}).get('screening', {}).items()},
                          "model_id": row.get('model_id') or (metadata or {}).get('inference_metadata', {}).get('model_id') or (metadata or {}).get('baseline', {}).get('provenance', {}).get('model_id'),
                          "case_id": case_id, "intake_id": intake_id, "source_kind": kind,
                          "source_file": custody["original_filename"], "ingested_at": stamp})
@@ -160,6 +163,9 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
                                     f"{scan['files_skipped']} unscanned; {scan.get('non_file_entries_ignored', 0)} non-file entries ignored; {scan['files_with_yara_matches']} matched. "
                                     + '; '.join(scan['warnings']))
                 source['disk_scan'] = scan
+            if (metadata or {}).get('screening_result'):
+                source['screening_result'] = metadata['screening_result']
+                source['state'] = metadata['screening_result']['overall_scan_status']
             db.cases.update_one({"id": case_id}, {"$push": {
                 "custody": custody, "evidence.sources": source, "iocs": {"$each": iocs or []}},
                 "$inc": {"counts.evidence": 1, "counts.artifacts": len(docs), "counts.iocs": len(iocs or [])}})
@@ -170,6 +176,16 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
             top = list(db.artifacts.find({"case_id": case_id}, {"_id": 0}).sort("risk_score", -1).limit(100))
             maximum = max((band["max"] for band in bands), default=None)
             severity = next((row["priority"] for row in top), "INFO")
+            # Container signatures can raise review risk without attributing a
+            # raw byte match to any parsed event/flow/value.
+            saved_sources = db.cases.find_one({'id':case_id}).get('evidence', {}).get('sources', [])
+            for saved in saved_sources:
+                screening = saved.get('screening_result', {})
+                if any(hit.get('input_scope') == 'uploaded_container_bytes' for hit in screening.get('iocs', [])) and (maximum or 0) < 25:
+                    maximum, severity = 25, 'MEDIUM'
+                for indicator in saved.get('screening_result', {}).get('findings', []):
+                    if indicator.get('risk_score', 0) > (maximum or 0):
+                        maximum, severity = indicator['risk_score'], indicator['priority']
             db.cases.update_one({"id": case_id}, {"$set": {
                 "findings": [finding(d) for d in top], "threatScore": maximum, "severity": severity,
                 "scoredAt": stamp, "counts.criticalFindings": sum(b["count"] for b in bands if b["_id"] == "CRITICAL"),

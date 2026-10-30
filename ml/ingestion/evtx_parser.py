@@ -83,9 +83,10 @@ def _privilege_for(event_id, raw_priv=""):
 
 def _parse_csv(path):
     records = []
+    identities = []
     with open(path, newline="", encoding="utf-8-sig", errors="replace") as fh:
         reader = csv.DictReader(fh)
-        for r in reader:
+        for index, r in enumerate(reader):
             lc = {k.strip().lower(): (v or "") for k, v in r.items() if k}
             eid = _int(lc.get("eventid") or lc.get("id") or lc.get("event id"))
             ts = lc.get("timecreated") or lc.get("timegenerated") or lc.get("time") or ""
@@ -93,7 +94,8 @@ def _parse_csv(path):
             logon_type = _int(lc.get("logontype") or lc.get("logon type"), default=0)
             priv = _privilege_for(eid, lc.get("privilegelevel") or lc.get("privileges", ""))
             records.append((eid, logon_type, account, priv, ts))
-    return _finalize(records, path)
+            identities.append({'source_row':index, 'RecordID':lc.get('recordid') or lc.get('eventrecordid') or ''})
+    return [{**row, **identity} for row, identity in zip(_finalize(records, path), identities)]
 
 
 def _parse_json(path):
@@ -102,7 +104,8 @@ def _parse_json(path):
     if isinstance(data, dict):
         data = data.get("events") or data.get("Events") or [data]
     records = []
-    for e in data:
+    identities = []
+    for index, e in enumerate(data):
         lc = {str(k).lower(): v for k, v in e.items()}
         eid = _int(lc.get("eventid") or lc.get("id"))
         ts = lc.get("timecreated") or lc.get("timegenerated") or lc.get("time") or ""
@@ -110,7 +113,8 @@ def _parse_json(path):
         logon_type = _int(lc.get("logontype"), default=0)
         priv = _privilege_for(eid, lc.get("privilegelevel", ""))
         records.append((eid, logon_type, account, priv, str(ts)))
-    return _finalize(records, path)
+        identities.append({'source_row':index, 'RecordID':lc.get('recordid') or lc.get('eventrecordid') or ''})
+    return [{**row, **identity} for row, identity in zip(_finalize(records, path), identities)]
 
 
 def _strip_ns(tag):
@@ -131,14 +135,17 @@ def _parse_xml(path):
 
     events = [root] if _strip_ns(root.tag) == "Event" else root.iter()
     records = []
+    identities = []
     for el in events:
         if _strip_ns(el.tag) != "Event":
             continue
-        eid, ts, logon_type, account = 0, "", 0, "-"
+        eid, ts, logon_type, account, record_id = 0, "", 0, "-", ''
         for child in el.iter():
             name = _strip_ns(child.tag)
             if name == "EventID":
                 eid = _int(child.text)
+            elif name == 'EventRecordID':
+                record_id = child.text or ''
             elif name == "TimeCreated":
                 ts = child.get("SystemTime", "")
             elif name == "Data":
@@ -148,7 +155,8 @@ def _parse_xml(path):
                 elif dname in ("targetusername", "subjectusername"):
                     account = child.text or account
         records.append((eid, logon_type, account, _privilege_for(eid), ts))
-    return _finalize(records, path)
+        identities.append({'source_row':len(identities), 'RecordID':record_id})
+    return [{**row, **identity} for row, identity in zip(_finalize(records, path), identities)]
 
 
 def _parse_native_evtx(path):

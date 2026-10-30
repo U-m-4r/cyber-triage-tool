@@ -125,6 +125,12 @@ function ArtifactTable({ rows, total, loading, type, setType, severity, setSever
                     {a.model_id && <div className="mono">{a.model_id}</div>}</td>
                   <td className="artifacts-type">{a.artifact_type}</td>
                   <td className="artifacts-detail mono">{artifactDetail(a)}
+                    <details><summary>Identity, priority reason and screening</summary>
+                      <p>Evidence SHA-256: {a.evidence_sha256 || 'Not recorded'}</p>
+                      <p>Artifact: {a.artifact_id} · record: {a.RecordID || (a.record_id ?? 'Not recorded')} · source row: {a.source_row ?? 'Not recorded'}</p>
+                      <p>{a.risk_explanation || 'Priority explanation was not recorded for this historical artifact.'}</p>
+                      {Object.keys(a.scanner_coverage || {}).length ? Object.entries(a.scanner_coverage).map(([scanner, status]) => <p key={scanner}>{scanner}: {status}</p>) : <p>Screening coverage was not recorded.</p>}
+                    </details>
                     {a.scan_status && <details><summary>{a.scan_status}</summary>
                       <p>{a.scan_reason}</p><p>SHA-256: {a.sha256 || 'Unavailable'}</p>
                       <p>Volume offset: {a.volume_offset}; inode: {a.inode}</p>

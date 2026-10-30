@@ -40,29 +40,32 @@ def _parse_reg(path):
         with open(path, encoding="utf-8", errors="replace") as fh:
             lines = fh.readlines()
 
-    for raw in lines:
+    for index, raw in enumerate(lines):
         line = raw.strip()
         if not line or line.startswith("Windows Registry Editor"):
             continue
         if line.startswith("[") and line.endswith("]"):
             current_key = line[1:-1]
             rows.append(_row(current_key, "", path))  # key itself is an artifact
+            rows[-1]['source_line'] = index+1
         elif "=" in line and current_key:
             name, _, value = line.partition("=")
             clean_name = name.strip().strip('"')
             rows.append(_row(f"{current_key}\\{clean_name}", value.strip(), path))
+            rows[-1]['source_line'] = index+1
     return rows
 
 
 def _parse_csv(path):
     rows = []
     with open(path, newline="", encoding="utf-8-sig", errors="replace") as fh:
-        for r in csv.DictReader(fh):
+        for index, r in enumerate(csv.DictReader(fh)):
             lc = {k.strip().lower(): (v or "") for k, v in r.items() if k}
             key = lc.get("registrykey") or lc.get("key") or lc.get("path") or ""
             value = lc.get("registryvalue") or lc.get("value") or lc.get("data") or ""
             if key:
                 rows.append(_row(key, value, path))
+                rows[-1]['source_row'] = index
     return rows
 
 
@@ -72,12 +75,13 @@ def _parse_json(path):
     if isinstance(data, dict):
         data = data.get("keys") or data.get("entries") or [data]
     rows = []
-    for e in data:
+    for index, e in enumerate(data):
         lc = {str(k).lower(): v for k, v in e.items()}
         key = lc.get("registrykey") or lc.get("key") or lc.get("path") or ""
         value = lc.get("registryvalue") or lc.get("value") or lc.get("data") or ""
         if key:
             rows.append(_row(key, str(value), path))
+            rows[-1]['source_row'] = index
     return rows
 
 

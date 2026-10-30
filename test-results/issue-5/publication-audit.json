@@ -1,0 +1,22 @@
+{
+  "reviewed_file_count": 118,
+  "sensitive_or_large_paths": [],
+  "live_secret_matches": [],
+  "reviewed_false_positive_files": [
+    "test-results/issue-5/regression-before-detail-cap-fix.xml",
+    "test-results/issue-5/regression-before-pdf-format.xml",
+    "test-results/issue-5/regression-initial.xml",
+    "test-results/issue-5/regression-pre-final.xml"
+  ],
+  "false_positive_reason": "Existing unsafe-Mongo-URI unit-test parameter uses dummy user:secret; no live credential",
+  "frozen_unchanged": {
+    "models/cicids2017_baseline.joblib": true,
+    "models/supervised_binary.joblib": true,
+    "models/pe/EMBER2024_PE.model": true,
+    "test-results/issue-4/evaluation.json": true
+  },
+  "private_evidence_excluded": "dfr-01-ntfs.dd/",
+  "issue4_log_preserved_in_stash": true,
+  "staged_file_count": 70,
+  "staged_secret_and_size_audit": "PASS"
+}

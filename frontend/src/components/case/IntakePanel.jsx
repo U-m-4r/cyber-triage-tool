@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import useApi from '../../hooks/useApi.js'
 import { postFile } from '../../services/apiClient.js'
+import ScreeningSummary from './ScreeningSummary.jsx'
 
 const OPTIONS = [
   ['cicids2017', 'CICIDS2017 network-flow CSV', '.csv'],
@@ -10,6 +11,7 @@ const OPTIONS = [
   ['registry', 'Registry export (.reg / CSV / JSON)', '.reg,.csv,.json'],
   ['file', 'File listing (CSV / JSON)', '.csv,.json'],
   ['native', 'Native forensic evidence (.evtx / hive / disk image)', '.evtx,.dat,.hiv,.hive,.dd,.raw,.img,.e01,.001'],
+  ['pe', 'Standalone Windows PE executable (static analysis)', '.exe,.dll,.bin'],
 ]
 
 export default function IntakePanel({ caseId, onComplete, networkOnly = false }) {
@@ -21,13 +23,13 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   const [revision, refresh] = useState(0)
   const model = useApi('/model', revision)
   const [detectorChoice, setDetectorChoice] = useState('')
-  const network = ['cicids2017', 'cicids2018', 'pcap'].includes(kind)
+  const ext = file?.name.split('.').pop()?.toLowerCase()
+  const network = ['cicids2017', 'cicids2018'].includes(kind) || (kind === 'pcap' && ext === 'csv')
   const availableModels = Object.entries(model.data?.models || {}).filter(([, m]) => m.available)
   const detector = detectorChoice || (model.data?.models?.[model.data?.default_detector]?.available ? model.data.default_detector : '')
   const selectedModel = model.data?.models?.[detector]
   const capabilities = useApi('/forensics/capabilities', revision)
   const health = useApi('/health', revision)
-  const ext = file?.name.split('.').pop()?.toLowerCase()
   const nativeKind = ext === 'evtx' ? 'evtx' : ['dat', 'hiv', 'hive'].includes(ext) ? 'registry' : 'disk_image'
   const native = capabilities.data?.[nativeKind]
   const unavailable = !caseId ? 'Select an investigation first.'
@@ -46,7 +48,7 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
     if (file.size > (health.data?.max_upload_bytes || 128 * 1024 * 1024)) { setError('File exceeds the backend upload limit.'); return }
     setPending(true)
     try {
-      const path = ['cicids2017','cicids2018'].includes(kind) ? '/analyze' : kind === 'native' ? '/forensics/ingest' : '/ingest'
+      const path = ['cicids2017','cicids2018'].includes(kind) ? '/analyze' : ['native','pe'].includes(kind) ? '/forensics/ingest' : '/ingest'
       const data = await postFile(path, file, { data: { caseId, ...(network ? {detector} : {}), ...(kind === 'cicids2018' ? {dataset:'cse-cic-ids2018'} : {}), ...(!['native','cicids2017','cicids2018'].includes(kind) ? { kind } : {}) } })
       if (data.persisted === false || (data.stored == null && !data.persisted)) throw new Error('Processing finished but persistence was not confirmed.')
       setResult(data)
@@ -77,6 +79,7 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
       {unavailable && <p role="status">{unavailable}</p>}{error && <p role="alert">{error}</p>}
     </form>
     {result && <div role="status"><p>Stored {result.stored} records. Evidence SHA-256: <code>{result.evidence.sha256}</code></p>
+      <ScreeningSummary result={result} />
       {result.inference_metadata && <p>Analyzed by {result.inference_metadata.model_id} · threshold {result.inference_metadata.active_threshold} · {result.summary.total_records} flows · {result.summary.classified_attacks} attack/anomaly decisions · {result.summary.classified_benign} benign/normal decisions</p>}
       {result.inference_metadata?.external_dataset && <p>External compatibility: {result.inference_metadata.external_dataset.compatibility.status} · {result.inference_metadata.external_dataset.input_rows} source rows · {result.inference_metadata.external_dataset.excluded_rows} excluded</p>}
       <details><summary>Processing results and provenance</summary><pre>{JSON.stringify(result, null, 2)}</pre></details>

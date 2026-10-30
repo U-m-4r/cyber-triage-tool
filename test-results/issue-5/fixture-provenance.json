@@ -1,0 +1,16 @@
+{
+  "system.evtx": {
+    "source": "https://raw.githubusercontent.com/williballenthin/python-evtx/c0007441657899c39180de10a2be1a0e43dbeaf9/tests/data/system.evtx",
+    "revision": "c0007441657899c39180de10a2be1a0e43dbeaf9",
+    "size_bytes": 1118208,
+    "sha256": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+    "license": "Apache-2.0 upstream repository; fixtures retained locally only"
+  },
+  "SYSTEM.hive": {
+    "source": "https://raw.githubusercontent.com/williballenthin/python-registry/e649a288b8c62e341eee4a6b95a1337a41c1c163/testing/reg_samples/new_log_1/SYSTEM",
+    "revision": "e649a288b8c62e341eee4a6b95a1337a41c1c163",
+    "size_bytes": 7602176,
+    "sha256": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+    "license": "Apache-2.0 upstream repository; fixtures retained locally only"
+  }
+}

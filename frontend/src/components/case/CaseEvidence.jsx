@@ -3,6 +3,7 @@ import Panel from '../dashboard/Panel.jsx'
 import Icon from '../ui/Icon.jsx'
 import { formatTimestamp } from '../../utils/format.js'
 import './CaseEvidence.css'
+import ScreeningSummary from './ScreeningSummary.jsx'
 
 const KIND_ICON = {
   image: 'evidence',
@@ -44,7 +45,7 @@ export default function CaseEvidence({ caseRecord }) {
   const [openId, setOpenId] = useState(null)
 
   const stats = useMemo(() => {
-    const parsed = sources.filter((s) => ['PARSED', 'COMPLETE', 'PARTIAL'].includes(s.state)).length
+    const parsed = sources.filter((s) => ['PARSED', 'COMPLETE', 'COMPLETED', 'PARTIAL'].includes(s.state)).length
     const verified = sources.filter((s) => s.integrity === 'HASH MATCH').length
     const hashed = sources.filter((s) => s.sha256).length
     return { parsed, verified, hashed }
@@ -139,6 +140,7 @@ export default function CaseEvidence({ caseRecord }) {
                       <tr className="ev-detail-row">
                         <td colSpan={7}>
                           <div className="ev-detail">
+                            <ScreeningSummary result={source.screening_result} />
                             <div className="ev-detail__facts">
                               <DetailFact label="Source ID" value={source.id} mono />
                               <DetailFact label="Description" value={source.detail} />
