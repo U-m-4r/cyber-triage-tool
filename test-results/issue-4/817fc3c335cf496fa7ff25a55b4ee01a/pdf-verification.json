@@ -1,0 +1,24 @@
+{
+  "supervised": {
+    "pages": 20,
+    "all_pages_rendered": true,
+    "text_blocks_outside_page": [],
+    "dataset_compatibility_pages": [
+      19
+    ],
+    "model_id_present": true,
+    "conditional_compatibility_present": true,
+    "source_row_counts_present": true
+  },
+  "baseline": {
+    "pages": 20,
+    "all_pages_rendered": true,
+    "text_blocks_outside_page": [],
+    "dataset_compatibility_pages": [
+      19
+    ],
+    "model_id_present": true,
+    "conditional_compatibility_present": true,
+    "source_row_counts_present": true
+  }
+}

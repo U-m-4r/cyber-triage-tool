@@ -1,0 +1,20 @@
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_50eb9f580b8646ab9086a498de936b8b'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 19:02:37] "GET /__issue4_50eb9f580b8646ab9086a498de936b8b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 19:02:37] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 19:02:37] "POST /api/analyze HTTP/1.1" 200 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 19:02:37] "[31m[1mGET /api/artifacts?case_id=CASE-5EF6C268DB2B&limit=1000 HTTP/1.1[0m" 400 -
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue4.py", line 95, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\verify_issue4.py", line 51, in main
+    retrieved=session.get(base+'/api/artifacts',params={'case_id':case_id,'limit':1000},timeout=30).json()['artifacts']
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'artifacts'

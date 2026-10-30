@@ -1,0 +1,70 @@
+{
+  "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+    "adapter_version": "cse-cic-ids2018-v1",
+    "status": "CONDITIONALLY_COMPATIBLE",
+    "dataset": "CSE-CIC-IDS2018",
+    "mapping": {
+      "Flow Duration": "Flow Duration",
+      "Total Fwd Packets": "Tot Fwd Pkts",
+      "Total Length of Fwd Packets": "TotLen Fwd Pkts",
+      "Fwd Packet Length Max": "Fwd Pkt Len Max",
+      "Fwd Packet Length Min": "Fwd Pkt Len Min",
+      "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+      "Bwd Packet Length Max": "Bwd Pkt Len Max",
+      "Bwd Packet Length Min": "Bwd Pkt Len Min",
+      "Flow Bytes/s": "Flow Byts/s",
+      "Flow Packets/s": "Flow Pkts/s",
+      "Packet Length Mean": "Pkt Len Mean"
+    },
+    "units": {
+      "Flow Duration": "microseconds",
+      "Total Fwd Packets": "packets",
+      "Total Length of Fwd Packets": "bytes",
+      "Fwd Packet Length Max": "bytes",
+      "Fwd Packet Length Min": "bytes",
+      "Fwd Packet Length Mean": "bytes",
+      "Bwd Packet Length Max": "bytes",
+      "Bwd Packet Length Min": "bytes",
+      "Flow Bytes/s": "bytes/second",
+      "Flow Packets/s": "packets/second",
+      "Packet Length Mean": "bytes"
+    },
+    "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+    "values_changed": false,
+    "threshold_changes": false
+  },
+  "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+    "adapter_version": "cse-cic-ids2018-v1",
+    "status": "CONDITIONALLY_COMPATIBLE",
+    "dataset": "CSE-CIC-IDS2018",
+    "mapping": {
+      "Flow Duration": "Flow Duration",
+      "Total Fwd Packets": "Tot Fwd Pkts",
+      "Total Length of Fwd Packets": "TotLen Fwd Pkts",
+      "Fwd Packet Length Max": "Fwd Pkt Len Max",
+      "Fwd Packet Length Min": "Fwd Pkt Len Min",
+      "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+      "Bwd Packet Length Max": "Bwd Pkt Len Max",
+      "Bwd Packet Length Min": "Bwd Pkt Len Min",
+      "Flow Bytes/s": "Flow Byts/s",
+      "Flow Packets/s": "Flow Pkts/s",
+      "Packet Length Mean": "Pkt Len Mean"
+    },
+    "units": {
+      "Flow Duration": "microseconds",
+      "Total Fwd Packets": "packets",
+      "Total Length of Fwd Packets": "bytes",
+      "Fwd Packet Length Max": "bytes",
+      "Fwd Packet Length Min": "bytes",
+      "Fwd Packet Length Mean": "bytes",
+      "Bwd Packet Length Max": "bytes",
+      "Bwd Packet Length Min": "bytes",
+      "Flow Bytes/s": "bytes/second",
+      "Flow Packets/s": "packets/second",
+      "Packet Length Mean": "bytes"
+    },
+    "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+    "values_changed": false,
+    "threshold_changes": false
+  }
+}

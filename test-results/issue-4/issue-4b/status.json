@@ -1,0 +1,16 @@
+{
+  "browser": "BLOCKED",
+  "screenshots": [],
+  "completion": "PARTIAL",
+  "backend_passed": 367,
+  "backend_skipped": 46,
+  "failures": 0,
+  "errors": 0,
+  "frontend_passed": 17,
+  "frontend_build": "PASS",
+  "scientific_results_and_model_hashes": "UNCHANGED",
+  "manual_guide": "MANUAL_BROWSER_VERIFICATION.md",
+  "initial_regression": "366 passed, 46 skipped, 1 dedicated MongoDB setup timeout; preserved in regression.txt; unchanged suite retry passed",
+  "permitted_alternative": "None: runtime restricts UI automation to cua_repl; no project browser-test framework",
+  "main_action": "No merge; PR remains draft"
+}

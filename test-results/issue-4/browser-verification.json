@@ -1,0 +1,9 @@
+{
+  "status": "BLOCKED_SETTING",
+  "tool_observation": "Local browser use is disabled in Work settings",
+  "user_intent": "User replied that they will enable local browser use; subsequent attempt still returned disabled",
+  "mock_dashboard_used": false,
+  "live_screenshots_captured": false,
+  "last_observation": "After the user confirmed enabled, both browser-tab creation and a freshly reset browser inventory still returned Local browser use is disabled in Work settings.",
+  "user_reported_enabled": true
+}

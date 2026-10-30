@@ -1,0 +1,18 @@
+{
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "logical_cpus": 12,
+  "free_disk_bytes_at_report": 47760318464,
+  "dependencies": {
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.4.1",
+    "pymongo": "4.19.0",
+    "pytsk3": "20260715",
+    "yara-python": "4.5.4",
+    "reportlab": "4.5.1",
+    "pypdf": "6.21.4",
+    "PyMuPDF": "2.0"
+  }
+}

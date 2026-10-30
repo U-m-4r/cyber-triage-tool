@@ -1,0 +1,496 @@
+{
+  "scope": "Source-level required-feature missingness; descriptive means/min/max over objectively eligible rows, no refitted normalization/reference. Internal source is the saved Issue 3 held-out partition.",
+  "quality_counts": {
+    "CICIDS2017_internal_heldout": {
+      "Flow Duration": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 0
+      },
+      "Total Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 0
+      },
+      "Total Length of Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 28935
+      },
+      "Fwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 28935
+      },
+      "Fwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 156293
+      },
+      "Fwd Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 28935
+      },
+      "Bwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 66023
+      },
+      "Bwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 175841
+      },
+      "Flow Bytes/s": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 23950
+      },
+      "Flow Packets/s": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 0
+      },
+      "Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 23950
+      }
+    },
+    "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "Flow Duration": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 9,
+        "zero": 5610
+      },
+      "Total Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 0
+      },
+      "Total Length of Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 306543
+      },
+      "Fwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 306543
+      },
+      "Fwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 739259
+      },
+      "Fwd Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 306543
+      },
+      "Bwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 376727
+      },
+      "Bwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 751796
+      },
+      "Flow Bytes/s": {
+        "missing": 0,
+        "nan": 3569,
+        "nonnumeric": 0,
+        "infinite": 2041,
+        "negative": 0,
+        "zero": 302274
+      },
+      "Flow Packets/s": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 5610,
+        "negative": 9,
+        "zero": 0
+      },
+      "Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 305843
+      }
+    },
+    "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+      "Flow Duration": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 4050
+      },
+      "Total Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 0
+      },
+      "Total Length of Fwd Packets": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 336031
+      },
+      "Fwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 336031
+      },
+      "Fwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 841864
+      },
+      "Fwd Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 336031
+      },
+      "Bwd Packet Length Max": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 385158
+      },
+      "Bwd Packet Length Min": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 848617
+      },
+      "Flow Bytes/s": {
+        "missing": 0,
+        "nan": 2558,
+        "nonnumeric": 0,
+        "infinite": 1492,
+        "negative": 0,
+        "zero": 332296
+      },
+      "Flow Packets/s": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 4050,
+        "negative": 0,
+        "zero": 0
+      },
+      "Packet Length Mean": {
+        "missing": 0,
+        "nan": 0,
+        "nonnumeric": 0,
+        "infinite": 0,
+        "negative": 0,
+        "zero": 334854
+      }
+    }
+  },
+  "populations": {
+    "CICIDS2017_internal_heldout": {
+      "status": "MEASURED",
+      "source_rows": 345892,
+      "eligible_rows": 345892,
+      "moments_on_eligible_rows": {
+        "Flow Duration": {
+          "valid_count": 345892,
+          "minimum": 1.0,
+          "maximum": 119999997.0,
+          "mean": 18261756.44832202
+        },
+        "Total Fwd Packets": {
+          "valid_count": 345892,
+          "minimum": 1.0,
+          "maximum": 198223.0,
+          "mean": 9.770480381159437
+        },
+        "Total Length of Fwd Packets": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 1173813.0,
+          "mean": 642.530824650469
+        },
+        "Fwd Packet Length Max": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 24820.0,
+          "mean": 249.83973321152268
+        },
+        "Fwd Packet Length Min": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 2065.0,
+          "mean": 20.773914979242075
+        },
+        "Fwd Packet Length Mean": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 5560.297297,
+          "mean": 68.40896284232258
+        },
+        "Bwd Packet Length Max": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 11680.0,
+          "mean": 1068.8369201947428
+        },
+        "Bwd Packet Length Min": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 1624.0,
+          "mean": 46.83031408647786
+        },
+        "Flow Bytes/s": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 1030000000.0,
+          "mean": 1115036.1060910309
+        },
+        "Flow Packets/s": {
+          "valid_count": 345892,
+          "minimum": 0.016701329,
+          "maximum": 3000000.0,
+          "mean": 33617.57187178643
+        },
+        "Packet Length Mean": {
+          "valid_count": 345892,
+          "minimum": 0.0,
+          "maximum": 3337.142857,
+          "mean": 207.95397488660765
+        }
+      }
+    },
+    "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+      "status": "MEASURED",
+      "source_rows": 1048575,
+      "eligible_rows": 1042956,
+      "moments_on_eligible_rows": {
+        "Flow Duration": {
+          "valid_count": 1042956,
+          "minimum": 1.0,
+          "maximum": 119999993.0,
+          "mean": 18543464.385661524
+        },
+        "Total Fwd Packets": {
+          "valid_count": 1042956,
+          "minimum": 1.0,
+          "maximum": 11478.0,
+          "mean": 6.389468970886595
+        },
+        "Total Length of Fwd Packets": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 3982514.0,
+          "mean": 400.95034689862274
+        },
+        "Fwd Packet Length Max": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 3804.0,
+          "mean": 178.0546945412846
+        },
+        "Fwd Packet Length Min": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 12.940359900130016
+        },
+        "Fwd Packet Length Mean": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 1808.4190476191,
+          "mean": 45.38140573783883
+        },
+        "Bwd Packet Length Max": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 4012.0,
+          "mean": 362.17746865639583
+        },
+        "Bwd Packet Length Min": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 29.895997530097148
+        },
+        "Flow Bytes/s": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 1806642857.14286,
+          "mean": 263595.2546364849
+        },
+        "Flow Packets/s": {
+          "valid_count": 1042956,
+          "minimum": 0.0166668692,
+          "maximum": 4000000.0,
+          "mean": 27303.36264925742
+        },
+        "Packet Length Mean": {
+          "valid_count": 1042956,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 79.25971565049495
+        }
+      }
+    },
+    "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+      "status": "MEASURED",
+      "source_rows": 1048575,
+      "eligible_rows": 1044525,
+      "moments_on_eligible_rows": {
+        "Flow Duration": {
+          "valid_count": 1044525,
+          "minimum": 1.0,
+          "maximum": 119999997.0,
+          "mean": 11558853.458668772
+        },
+        "Total Fwd Packets": {
+          "valid_count": 1044525,
+          "minimum": 1.0,
+          "maximum": 43159.0,
+          "mean": 5.902529858069458
+        },
+        "Total Length of Fwd Packets": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1100627.0,
+          "mean": 393.55111845097053
+        },
+        "Fwd Packet Length Max": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1711.0,
+          "mean": 211.19533376415117
+        },
+        "Fwd Packet Length Min": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 8.273806754266293
+        },
+        "Fwd Packet Length Mean": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 54.79854612039795
+        },
+        "Bwd Packet Length Max": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1460.0,
+          "mean": 348.4666743256504
+        },
+        "Bwd Packet Length Min": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1430.0,
+          "mean": 19.493063354156195
+        },
+        "Flow Bytes/s": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 480000000.0,
+          "mean": 195831.9095488816
+        },
+        "Flow Packets/s": {
+          "valid_count": 1044525,
+          "minimum": 0.016669395,
+          "maximum": 3000000.0,
+          "mean": 19853.27388638895
+        },
+        "Packet Length Mean": {
+          "valid_count": 1044525,
+          "minimum": 0.0,
+          "maximum": 1454.27451,
+          "mean": 74.36688118247278
+        }
+      }
+    }
+  }
+}

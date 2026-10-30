@@ -1,0 +1,68 @@
+{
+  "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+    "counts": {
+      "source_records": 1048575,
+      "valid_records": 1042956,
+      "excluded_records": 5619,
+      "zero_duration_rows": 5610
+    },
+    "source_labels": {
+      "Benign": 1048213,
+      "Brute Force -Web": 249,
+      "Brute Force -XSS": 79,
+      "SQL Injection": 34
+    },
+    "valid_labels": {
+      "Benign": 1042594,
+      "Brute Force -Web": 249,
+      "Brute Force -XSS": 79,
+      "SQL Injection": 34
+    },
+    "excluded_labels": {
+      "Benign": 5619
+    },
+    "exclusion_reasons": {
+      "infinite_measurement": 5610,
+      "nan_measurement": 3569,
+      "negative_measurement": 9
+    },
+    "exclusions_by_label_and_reason": {
+      "Benign": {
+        "infinite_measurement": 5610,
+        "nan_measurement": 3569,
+        "negative_measurement": 9
+      }
+    },
+    "duplicate_copies_retained": 3278
+  },
+  "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+    "counts": {
+      "source_records": 1048575,
+      "valid_records": 1044525,
+      "excluded_records": 4050,
+      "zero_duration_rows": 4050
+    },
+    "source_labels": {
+      "Benign": 762384,
+      "Bot": 286191
+    },
+    "valid_labels": {
+      "Benign": 758334,
+      "Bot": 286191
+    },
+    "excluded_labels": {
+      "Benign": 4050
+    },
+    "exclusion_reasons": {
+      "nan_measurement": 2558,
+      "infinite_measurement": 4050
+    },
+    "exclusions_by_label_and_reason": {
+      "Benign": {
+        "nan_measurement": 2558,
+        "infinite_measurement": 4050
+      }
+    },
+    "duplicate_copies_retained": 5459
+  }
+}

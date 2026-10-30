@@ -1,0 +1,4 @@
+# Optional experiment/PDF verification tools, separate from backend runtime.
+-r network-ml.txt
+pypdf==6.21.4
+PyMuPDF==2.0

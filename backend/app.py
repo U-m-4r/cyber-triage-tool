@@ -10,7 +10,7 @@ import tempfile
 from datetime import datetime, timezone
 
 import numpy as np  # noqa: F401  (kept for downstream numeric helpers)
-from flask import Blueprint, Flask, current_app, jsonify, request, send_file
+from flask import Blueprint, Flask, current_app, g, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
@@ -195,6 +195,23 @@ def _extract_binary_ground_truth(df):
     return extract_binary_ground_truth(df, override=override)
 
 
+def _read_selected_network_csv(filepath):
+    dataset=request.form.get('dataset') or request.args.get('dataset')
+    if not dataset:
+        return read_network_csv(filepath)
+    if dataset!='cse-cic-ids2018':
+        raise NetworkInputError('Unsupported external dataset adapter','UNSUPPORTED_DATASET')
+    if request.form.get('threshold') is not None or request.args.get('threshold') is not None:
+        raise NetworkInputError('External validation uses the frozen model threshold','FROZEN_THRESHOLD_REQUIRED')
+    from ml.external_dataset_adapter import read_external_csv,adapt_frame
+    raw=read_external_csv(filepath)
+    features,_,_,_,report=adapt_frame(raw)
+    if features.empty:
+        raise NetworkInputError('No valid external measurements remain','EMPTY_NETWORK_DATA')
+    g.external_dataset_report=report
+    return features
+
+
 def _network_csv_inference(filepath):
     # Request data can never choose the baseline path or invoke fitting. Loading
     # one complete bundle per request also avoids mutable shared estimators and
@@ -203,7 +220,7 @@ def _network_csv_inference(filepath):
     bundle = load_baseline(current_app.config.get('MODEL_PATH'))
     loaded = time.perf_counter()-started
     started = time.perf_counter()
-    result = infer_network_csv(filepath, bundle)
+    result = infer_network(_read_selected_network_csv(filepath), bundle)
     elapsed = time.perf_counter()-started
     result[3]['timings'] = {'model_loading_seconds':loaded, 'csv_inference_seconds':elapsed,
                              'records_per_second':len(result[0])/elapsed}
@@ -226,7 +243,9 @@ def _network_metadata(bundle, supervised=False):
             'active_threshold': float(bundle['threshold_config']['threshold']) if supervised else 0.0,
             'score_interpretation': 'Uncalibrated tree score; higher indicates attack' if supervised else
                 'Isolation Forest decision function; negative indicates anomaly, positive indicates normal',
-            'calibrated': False, 'provenance': bundle['provenance']}
+            'calibrated': False, 'provenance': bundle['provenance'],
+            'model_version':bundle.get('bundle_version'),
+            **({'external_dataset':g.external_dataset_report} if hasattr(g,'external_dataset_report') else {})}
 
 
 def _scored_network_records(clean, predictions, scores, metadata, supervised=False):
@@ -252,8 +271,8 @@ def _supervised_csv_inference(filepath, threshold_override=None):
     bundle = get_cached_supervised_detector(supervised_path)
     loaded = time.perf_counter()-started
     started = time.perf_counter()
-    clean, preds, scores, meta = infer_supervised_network_csv(
-        filepath, bundle, threshold_override=threshold_override
+    clean, preds, scores, meta = infer_supervised_network(
+        _read_selected_network_csv(filepath), bundle, threshold_override=threshold_override
     )
     elapsed = time.perf_counter()-started
     meta['timings'] = {'model_loading_seconds':loaded,'csv_inference_seconds':elapsed,
@@ -461,7 +480,7 @@ def analyze():
                 audit_meta = json.loads(json.dumps(audit_meta))
                 intake_id, stored = persist_intake(
                     db, results_df.to_dict(orient="records"), request.form.get("caseId"),
-                    custody, "cicids2017", audit_meta)
+                    custody, "cse-cic-ids2018" if hasattr(g,'external_dataset_report') else "cicids2017", audit_meta)
                 db.analysis_results.insert_one({"intake_id": intake_id, "created_at": now(),
                     "case_id": request.form.get("caseId"), "summary": summary,
                     "evidence_custody": custody, **audit_meta})

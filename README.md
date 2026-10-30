@@ -6,6 +6,11 @@ For the current frozen network detectors, model download, explicit detector
 selection and measured limitations, see [network deployment](docs/network_reliability.md)
 and the [Issue 3 verification report](test-results/issue-3/REPORT.md).
 
+For the frozen-model CSE-CIC-IDS2018 experiment, see
+[external validation setup](docs/external_validation.md) and the
+[Issue 4 report](test-results/issue-4/REPORT.md). It uses a declared two-day subset
+and conditional feature compatibility; it does not retrain the models.
+
 Start with [development setup and verification](docs/development.md) and the
 [current Phase 1 results/checklist](docs/phase1-progress.md). Older handoff notes
 describe historical states; the current source and these documents take precedence.

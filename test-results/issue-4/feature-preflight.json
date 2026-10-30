@@ -1,0 +1,99 @@
+{
+  "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv": {
+    "adapter_version": "cse-cic-ids2018-v1",
+    "status": "CONDITIONALLY_COMPATIBLE",
+    "dataset": "CSE-CIC-IDS2018",
+    "mapping": {
+      "Flow Duration": "Flow Duration",
+      "Total Fwd Packets": "Tot Fwd Pkts",
+      "Total Length of Fwd Packets": "TotLen Fwd Pkts",
+      "Fwd Packet Length Max": "Fwd Pkt Len Max",
+      "Fwd Packet Length Min": "Fwd Pkt Len Min",
+      "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+      "Bwd Packet Length Max": "Bwd Pkt Len Max",
+      "Bwd Packet Length Min": "Bwd Pkt Len Min",
+      "Flow Bytes/s": "Flow Byts/s",
+      "Flow Packets/s": "Flow Pkts/s",
+      "Packet Length Mean": "Pkt Len Mean"
+    },
+    "units": {
+      "Flow Duration": "microseconds",
+      "Total Fwd Packets": "packets",
+      "Total Length of Fwd Packets": "bytes",
+      "Fwd Packet Length Max": "bytes",
+      "Fwd Packet Length Min": "bytes",
+      "Fwd Packet Length Mean": "bytes",
+      "Bwd Packet Length Max": "bytes",
+      "Bwd Packet Length Min": "bytes",
+      "Flow Bytes/s": "bytes/second",
+      "Flow Packets/s": "packets/second",
+      "Packet Length Mean": "bytes"
+    },
+    "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+    "values_changed": false,
+    "threshold_changes": false,
+    "preflight_rows": 5000,
+    "positive_duration_finite_rate_rows": 4968,
+    "byte_rate_formula_close": 4965,
+    "packet_rate_formula_close": 4968,
+    "head_labels_observed": {
+      "Bot": 3599,
+      "Benign": 1401
+    }
+  },
+  "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+    "adapter_version": "cse-cic-ids2018-v1",
+    "status": "CONDITIONALLY_COMPATIBLE",
+    "dataset": "CSE-CIC-IDS2018",
+    "mapping": {
+      "Flow Duration": "Flow Duration",
+      "Total Fwd Packets": "Tot Fwd Pkts",
+      "Total Length of Fwd Packets": "TotLen Fwd Pkts",
+      "Fwd Packet Length Max": "Fwd Pkt Len Max",
+      "Fwd Packet Length Min": "Fwd Pkt Len Min",
+      "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+      "Bwd Packet Length Max": "Bwd Pkt Len Max",
+      "Bwd Packet Length Min": "Bwd Pkt Len Min",
+      "Flow Bytes/s": "Flow Byts/s",
+      "Flow Packets/s": "Flow Pkts/s",
+      "Packet Length Mean": "Pkt Len Mean"
+    },
+    "units": {
+      "Flow Duration": "microseconds",
+      "Total Fwd Packets": "packets",
+      "Total Length of Fwd Packets": "bytes",
+      "Fwd Packet Length Max": "bytes",
+      "Fwd Packet Length Min": "bytes",
+      "Fwd Packet Length Mean": "bytes",
+      "Bwd Packet Length Max": "bytes",
+      "Bwd Packet Length Min": "bytes",
+      "Flow Bytes/s": "bytes/second",
+      "Flow Packets/s": "packets/second",
+      "Packet Length Mean": "bytes"
+    },
+    "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+    "values_changed": false,
+    "threshold_changes": false,
+    "preflight_rows": 5000,
+    "positive_duration_finite_rate_rows": 4980,
+    "byte_rate_formula_close": 4980,
+    "packet_rate_formula_close": 4980,
+    "head_labels_observed": {
+      "Benign": 4638,
+      "Brute Force -Web": 249,
+      "Brute Force -XSS": 79,
+      "SQL Injection": 34
+    }
+  },
+  "extractor_evidence": {
+    "commit": "8d0a1f51a3d1dbb34126fa46d0f3f974fe069333",
+    "official_repository": "https://github.com/ahlashkari/CICFlowMeter",
+    "files": {
+      "BasicFlow.java": "2f2e3a220d2686eb647ad0b0cc9493dc86198f98ed1ebf47382e24df2c819495",
+      "BasicPacketInfo.java": "c7ce10025fb9b22be3fb9548cfc4dc808d75664a7a3b128acebde2a2950508e0",
+      "FlowFeature.java": "e5711803a6cef23f444208d36b501c81fa5bf986ba174244d30f9cc86f8751ca"
+    },
+    "interpretation": "Historical BasicFlow uses timestamp differences in microseconds, per-second rates dividing duration by 1e6, forward payload-byte summary statistics and bidirectional flow length statistics. FlowFeature supplies exact aliases. This is not proof of the precise dataset generating build."
+  },
+  "rounding_note": "Three first-5000 bot-day benign byte rates use 1.03E+07 for 31 bytes / 3 microseconds (10333333.333...). Difference is published decimal precision, not a unit conversion. Original rate tokens are retained unchanged."
+}

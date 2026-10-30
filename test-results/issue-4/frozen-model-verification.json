@@ -1,0 +1,162 @@
+{
+  "supervised": {
+    "model_id": "xgb-bin-12ad91fa39",
+    "sha256_after": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+    "threshold_after": 0.4343418846451664,
+    "bundle_version": 1,
+    "provenance": {
+      "model_id": "xgb-bin-12ad91fa39",
+      "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+      "dataset_version": "1.0",
+      "training_rows": 1612277,
+      "validation_rows": 343070,
+      "label_column": "Attack Type",
+      "positive_class": "ATTACK",
+      "negative_class": "BENIGN",
+      "trained_at": "2026-10-27T09:45:55.376787+00:00",
+      "fit_duration_seconds": 20.111487,
+      "split": {
+        "method": "numeric-feature-group-hash-v1",
+        "seed": 42,
+        "train_percent": 70,
+        "validation_percent": 15,
+        "test_percent": 15,
+        "partitions": {
+          "train": {
+            "rows": 1612277,
+            "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+          },
+          "validation": {
+            "rows": 343070,
+            "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+          },
+          "test": {
+            "rows": 345892,
+            "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+          }
+        }
+      },
+      "cleaning": {
+        "policy_id": "cicids2017-offline-cleaning",
+        "policy_version": "1.0.0",
+        "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+        "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f",
+        "exclusions": {
+          "unique_rows": 219512,
+          "by_reason": {
+            "negative_measurements": 107,
+            "duplicate_row": 161,
+            "label_conflict": 219323
+          },
+          "overlaps": {
+            "rows_with_multiple_reasons": 79,
+            "pairs": {
+              "negative_measurements & duplicate_row": 1,
+              "duplicate_row & label_conflict": 78
+            }
+          },
+          "input_rows": 2520751,
+          "retained_rows": 2301239,
+          "invariant": "input_rows == retained_rows + unique_rows"
+        }
+      }
+    },
+    "versions": {
+      "xgboost": "3.4.1",
+      "scikit_learn": "1.8.0",
+      "numpy": "2.5.4",
+      "python": "3.14.7"
+    }
+  },
+  "baseline": {
+    "model_id": "iforest-65dd0b57a2b1a2020a0b",
+    "sha256_after": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "threshold_after": 0,
+    "bundle_version": 1,
+    "provenance": {
+      "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+      "dataset_path": "data/cicids2017_cleaned.csv",
+      "dataset_version": "local-manual",
+      "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+      "size_bytes": 717247573,
+      "trained_at": "2026-10-27T07:59:07.227722+00:00",
+      "training_policy": "benign_only",
+      "label_column": "Attack Type",
+      "input_rows": 2301239,
+      "valid_rows": 2301239,
+      "dropped_invalid_rows": 0,
+      "excluded_non_benign_rows": 363117,
+      "dropped_benign_duplicates": 310489,
+      "training_rows": 1051117,
+      "model_parameters": {
+        "bootstrap": false,
+        "contamination": 0.1,
+        "max_features": 1.0,
+        "max_samples": "auto",
+        "n_estimators": 100,
+        "n_jobs": -1,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "cleaning": {
+        "policy_id": "cicids2017-offline-cleaning",
+        "policy_version": "1.0.0",
+        "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+        "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f",
+        "exclusions": {
+          "unique_rows": 219512,
+          "by_reason": {
+            "negative_measurements": 107,
+            "duplicate_row": 161,
+            "label_conflict": 219323
+          },
+          "overlaps": {
+            "rows_with_multiple_reasons": 79,
+            "pairs": {
+              "negative_measurements & duplicate_row": 1,
+              "duplicate_row & label_conflict": 78
+            }
+          },
+          "input_rows": 2520751,
+          "retained_rows": 2301239,
+          "invariant": "input_rows == retained_rows + unique_rows"
+        }
+      },
+      "split": {
+        "method": "numeric-feature-group-hash-v1",
+        "seed": 42,
+        "train_percent": 70,
+        "validation_percent": 15,
+        "test_percent": 15,
+        "partitions": {
+          "train": {
+            "rows": 1612277,
+            "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+          },
+          "validation": {
+            "rows": 343070,
+            "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+          },
+          "test": {
+            "rows": 345892,
+            "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+          }
+        }
+      },
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "decision_threshold": 0.0,
+      "score_samples_threshold": -0.47321778481357596
+    },
+    "versions": {
+      "python": "3.14.7",
+      "scikit_learn": "1.8.0",
+      "numpy": "2.5.4",
+      "pandas": "2.3.3",
+      "joblib": "1.6.0"
+    }
+  }
+}

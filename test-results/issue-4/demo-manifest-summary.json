@@ -1,0 +1,13 @@
+{
+  "selection": "first 10 eligible source rows per original label per day; before inference",
+  "records": 60,
+  "labels": {
+    "Benign": 20,
+    "Brute Force -Web": 10,
+    "Brute Force -XSS": 10,
+    "SQL Injection": 10,
+    "Bot": 10
+  },
+  "csv_sha256": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+  "manifest_sha256": "bdb8c61265eb7e2b75bca7c1d2abeb92c3d3180cc0a75879fac490ec40b7eefd"
+}
