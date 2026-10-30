@@ -31,7 +31,7 @@ const STATE_LABEL = {
  */
 export default function EvidenceStatus({ evidence = { sources: [], pending: [] } }) {
   const { sources, pending } = evidence
-  const parsed = sources.filter((source) => source.state === 'PARSED').length
+  const parsed = sources.filter((source) => ['PARSED', 'COMPLETE', 'PARTIAL'].includes(source.state)).length
   const verified = sources.filter((source) => source.integrity === 'HASH MATCH').length
 
   return (

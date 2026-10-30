@@ -1,0 +1,156 @@
+- banner:
+  - button "Toggle navigation":
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE1B VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE1B VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-C4D6ACE15097" [level=1]
+  - generic: INGESTING
+  - generic: MEDIUM
+  - paragraph: Issue 1B positive
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "25"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "4"
+  - term: IOCs
+  - definition: "1"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested harmless-fat12.img: 4 records (disk_image)."': 30 Oct 2026, 15:42:51
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence"
+    - tab "Artifacts" [selected]
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - paragraph: Model predictions mark statistical anomalies, not attack types. Negative decision scores are anomalous. Risk combines batch-relative anomaly rankings and forensic rules; it is not a probability of compromise.
+  - paragraph: Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.
+  - textbox "Search artifacts":
+    - /placeholder: Search source, path, rules
+  - button "Refresh artifacts"
+  - combobox "Filter by type":
+    - option "All types" [selected]
+    - option "Network"
+    - option "System log"
+    - option "File"
+    - option "Registry"
+  - combobox "Filter by severity":
+    - option "All severities" [selected]
+    - option "Critical"
+    - option "High"
+    - option "Medium"
+    - option "Low"
+  - generic: 4 shown of 4
+  - table:
+    - rowgroup:
+      - row "Priority Risk Model prediction Type Detail Matched rules Source":
+        - columnheader "Priority"
+        - columnheader "Risk"
+        - columnheader "Model prediction"
+        - columnheader "Type"
+        - columnheader "Detail"
+        - columnheader "Matched rules"
+        - columnheader "Source"
+    - rowgroup:
+      - 'row "MEDIUM 25 Rules only file /POSITIVE.TXT YARA: Harmless_File_Marker harmless-fat12.img"':
+        - cell "MEDIUM":
+          - generic: MEDIUM
+        - cell "25"
+        - cell "Rules only"
+        - cell "file"
+        - cell "/POSITIVE.TXT":
+          - text: /POSITIVE.TXT
+          - generic "MATCHED" [active]
+          - paragraph: Complete default file stream scanned
+          - paragraph: "SHA-256: abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40"
+          - paragraph: "Volume offset: 0; inode: 4"
+          - paragraph: "Harmless_File_Marker: Harmless integration marker (indicator requiring investigation)"
+        - 'cell "YARA: Harmless_File_Marker"'
+        - cell "harmless-fat12.img"
+      - row "LOW 0 Rules only file /EMPTY.TXT None harmless-fat12.img":
+        - cell "LOW":
+          - generic: LOW
+        - cell "0"
+        - cell "Rules only"
+        - cell "file"
+        - cell "/EMPTY.TXT":
+          - text: /EMPTY.TXT
+          - generic "SCANNED_NO_MATCH"
+        - cell "None"
+        - cell "harmless-fat12.img"
+      - row "LOW 0 Rules only file /NEGATIVE.TXT None harmless-fat12.img":
+        - cell "LOW":
+          - generic: LOW
+        - cell "0"
+        - cell "Rules only"
+        - cell "file"
+        - cell "/NEGATIVE.TXT":
+          - text: /NEGATIVE.TXT
+          - generic "SCANNED_NO_MATCH"
+        - cell "None"
+        - cell "harmless-fat12.img"
+      - row "LOW 0 Rules only file /LARGE.BIN None harmless-fat12.img":
+        - cell "LOW":
+          - generic: LOW
+        - cell "0"
+        - cell "Rules only"
+        - cell "file"
+        - cell "/LARGE.BIN":
+          - text: /LARGE.BIN
+          - generic "SCANNED_NO_MATCH"
+        - cell "None"
+        - cell "harmless-fat12.img"
+  - button "Previous" [disabled]
+  - generic: Page 1
+  - button "Next" [disabled]

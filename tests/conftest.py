@@ -65,11 +65,14 @@ def pytest_collection_modifyitems(config, items):
     if config.getoption("--no-training"):
         for item in items:
             fits = (set(item.fixturenames) & {"baseline_bundle", "baseline_api", "real_scaler"}
-                    or item.name in {"test_scale_features_is_zscore_standardization",
+                    or item.name in {"test_holdout_fits_training_only_and_evaluation_refuses_tampering",
+                                     "test_scale_features_is_zscore_standardization",
                                      "test_changed_training_dataset_not_published",
                                      "test_train_baseline_eligible_view_excludes_cleaned_rows"})
             if fits:
                 item.add_marker(pytest.mark.skip(reason="Model/scaler fitting prohibited by --no-training"))
+            if 'synthetic_attack_bundle' in item.fixturenames:
+                item.add_marker(pytest.mark.skip(reason="Synthetic RandomForest/scaler fitting prohibited by --no-training"))
     if not config.getoption("--run-integration"):
         for item in items:
             if item.get_closest_marker("integration"):

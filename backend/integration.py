@@ -95,6 +95,9 @@ def finding(doc):
         rule_detail = f"Matched rules: {rules}." if rules and rules != "None" else "No configured rules matched."
         rationale = (f"Rule score: {rule_score}. {rule_detail} "
                      "ML anomaly: not applicable to this evidence type; the model requires network flows.")
+        if doc.get('scan_status'):
+            rationale += f" Content scan: {doc['scan_status']}; {doc.get('scan_reason', '')}. SHA-256: {doc.get('sha256') or 'unavailable'}. YARA indicators require investigation, not proof of malware."
+            rationale += f" Volume offset: {doc.get('volume_offset')}; inode: {doc.get('inode')}. Evidence SHA-256: {doc.get('evidence_sha256')}."
     else:
         anomaly_detail = f"{anomaly_score}" if anomaly_score is not None else "unavailable"
         rationale = f"Rule score: {rule_score}; network anomaly score: {anomaly_detail}"
@@ -132,6 +135,13 @@ def persist_intake(db, scored, case_id, custody, kind, metadata=None, iocs=None)
                       "size": f"{custody['size_bytes']} bytes", "acquiredAt": custody["ingested_at"],
                       "sha256": custody["sha256"], "integrity": "SHA-256 recorded",
                       "state": "PARSED", "detail": f"{len(scored)} records; original file is not retained"}
+            if (metadata or {}).get('disk_scan'):
+                scan = metadata['disk_scan']
+                source['state'] = scan['scan_status']
+                source['detail'] = (f"{scan['scan_status']}: {scan['files_scanned']} scanned; "
+                                    f"{scan['files_skipped']} unscanned; {scan.get('non_file_entries_ignored', 0)} non-file entries ignored; {scan['files_with_yara_matches']} matched. "
+                                    + '; '.join(scan['warnings']))
+                source['disk_scan'] = scan
             db.cases.update_one({"id": case_id}, {"$push": {
                 "custody": custody, "evidence.sources": source, "iocs": {"$each": iocs or []}},
                 "$inc": {"counts.evidence": 1, "counts.artifacts": len(docs), "counts.iocs": len(iocs or [])}})

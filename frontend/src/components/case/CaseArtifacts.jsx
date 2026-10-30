@@ -121,7 +121,13 @@ function ArtifactTable({ rows, total, loading, type, setType, severity, setSever
                     {a.decision_score != null && <small> · decision {Number(a.decision_score).toFixed(5)}</small>}
                     {a.model_id && <div className="mono">{a.model_id}</div>}</td>
                   <td className="artifacts-type">{a.artifact_type}</td>
-                  <td className="artifacts-detail mono">{artifactDetail(a)}</td>
+                  <td className="artifacts-detail mono">{artifactDetail(a)}
+                    {a.scan_status && <details><summary>{a.scan_status}</summary>
+                      <p>{a.scan_reason}</p><p>SHA-256: {a.sha256 || 'Unavailable'}</p>
+                      <p>Volume offset: {a.volume_offset}; inode: {a.inode}</p>
+                      {(a.yara_matches || []).map((hit, i) => <p key={i}>{hit.rule}: {hit.meta?.description} (indicator requiring investigation)</p>)}
+                    </details>}
+                  </td>
                   <td className="artifacts-rules">{a.matched_rules}</td>
                   <td className="artifacts-source mono">{a.source_file}</td>
                 </tr>

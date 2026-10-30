@@ -1,0 +1,365 @@
+{
+  "columns": [
+    "FileName",
+    "FilePath",
+    "FileExtension",
+    "FileSizeBytes",
+    "inode",
+    "volume_offset",
+    "artifact_type",
+    "artifact_location",
+    "CreatedTime",
+    "ModifiedTime",
+    "AccessedTime",
+    "metadata_flags",
+    "sha256",
+    "yara_matches",
+    "bytes_read",
+    "scan_status",
+    "scan_reason",
+    "evidence_sha256",
+    "evidence_source"
+  ],
+  "custody_persisted": true,
+  "disk_scan": {
+    "bytes_read": 4188,
+    "directories_discovered": 0,
+    "entries_discovered": 9,
+    "enumeration_complete": true,
+    "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+    "files_failed": 0,
+    "files_scanned": 4,
+    "files_skipped": 0,
+    "files_skipped_limits": 0,
+    "files_with_yara_matches": 1,
+    "findings": [
+      {
+        "AccessedTime": "2026-10-29T18:30:00+00:00",
+        "CreatedTime": "2026-10-30T10:12:50+00:00",
+        "FileExtension": ".txt",
+        "FileName": "POSITIVE.TXT",
+        "FilePath": "/POSITIVE.TXT",
+        "FileSizeBytes": 46,
+        "ModifiedTime": "2026-10-30T10:12:50+00:00",
+        "anomaly_score": null,
+        "artifact_location": "volume:0:inode:4:/POSITIVE.TXT",
+        "artifact_type": "file",
+        "bytes_read": 46,
+        "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+        "evidence_source": "harmless-fat12.img",
+        "inode": 4,
+        "matched_rules": "YARA: Harmless_File_Marker",
+        "metadata_flags": 5,
+        "priority": "MEDIUM",
+        "risk_score": 25.0,
+        "rule_score": 25.0,
+        "scan_reason": "Complete default file stream scanned",
+        "scan_status": "MATCHED",
+        "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+        "volume_offset": 0,
+        "yara_matches": [
+          {
+            "matched_strings": [
+              "$a"
+            ],
+            "meta": {
+              "description": "Harmless integration marker",
+              "severity": "informational"
+            },
+            "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+            "rule": "Harmless_File_Marker",
+            "tags": [],
+            "target": "volume:0:inode:4:/POSITIVE.TXT"
+          }
+        ]
+      },
+      {
+        "AccessedTime": "2026-10-29T18:30:00+00:00",
+        "CreatedTime": "2026-10-30T10:12:50+00:00",
+        "FileExtension": ".txt",
+        "FileName": "NEGATIVE.TXT",
+        "FilePath": "/NEGATIVE.TXT",
+        "FileSizeBytes": 46,
+        "ModifiedTime": "2026-10-30T10:12:50+00:00",
+        "anomaly_score": null,
+        "artifact_location": "volume:0:inode:5:/NEGATIVE.TXT",
+        "artifact_type": "file",
+        "bytes_read": 46,
+        "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+        "evidence_source": "harmless-fat12.img",
+        "inode": 5,
+        "matched_rules": "None",
+        "metadata_flags": 5,
+        "priority": "LOW",
+        "risk_score": 0.0,
+        "rule_score": 0.0,
+        "scan_reason": "Complete default file stream scanned",
+        "scan_status": "SCANNED_NO_MATCH",
+        "sha256": "70789bbc67cd6e67f207af19403412416a2b6a8d7aa62a1be396febf0a770c83",
+        "volume_offset": 0,
+        "yara_matches": []
+      },
+      {
+        "AccessedTime": "2026-10-29T18:30:00+00:00",
+        "CreatedTime": "2026-10-30T10:12:50+00:00",
+        "FileExtension": ".txt",
+        "FileName": "EMPTY.TXT",
+        "FilePath": "/EMPTY.TXT",
+        "FileSizeBytes": 0,
+        "ModifiedTime": "2026-10-30T10:12:50+00:00",
+        "anomaly_score": null,
+        "artifact_location": "volume:0:inode:6:/EMPTY.TXT",
+        "artifact_type": "file",
+        "bytes_read": 0,
+        "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+        "evidence_source": "harmless-fat12.img",
+        "inode": 6,
+        "matched_rules": "None",
+        "metadata_flags": 5,
+        "priority": "LOW",
+        "risk_score": 0.0,
+        "rule_score": 0.0,
+        "scan_reason": "Complete default file stream scanned",
+        "scan_status": "SCANNED_NO_MATCH",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "volume_offset": 0,
+        "yara_matches": []
+      },
+      {
+        "AccessedTime": "2026-10-29T18:30:00+00:00",
+        "CreatedTime": "2026-10-30T10:12:50+00:00",
+        "FileExtension": ".bin",
+        "FileName": "LARGE.BIN",
+        "FilePath": "/LARGE.BIN",
+        "FileSizeBytes": 4096,
+        "ModifiedTime": "2026-10-30T10:12:50+00:00",
+        "anomaly_score": null,
+        "artifact_location": "volume:0:inode:7:/LARGE.BIN",
+        "artifact_type": "file",
+        "bytes_read": 4096,
+        "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+        "evidence_source": "harmless-fat12.img",
+        "inode": 7,
+        "matched_rules": "None",
+        "metadata_flags": 5,
+        "priority": "LOW",
+        "risk_score": 0.0,
+        "rule_score": 0.0,
+        "scan_reason": "Complete default file stream scanned",
+        "scan_status": "SCANNED_NO_MATCH",
+        "sha256": "6896d9ea3f73a4434f5832bc65714e7d066f177373f36f34dc8a6f735daa41b1",
+        "volume_offset": 0,
+        "yara_matches": []
+      }
+    ],
+    "limits": {
+      "max_depth": 64,
+      "max_entries": 20000,
+      "max_file_bytes": 33554432,
+      "max_files": 10000,
+      "max_seconds": 120,
+      "max_total_bytes": 268435456,
+      "yara_timeout": 5
+    },
+    "matched_rules": 1,
+    "metadata_entries_ignored": 1,
+    "non_file_entries_ignored": 5,
+    "processing_seconds": 0.004208,
+    "regular_files_discovered": 4,
+    "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+    "scan_status": "COMPLETE",
+    "timings": {
+      "backend_analysis_seconds": 0.025394,
+      "disk_analysis_seconds": 0.004208,
+      "file_read_hash_seconds": 4.8e-05,
+      "filesystem_enumeration_seconds": 0.001445,
+      "rules_compilation_seconds": 0.002112,
+      "yara_execution_seconds": 0.000602
+    },
+    "total_eligible_files": 4,
+    "total_files_discovered": 4,
+    "virtual_entries_ignored": 4,
+    "warnings": [],
+    "yara_status": "READY"
+  },
+  "evidence": {
+    "algorithm": "SHA-256",
+    "ingested_at": "2026-10-30T10:12:51.899140+00:00",
+    "original_filename": "harmless-fat12.img",
+    "sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+    "size_bytes": 1474560
+  },
+  "flagged_artifacts": [
+    {
+      "AccessedTime": "2026-10-29T18:30:00+00:00",
+      "CreatedTime": "2026-10-30T10:12:50+00:00",
+      "FileExtension": ".txt",
+      "FileName": "POSITIVE.TXT",
+      "FilePath": "/POSITIVE.TXT",
+      "FileSizeBytes": 46,
+      "ModifiedTime": "2026-10-30T10:12:50+00:00",
+      "anomaly_score": null,
+      "artifact_location": "volume:0:inode:4:/POSITIVE.TXT",
+      "artifact_type": "file",
+      "bytes_read": 46,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "evidence_source": "harmless-fat12.img",
+      "inode": 4,
+      "matched_rules": "YARA: Harmless_File_Marker",
+      "metadata_flags": 5,
+      "priority": "MEDIUM",
+      "risk_score": 25.0,
+      "rule_score": 25.0,
+      "scan_reason": "Complete default file stream scanned",
+      "scan_status": "MATCHED",
+      "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+      "volume_offset": 0,
+      "yara_matches": [
+        {
+          "matched_strings": [
+            "$a"
+          ],
+          "meta": {
+            "description": "Harmless integration marker",
+            "severity": "informational"
+          },
+          "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+          "rule": "Harmless_File_Marker",
+          "tags": [],
+          "target": "volume:0:inode:4:/POSITIVE.TXT"
+        }
+      ]
+    }
+  ],
+  "intake_id": "IN-3ff1acef987f4f2b8806afd69c4af01a",
+  "iocs": [
+    {
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "matched_strings": [
+        "$a"
+      ],
+      "meta": {
+        "description": "Harmless integration marker",
+        "severity": "informational"
+      },
+      "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+      "rule": "Harmless_File_Marker",
+      "tags": [],
+      "target": "volume:0:inode:4:/POSITIVE.TXT"
+    }
+  ],
+  "kind": "disk_image",
+  "persisted": true,
+  "record_count": 4,
+  "records": [
+    {
+      "AccessedTime": "2026-10-29T18:30:00+00:00",
+      "CreatedTime": "2026-10-30T10:12:50+00:00",
+      "FileExtension": ".txt",
+      "FileName": "POSITIVE.TXT",
+      "FilePath": "/POSITIVE.TXT",
+      "FileSizeBytes": 46,
+      "ModifiedTime": "2026-10-30T10:12:50+00:00",
+      "artifact_location": "volume:0:inode:4:/POSITIVE.TXT",
+      "artifact_type": "file",
+      "bytes_read": 46,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "evidence_source": "harmless-fat12.img",
+      "inode": 4,
+      "metadata_flags": 5,
+      "scan_reason": "Complete default file stream scanned",
+      "scan_status": "MATCHED",
+      "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+      "volume_offset": 0,
+      "yara_matches": [
+        {
+          "matched_strings": [
+            "$a"
+          ],
+          "meta": {
+            "description": "Harmless integration marker",
+            "severity": "informational"
+          },
+          "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+          "rule": "Harmless_File_Marker",
+          "tags": [],
+          "target": "volume:0:inode:4:/POSITIVE.TXT"
+        }
+      ]
+    },
+    {
+      "AccessedTime": "2026-10-29T18:30:00+00:00",
+      "CreatedTime": "2026-10-30T10:12:50+00:00",
+      "FileExtension": ".txt",
+      "FileName": "NEGATIVE.TXT",
+      "FilePath": "/NEGATIVE.TXT",
+      "FileSizeBytes": 46,
+      "ModifiedTime": "2026-10-30T10:12:50+00:00",
+      "artifact_location": "volume:0:inode:5:/NEGATIVE.TXT",
+      "artifact_type": "file",
+      "bytes_read": 46,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "evidence_source": "harmless-fat12.img",
+      "inode": 5,
+      "metadata_flags": 5,
+      "scan_reason": "Complete default file stream scanned",
+      "scan_status": "SCANNED_NO_MATCH",
+      "sha256": "70789bbc67cd6e67f207af19403412416a2b6a8d7aa62a1be396febf0a770c83",
+      "volume_offset": 0,
+      "yara_matches": []
+    },
+    {
+      "AccessedTime": "2026-10-29T18:30:00+00:00",
+      "CreatedTime": "2026-10-30T10:12:50+00:00",
+      "FileExtension": ".txt",
+      "FileName": "EMPTY.TXT",
+      "FilePath": "/EMPTY.TXT",
+      "FileSizeBytes": 0,
+      "ModifiedTime": "2026-10-30T10:12:50+00:00",
+      "artifact_location": "volume:0:inode:6:/EMPTY.TXT",
+      "artifact_type": "file",
+      "bytes_read": 0,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "evidence_source": "harmless-fat12.img",
+      "inode": 6,
+      "metadata_flags": 5,
+      "scan_reason": "Complete default file stream scanned",
+      "scan_status": "SCANNED_NO_MATCH",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "volume_offset": 0,
+      "yara_matches": []
+    },
+    {
+      "AccessedTime": "2026-10-29T18:30:00+00:00",
+      "CreatedTime": "2026-10-30T10:12:50+00:00",
+      "FileExtension": ".bin",
+      "FileName": "LARGE.BIN",
+      "FilePath": "/LARGE.BIN",
+      "FileSizeBytes": 4096,
+      "ModifiedTime": "2026-10-30T10:12:50+00:00",
+      "artifact_location": "volume:0:inode:7:/LARGE.BIN",
+      "artifact_type": "file",
+      "bytes_read": 4096,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "evidence_source": "harmless-fat12.img",
+      "inode": 7,
+      "metadata_flags": 5,
+      "scan_reason": "Complete default file stream scanned",
+      "scan_status": "SCANNED_NO_MATCH",
+      "sha256": "6896d9ea3f73a4434f5832bc65714e7d066f177373f36f34dc8a6f735daa41b1",
+      "volume_offset": 0,
+      "yara_matches": []
+    }
+  ],
+  "stored": 4,
+  "threat_intel": {
+    "indicator": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+    "kind": "hash",
+    "malicious": false,
+    "providers": []
+  },
+  "yara": {
+    "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+    "status": "READY"
+  }
+}

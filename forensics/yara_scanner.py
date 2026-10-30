@@ -9,6 +9,7 @@ Reference: YARA — VirusTotal, "YARA: The pattern matching swiss knife for malw
 researchers" (virustotal.github.io/yara).
 """
 import os
+import hashlib
 
 try:
     import yara
@@ -26,11 +27,13 @@ DEFAULT_RULES_DIR = os.path.join(_REPO_ROOT, "rules")
 def _collect_rule_files(rules_dir):
     files = {}
     for root, _dirs, names in os.walk(rules_dir):
-        for name in names:
+        _dirs.sort()
+        for name in sorted(names):
             if name.lower().endswith((".yar", ".yara")):
                 # namespace = filename stem; used to disambiguate matches.
                 path = os.path.join(root, name)
-                files[os.path.splitext(name)[0]] = path
+                relative = os.path.relpath(path, rules_dir).replace(os.sep, '/')
+                files['rules_' + hashlib.sha256(relative.encode()).hexdigest()] = path
     return files
 
 
@@ -48,6 +51,24 @@ def compile_rules(rules_dir=DEFAULT_RULES_DIR):
     if not filepaths:
         return None
     return yara.compile(filepaths=filepaths)
+
+
+def ruleset_id(rules_dir=DEFAULT_RULES_DIR):
+    digest = hashlib.sha256()
+    for namespace, path in _collect_rule_files(rules_dir).items():
+        digest.update(namespace.encode())
+        with open(path, 'rb') as source:
+            digest.update(source.read())
+    return digest.hexdigest()
+
+
+def scan_bytes(data, compiled_rules, target, timeout=10):
+    """Scan a complete bounded file; target is its original evidence location."""
+    if not AVAILABLE:
+        raise RuntimeError(UNAVAILABLE_REASON)
+    if compiled_rules is None:
+        raise RuntimeError('RULES_NOT_CONFIGURED')
+    return [_match_to_ioc(m, target) for m in compiled_rules.match(data=data, timeout=timeout)]
 
 
 def _match_to_ioc(match, target):

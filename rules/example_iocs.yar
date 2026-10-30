@@ -24,11 +24,12 @@ rule Suspicious_PowerShell_EncodedCommand
         description = "PowerShell launched with an encoded/hidden command line"
         severity    = "medium"
     strings:
+        $ps = "powershell" nocase
         $enc  = "-EncodedCommand" nocase
         $hid  = "-WindowStyle Hidden" nocase
         $ep   = "-ExecutionPolicy Bypass" nocase
     condition:
-        any of them
+        $ps and 1 of ($enc, $hid, $ep)
 }
 
 rule Executable_Dropped_In_Temp
@@ -38,7 +39,7 @@ rule Executable_Dropped_In_Temp
         severity    = "medium"
     strings:
         $t1 = /\\Temp\\[^\\]+\.exe/ nocase
-        $t2 = "/tmp/" nocase
+        $t2 = /\/tmp\/[^\/\r\n ]+\.exe/ nocase
     condition:
-        $t1 or ($t2 and $t1)
+        $t1 or $t2
 }

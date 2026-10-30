@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="19" failures="1" skipped="30" tests="363" time="17.289" timestamp="2026-10-30T15:33:55.587624+05:30" hostname="Umar-PC"><testcase classname="tests.test_attack_family" name="test_bundle_validation_success" time="0.015"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_success0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[wrong_version]" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[wrong_family]" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure1')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[missing_model]" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure2')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[unfitted_model]" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure3')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[missing_columns]" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure4')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[wrong_classes]" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure5')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[scaler_mismatch]" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure6')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_bundle_validation_failures[missing_provenance]" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure7')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_load_attack_family_missing_fails_closed" time="0.010" /><testcase classname="tests.test_attack_family" name="test_feature_schema_and_column_ordering" time="0.012"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_feature_schema_and_column0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_missing_features_raises_error" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_missing_features_raises_e0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_empty_input_returns_empty_list" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_empty_input_returns_empty0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_output_structure_and_calibration_honesty" time="0.010"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_output_structure_and_cali0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_abstention_policy_low_confidence" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_abstention_policy_low_con0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_abstention_policy_ambiguous_margin" time="0.011"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_abstention_policy_ambiguo0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_attack_family_api_endpoint" time="0.016"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_attack_family_api_endpoin0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_calibrated_bundle_dual_scores_and_sum_to_one" time="0.012"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_calibrated_bundle_dual_sc0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_class_order_stability" time="0.013"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_class_order_stability0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_calibrator_inference_failure_safe_degradation" time="0.015"><error message="failed on setup with &quot;AssertionError: Fitting is prohibited by --no-training.&quot;">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_calibrator_inference_fail0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+&gt;       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</error></testcase><testcase classname="tests.test_attack_family" name="test_calibration_metrics_brier_and_ece" time="0.020" /><testcase classname="tests.test_baseline" name="test_training_saves_complete_benign_only_bundle" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:20: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_missing_dataset_never_uses_sample_or_upload" time="0.012" /><testcase classname="tests.test_baseline" name="test_bad_checksum_does_not_publish" time="0.012" /><testcase classname="tests.test_baseline" name="test_training_refuses_accidental_replacement" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:49: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_load_missing_model" time="0.010" /><testcase classname="tests.test_baseline" name="test_legacy_and_corrupt_models_rejected" time="0.017" /><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[no_scaler]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[unfitted]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[schema]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[provenance]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[version]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_incomplete_bundle_rejected[drift]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_inference_reuses_scaler_and_survives_reload" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:93: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_preprocessing_order_metadata_and_invalid_rows" time="0.028" /><testcase classname="tests.test_baseline" name="test_preprocessing_preserves_duplicates" time="0.016" /><testcase classname="tests.test_baseline" name="test_missing_features_and_empty_data" time="0.017" /><testcase classname="tests.test_baseline" name="test_duplicate_csv_headers_rejected" time="0.012" /><testcase classname="tests.test_baseline" name="test_non_network_artifacts_rejected" time="0.015" /><testcase classname="tests.test_baseline" name="test_drift_stable_shifted_and_read_only" time="0.014" /><testcase classname="tests.test_baseline" name="test_small_drift_batches_unassessed" time="0.011" /><testcase classname="tests.test_baseline" name="test_api_missing_model_fails_without_training[/api/analyze]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_missing_model_fails_without_training[/api/evaluate]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_missing_model_fails_without_training[/api/ingest]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_analyze_evaluate_and_ingest_never_fit" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:192: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_missing_features_clear_error[/api/analyze]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_missing_features_clear_error[/api/evaluate]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_missing_features_clear_error[/api/ingest]" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_health_reports_missing_baseline" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:225: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_host_ingestion_works_without_network_baseline" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:234: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_api_reports_drift_without_changing_bundle" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:243: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_training_rejects_unusable_baseline[no_labels]" time="0.025" /><testcase classname="tests.test_baseline" name="test_training_rejects_unusable_baseline[no_benign]" time="0.024" /><testcase classname="tests.test_baseline" name="test_training_rejects_unusable_baseline[missing_feature]" time="0.019" /><testcase classname="tests.test_baseline" name="test_changed_training_dataset_not_published" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:284: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_baseline" name="test_train_baseline_eligible_view_excludes_cleaned_rows" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_baseline.py:295: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_chain_of_custody" name="test_compute_sha256_matches_known_value" time="0.013" /><testcase classname="tests.test_chain_of_custody" name="test_same_file_yields_same_hash" time="0.015" /><testcase classname="tests.test_chain_of_custody" name="test_stored_hash_matches_on_reread" time="0.019" /><testcase classname="tests.test_chain_of_custody" name="test_analyze_response_includes_evidence_hash" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_chain_of_custody.py:48: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_cleaning" name="test_policy_applies_three_reasons_with_union_counts" time="0.071" /><testcase classname="tests.test_cleaning" name="test_overlapping_exclusions_are_counted_once" time="0.055" /><testcase classname="tests.test_cleaning" name="test_ledger_lists_source_row_identities_in_reason_order" time="0.060" /><testcase classname="tests.test_cleaning" name="test_label_conflicts_exclude_every_row_and_never_relabel" time="0.073" /><testcase classname="tests.test_cleaning" name="test_rows_differing_in_one_column_are_never_duplicates" time="0.079" /><testcase classname="tests.test_cleaning" name="test_count_invariant_is_asserted" time="0.013" /><testcase classname="tests.test_cleaning" name="test_missing_required_feature_is_refused" time="0.048" /><testcase classname="tests.test_cleaning" name="test_header_only_source_is_refused" time="0.057" /><testcase classname="tests.test_cleaning" name="test_candidate_verification_default_constant" time="0.012" /><testcase classname="tests.test_cleaning" name="test_candidate_limit_is_enforced" time="0.127" /><testcase classname="tests.test_cleaning" name="test_candidate_limit_accepts_below_or_equal_ceiling" time="0.071" /><testcase classname="tests.test_cleaning" name="test_candidate_limit_rejects_above_ceiling" time="0.058" /><testcase classname="tests.test_cleaning" name="test_candidate_verification_immutability_and_determinism" time="0.090" /><testcase classname="tests.test_cleaning" name="test_invalid_chunk_size_is_refused" time="0.032" /><testcase classname="tests.test_cleaning" name="test_counts_and_ledger_do_not_depend_on_chunk_size" time="0.216" /><testcase classname="tests.test_cleaning" name="test_second_run_reuses_ledger_and_record" time="0.095" /><testcase classname="tests.test_cleaning" name="test_tampered_ledger_requires_explicit_force" time="0.106" /><testcase classname="tests.test_cleaning" name="test_tampered_record_requires_explicit_force" time="0.133" /><testcase classname="tests.test_cleaning" name="test_missing_manifest_is_refused" time="0.030" /><testcase classname="tests.test_cleaning" name="test_unreadable_manifest_is_refused" time="0.026" /><testcase classname="tests.test_cleaning" name="test_manifest_for_another_dataset_is_refused" time="0.046" /><testcase classname="tests.test_cleaning" name="test_source_sha256_mismatch_is_refused" time="0.042" /><testcase classname="tests.test_cleaning" name="test_source_is_immutable_and_no_cleaned_csv_is_created" time="0.073" /><testcase classname="tests.test_cleaning" name="test_artifacts_never_overwrite_the_source" time="0.057" /><testcase classname="tests.test_cleaning" name="test_protected_source_paths_are_refused" time="0.049" /><testcase classname="tests.test_cleaning" name="test_cleaning_never_fits_or_downloads" time="0.067" /><testcase classname="tests.test_cleaning" name="test_eligible_view_is_derived_from_the_source" time="0.092" /><testcase classname="tests.test_cleaning" name="test_view_chunks_preserve_source_row_identity" time="0.095" /><testcase classname="tests.test_cleaning" name="test_view_is_refused_when_the_source_changed" time="0.110" /><testcase classname="tests.test_cleaning" name="test_view_is_refused_when_the_ledger_tampered" time="0.094" /><testcase classname="tests.test_cleaning" name="test_view_requires_a_cleaning_record" time="0.030" /><testcase classname="tests.test_cleaning" name="test_live_inference_keeps_duplicates_and_negative_rows" time="0.030" /><testcase classname="tests.test_cleaning" name="test_live_inference_never_imports_the_cleaning_module" time="0.020" /><testcase classname="tests.test_cleaning" name="test_scaler_is_fit_on_training_rows_only" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_cleaning.py:516: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_cleaning" name="test_evaluation_script_splits_before_scaling" time="0.029" /><testcase classname="tests.test_cleaning" name="test_cli_prints_the_cleaning_record" time="0.136" /><testcase classname="tests.test_cleaning" name="test_cli_reports_the_refusal_code" time="0.035" /><testcase classname="tests.test_cleaning" name="test_bom_header_is_handled" time="0.038" /><testcase classname="tests.test_cleaning" name="test_whitespace_padded_headers_are_stripped" time="0.034" /><testcase classname="tests.test_cleaning" name="test_non_finite_values_are_not_flagged_as_negative" time="0.090" /><testcase classname="tests.test_cleaning" name="test_duplicate_pair_straddling_chunk_boundary" time="0.199" /><testcase classname="tests.test_cleaning" name="test_conflict_pair_straddling_chunk_boundary" time="0.196" /><testcase classname="tests.test_cleaning" name="test_three_way_overlapping_reasons" time="0.090" /><testcase classname="tests.test_cleaning" name="test_all_rows_excluded_still_satisfies_invariant" time="0.102" /><testcase classname="tests.test_cleaning" name="test_ledger_bytes_are_identical_across_independent_runs" time="0.294" /><testcase classname="tests.test_cleaning" name="test_source_immutability_across_chunk_sizes" time="0.374" /><testcase classname="tests.test_cleaning" name="test_no_csv_leaks_into_provenance_directory" time="0.094" /><testcase classname="tests.test_cleaning" name="test_eligible_view_contains_no_negative_or_nonfinite_features" time="0.099" /><testcase classname="tests.test_cleaning" name="test_cleaning_module_never_imports_scaler_or_model" time="0.016" /><testcase classname="tests.test_cleaning" name="test_eligible_view_row_count_matches_record" time="0.102" /><testcase classname="tests.test_dataset_download" name="test_download_records_actual_csv_path_and_provenance" time="0.065" /><testcase classname="tests.test_dataset_download" name="test_matching_record_reuses_download_and_keeps_retrieval_time" time="0.069" /><testcase classname="tests.test_dataset_download" name="test_mismatched_record_is_never_overwritten_without_force" time="0.103" /><testcase classname="tests.test_dataset_download" name="test_version_change_requires_explicit_confirmation" time="0.096" /><testcase classname="tests.test_dataset_download" name="test_unavailable_version_metadata_is_recorded_and_compared" time="0.112" /><testcase classname="tests.test_dataset_download" name="test_missing_csv_reports_clear_error" time="0.038" /><testcase classname="tests.test_dataset_download" name="test_ambiguous_csv_requires_explicit_path" time="0.064" /><testcase classname="tests.test_dataset_download" name="test_invalid_csv_hint_is_rejected[absent.csv-CSV_NOT_FOUND]" time="0.039" /><testcase classname="tests.test_dataset_download" name="test_invalid_csv_hint_is_rejected[../escape.csv-CSV_PATH_INVALID]" time="0.040" /><testcase classname="tests.test_dataset_download" name="test_invalid_csv_hint_is_rejected[notes.txt-CSV_PATH_INVALID]" time="0.038" /><testcase classname="tests.test_dataset_download" name="test_invalid_csv_hint_is_rejected[   -CSV_PATH_INVALID]" time="0.039" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure0-CREDENTIALS_MISSING]" time="0.032" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure1-CREDENTIALS_MISSING]" time="0.030" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure2-CREDENTIALS_MISSING]" time="0.026" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure3-DATASET_NOT_FOUND]" time="0.021" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure4-SERVICE_FAILURE]" time="0.023" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure5-NETWORK_FAILURE]" time="0.039" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure6-NETWORK_FAILURE]" time="0.027" /><testcase classname="tests.test_dataset_download" name="test_download_failures_are_reported_with_codes[failure7-NETWORK_FAILURE]" time="0.022" /><testcase classname="tests.test_dataset_download" name="test_missing_credentials_fail_before_any_request" time="0.021" /><testcase classname="tests.test_dataset_download" name="test_missing_kagglehub_package_is_reported" time="0.018" /><testcase classname="tests.test_dataset_download" name="test_repository_source_csv_is_protected" time="0.028" /><testcase classname="tests.test_dataset_download" name="test_discovered_csv_inside_protected_location_is_rejected" time="0.023" /><testcase classname="tests.test_dataset_download" name="test_unreadable_manifest_fails_closed[{not json]" time="0.032" /><testcase classname="tests.test_dataset_download" name="test_unreadable_manifest_fails_closed[{}]" time="0.029" /><testcase classname="tests.test_dataset_download" name="test_unreadable_manifest_fails_closed[{&quot;manifest_version&quot;: 99}]" time="0.040" /><testcase classname="tests.test_dataset_download" name="test_validation_and_training_never_download" time="0.097" /><testcase classname="tests.test_dataset_download" name="test_sha256_file_streams_in_chunks" time="0.040" /><testcase classname="tests.test_dataset_download" name="test_csv_discovery_ignores_names_and_matches_suffix" time="0.033" /><testcase classname="tests.test_dataset_download" name="test_cli_prints_report_and_passes_options" time="0.024" /><testcase classname="tests.test_dataset_download" name="test_cli_reports_error_code_without_a_partial_record" time="0.024" /><testcase classname="tests.test_dataset_download" name="test_is_unsupported_output_dir_error" time="0.021" /><testcase classname="tests.test_dataset_download" name="test_resolve_with_version_supports_output_dir" time="0.022" /><testcase classname="tests.test_dataset_download" name="test_resolve_with_version_falls_back_when_output_dir_unsupported" time="0.017" /><testcase classname="tests.test_dataset_download" name="test_resolve_with_version_does_not_swallow_arbitrary_type_error" time="0.021" /><testcase classname="tests.test_dataset_download" name="test_resolve_with_version_fallback_when_package_layout_differs" time="0.036" /><testcase classname="tests.test_dataset_download" name="test_register_local_records_provenance_without_downloading" time="0.042" /><testcase classname="tests.test_dataset_download" name="test_register_local_is_idempotent_and_keeps_retrieval_time" time="0.052" /><testcase classname="tests.test_dataset_download" name="test_register_local_mismatch_requires_force" time="0.052" /><testcase classname="tests.test_dataset_download" name="test_register_local_missing_file_reports_error" time="0.012" /><testcase classname="tests.test_dataset_download" name="test_register_local_refuses_protected_manifest_path" time="0.015" /><testcase classname="tests.test_dataset_download" name="test_register_local_never_downloads_or_imports_kaggle" time="0.020" /><testcase classname="tests.test_dataset_download" name="test_register_local_feeds_cleaning" time="0.075" /><testcase classname="tests.test_dataset_download" name="test_cli_from_local_registers_local_provenance" time="0.049" /><testcase classname="tests.test_dataset_validation" name="test_valid_csv_is_read_only" time="0.043" /><testcase classname="tests.test_dataset_validation" name="test_numeric_strings_and_frame_are_unchanged" time="0.032" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[-missing_values]" time="0.029" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[   -missing_values]" time="0.033" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[nan-missing_values]" time="0.029" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[invalid-non_numeric_values]" time="0.026" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[NaN-nan_values]" time="0.027" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[+nan-nan_values]" time="0.029" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[-NaN-nan_values]" time="0.026" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[inf-infinite_values]" time="0.027" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[-inf-infinite_values]" time="0.025" /><testcase classname="tests.test_dataset_validation" name="test_invalid_values_are_reported_without_replacement[-0.5-negative_measurements]" time="0.026" /><testcase classname="tests.test_dataset_validation" name="test_csv_preserves_nan_missing_and_bad_tokens" time="0.031" /><testcase classname="tests.test_dataset_validation" name="test_missing_values_include_optional_columns" time="0.025" /><testcase classname="tests.test_dataset_validation" name="test_nullable_numeric_columns[string]" time="0.026" /><testcase classname="tests.test_dataset_validation" name="test_nullable_numeric_columns[Float64]" time="0.026" /><testcase classname="tests.test_dataset_validation" name="test_missing_required_columns" time="0.015" /><testcase classname="tests.test_dataset_validation" name="test_duplicate_rows_compare_all_columns" time="0.025" /><testcase classname="tests.test_dataset_validation" name="test_negative_measurements_in_all_required_columns" time="0.023" /><testcase classname="tests.test_dataset_validation" name="test_overlapping_issues_are_not_double_counted" time="0.025" /><testcase classname="tests.test_dataset_validation" name="test_missing_file_has_clear_error" time="0.014" /><testcase classname="tests.test_dataset_validation" name="test_unreadable_csv_has_clear_error" time="0.016" /><testcase classname="tests.test_dataset_validation" name="test_malformed_or_non_utf8_csv[column\n&quot;unterminated\n]" time="0.019" /><testcase classname="tests.test_dataset_validation" name="test_malformed_or_non_utf8_csv[column\n\xff\n]" time="0.015" /><testcase classname="tests.test_dataset_validation" name="test_duplicate_column_headers_rejected" time="0.014" /><testcase classname="tests.test_dataset_validation" name="test_csv_extra_fields_are_not_silently_truncated" time="0.016" /><testcase classname="tests.test_dataset_validation" name="test_empty_dataset_report" time="0.022" /><testcase classname="tests.test_dataset_validation" name="test_blank_csv_rows_are_counted" time="0.028" /><testcase classname="tests.test_dataset_validation" name="test_validation_only_never_trains_or_saves[False]" time="0.032" /><testcase classname="tests.test_dataset_validation" name="test_validation_only_never_trains_or_saves[True]" time="0.029" /><testcase classname="tests.test_dataset_validation" name="test_validation_only_issue_exit_code" time="0.029" /><testcase classname="tests.test_dataset_validation" name="test_validation_only_file_and_schema_error_exit[None-Dataset file not found]" time="0.015" /><testcase classname="tests.test_dataset_validation" name="test_validation_only_file_and_schema_error_exit[other\n1\n-Missing required network features]" time="0.016" /><testcase classname="tests.test_dataset_validation" name="test_training_cli_still_requires_metadata" time="0.014" /><testcase classname="tests.test_dataset_validation" name="test_training_cli_preserves_arguments_without_fitting[False]" time="0.012" /><testcase classname="tests.test_dataset_validation" name="test_training_cli_preserves_arguments_without_fitting[True]" time="0.011" /><testcase classname="tests.test_disk_file_yara" name="test_real_upload_positive_negative_integrity" time="0.353" /><testcase classname="tests.test_disk_file_yara" name="test_unreadable_injection" time="0.056"><skipped type="pytest.skip" message="Native pytsk3 type does not permit read fault injection">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_disk_file_yara.py:47: Native pytsk3 type does not permit read fault injection</skipped></testcase><testcase classname="tests.test_disk_file_yara" name="test_limits[settings0-SKIPPED_TOO_LARGE]" time="0.061" /><testcase classname="tests.test_disk_file_yara" name="test_limits[settings1-SKIPPED_LIMIT]" time="0.070" /><testcase classname="tests.test_disk_file_yara" name="test_limits[settings2-SKIPPED_LIMIT]" time="0.066" /><testcase classname="tests.test_disk_file_yara" name="test_limits[settings3-None]" time="0.071" /><testcase classname="tests.test_disk_file_yara" name="test_missing_yara" time="0.067" /><testcase classname="tests.test_disk_file_yara" name="test_empty_and_invalid_rules" time="0.067" /><testcase classname="tests.test_disk_file_yara" name="test_timeout_injection" time="0.069" /><testcase classname="tests.test_disk_file_yara" name="test_corrupt_unsupported[not a filesystem]" time="0.020" /><testcase classname="tests.test_disk_file_yara" name="test_corrupt_unsupported[\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00]" time="0.024" /><testcase classname="tests.test_disk_file_yara" name="test_unique_namespaces" time="0.021" /><testcase classname="tests.test_endpoints.TestIngestEndpoint" name="test_ingest_bad_format_returns_400" time="0.020" /><testcase classname="tests.test_endpoints.TestIngestEndpoint" name="test_ingest_file_listing_scores_artifacts" time="0.022" /><testcase classname="tests.test_endpoints.TestIngestEndpoint" name="test_ingest_requires_auth_when_token_set" time="0.013" /><testcase classname="tests.test_endpoints.TestArtifactsEndpoint" name="test_list_artifacts_returns_shape" time="0.000"><skipped type="pytest.skip" message="Requires --run-integration and dedicated MongoDB on port 27018">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_endpoints.py:63: Requires --run-integration and dedicated MongoDB on port 27018</skipped></testcase><testcase classname="tests.test_endpoints.TestArtifactsEndpoint" name="test_severity_filter_is_uppercased" time="0.000"><skipped type="pytest.skip" message="Requires --run-integration and dedicated MongoDB on port 27018">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_endpoints.py:75: Requires --run-integration and dedicated MongoDB on port 27018</skipped></testcase><testcase classname="tests.test_evaluation" name="test_extract_ground_truth_recognizes_cicids_schema" time="0.014" /><testcase classname="tests.test_evaluation" name="test_extract_ground_truth_override_and_missing" time="0.013" /><testcase classname="tests.test_evaluation" name="test_top_k_metrics_rank_attacks_first" time="0.012" /><testcase classname="tests.test_evaluation" name="test_evaluate_predictions_full_bundle" time="0.021" /><testcase classname="tests.test_evaluation" name="test_evaluate_predictions_single_class_roc_none" time="0.017" /><testcase classname="tests.test_forensics" name="test_capabilities_endpoint_shape" time="0.014" /><testcase classname="tests.test_forensics" name="test_ingest_rejects_unsupported_type" time="0.027" /><testcase classname="tests.test_forensics" name="test_evtx_flatten_system_normalizes_fields" time="0.014" /><testcase classname="tests.test_forensics" name="test_registry_columns_and_bytes_hex" time="0.013" /><testcase classname="tests.test_forensics" name="test_yara_scan_surfaces_powershell_ioc" time="0.018" /><testcase classname="tests.test_forensics" name="test_yara_scan_no_rules_dir_returns_empty" time="0.018" /><testcase classname="tests.test_forensics" name="test_yara_does_not_disclose_server_path_and_is_bounded" time="0.031" /><testcase classname="tests.test_forensics" name="test_threat_intel_no_keys_is_noop" time="0.018" /><testcase classname="tests.test_forensics" name="test_reputation_rule_bump_maps_verdict" time="0.013" /><testcase classname="tests.test_forensics" name="test_disk_image_ts_helper" time="0.012" /><testcase classname="tests.test_forensics" name="test_kaggle_client_status_diagnostics" time="0.017" /><testcase classname="tests.test_forensics" name="test_kaggle_candidates_metadata_structure" time="0.011" /><testcase classname="tests.test_forensics" name="test_digital_corpora_candidates_metadata_structure" time="0.011" /><testcase classname="tests.test_forensics" name="test_sha256_stream_calculation" time="0.022" /><testcase classname="tests.test_forensics" name="test_dry_run_acquisition" time="0.015" /><testcase classname="tests.test_forensics" name="test_synthetic_manifest_and_verification" time="0.023" /><testcase classname="tests.test_forensics" name="test_acquired_primary_disk_image_integration" time="0.013"><skipped type="pytest.skip" message="Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py</skipped></testcase><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://localhost:27017]" time="0.012" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://example.com:27018]" time="0.013" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb+srv://example.com]" time="0.014" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://user:secret@127.0.0.1:27018]" time="0.013" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://127.0.0.1:27018/investigations]" time="0.016" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://127.0.0.1:27018/?replicaSet=x]" time="0.015" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[mongodb://127.0.0.1:27018,example.com:27018]" time="0.022" /><testcase classname="tests.test_foundation" name="test_unsafe_test_mongo_uri_rejected_before_client_construction[]" time="0.015" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[cyber_triage]" time="0.017" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[production]" time="0.015" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[admin]" time="0.017" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[test]" time="0.020" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[cyber_triage_test_]" time="0.015" /><testcase classname="tests.test_foundation" name="test_test_database_name_guard[cyber_triage_test_real]" time="0.016" /><testcase classname="tests.test_foundation" name="test_pytest_cannot_turn_off_test_mode" time="0.017" /><testcase classname="tests.test_foundation" name="test_test_mode_ignores_inherited_investigation_environment" time="0.016" /><testcase classname="tests.test_foundation" name="test_factory_has_no_database_or_filesystem_side_effects" time="0.033" /><testcase classname="tests.test_foundation" name="test_disabled_database_never_constructs_client" time="0.013" /><testcase classname="tests.test_foundation" name="test_database_guard_rechecked_after_config_mutation" time="0.011" /><testcase classname="tests.test_foundation" name="test_database_client_owned_by_app_and_closed" time="0.029" /><testcase classname="tests.test_foundation" name="test_database_outage_can_recover_without_restart" time="0.022" /><testcase classname="tests.test_foundation" name="test_health_and_readiness_are_distinct" time="0.014" /><testcase classname="tests.test_foundation" name="test_ready_requires_both_model_and_database" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_foundation.py:127: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/cases]" time="0.015" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/cases/synthetic]" time="0.016" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/dashboard]" time="0.018" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/report/synthetic]" time="0.019" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/reports/synthetic]" time="0.022" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/triage/synthetic]" time="0.026" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[GET-/api/artifacts]" time="0.015" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/forensics/ingest]" time="0.017" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/analyze]" time="0.016" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/evaluate]" time="0.019" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/ingest]" time="0.017" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/cases]" time="0.017" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[PUT-/api/cases/synthetic]" time="0.015" /><testcase classname="tests.test_foundation" name="test_all_investigation_routes_enforce_configured_token[POST-/api/report]" time="0.015" /><testcase classname="tests.test_foundation" name="test_valid_token_reaches_route_and_cors_preflight" time="0.014" /><testcase classname="tests.test_foundation" name="test_case_intake_refuses_missing_database_before_writing[/api/analyze]" time="0.022" /><testcase classname="tests.test_foundation" name="test_case_intake_refuses_missing_database_before_writing[/api/ingest]" time="0.018" /><testcase classname="tests.test_foundation" name="test_case_intake_refuses_missing_database_before_writing[/api/forensics/ingest]" time="0.017" /><testcase classname="tests.test_foundation" name="test_case_intake_refuses_unknown_case" time="0.015" /><testcase classname="tests.test_foundation" name="test_failed_upload_cleans_partial_file" time="0.018" /><testcase classname="tests.test_foundation" name="test_oversized_upload_has_json_error_and_no_tempfile" time="0.012" /><testcase classname="tests.test_foundation" name="test_persistence_failure_cannot_return_success" time="0.021" /><testcase classname="tests.test_foundation" name="test_config_command_is_read_only_and_secret_free" time="0.014" /><testcase classname="tests.test_foundation" name="test_demo_seeding_command_is_removed" time="0.017" /><testcase classname="tests.test_foundation" name="test_invalid_runtime_settings_rejected[MAX_CONTENT_LENGTH-0]" time="0.014" /><testcase classname="tests.test_foundation" name="test_invalid_runtime_settings_rejected[MONGO_TIMEOUT_MS--1]" time="0.013" /><testcase classname="tests.test_foundation" name="test_invalid_runtime_settings_rejected[DB_MODE-fallback]" time="0.012" /><testcase classname="tests.test_foundation" name="test_case_json_must_be_an_object[/api/cases]" time="0.011" /><testcase classname="tests.test_foundation" name="test_case_json_must_be_an_object[/api/cases/synthetic]" time="0.016" /><testcase classname="tests.test_foundation" name="test_case_database_failure_after_parsing_is_not_success" time="0.019" /><testcase classname="tests.test_foundation" name="test_legacy_demo_cases_keep_provenance_warning" time="0.011" /><testcase classname="tests.test_foundation" name="test_optional_provider_config_is_scoped_to_application" time="0.027" /><testcase classname="tests.test_foundation" name="test_pdf_generator_handles_minimal_synthetic_case" time="0.020" /><testcase classname="tests.test_holdout" name="test_identical_features_never_cross_partitions" time="0.019" /><testcase classname="tests.test_holdout" name="test_holdout_fits_training_only_and_evaluation_refuses_tampering" time="0.108"><failure message="AssertionError: Fitting is prohibited by --no-training.">tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_holdout_fits_training_onl0')
+
+    def test_holdout_fits_training_only_and_evaluation_refuses_tampering(tmp_path):
+        from ml.dataset_source import register_local_dataset
+        from ml.cleaning import clean_dataset
+        frame = pd.DataFrame({c: np.arange(300, dtype=float) + i + 1 for i, c in enumerate(NETWORK_FEATURES)})
+        frame['Label'] = ['BENIGN' if i % 3 else 'attack' for i in range(len(frame))]
+        data, record, model = (tmp_path / name for name in ('flows.csv', 'cleaning.json', 'model.joblib'))
+        frame.to_csv(data, index=False)
+        manifest = tmp_path / 'manifest.json'
+        register_local_dataset(local_path=data, manifest_path=manifest)
+        clean_dataset(source=data, manifest_path=manifest, record_path=record, ledger_path=tmp_path / 'ledger.csv')
+&gt;       bundle = trainer.train_baseline(data=data, cleaning_record=record, eligible=True, holdout=True,
+            output=model, dataset_version='test', expected_sha256=trainer.file_sha256(data))
+
+tests\test_holdout.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\train_baseline.py:111: in train_baseline
+    scaled = pd.DataFrame(scaler.fit_transform(training), columns=NETWORK_FEATURES,
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+1              2.0  ...         309.0
+299          300.0              301.0  ...           309.0               310.0
+
+[134 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+&gt;       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError</failure></testcase><testcase classname="tests.test_integration_views" name="test_session_checks_token_without_database" time="0.015" /><testcase classname="tests.test_integration_views" name="test_model_missing_is_explicit_without_fitting" time="0.016" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data0]" time="0.014" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data1]" time="0.017" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data2]" time="0.014" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data3]" time="0.015" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data4]" time="0.016" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data5]" time="0.017" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data6]" time="0.014" /><testcase classname="tests.test_integration_views" name="test_case_validation_rejects_invalid_or_pipeline_owned_fields[data7]" time="0.027" /><testcase classname="tests.test_integration_views" name="test_new_case_requires_title_and_cannot_use_demo_id" time="0.014" /><testcase classname="tests.test_integration_views" name="test_explicit_filters_cannot_restore_legacy_demo_records" time="0.015" /><testcase classname="tests.test_integration_views" name="test_report_history_requires_a_live_case" time="0.017" /><testcase classname="tests.test_integration_views" name="test_list_pagination_and_search_are_bounded" time="0.018" /><testcase classname="tests.test_integration_views" name="test_dashboard_uses_database_aggregates_not_seeded_metrics" time="0.018" /><testcase classname="tests.test_integration_views" name="test_intake_failure_is_not_confirmed_and_keeps_failure_history" time="0.014" /><testcase classname="tests.test_integration_views" name="test_case_upload_uses_original_filename_and_shared_intake" time="0.022" /><testcase classname="tests.test_integration_views" name="test_pdf_accepts_unmapped_findings_and_escapes_user_text" time="0.022" /><testcase classname="tests.test_integration_views" name="test_persisted_case_upload_notes_dashboard_and_report" time="0.000"><skipped type="pytest.skip" message="Requires --run-integration and dedicated MongoDB on port 27018">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_integration_views.py:130: Requires --run-integration and dedicated MongoDB on port 27018</skipped></testcase><testcase classname="tests.test_ml_core" name="test_clean_data_drops_nan_and_inf_rows" time="0.016" /><testcase classname="tests.test_ml_core" name="test_scale_features_is_zscore_standardization" time="0.000"><skipped type="pytest.skip" message="Model/scaler fitting prohibited by --no-training">C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\tests\test_ml_core.py:21: Model/scaler fitting prohibited by --no-training</skipped></testcase><testcase classname="tests.test_ml_core" name="test_minmax_normalize_maps_extremes" time="0.013" /><testcase classname="tests.test_ml_core" name="test_minmax_normalize_degenerate_batch" time="0.013" /><testcase classname="tests.test_ml_core" name="test_detector_exposes_normalize_scores" time="0.012" /><testcase classname="tests.test_ml_core" name="test_default_weights_are_60_40" time="0.011" /><testcase classname="tests.test_ml_core" name="test_weights_are_configurable" time="0.011" /><testcase classname="tests.test_ml_core" name="test_priority_bands_cvss_aligned" time="0.010" /><testcase classname="tests.test_ml_core" name="test_score_dataframe_end_to_end" time="0.013" /><testcase classname="tests.test_parsers.TestEvtxParser" name="test_csv_export_failed_logon_aggregation" time="0.014" /><testcase classname="tests.test_parsers.TestEvtxParser" name="test_xml_export" time="0.023" /><testcase classname="tests.test_parsers.TestRegistryParser" name="test_reg_export" time="0.020" /><testcase classname="tests.test_parsers.TestPcapParser" name="test_flow_csv_alias_mapping" time="0.013" /><testcase classname="tests.test_parsers.TestPcapParser" name="test_unrecognized_columns_raise" time="0.013" /><testcase classname="tests.test_parsers.TestFileParser" name="test_csv_listing" time="0.017" /><testcase classname="tests.test_parsers.TestFileParser" name="test_json_listing" time="0.027" /><testcase classname="tests.test_parsers.TestDispatch" name="test_all_four_kinds_registered" time="0.011" /><testcase classname="tests.test_parsers.TestDispatch" name="test_missing_file_raises" time="0.011" /><testcase classname="tests.test_provenance_reconciliation" name="test_cross_platform_semantic_fingerprint_invariance" time="0.013" /><testcase classname="tests.test_provenance_reconciliation" name="test_substantive_field_changes_alter_fingerprint_and_fail_validation" time="0.012" /><testcase classname="tests.test_provenance_reconciliation" name="test_retained_old_fingerprint_cannot_pass_substantive_tampering" time="0.012" /><testcase classname="tests.test_provenance_reconciliation" name="test_raw_json_file_hashes_differ_while_semantic_fingerprints_remain_equal" time="0.028" /><testcase classname="tests.test_provenance_reconciliation" name="test_existing_model_bundle_compatibility_and_evaluation" time="0.037" /><testcase classname="tests.test_provenance_reconciliation" name="test_inference_remains_transform_only_and_never_trains" time="0.047" /><testcase classname="tests.test_provenance_reconciliation" name="test_current_model_artifact_remains_unchanged" time="0.033" /><testcase classname="tests.test_scoring.TestScoreRecords" name="test_benign_record_is_low" time="0.011" /><testcase classname="tests.test_scoring.TestScoreRecords" name="test_results_sorted_by_risk_desc" time="0.013" /><testcase classname="tests.test_scoring.TestScoreRecords" name="test_risk_capped_at_100" time="0.013" /><testcase classname="tests.test_scoring.TestScoreRecords" name="test_rules_only_interim_scoring" time="0.012" /><testcase classname="tests.test_scoring" name="test_temp_executable_rules_handle_case_and_path_components" time="0.011" /><testcase classname="tests.test_scoring" name="test_host_and_network_findings_explain_model_applicability" time="0.014" /><testcase classname="tests.test_scoring" name="test_report_shortens_file_titles_without_losing_rule_labels" time="0.011" /><testcase classname="tests.test_supervised_detector" name="test_bundle_feature_schema" time="0.296" /><testcase classname="tests.test_supervised_detector" name="test_infer_missing_feature_column_raises" time="0.031" /><testcase classname="tests.test_supervised_detector" name="test_infer_reorders_shuffled_features_correctly" time="0.045" /><testcase classname="tests.test_supervised_detector" name="test_infer_handles_or_rejects_non_finite_values" time="0.035" /><testcase classname="tests.test_supervised_detector" name="test_score_and_decision_semantics" time="0.036" /><testcase classname="tests.test_supervised_detector" name="test_threshold_override_behavior" time="0.052" /><testcase classname="tests.test_supervised_detector" name="test_missing_supervised_model_raises" time="0.019" /><testcase classname="tests.test_supervised_detector" name="test_corrupt_bundle_raises" time="0.069" /><testcase classname="tests.test_supervised_detector" name="test_baseline_isolation_forest_preserved_byte_identical" time="0.053" /><testcase classname="tests.test_supervised_detector" name="test_isolation_forest_score_direction_and_labels" time="0.058" /><testcase classname="tests.test_supervised_detector" name="test_api_supervised_model_status_endpoint" time="0.029" /><testcase classname="tests.test_supervised_detector" name="test_api_analyze_with_supervised_detector" time="0.080" /><testcase classname="tests.test_supervised_detector" name="test_api_analyze_default_remains_baseline" time="0.107" /><testcase classname="tests.test_thresholding" name="test_metrics_at_threshold_perfect_split" time="0.011" /><testcase classname="tests.test_thresholding" name="test_metrics_at_threshold_all_predicted_negative" time="0.012" /><testcase classname="tests.test_thresholding" name="test_select_threshold_fpr_constrained" time="0.012" /><testcase classname="tests.test_thresholding" name="test_select_threshold_fallback_when_constraint_unachievable" time="0.012" /><testcase classname="tests.test_thresholding" name="test_select_threshold_degenerate_inputs" time="0.011" /><testcase classname="tests.test_triage_engine" name="test_triage_signal_contract_schema" time="0.012" /><testcase classname="tests.test_triage_engine" name="test_binary_attack_not_overridden_when_family_abstains" time="0.012" /><testcase classname="tests.test_triage_engine" name="test_benign_traffic_never_reported_as_confirmed_attack_family" time="0.012" /><testcase classname="tests.test_triage_engine" name="test_missing_signals_represented_as_unavailable" time="0.011" /><testcase classname="tests.test_triage_engine" name="test_deterministic_priority_recommendations" time="0.013" /><testcase classname="tests.test_triage_engine" name="test_analyst_review_container_separation" time="0.012" /><testcase classname="tests.test_triage_engine" name="test_triage_signals_api_endpoint" time="0.015" /></testsuite></testsuites>

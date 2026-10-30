@@ -107,7 +107,7 @@ function CaseWorkspace() {
       ) : activeTab === 'artifacts' ? (
         <CaseArtifacts key={caseId} caseRecord={caseRecord} />
       ) : activeTab === 'evidence' ? (
-        <><IntakePanel key={caseId} caseId={caseId} onComplete={reload} /><CaseEvidence caseRecord={caseRecord} /><IntakeHistory key={caseId} caseId={caseId} revision={caseRecord.lastActivity?.at} /></>
+        <><IntakePanel key={`intake-${caseId}`} caseId={caseId} onComplete={reload} /><CaseEvidence caseRecord={caseRecord} /><IntakeHistory key={`history-${caseId}`} caseId={caseId} revision={caseRecord.lastActivity?.at} /></>
       ) : activeTab === 'timeline' ? (
         <CaseTimeline caseRecord={caseRecord} />
       ) : activeTab === 'ioc-graph' ? (

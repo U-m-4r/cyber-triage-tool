@@ -1,0 +1,197 @@
+{
+  "activity": [
+    {
+      "actor": "Workspace operator",
+      "at": "2026-10-30T10:12:52.524126+00:00",
+      "caseId": "CASE-0241B2061541",
+      "id": "EV-666de445567d4253ae76d995cca17147",
+      "kind": "ingest",
+      "message": "Ingested harmless-fat12.img: 4 records (disk_image).",
+      "severity": "INFO"
+    },
+    {
+      "actor": "Workspace operator",
+      "at": "2026-10-30T10:12:52.447629+00:00",
+      "caseId": "CASE-0241B2061541",
+      "id": "EV-693f92d1adf34f53b771f64798d24e0f",
+      "kind": "note",
+      "message": "Investigation created.",
+      "severity": "INFO"
+    }
+  ],
+  "artifactPriorities": [
+    {
+      "count": 1,
+      "severity": "MEDIUM"
+    },
+    {
+      "count": 3,
+      "severity": "LOW"
+    }
+  ],
+  "counts": {
+    "artifacts": 4,
+    "criticalFindings": 0,
+    "evidence": 1,
+    "iocs": 1
+  },
+  "custody": [
+    {
+      "algorithm": "SHA-256",
+      "ingested_at": "2026-10-30T10:12:52.508398+00:00",
+      "original_filename": "harmless-fat12.img",
+      "sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "size_bytes": 1474560
+    }
+  ],
+  "dataMode": "live",
+  "evidence": {
+    "pending": [],
+    "sources": [
+      {
+        "acquiredAt": "2026-10-30T10:12:52.508398+00:00",
+        "detail": "PARTIAL: 3 scanned; 1 unscanned; 5 non-file entries ignored; 1 matched. Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable",
+        "disk_scan": {
+          "bytes_read": 92,
+          "directories_discovered": 0,
+          "entries_discovered": 9,
+          "enumeration_complete": true,
+          "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+          "files_failed": 0,
+          "files_scanned": 3,
+          "files_skipped": 1,
+          "files_skipped_limits": 1,
+          "files_with_yara_matches": 1,
+          "limits": {
+            "max_depth": 64,
+            "max_entries": 20000,
+            "max_file_bytes": 100,
+            "max_files": 10000,
+            "max_seconds": 120,
+            "max_total_bytes": 268435456,
+            "yara_timeout": 5
+          },
+          "matched_rules": 1,
+          "metadata_entries_ignored": 1,
+          "non_file_entries_ignored": 5,
+          "processing_seconds": 0.002643,
+          "regular_files_discovered": 4,
+          "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+          "scan_status": "PARTIAL",
+          "timings": {
+            "backend_analysis_seconds": 0.025632,
+            "disk_analysis_seconds": 0.002643,
+            "file_read_hash_seconds": 3e-05,
+            "filesystem_enumeration_seconds": 0.001104,
+            "rules_compilation_seconds": 0.001013,
+            "yara_execution_seconds": 0.000496
+          },
+          "total_eligible_files": 3,
+          "total_files_discovered": 4,
+          "virtual_entries_ignored": 4,
+          "warnings": [
+            "Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable"
+          ],
+          "yara_status": "READY"
+        },
+        "id": "IN-40b41c6eb5874c359369a4423d4b4acf",
+        "integrity": "SHA-256 recorded",
+        "kind": "disk_image",
+        "label": "harmless-fat12.img",
+        "sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+        "size": "1474560 bytes",
+        "state": "PARTIAL"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-9dfdf20e643147829753ff1c6eab6158",
+      "observedAt": "2026-10-30T10:12:52.513876+00:00",
+      "rationale": "Rule score: 25.0. Matched rules: YARA: Harmless_File_Marker. ML anomaly: not applicable to this evidence type; the model requires network flows. Content scan: MATCHED; Complete default file stream scanned. SHA-256: abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 4. Evidence SHA-256: f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473.",
+      "reviewed": false,
+      "riskScore": 25.0,
+      "severity": "MEDIUM",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/POSITIVE.TXT: YARA: Harmless_File_Marker"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-a4f1fb81f27f4d7c8189aeb6a21fb5aa",
+      "observedAt": "2026-10-30T10:12:52.513876+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. ML anomaly: not applicable to this evidence type; the model requires network flows. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: 70789bbc67cd6e67f207af19403412416a2b6a8d7aa62a1be396febf0a770c83. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 5. Evidence SHA-256: f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/NEGATIVE.TXT (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-2b5e03d09c394bea944bcabd65a64b31",
+      "observedAt": "2026-10-30T10:12:52.513876+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. ML anomaly: not applicable to this evidence type; the model requires network flows. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 6. Evidence SHA-256: f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/EMPTY.TXT (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-f0678655ebc74607a5463b7b781a5fb2",
+      "observedAt": "2026-10-30T10:12:52.513876+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. ML anomaly: not applicable to this evidence type; the model requires network flows. Content scan: SKIPPED_TOO_LARGE; Individual file byte limit. SHA-256: unavailable. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 7. Evidence SHA-256: f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/LARGE.BIN (No rule match)"
+    }
+  ],
+  "id": "CASE-0241B2061541",
+  "iocs": [
+    {
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "matched_strings": [
+        "$a"
+      ],
+      "meta": {
+        "description": "Harmless integration marker",
+        "severity": "informational"
+      },
+      "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+      "rule": "Harmless_File_Marker",
+      "tags": [],
+      "target": "volume:0:inode:4:/POSITIVE.TXT"
+    }
+  ],
+  "lastActivity": {
+    "at": "2026-10-30T10:12:52.524126+00:00",
+    "label": "Ingested harmless-fat12.img: 4 records (disk_image)."
+  },
+  "notes": [],
+  "openedAt": "2026-10-30T10:12:52.446777+00:00",
+  "scoredAt": "2026-10-30T10:12:52.513876+00:00",
+  "severity": "MEDIUM",
+  "status": "INGESTING",
+  "summary": {
+    "facts": [],
+    "narrative": ""
+  },
+  "threatScore": 25.0,
+  "title": "Issue 1B limited"
+}

@@ -1,0 +1,855 @@
+EEEEEEEEE.EEEEEEEEEE.s..s..sssssss.......ssssssssss...ss...s............ [ 19%]
+.....................s.................................................. [ 39%]
+...............................................s.............ss......... [ 59%]
+............s......................s..................................F. [ 79%]
+.................s.s.................................................... [ 99%]
+...                                                                      [100%]
+=================================== ERRORS ====================================
+______________ ERROR at setup of test_bundle_validation_success _______________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_success0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+______ ERROR at setup of test_bundle_validation_failures[wrong_version] _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+_______ ERROR at setup of test_bundle_validation_failures[wrong_family] _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure1')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+______ ERROR at setup of test_bundle_validation_failures[missing_model] _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure2')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+______ ERROR at setup of test_bundle_validation_failures[unfitted_model] ______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure3')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+_____ ERROR at setup of test_bundle_validation_failures[missing_columns] ______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure4')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+______ ERROR at setup of test_bundle_validation_failures[wrong_classes] _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure5')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+_____ ERROR at setup of test_bundle_validation_failures[scaler_mismatch] ______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure6')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+____ ERROR at setup of test_bundle_validation_failures[missing_provenance] ____
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_bundle_validation_failure7')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+__________ ERROR at setup of test_feature_schema_and_column_ordering __________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_feature_schema_and_column0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+____________ ERROR at setup of test_missing_features_raises_error _____________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_missing_features_raises_e0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+____________ ERROR at setup of test_empty_input_returns_empty_list ____________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_empty_input_returns_empty0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+_______ ERROR at setup of test_output_structure_and_calibration_honesty _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_output_structure_and_cali0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+___________ ERROR at setup of test_abstention_policy_low_confidence ___________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_abstention_policy_low_con0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+__________ ERROR at setup of test_abstention_policy_ambiguous_margin __________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_abstention_policy_ambiguo0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+______________ ERROR at setup of test_attack_family_api_endpoint ______________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_attack_family_api_endpoin0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+_____ ERROR at setup of test_calibrated_bundle_dual_scores_and_sum_to_one _____
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_calibrated_bundle_dual_sc0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+________________ ERROR at setup of test_class_order_stability _________________
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_class_order_stability0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+____ ERROR at setup of test_calibrator_inference_failure_safe_degradation _____
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_calibrator_inference_fail0')
+
+    @pytest.fixture
+    def synthetic_attack_bundle(tmp_path):
+        """Create a fully valid synthetic attack-family bundle for testing."""
+        classes = sorted(list(ATTACK_FAMILIES))
+        np.random.seed(42)
+        # Generate distinct synthetic clusters per class
+        n_samples_per_class = 20
+        X_parts = []
+        y_parts = []
+        for idx, cls in enumerate(classes):
+            cluster = np.random.randn(n_samples_per_class, len(NETWORK_FEATURES)) * 0.5 + (idx * 3.0)
+            X_parts.append(cluster)
+            y_parts.extend([cls] * n_samples_per_class)
+    
+        X = np.vstack(X_parts)
+        y = np.array(y_parts)
+    
+        scaler = StandardScaler()
+        X_df = pd.DataFrame(X, columns=list(NETWORK_FEATURES))
+>       scaler.fit(X_df)
+
+tests\test_attack_family.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+0         0.248357  ...     15.542948
+119      15.237349          14.987487  ...       14.695244           14.906514
+
+[120 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+================================== FAILURES ===================================
+______ test_holdout_fits_training_only_and_evaluation_refuses_tampering _______
+
+tmp_path = WindowsPath('C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/.test-artifacts/pytest-7cfd7d272a4d4ada96168b1c6923bf01/test_holdout_fits_training_onl0')
+
+    def test_holdout_fits_training_only_and_evaluation_refuses_tampering(tmp_path):
+        from ml.dataset_source import register_local_dataset
+        from ml.cleaning import clean_dataset
+        frame = pd.DataFrame({c: np.arange(300, dtype=float) + i + 1 for i, c in enumerate(NETWORK_FEATURES)})
+        frame['Label'] = ['BENIGN' if i % 3 else 'attack' for i in range(len(frame))]
+        data, record, model = (tmp_path / name for name in ('flows.csv', 'cleaning.json', 'model.joblib'))
+        frame.to_csv(data, index=False)
+        manifest = tmp_path / 'manifest.json'
+        register_local_dataset(local_path=data, manifest_path=manifest)
+        clean_dataset(source=data, manifest_path=manifest, record_path=record, ledger_path=tmp_path / 'ledger.csv')
+>       bundle = trainer.train_baseline(data=data, cleaning_record=record, eligible=True, holdout=True,
+            output=model, dataset_version='test', expected_sha256=trainer.file_sha256(data))
+
+tests\test_holdout.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\train_baseline.py:111: in train_baseline
+    scaled = pd.DataFrame(scaler.fit_transform(training), columns=NETWORK_FEATURES,
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (StandardScaler(),      Flow Duration  Total Fwd Packets  ...  Flow Packets/s  Packet Length Mean
+1              2.0  ...         309.0
+299          300.0              301.0  ...           309.0               310.0
+
+[134 rows x 11 columns])
+kwargs = {}
+
+    def forbidden(*args, **kwargs):
+>       raise AssertionError("Fitting is prohibited by --no-training.")
+E       AssertionError: Fitting is prohibited by --no-training.
+
+tests\conftest.py:86: AssertionError
+============================== warnings summary ===============================
+tests/test_supervised_detector.py::test_infer_reorders_shuffled_features_correctly
+tests/test_supervised_detector.py::test_infer_handles_or_rejects_non_finite_values
+tests/test_supervised_detector.py::test_score_and_decision_semantics
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_api_analyze_with_supervised_detector
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+    warnings.warn(
+
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but IsolationForest was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [9] tests\test_baseline.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [6] tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_chain_of_custody.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_cleaning.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_disk_file_yara.py:47: Native pytsk3 type does not permit read fault injection
+SKIPPED [2] tests\test_endpoints.py: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [1] tests\test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+SKIPPED [1] tests\test_foundation.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_integration_views.py:130: Requires --run-integration and dedicated MongoDB on port 27018
+SKIPPED [1] tests\test_ml_core.py: Model/scaler fitting prohibited by --no-training
+ERROR tests/test_attack_family.py::test_bundle_validation_success - Assertion...
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[wrong_version]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[wrong_family]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[missing_model]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[unfitted_model]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[missing_columns]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[wrong_classes]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[scaler_mismatch]
+ERROR tests/test_attack_family.py::test_bundle_validation_failures[missing_provenance]
+ERROR tests/test_attack_family.py::test_feature_schema_and_column_ordering - ...
+ERROR tests/test_attack_family.py::test_missing_features_raises_error - Asser...
+ERROR tests/test_attack_family.py::test_empty_input_returns_empty_list - Asse...
+ERROR tests/test_attack_family.py::test_output_structure_and_calibration_honesty
+ERROR tests/test_attack_family.py::test_abstention_policy_low_confidence - As...
+ERROR tests/test_attack_family.py::test_abstention_policy_ambiguous_margin - ...
+ERROR tests/test_attack_family.py::test_attack_family_api_endpoint - Assertio...
+ERROR tests/test_attack_family.py::test_calibrated_bundle_dual_scores_and_sum_to_one
+ERROR tests/test_attack_family.py::test_class_order_stability - AssertionErro...
+ERROR tests/test_attack_family.py::test_calibrator_inference_failure_safe_degradation
+FAILED tests/test_holdout.py::test_holdout_fits_training_only_and_evaluation_refuses_tampering
+1 failed, 313 passed, 30 skipped, 9 warnings, 19 errors in 17.33s

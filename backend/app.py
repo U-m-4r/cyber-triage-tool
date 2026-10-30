@@ -24,6 +24,7 @@ if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
 import pandas as pd
+import time
 from ml.baseline import (BASELINE_PATH, BaselineError, load_baseline,
                          infer_network, infer_network_csv, baseline_metadata)
 from ml.supervised_detector import (
@@ -1083,14 +1084,27 @@ def forensics_ingest():
     the domain rules (see ml/risk_scorer.py) which already model system_log / file
     / registry artifact types.
     """
+    backend_started = time.monotonic()
     filepath, custody, error_response = _save_uploaded_file()
     if error_response:
         return error_response
 
     ext = os.path.splitext(custody["original_filename"])[1].lower()
     try:
+        disk_scan = None
         try:
-            kind, df = _dispatch_forensic_parser(filepath, ext)
+            if ext in _DISK_EXTS:
+                disk_scan = disk_image.analyze_disk_image(filepath,
+                    limits=disk_image.ScanLimits(**current_app.config.get('DISK_SCAN_LIMITS', {})),
+                    rules_dir=current_app.config.get('YARA_RULES_DIR'))
+                for artifact in disk_scan['findings']:
+                    artifact['evidence_sha256'] = custody['sha256']
+                    artifact['evidence_source'] = custody['original_filename']
+                kind, df = 'disk_image', pd.DataFrame(disk_scan['findings'])
+            else:
+                kind, df = _dispatch_forensic_parser(filepath, ext)
+        except ValueError as exc:
+            return _api_error(str(exc), 400, 'INVALID_DISK_IMAGE')
         except RuntimeError as exc:
             # Parser's optional dependency is unavailable on this host.
             return _api_error(str(exc), 503, "PARSER_UNAVAILABLE")
@@ -1104,13 +1118,18 @@ def forensics_ingest():
 
         records = json.loads(df.head(500).to_json(orient="records"))
 
-        if df.empty:
+        if df.empty and disk_scan is None:
             return _api_error("No records were parsed from the evidence.", 400, "EMPTY_INPUT")
         all_scored = scorer.score_records(json.loads(df.to_json(orient="records")))
         scored = [row for row in all_scored if row.get("matched_rules") != "None"]
 
         # IOC surfacing: YARA-scan the raw evidence file if the engine is present.
-        iocs, yara_status = _scan_evidence(filepath, custody)
+        if disk_scan is not None:
+            iocs = [dict(hit, evidence_sha256=custody['sha256'])
+                    for row in disk_scan['findings'] for hit in row['yara_matches']]
+            yara_status = {'status': disk_scan['yara_status'], 'ruleset_id': disk_scan['ruleset_id']}
+        else:
+            iocs, yara_status = _scan_evidence(filepath, custody)
 
         # Optional threat-intel enrichment on the evidence file hash (no-op w/o keys).
         intel = threat_intel.check_indicator(custody["sha256"], kind="hash")
@@ -1128,12 +1147,18 @@ def forensics_ingest():
         }
 
         response_payload["custody_persisted"] = False
+        if disk_scan is not None:
+            disk_scan['timings']['backend_analysis_seconds'] = round(time.monotonic() - backend_started, 6)
+            disk_scan['evidence_sha256'] = custody['sha256']
+            disk_scan['findings'] = all_scored
+            response_payload['disk_scan'] = disk_scan
         response_payload["persisted"] = False
         if _intake_database_available():
             # Preserve source fields and rule scores for every parsed record.
             intake_id, stored = persist_intake(get_db(), all_scored,
                 request.form.get("caseId"), custody, kind,
-                {"threat_intel": intel, "yara": yara_status}, iocs=iocs)
+                {"threat_intel": intel, "yara": yara_status,
+                 **({'disk_scan': {k: v for k, v in disk_scan.items() if k != 'findings'}} if disk_scan else {})}, iocs=iocs)
             response_payload.update(persisted=True, stored=stored, intake_id=intake_id,
                                     custody_persisted=bool(request.form.get("caseId")))
 

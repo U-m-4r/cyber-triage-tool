@@ -1,0 +1,71 @@
+[
+  {
+    "case_id": "CASE-0241B2061541",
+    "created_at": "2026-10-30T10:12:52.513876+00:00",
+    "disk_scan": {
+      "bytes_read": 92,
+      "directories_discovered": 0,
+      "entries_discovered": 9,
+      "enumeration_complete": true,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "files_failed": 0,
+      "files_scanned": 3,
+      "files_skipped": 1,
+      "files_skipped_limits": 1,
+      "files_with_yara_matches": 1,
+      "limits": {
+        "max_depth": 64,
+        "max_entries": 20000,
+        "max_file_bytes": 100,
+        "max_files": 10000,
+        "max_seconds": 120,
+        "max_total_bytes": 268435456,
+        "yara_timeout": 5
+      },
+      "matched_rules": 1,
+      "metadata_entries_ignored": 1,
+      "non_file_entries_ignored": 5,
+      "processing_seconds": 0.002643,
+      "regular_files_discovered": 4,
+      "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+      "scan_status": "PARTIAL",
+      "timings": {
+        "backend_analysis_seconds": 0.025632,
+        "disk_analysis_seconds": 0.002643,
+        "file_read_hash_seconds": 3e-05,
+        "filesystem_enumeration_seconds": 0.001104,
+        "rules_compilation_seconds": 0.001013,
+        "yara_execution_seconds": 0.000496
+      },
+      "total_eligible_files": 3,
+      "total_files_discovered": 4,
+      "virtual_entries_ignored": 4,
+      "warnings": [
+        "Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable"
+      ],
+      "yara_status": "READY"
+    },
+    "evidence": {
+      "algorithm": "SHA-256",
+      "ingested_at": "2026-10-30T10:12:52.508398+00:00",
+      "original_filename": "harmless-fat12.img",
+      "sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "size_bytes": 1474560
+    },
+    "id": "IN-40b41c6eb5874c359369a4423d4b4acf",
+    "kind": "disk_image",
+    "record_count": 4,
+    "status": "complete",
+    "stored": 4,
+    "threat_intel": {
+      "indicator": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "kind": "hash",
+      "malicious": false,
+      "providers": []
+    },
+    "yara": {
+      "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+      "status": "READY"
+    }
+  }
+]

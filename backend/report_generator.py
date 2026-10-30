@@ -495,6 +495,20 @@ def _build_evidence(case, styles):
             Paragraph("State", styles["CellText"]),
         ]]
         for s in sources:
+            if s.get('disk_scan'):
+                scan = s['disk_scan']
+                elements.append(Paragraph(escape(
+                    f"Disk scan {scan['scan_status']}: {scan['files_scanned']} scanned, "
+                    f"{scan['files_skipped']} skipped, {scan['files_with_yara_matches']} matched; "
+                    f"ruleset {scan.get('ruleset_id')}. " + '; '.join(scan.get('warnings', []))), styles['BodyText2']))
+                elements.append(Paragraph(escape(
+                    f"Evidence SHA-256: {s.get('sha256')}. "
+                    f"Entries: {scan.get('entries_discovered')}; regular files: {scan.get('regular_files_discovered')}; "
+                    f"eligible: {scan.get('total_eligible_files')}; excluded by limits: {scan.get('files_skipped_limits')}; "
+                    f"failed: {scan.get('files_failed')}; non-file entries ignored: {scan.get('non_file_entries_ignored')}. "
+                    f"Timings (seconds): {scan.get('timings')}. "
+                    "Scope: regular default file streams; no deleted-file recovery or alternate stream guarantee. "
+                    "No signature match does not establish safety. Duration checks between native parser calls are cooperative."), styles['BodyText2']))
             raw_id = s.get("id", "")
             short_id = f"IN-...{raw_id[-6:]}" if len(raw_id) > 12 else raw_id
             raw_size = str(s.get("size", ""))

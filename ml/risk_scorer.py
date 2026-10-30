@@ -101,6 +101,11 @@ class RiskScorer:
                     matched_rules.append(RULES['system_log']['privilege_escalation']['label'])
 
             elif artifact_type == 'file':
+                # A verified content indicator merits MEDIUM review (25/100),
+                # independent of rule severity claims. This is policy, not ML confidence.
+                if row.get('scan_status') == 'MATCHED' and row.get('yara_matches'):
+                    rule_score += 0.25
+                    matched_rules.extend('YARA: ' + hit['rule'] for hit in row['yara_matches'])
                 path = str(row.get('FilePath', ''))
                 path_parts = path.replace('\\', '/').lower().split('/')
                 if any(part in {'temp', 'tmp'} for part in path_parts[:-1]) and path_parts[-1].endswith('.exe'):

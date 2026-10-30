@@ -1,0 +1,141 @@
+- banner:
+  - button "Toggle navigation":
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE1B VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE1B VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-0241B2061541" [level=1]
+  - generic: INGESTING
+  - generic: MEDIUM
+  - paragraph: Issue 1B limited
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "25"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "4"
+  - term: IOCs
+  - definition: "1"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested harmless-fat12.img: 4 records (disk_image)."': 30 Oct 2026, 15:42:52
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence" [selected]
+    - tab "Artifacts"
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - heading "Upload evidence" [level=3]
+  - paragraph: Upload once here to update this case’s evidence, artifacts, analysis, timeline and relationships. Reports use the latest saved results when generated.
+  - paragraph: Network CSVs use the approved CICIDS2017 baseline. Host evidence uses forensic rules. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.
+  - paragraph: "Network model: Approved network baseline unavailable. Supply a compatible, provenance-validated models/cicids2017_baseline.joblib bundle. Uploads do not train models."
+  - button "Refresh service status"
+  - text: Evidence type
+  - combobox "Evidence type":
+    - option "CICIDS2017 network-flow CSV"
+    - option "Packet capture / exported network flows"
+    - option "Exported event logs (CSV / JSON / XML)"
+    - option "Registry export (.reg / CSV / JSON)"
+    - option "File listing (CSV / JSON)" [selected]
+    - option "Native forensic evidence (.evtx / hive / disk image)"
+  - text: Evidence file
+  - button "Evidence file"
+  - button "Upload and process" [disabled]
+  - generic: "1"
+  - generic: Sources acquired
+  - generic: "1"
+  - generic: Parsed
+  - text: "0"
+  - generic: Hash-verified
+  - generic: "0"
+  - generic: Outstanding
+  - generic: "1"
+  - generic: Case evidence count
+  - heading "Acquired sources" [level=2]
+  - paragraph: 1 in hand · 0 hash-verified · 1 digested
+  - table:
+    - rowgroup:
+      - row "Source Type Size Acquired Custodian Integrity State":
+        - columnheader "Source"
+        - columnheader "Type"
+        - columnheader "Size"
+        - columnheader "Acquired"
+        - columnheader "Custodian"
+        - columnheader "Integrity"
+        - columnheader "State"
+    - rowgroup:
+      - row "harmless-fat12.img disk_image 1474560 bytes 30 Oct 2026, 15:42:52 — SHA-256 recorded PARTIAL" [expanded]:
+        - cell "harmless-fat12.img":
+          - generic: harmless-fat12.img
+        - cell "disk_image"
+        - cell "1474560 bytes"
+        - cell "30 Oct 2026, 15:42:52"
+        - cell "—"
+        - cell "SHA-256 recorded":
+          - text: SHA-256 recorded
+        - cell "PARTIAL"
+      - 'row "Source ID IN-40b41c6eb5874c359369a4423d4b4acf Description PARTIAL: 3 scanned; 1 unscanned; 5 non-file entries ignored; 1 matched. Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable Acquired 30 Oct 2026, 15:42:52 Custodian — SHA-256 (chain of custody) f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473"':
+        - 'cell "Source ID IN-40b41c6eb5874c359369a4423d4b4acf Description PARTIAL: 3 scanned; 1 unscanned; 5 non-file entries ignored; 1 matched. Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable Acquired 30 Oct 2026, 15:42:52 Custodian — SHA-256 (chain of custody) f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473"':
+          - term: Source ID
+          - definition: IN-40b41c6eb5874c359369a4423d4b4acf
+          - term: Description
+          - definition: "PARTIAL: 3 scanned; 1 unscanned; 5 non-file entries ignored; 1 matched. Reduced coverage: 1 files excluded by limits; 0 files failed or unavailable"
+          - term: Acquired
+          - definition: 30 Oct 2026, 15:42:52
+          - term: Custodian
+          - definition: —
+          - generic: SHA-256 (chain of custody)
+          - code: f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473
+  - heading "Ingestion history" [level=3]
+  - generic "harmless-fat12.img — disk_image — complete — 4 stored"
+  - button "Previous" [disabled]
+  - button "Next" [disabled]

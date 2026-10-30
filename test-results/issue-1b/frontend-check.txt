@@ -1,0 +1,47 @@
+
+> cyber-triage-frontend@0.1.0 check
+> npm run test && npm run build
+
+
+> cyber-triage-frontend@0.1.0 test
+> node --test tests/*.test.js
+
+✔ shared evidence is one entity with distinct finding references and highest severity (5.5278ms)
+✔ host associations come only from findings with recorded hosts (0.4668ms)
+✔ API configuration is validated and demo mode cannot enable fixtures (4.1507ms)
+✔ network failure never substitutes a known sample case (57.7927ms)
+✔ only case 404 maps to a missing case (7.2246ms)
+✔ database failure cannot look like an empty artifact collection (0.6903ms)
+✔ dashboard failures propagate and a subsequent retry can recover (2.1334ms)
+✔ concurrent dashboard reads share one request (0.8571ms)
+✔ malformed dashboard response is an error (0.625ms)
+✔ API requests carry the session token without putting it in the URL (1.0555ms)
+✔ PDF downloads use the same authenticated request path (3.1703ms)
+✔ sign in validates token before storing a session (3.5233ms)
+✔ unauthorized request clears the browser session (0.5382ms)
+✔ cancellation remains AbortError instead of a false service outage (0.3649ms)
+✔ multipart carries evidence and case ID without forcing a content type (1.0648ms)
+✔ case mutations use persisted API routes and propagate failures (0.7644ms)
+✔ dashboard refetches after earlier request completes (0.5861ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 315.5976
+
+> cyber-triage-frontend@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 105 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.78 kB │ gzip:  0.44 kB
+dist/assets/index-608b2anx.css   76.02 kB │ gzip: 14.03 kB
+dist/assets/index-CcCEpr1X.js   324.61 kB │ gzip: 97.42 kB
+
+✓ built in 374ms

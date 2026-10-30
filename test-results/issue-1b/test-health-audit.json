@@ -1,0 +1,486 @@
+{
+  "test-results\\issue-1\\full-suite.xml": [
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_success",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_version]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_family]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_model]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[unfitted_model]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_columns]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_classes]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[scaler_mismatch]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_provenance]",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_feature_schema_and_column_ordering",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_missing_features_raises_error",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_empty_input_returns_empty_list",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_output_structure_and_calibration_honesty",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_abstention_policy_low_confidence",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_abstention_policy_ambiguous_margin",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_attack_family_api_endpoint",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_calibrated_bundle_dual_scores_and_sum_to_one",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_class_order_stability",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_attack_family.test_calibrator_inference_failure_safe_degradation",
+      "status": "error",
+      "reason": "failed on setup with \"AssertionError: Fitting is prohibited by --no-training.\""
+    },
+    {
+      "test": "tests.test_baseline.test_training_saves_complete_benign_only_bundle",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_training_refuses_accidental_replacement",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[no_scaler]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[unfitted]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[schema]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[provenance]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[version]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[drift]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_inference_reuses_scaler_and_survives_reload",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/analyze]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/evaluate]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/ingest]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_analyze_evaluate_and_ingest_never_fit",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/analyze]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/evaluate]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/ingest]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_health_reports_missing_baseline",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_host_ingestion_works_without_network_baseline",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_reports_drift_without_changing_bundle",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_changed_training_dataset_not_published",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_train_baseline_eligible_view_excludes_cleaned_rows",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_chain_of_custody.test_analyze_response_includes_evidence_hash",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_cleaning.test_scaler_is_fit_on_training_rows_only",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_disk_file_yara.test_unreadable_injection",
+      "status": "skipped",
+      "reason": "Native pytsk3 type does not permit read fault injection"
+    },
+    {
+      "test": "tests.test_endpoints.TestArtifactsEndpoint.test_list_artifacts_returns_shape",
+      "status": "skipped",
+      "reason": "Requires --run-integration and dedicated MongoDB on port 27018"
+    },
+    {
+      "test": "tests.test_endpoints.TestArtifactsEndpoint.test_severity_filter_is_uppercased",
+      "status": "skipped",
+      "reason": "Requires --run-integration and dedicated MongoDB on port 27018"
+    },
+    {
+      "test": "tests.test_forensics.test_acquired_primary_disk_image_integration",
+      "status": "skipped",
+      "reason": "Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py"
+    },
+    {
+      "test": "tests.test_foundation.test_ready_requires_both_model_and_database",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_holdout.test_holdout_fits_training_only_and_evaluation_refuses_tampering",
+      "status": "failure",
+      "reason": "AssertionError: Fitting is prohibited by --no-training."
+    },
+    {
+      "test": "tests.test_integration_views.test_persisted_case_upload_notes_dashboard_and_report",
+      "status": "skipped",
+      "reason": "Requires --run-integration and dedicated MongoDB on port 27018"
+    },
+    {
+      "test": "tests.test_ml_core.test_scale_features_is_zscore_standardization",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    }
+  ],
+  "test-results\\issue-1b\\regression-final.xml": [
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_success",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_version]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_family]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_model]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[unfitted_model]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_columns]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[wrong_classes]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[scaler_mismatch]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_bundle_validation_failures[missing_provenance]",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_feature_schema_and_column_ordering",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_missing_features_raises_error",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_empty_input_returns_empty_list",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_output_structure_and_calibration_honesty",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_abstention_policy_low_confidence",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_abstention_policy_ambiguous_margin",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_attack_family_api_endpoint",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_calibrated_bundle_dual_scores_and_sum_to_one",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_class_order_stability",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_attack_family.test_calibrator_inference_failure_safe_degradation",
+      "status": "skipped",
+      "reason": "Synthetic RandomForest/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_training_saves_complete_benign_only_bundle",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_training_refuses_accidental_replacement",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[no_scaler]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[unfitted]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[schema]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[provenance]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[version]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_incomplete_bundle_rejected[drift]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_inference_reuses_scaler_and_survives_reload",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/analyze]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/evaluate]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_model_fails_without_training[/api/ingest]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_analyze_evaluate_and_ingest_never_fit",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/analyze]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/evaluate]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_missing_features_clear_error[/api/ingest]",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_health_reports_missing_baseline",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_host_ingestion_works_without_network_baseline",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_api_reports_drift_without_changing_bundle",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_changed_training_dataset_not_published",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_baseline.test_train_baseline_eligible_view_excludes_cleaned_rows",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_chain_of_custody.test_analyze_response_includes_evidence_hash",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_cleaning.test_scaler_is_fit_on_training_rows_only",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_forensics.test_acquired_primary_disk_image_integration",
+      "status": "skipped",
+      "reason": "Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py"
+    },
+    {
+      "test": "tests.test_foundation.test_ready_requires_both_model_and_database",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_holdout.test_holdout_fits_training_only_and_evaluation_refuses_tampering",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    },
+    {
+      "test": "tests.test_ml_core.test_scale_features_is_zscore_standardization",
+      "status": "skipped",
+      "reason": "Model/scaler fitting prohibited by --no-training"
+    }
+  ]
+}

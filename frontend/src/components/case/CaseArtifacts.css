@@ -161,6 +161,17 @@
   max-width: 260px;
 }
 
+.artifacts-detail details {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.artifacts-detail details p {
+  margin: 8px 0;
+}
+
 .mono {
   font-family: var(--font-mono, ui-monospace, monospace);
 }

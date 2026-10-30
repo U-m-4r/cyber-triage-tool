@@ -1,0 +1,69 @@
+[
+  {
+    "case_id": "CASE-C4D6ACE15097",
+    "created_at": "2026-10-30T10:12:51.906757+00:00",
+    "disk_scan": {
+      "bytes_read": 4188,
+      "directories_discovered": 0,
+      "entries_discovered": 9,
+      "enumeration_complete": true,
+      "evidence_sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "files_failed": 0,
+      "files_scanned": 4,
+      "files_skipped": 0,
+      "files_skipped_limits": 0,
+      "files_with_yara_matches": 1,
+      "limits": {
+        "max_depth": 64,
+        "max_entries": 20000,
+        "max_file_bytes": 33554432,
+        "max_files": 10000,
+        "max_seconds": 120,
+        "max_total_bytes": 268435456,
+        "yara_timeout": 5
+      },
+      "matched_rules": 1,
+      "metadata_entries_ignored": 1,
+      "non_file_entries_ignored": 5,
+      "processing_seconds": 0.004208,
+      "regular_files_discovered": 4,
+      "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+      "scan_status": "COMPLETE",
+      "timings": {
+        "backend_analysis_seconds": 0.025394,
+        "disk_analysis_seconds": 0.004208,
+        "file_read_hash_seconds": 4.8e-05,
+        "filesystem_enumeration_seconds": 0.001445,
+        "rules_compilation_seconds": 0.002112,
+        "yara_execution_seconds": 0.000602
+      },
+      "total_eligible_files": 4,
+      "total_files_discovered": 4,
+      "virtual_entries_ignored": 4,
+      "warnings": [],
+      "yara_status": "READY"
+    },
+    "evidence": {
+      "algorithm": "SHA-256",
+      "ingested_at": "2026-10-30T10:12:51.899140+00:00",
+      "original_filename": "harmless-fat12.img",
+      "sha256": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "size_bytes": 1474560
+    },
+    "id": "IN-3ff1acef987f4f2b8806afd69c4af01a",
+    "kind": "disk_image",
+    "record_count": 4,
+    "status": "complete",
+    "stored": 4,
+    "threat_intel": {
+      "indicator": "f2c7f6e5bafc0713a8ba800853a1e4d77c219f466e0131fafd2f59ab0197c473",
+      "kind": "hash",
+      "malicious": false,
+      "providers": []
+    },
+    "yara": {
+      "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+      "status": "READY"
+    }
+  }
+]

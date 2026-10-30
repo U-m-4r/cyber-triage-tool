@@ -44,7 +44,7 @@ export default function CaseEvidence({ caseRecord }) {
   const [openId, setOpenId] = useState(null)
 
   const stats = useMemo(() => {
-    const parsed = sources.filter((s) => s.state === 'PARSED').length
+    const parsed = sources.filter((s) => ['PARSED', 'COMPLETE', 'PARTIAL'].includes(s.state)).length
     const verified = sources.filter((s) => s.integrity === 'HASH MATCH').length
     const hashed = sources.filter((s) => s.sha256).length
     return { parsed, verified, hashed }
