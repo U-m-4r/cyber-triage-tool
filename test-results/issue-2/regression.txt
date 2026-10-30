@@ -1,0 +1,37 @@
+sssssssss.ssssssssss.s..s..sssssss.......ssssssssss...ss...s............ [ 18%]
+.....................s.................................................. [ 37%]
+........................................................................ [ 56%]
+..............s......................s.................................. [ 75%]
+s....................s.................................................. [ 94%]
+.....................                                                    [100%]
+============================== warnings summary ===============================
+tests/test_supervised_detector.py::test_infer_reorders_shuffled_features_correctly
+tests/test_supervised_detector.py::test_infer_handles_or_rejects_non_finite_values
+tests/test_supervised_detector.py::test_score_and_decision_semantics
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_threshold_override_behavior
+tests/test_supervised_detector.py::test_api_analyze_with_supervised_detector
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+    warnings.warn(
+
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+  C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid feature names, but IsolationForest was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [11] tests\test_attack_family.py: Synthetic RandomForest/scaler fitting prohibited by --no-training
+SKIPPED [8] tests\test_attack_family.py:98: Synthetic RandomForest/scaler fitting prohibited by --no-training
+SKIPPED [9] tests\test_baseline.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [6] tests\test_baseline.py:73: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:179: Model/scaler fitting prohibited by --no-training
+SKIPPED [3] tests\test_baseline.py:216: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_chain_of_custody.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_cleaning.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+SKIPPED [1] tests\test_foundation.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_holdout.py: Model/scaler fitting prohibited by --no-training
+SKIPPED [1] tests\test_ml_core.py: Model/scaler fitting prohibited by --no-training
+335 passed, 46 skipped, 9 warnings in 51.03s

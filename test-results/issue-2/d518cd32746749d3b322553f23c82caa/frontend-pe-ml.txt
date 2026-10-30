@@ -1,0 +1,145 @@
+- banner:
+  - link "CYBER TRIAGE":
+    - /url: /dashboard
+    - text: CYBER TRIAGE
+  - searchbox "Search cases"
+  - button "Submit case search":
+  - link "Activity":
+    - /url: /timeline
+  - generic: ISSUE2 VERIFIER
+  - generic: Development access
+- complementary "Primary":
+  - navigation:
+    - generic: Workspace
+    - list:
+      - link "Dashboard":
+        - /url: /dashboard
+        - generic: Dashboard
+      - link "Cases":
+        - /url: /cases
+        - generic: Cases
+      - link "Evidence":
+        - /url: /evidence
+        - generic: Evidence
+      - link "Analysis & triage":
+        - /url: /analysis
+        - generic: Analysis & triage
+      - link "Timeline":
+        - /url: /timeline
+        - generic: Timeline
+      - link "Relationships":
+        - /url: /ioc-graph
+        - generic: Relationships
+      - link "Reports":
+        - /url: /reports
+        - generic: Reports
+  - generic: ER
+  - generic: ISSUE2 VERIFIER
+  - generic: Forensic examiner
+  - button "Sign out":
+- main:
+  - link "Back to Dashboard":
+    - /url: /dashboard
+    - text: Back to Dashboard
+  - heading "CASE-5D4ADFE5E217" [level=1]
+  - generic: INGESTING
+  - generic: MEDIUM
+  - paragraph: Issue 2 real PE + YARA demonstration
+  - paragraph
+  - term: Threat score
+  - definition:
+    - generic: "25"
+    - generic: /100
+  - term: Evidence
+  - definition: "1"
+  - term: Artifacts
+  - definition: "6"
+  - term: IOCs
+  - definition: "1"
+  - term: Last activity
+  - definition:
+    - 'generic "Ingested harmless-fat12.img: 6 records (disk_image)."': 30 Oct 2026, 16:05:09
+  - generic "Edit investigation and notes"
+  - option "INGESTING" [selected]
+  - option "ANALYZING"
+  - option "REVIEW"
+  - option "CLOSED"
+  - paragraph: Upload once in Evidence. Review parsed records in Artifacts, scoring in Analysis & triage, events in Timeline, and connections in Relationships. Generate the current report in Reports.
+  - tablist "Investigation sections":
+    - tab "Overview"
+    - tab "Evidence"
+    - tab "Artifacts" [selected]
+    - tab "Analysis & triage"
+    - tab "Timeline"
+    - tab "Relationships"
+    - tab "Reports"
+  - paragraph: Network models identify statistical flow anomalies. PE malware predictions use static file features. YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.
+  - paragraph: Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.
+  - textbox "Search artifacts":
+    - /placeholder: Search source, path, rules
+    - text: LAUNCH
+  - button "Refresh artifacts"
+  - combobox "Filter by type":
+    - option "All types" [selected]
+    - option "Network"
+    - option "System log"
+    - option "File"
+    - option "Registry"
+  - combobox "Filter by severity":
+    - option "All severities" [selected]
+    - option "Critical"
+    - option "High"
+    - option "Medium"
+    - option "Low"
+  - generic: 2 shown of 2
+  - table:
+    - rowgroup:
+      - row "Triage priority Risk ML prediction / score Type Detail YARA / forensic rules Source":
+        - columnheader "Triage priority"
+        - columnheader "Risk"
+        - columnheader "ML prediction / score"
+        - columnheader "Type"
+        - columnheader "Detail"
+        - columnheader "YARA / forensic rules"
+        - columnheader "Source"
+    - rowgroup:
+      - 'row "LOW 0 PE ML: CLASSIFIED benign · model score 0.015421 · threshold 0.5 Not calibrated confidence EMBER2024_PE@425202786349 PE32-I386 PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety. file /LAUNCH32.EXE None harmless-fat12.img"':
+        - cell "LOW":
+          - generic: LOW
+        - cell "0"
+        - 'cell "PE ML: CLASSIFIED benign · model score 0.015421 · threshold 0.5 Not calibrated confidence EMBER2024_PE@425202786349 PE32-I386 PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety."':
+          - text: "PE ML: CLASSIFIED"
+          - text: benign · model score 0.015421 · threshold 0.5
+          - paragraph: Not calibrated confidence
+          - paragraph: EMBER2024_PE@425202786349
+          - paragraph: PE32-I386
+          - paragraph: PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety.
+        - cell "file"
+        - cell "/LAUNCH32.EXE":
+          - text: /LAUNCH32.EXE
+          - generic "SCANNED_NO_MATCH"
+        - cell "None"
+        - cell "harmless-fat12.img"
+      - 'row "LOW 0 PE ML: CLASSIFIED benign · model score 0.012141 · threshold 0.5 Not calibrated confidence EMBER2024_PE@425202786349 PE32+-AMD64 PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety. file /LAUNCH64.BIN None harmless-fat12.img"':
+        - cell "LOW":
+          - generic: LOW
+        - cell "0"
+        - 'cell "PE ML: CLASSIFIED benign · model score 0.012141 · threshold 0.5 Not calibrated confidence EMBER2024_PE@425202786349 PE32+-AMD64 PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety."':
+          - text: "PE ML: CLASSIFIED"
+          - text: benign · model score 0.012141 · threshold 0.5
+          - paragraph: Not calibrated confidence
+          - paragraph: EMBER2024_PE@425202786349
+          - paragraph: PE32+-AMD64
+          - paragraph: PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety.
+        - cell "file"
+        - cell "/LAUNCH64.BIN":
+          - text: /LAUNCH64.BIN
+          - generic "SCANNED_NO_MATCH" [active]
+          - paragraph: Complete default file stream scanned
+          - paragraph: "SHA-256: 81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7"
+          - paragraph: "Volume offset: 0; inode: 8"
+        - cell "None"
+        - cell "harmless-fat12.img"
+  - button "Previous" [disabled]
+  - generic: Page 1
+  - button "Next" [disabled]

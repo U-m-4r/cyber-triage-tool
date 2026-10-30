@@ -1,0 +1,45 @@
+{
+  "model": {
+    "model_id": "EMBER2024_PE@425202786349",
+    "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+    "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+    "feature_dimensions": 2568,
+    "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+    "available": true,
+    "reason": null,
+    "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+    "license": "Apache-2.0",
+    "score_calibrated": false,
+    "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+    "supported_formats": [
+      "native PE32 I386 EXE/DLL",
+      "native PE32+ AMD64 EXE/DLL"
+    ]
+  },
+  "dataset_revision": "3d23efef7c0f0b702c5024400cfff4c3744a3832",
+  "archive_sha256": "dd215997b10596e4397d2b305d54afe9678e91e3051918262f0172b36e40baf1",
+  "partition": "official held-out challenge; all native Win32/Win64 feature records",
+  "sampling": "All records in declared file-type scope; no label/prediction-based sampling",
+  "threshold": 0.5,
+  "total_records": 6315,
+  "evaluated": 4039,
+  "positive_examples": 4039,
+  "negative_examples": 0,
+  "excluded_out_of_scope": 2276,
+  "errors": [],
+  "recall": 0.6759098786828422,
+  "false_negative_rate": 0.3240901213171577,
+  "confusion_matrix": {
+    "true_positive": 2730,
+    "false_negative": 1309,
+    "true_negative": null,
+    "false_positive": null
+  },
+  "accuracy": null,
+  "precision": null,
+  "f1": null,
+  "roc_auc": null,
+  "false_positive_rate": null,
+  "metric_limitation": "Positive-only challenge cannot measure accuracy, precision, F1, ROC-AUC or specificity meaningfully. Not representative of all PE files.",
+  "elapsed_seconds": 13.862
+}

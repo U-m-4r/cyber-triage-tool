@@ -52,8 +52,8 @@ export default function CaseArtifacts({ caseRecord, onChange }) {
   const { data, loading, error } = useApi(`/artifacts?${params}`, revision)
   function filter(setter, value) { setter(value); setOffset(0) }
   return <div className="case-artifacts">
-    <p>Model predictions mark statistical anomalies, not attack types. Negative decision scores are anomalous.
-      Risk combines batch-relative anomaly rankings and forensic rules; it is not a probability of compromise.</p>
+    <p>Network models identify statistical flow anomalies. PE malware predictions use static file features.
+      YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.</p>
     {caseRecord && <p>Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.</p>}
     <div className="integration-controls"><input aria-label="Search artifacts" placeholder="Search source, path, rules" value={query} onChange={e => filter(setQuery, e.target.value)} />
       <button onClick={() => refresh(v => v + 1)}>Refresh artifacts</button></div>
@@ -103,12 +103,12 @@ function ArtifactTable({ rows, total, loading, type, setType, severity, setSever
           <table className="artifacts-table">
             <thead>
               <tr>
-                <th>Priority</th>
+                <th>Triage priority</th>
                 <th>Risk</th>
-                <th>Model prediction</th>
+                <th>ML prediction / score</th>
                 <th>Type</th>
                 <th>Detail</th>
-                <th>Matched rules</th>
+                <th>YARA / forensic rules</th>
                 <th>Source</th>
               </tr>
             </thead>
@@ -117,7 +117,10 @@ function ArtifactTable({ rows, total, loading, type, setType, severity, setSever
                 <tr key={a.artifact_id}>
                   <td><SeverityBadge severity={a.priority} size="sm" /></td>
                   <td className="artifacts-risk">{a.risk_score}</td>
-                  <td><span>{a.prediction || 'Rules only'}</span>
+                  <td className="artifacts-model"><span>{a.pe_ml ? `PE ML: ${a.pe_ml.status}` : a.prediction || 'Rules only'}</span>
+                    {a.pe_ml?.status === 'CLASSIFIED' && <div>{a.pe_ml.prediction} · model score {a.pe_ml.model_score?.toFixed(6)} · threshold {a.pe_ml.threshold}<p>Not calibrated confidence</p><p>{a.pe_ml.model_id}</p><p>{a.pe_ml.file_type}</p></div>}
+                    {a.pe_ml?.reason && <p>{a.pe_ml.reason}</p>}
+                    {a.pe_ml && <p>{a.risk_explanation}</p>}
                     {a.decision_score != null && <small> · decision {Number(a.decision_score).toFixed(5)}</small>}
                     {a.model_id && <div className="mono">{a.model_id}</div>}</td>
                   <td className="artifacts-type">{a.artifact_type}</td>

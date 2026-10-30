@@ -172,6 +172,12 @@
   margin: 8px 0;
 }
 
+.artifacts-model {
+  min-width: 190px;
+  max-width: 300px;
+  overflow-wrap: anywhere;
+}
+
 .mono {
   font-family: var(--font-mono, ui-monospace, monospace);
 }

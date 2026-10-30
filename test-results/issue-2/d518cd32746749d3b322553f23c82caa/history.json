@@ -1,0 +1,108 @@
+{
+  "ingestions": [
+    {
+      "case_id": "CASE-5D4ADFE5E217",
+      "created_at": "2026-10-30T10:35:09.260498+00:00",
+      "disk_scan": {
+        "bytes_read": 210012,
+        "directories_discovered": 0,
+        "entries_discovered": 11,
+        "enumeration_complete": true,
+        "evidence_sha256": "bf113cc5fb48fe0e08f6568f5b7d6c077e91961dfc5efa6a4623200fc2e2f174",
+        "files_failed": 0,
+        "files_scanned": 6,
+        "files_skipped": 0,
+        "files_skipped_limits": 0,
+        "files_with_yara_matches": 1,
+        "limits": {
+          "max_depth": 64,
+          "max_entries": 20000,
+          "max_file_bytes": 33554432,
+          "max_files": 10000,
+          "max_seconds": 120,
+          "max_total_bytes": 268435456,
+          "yara_timeout": 5
+        },
+        "matched_rules": 1,
+        "metadata_entries_ignored": 1,
+        "non_file_entries_ignored": 5,
+        "pe_ml": {
+          "benign": 2,
+          "classification_errors": 0,
+          "coverage_status": "COMPLETE",
+          "files_classified": 2,
+          "files_excluded": 0,
+          "malicious": 0,
+          "model": {
+            "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+            "available": true,
+            "default_decision_threshold": 0.5,
+            "dependencies": {
+              "lightgbm": "4.6.0",
+              "pefile": "2024.8.26",
+              "signify": "0.7.1"
+            },
+            "feature_dimensions": 2568,
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "license": "Apache-2.0",
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "reason": null,
+            "score_calibrated": false,
+            "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+            "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+            "supported_formats": [
+              "native PE32 I386 EXE/DLL",
+              "native PE32+ AMD64 EXE/DLL"
+            ]
+          },
+          "not_applicable": 4,
+          "pe_files_discovered": 2,
+          "processing_seconds": 12.051435
+        },
+        "processing_seconds": 12.058339,
+        "regular_files_discovered": 6,
+        "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+        "scan_status": "COMPLETE",
+        "timings": {
+          "backend_analysis_seconds": 12.095775,
+          "disk_analysis_seconds": 12.058339,
+          "file_read_hash_seconds": 0.000456,
+          "filesystem_enumeration_seconds": 0.002083,
+          "pe_ml_seconds": 12.051435,
+          "rules_compilation_seconds": 0.002988,
+          "yara_execution_seconds": 0.001377
+        },
+        "total_eligible_files": 6,
+        "total_files_discovered": 6,
+        "virtual_entries_ignored": 4,
+        "warnings": [],
+        "yara_status": "READY"
+      },
+      "evidence": {
+        "algorithm": "SHA-256",
+        "ingested_at": "2026-10-30T10:34:57.184498+00:00",
+        "original_filename": "harmless-fat12.img",
+        "sha256": "bf113cc5fb48fe0e08f6568f5b7d6c077e91961dfc5efa6a4623200fc2e2f174",
+        "size_bytes": 1474560
+      },
+      "id": "IN-1faa7947d1b54de788eb7135a3fab459",
+      "kind": "disk_image",
+      "record_count": 6,
+      "status": "complete",
+      "stored": 6,
+      "threat_intel": {
+        "indicator": "bf113cc5fb48fe0e08f6568f5b7d6c077e91961dfc5efa6a4623200fc2e2f174",
+        "kind": "hash",
+        "malicious": false,
+        "providers": []
+      },
+      "yara": {
+        "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+        "status": "READY"
+      }
+    }
+  ],
+  "total": 1
+}

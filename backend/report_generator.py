@@ -267,6 +267,9 @@ def _build_threat_assessment(case, styles):
     severity_display = case.get("severity", "LOW")
     network_scored = any(f.get("artifactType") == "network" for f in case.get("findings", []))
     confidence_display = "Network anomaly model and evidence rules" if network_scored else "Evidence-specific rules"
+    if any(s.get('disk_scan', {}).get('pe_ml', {}).get('files_classified', 0)
+           for s in case.get('evidence', {}).get('sources', [])):
+        confidence_display += ' and static PE malware classifier'
     elements = [
         Paragraph("2. Threat Assessment", styles["SectionHeading"]),
         Paragraph(
@@ -417,7 +420,7 @@ def _build_findings(case, styles):
         ("LEFTPADDING", (0, 0), (-1, -1), 5),
         ("RIGHTPADDING", (0, 0), (-1, -1), 5),
     ]))
-    elements.extend([table, Spacer(1, 10), Paragraph("Finding Details", styles["SubHeading"])])
+    elements.extend([table, Spacer(1, 10)])
     for i, finding in enumerate(findings, 1):
         technique = finding.get("technique") or {}
         technique_label = " ".join(str(technique.get(k) or "") for k in ("id", "name")).strip() or "Not mapped"
@@ -436,6 +439,8 @@ def _build_findings(case, styles):
                       f"<b>Recorded:</b> {finding.get('observedAt') or 'Not recorded'}", styles["BodyText2"]),
             Spacer(1, 10),
         ]
+        if i == 1:
+            details.insert(0, Paragraph("Finding Details", styles["SubHeading"]))
         elements.append(KeepTogether(details))
     return elements
 
@@ -497,6 +502,14 @@ def _build_evidence(case, styles):
         for s in sources:
             if s.get('disk_scan'):
                 scan = s['disk_scan']
+                if scan.get('pe_ml'):
+                    pe = scan['pe_ml']
+                    elements.append(Paragraph(escape(
+                        f"PE malware ML: {pe['files_classified']} classified; {pe['malicious']} malicious predictions; "
+                        f"{pe['benign']} benign predictions; {pe['files_excluded']} excluded; {pe['classification_errors']} errors. "
+                        f"Model: {pe['model']['model_id']}; version {pe['model']['model_version']}; "
+                        f"SHA-256 {pe['model']['model_sha256']}; extractor {pe['model']['feature_extractor_version']}. "
+                        "Static model scores are not calibrated confidence or per-file accuracy. Benign predictions do not establish safety."), styles['BodyText2']))
                 elements.append(Paragraph(escape(
                     f"Disk scan {scan['scan_status']}: {scan['files_scanned']} scanned, "
                     f"{scan['files_skipped']} skipped, {scan['files_with_yara_matches']} matched; "

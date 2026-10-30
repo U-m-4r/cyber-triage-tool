@@ -1,0 +1,4 @@
+..............................s.......                                   [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+37 passed, 1 skipped in 4.19s

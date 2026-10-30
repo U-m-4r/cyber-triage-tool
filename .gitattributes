@@ -1,0 +1,3 @@
+# Preserve byte-exact upstream extractor checksums on Windows checkouts.
+third_party/ember2024/features.py -text
+third_party/ember2024/pefile_warnings.txt -text

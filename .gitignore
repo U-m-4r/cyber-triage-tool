@@ -36,6 +36,7 @@ data/forensics/disk_images/*.001
 data/forensics/disk_images/*.bz2
 
 models/*.pkl
+models/pe/*.model
 models/*.joblib
 models/**/*.joblib
 models/**/*.pkl

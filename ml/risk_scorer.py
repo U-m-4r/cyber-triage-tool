@@ -207,7 +207,7 @@ class RiskScorer:
         print("[+] Scoring complete")
         return df_results
 
-    def score_records(self, records, anomaly_scores=None):
+    def score_records(self, records, anomaly_scores=None, pe_malicious_floor=50):
         """Score a list of artifact dicts (from the ingestion parsers).
 
         When `anomaly_scores` is provided (one raw IsolationForest score per
@@ -215,6 +215,8 @@ class RiskScorer:
         source-specific rules, with risk == rule_score on a 0-100 scale.
         # Formula: Rules-only interim risk | Ref: rule engine, see FORMULAS.md#rules-only-risk
         """
+        if not 0 <= pe_malicious_floor <= 100:
+            raise ValueError('PE malicious priority floor must be 0..100')
         scored = []
         normalized = None
         if anomaly_scores is not None:
@@ -233,6 +235,16 @@ class RiskScorer:
             else:
                 anomaly_out = None
                 risk = round(min(r_score * 100, 100), 2)
+            explanation = ('Existing network anomaly/rule scoring policy.' if anomaly_scores is not None
+                           else 'Existing evidence rules; no network anomaly model applied.')
+            pe_ml = row.get('pe_ml') or {}
+            if artifact_type == 'file' and pe_ml.get('status') == 'CLASSIFIED':
+                if pe_ml.get('prediction') == 'malicious':
+                    # Independent review floor, not an additive duplicate of YARA.
+                    risk = max(risk, pe_malicious_floor)
+                    explanation = f'PE model predicts malicious: review floor {pe_malicious_floor}; final risk is max(existing rule risk, floor). Prediction requires investigation.'
+                else:
+                    explanation = 'PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety.'
             scored.append({
                 **row,
                 "artifact_type": artifact_type,
@@ -240,6 +252,7 @@ class RiskScorer:
                 "rule_score": round(r_score * 100, 2),
                 "risk_score": risk,
                 "priority": self.assign_priority(risk),
+                "risk_explanation": explanation,
                 "matched_rules": ', '.join(rules) if rules else 'None',
             })
         scored.sort(key=lambda a: a["risk_score"], reverse=True)

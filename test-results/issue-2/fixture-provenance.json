@@ -1,0 +1,9 @@
+{
+  "pip_version": "26.2.1",
+  "distlib_version": "0.4.2",
+  "never_executed": true,
+  "files": {
+    "t32.exe": "6b4195e640a85ac32eb6f9628822a622057df1e459df7c17a12f97aeabc9415b",
+    "t64.exe": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7"
+  }
+}

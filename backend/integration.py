@@ -89,12 +89,21 @@ def finding(doc):
         title = f"{label}: {rules}" if label else rules
     else:
         title = f"{label} (No rule match)" if label else "Scored artifact; no rule match"
+    if (doc.get('pe_ml') or {}).get('prediction') == 'malicious' and doc['pe_ml'].get('status') == 'CLASSIFIED':
+        title += ' | PE ML: malicious prediction'
     rule_score = doc.get("rule_score")
     anomaly_score = doc.get("anomaly_score")
     if doc.get("artifact_type") in ("file", "registry", "system_log"):
         rule_detail = f"Matched rules: {rules}." if rules and rules != "None" else "No configured rules matched."
         rationale = (f"Rule score: {rule_score}. {rule_detail} "
-                     "ML anomaly: not applicable to this evidence type; the model requires network flows.")
+                     "Network ML anomaly: not applicable to this evidence type; the network model requires flows.")
+        pe = doc.get('pe_ml')
+        if pe:
+            rationale += (f" PE ML: {pe.get('status')}; prediction: {pe.get('prediction')}; "
+                          f"model score: {pe.get('model_score')} (not calibrated confidence); "
+                          f"threshold: {pe.get('threshold')}; model: {pe.get('model_id')}; "
+                          f"feature version: {pe.get('feature_extractor_version')}; "
+                          f"reason: {pe.get('reason', '')}. {doc.get('risk_explanation', '')}")
         if doc.get('scan_status'):
             rationale += f" Content scan: {doc['scan_status']}; {doc.get('scan_reason', '')}. SHA-256: {doc.get('sha256') or 'unavailable'}. YARA indicators require investigation, not proof of malware."
             rationale += f" Volume offset: {doc.get('volume_offset')}; inode: {doc.get('inode')}. Evidence SHA-256: {doc.get('evidence_sha256')}."

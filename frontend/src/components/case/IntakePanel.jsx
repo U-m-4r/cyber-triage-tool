@@ -50,8 +50,9 @@ export default function IntakePanel({ caseId, onComplete, networkOnly = false })
   return <section className="integration-page">
     <h3>{networkOnly ? 'Network ML inference' : 'Upload evidence'}</h3>
     <p>Upload once here to update this case’s evidence, artifacts, analysis, timeline and relationships. Reports use the latest saved results when generated.</p>
-    <p>Network CSVs use the approved CICIDS2017 baseline. Host evidence uses forensic rules. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.</p>
+    <p>Network CSVs use the approved CICIDS2017 baseline. Host evidence uses forensic rules; supported PE files also use the static malware classifier. Uploads never train a model. SHA-256 and parsed records are retained; the original uploaded file is not retained.</p>
     <p>Network model: {model.loading ? 'Checking…' : model.error || (model.data?.available ? 'Available' : model.data?.message || 'Unavailable')}</p>
+    <p>PE malware model: {capabilities.loading ? 'Checking…' : capabilities.data?.pe_malware_ml?.available ? capabilities.data.pe_malware_ml.model_id : 'Unavailable; eligible files will retain an explicit model status'}</p>
     <button type="button" onClick={() => refresh(v => v + 1)} disabled={pending}>Refresh service status</button>
     {model.data?.available && <details><summary>Model provenance</summary><pre>{JSON.stringify(model.data.baseline, null, 2)}</pre></details>}
     <form onSubmit={submit} className="integration-form">

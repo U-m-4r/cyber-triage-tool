@@ -1069,6 +1069,8 @@ def forensics_capabilities():
         "registry": {"available": registry_parser.AVAILABLE, "reason": registry_parser.UNAVAILABLE_REASON},
         "yara": {"available": yara_scanner.AVAILABLE, "reason": yara_scanner.UNAVAILABLE_REASON},
         "disk_image": {"available": disk_image.AVAILABLE, "reason": disk_image.UNAVAILABLE_REASON},
+        "pe_malware_ml": disk_image.pe_malware_detector.get_model_metadata(
+            (current_app.config.get('PE_ML_OPTIONS') or {}).get('model_path')),
         "threat_intel": threat_intel.providers_available(),
     })
 
@@ -1096,7 +1098,8 @@ def forensics_ingest():
             if ext in _DISK_EXTS:
                 disk_scan = disk_image.analyze_disk_image(filepath,
                     limits=disk_image.ScanLimits(**current_app.config.get('DISK_SCAN_LIMITS', {})),
-                    rules_dir=current_app.config.get('YARA_RULES_DIR'))
+                    rules_dir=current_app.config.get('YARA_RULES_DIR'),
+                    pe_options=current_app.config.get('PE_ML_OPTIONS'))
                 for artifact in disk_scan['findings']:
                     artifact['evidence_sha256'] = custody['sha256']
                     artifact['evidence_source'] = custody['original_filename']
@@ -1116,12 +1119,14 @@ def forensics_ingest():
                 400, "UNSUPPORTED_FILE_TYPE",
             )
 
-        records = json.loads(df.head(500).to_json(orient="records"))
+        records = disk_scan['findings'][:500] if disk_scan is not None else json.loads(df.head(500).to_json(orient="records"))
 
         if df.empty and disk_scan is None:
             return _api_error("No records were parsed from the evidence.", 400, "EMPTY_INPUT")
-        all_scored = scorer.score_records(json.loads(df.to_json(orient="records")))
-        scored = [row for row in all_scored if row.get("matched_rules") != "None"]
+        all_scored = scorer.score_records(disk_scan['findings'] if disk_scan is not None else json.loads(df.to_json(orient="records")),
+            pe_malicious_floor=current_app.config.get('PE_MALICIOUS_RISK_FLOOR', 50))
+        scored = [row for row in all_scored if row.get("matched_rules") != "None" or
+                  ((row.get('pe_ml') or {}).get('status') == 'CLASSIFIED' and row['pe_ml'].get('prediction') == 'malicious')]
 
         # IOC surfacing: YARA-scan the raw evidence file if the engine is present.
         if disk_scan is not None:

@@ -14,6 +14,7 @@ import hashlib
 import time
 from dataclasses import dataclass, asdict
 from forensics import yara_scanner
+from ml import pe_malware_detector
 
 try:
     import pytsk3
@@ -123,7 +124,7 @@ class ScanLimits:
             raise ValueError('Scan limits must be positive integers')
 
 
-def analyze_disk_image(filepath, limits=None, rules_dir=None):
+def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None):
     """Read-only raw filesystem analysis. Never scans container bytes as a file.
 
     Native reads are bounded in size; duration is checked between native calls.
@@ -132,11 +133,14 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
     if not AVAILABLE:
         raise RuntimeError(UNAVAILABLE_REASON)
     limits = limits or ScanLimits()
+    pe_options = pe_options or {}
+    pe_model = pe_malware_detector.get_model_metadata(pe_options.get('model_path'))
     started = time.monotonic()
     warnings, rows = [], []
     total_read = attempts = entries = eligible = 0
     discovered_entries = directories = ignored = virtual = metadata_entries = 0
     read_seconds = yara_seconds = 0.0
+    ml_seconds = 0.0
     enumeration_complete = True
     directory = rules_dir or os.environ.get('YARA_RULES_DIR', yara_scanner.DEFAULT_RULES_DIR)
     rules, rule_id, rule_error = None, None, None
@@ -241,6 +245,7 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
                                'metadata_flags': int(getattr(meta, 'flags', 0)),
                                'entry_kind': 'regular_file' if meta is not None else 'unknown_unreadable',
                                'sha256': None, 'yara_matches': [], 'bytes_read': 0}
+                        row['pe_ml'] = {'status': 'NOT_ANALYZED', 'reason': 'File content not completely read'}
                         rows.append(row)
                         status, reason = 'UNREADABLE', 'Missing metadata or non-regular file'
                         regular = meta is not None and meta.type == pytsk3.TSK_FS_META_TYPE_REG
@@ -251,8 +256,6 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
                                 status, reason = 'SKIPPED_TOO_LARGE', 'Individual file byte limit'
                             elif attempts >= limits.max_files or total_read + size > limits.max_total_bytes or expired():
                                 status, reason = 'SKIPPED_LIMIT', 'File count, total bytes, or duration limit'
-                            elif engine_status != 'READY':
-                                status, reason = engine_status, rule_error
                             else:
                                 attempts += 1
                                 read_started = time.monotonic()
@@ -278,13 +281,27 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
                                         if expired():
                                             raise TimeoutError('Processing duration exceeded')
                                         timeout = min(limits.yara_timeout, max(1, int(limits.max_seconds - (time.monotonic() - started))))
-                                        row['yara_matches'] = yara_scanner.scan_bytes(bytes(data), rules, row['artifact_location'], timeout)
-                                        status = 'MATCHED' if row['yara_matches'] else 'SCANNED_NO_MATCH'
-                                        reason = 'Complete default file stream scanned'
+                                        if engine_status == 'READY':
+                                            row['yara_matches'] = yara_scanner.scan_bytes(bytes(data), rules, row['artifact_location'], timeout)
+                                            status = 'MATCHED' if row['yara_matches'] else 'SCANNED_NO_MATCH'
+                                            reason = 'Complete default file stream scanned'
+                                        else:
+                                            status, reason = engine_status, rule_error
                                     except Exception as exc:
                                         status, reason = 'SCAN_FAILED', str(exc)
                                     finally:
                                         yara_seconds += time.monotonic() - yara_started
+                                    ml_started = time.monotonic()
+                                    if expired():
+                                        row['pe_ml'] = {'status': 'SKIPPED_LIMIT', 'reason': 'Disk processing duration exceeded'}
+                                    else:
+                                        try:
+                                            row['pe_ml'] = pe_malware_detector.predict_file(bytes(data),
+                                                **{**pe_options, 'timeout': min(pe_options.get('timeout', 20),
+                                                    max(0.01, limits.max_seconds - (time.monotonic() - started)))})
+                                        except Exception as exc:
+                                            row['pe_ml'] = {'status': 'CLASSIFICATION_FAILED', 'reason': str(exc)}
+                                    ml_seconds += time.monotonic() - ml_started
                         row.update(scan_status=status, scan_reason=reason)
                 except Exception as exc:
                     warnings.append(f'Traversal error at volume {offset} {parent}: {exc}')
@@ -297,6 +314,21 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
     if skipped or failed:
         warnings.append(f'Reduced coverage: {skipped} files excluded by limits; {failed} files failed or unavailable')
     duration = time.monotonic() - started
+    ml_rows = [r['pe_ml'] for r in rows]
+    classified = [r for r in ml_rows if r['status'] == 'CLASSIFIED']
+    ml_errors = sum(r['status'] in ('MODEL_UNAVAILABLE', 'EXTRACTION_FAILED', 'CLASSIFICATION_FAILED') for r in ml_rows)
+    ml_excluded = sum(r['status'] not in ('CLASSIFIED', 'NOT_APPLICABLE') or
+                      (r['status'] == 'NOT_APPLICABLE' and r.get('is_pe', False)) for r in ml_rows)
+    ml_summary = {'model': pe_model, 'pe_files_discovered': sum(bool(r.get('is_pe')) for r in ml_rows),
+                  'files_classified': len(classified),
+                  'malicious': sum(r['prediction'] == 'malicious' for r in classified),
+                  'benign': sum(r['prediction'] == 'benign' for r in classified),
+                  'files_excluded': ml_excluded, 'classification_errors': ml_errors,
+                  'not_applicable': sum(r['status'] == 'NOT_APPLICABLE' for r in ml_rows),
+                  'processing_seconds': round(ml_seconds, 6),
+                  'coverage_status': 'PARTIAL' if ml_excluded or not enumeration_complete else 'COMPLETE'}
+    if ml_excluded:
+        warnings.append(f'PE ML coverage reduced: {ml_excluded} artifacts unclassified; {ml_errors} errors')
     return {'findings': rows, 'total_files_discovered': len(rows), 'total_eligible_files': eligible,
             'entries_discovered': discovered_entries, 'regular_files_discovered': sum(r['entry_kind'] == 'regular_file' for r in rows),
             'non_file_entries_ignored': ignored, 'directories_discovered': directories,
@@ -305,11 +337,13 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None):
             'files_scanned': scanned, 'files_skipped': len(rows) - scanned,
             'files_with_yara_matches': sum(bool(r['yara_matches']) for r in rows),
             'matched_rules': sum(len(r['yara_matches']) for r in rows), 'bytes_read': total_read,
+            'pe_ml': ml_summary,
             'processing_seconds': round(duration, 6),
             'timings': {'rules_compilation_seconds': round(compilation_seconds, 6),
                         'file_read_hash_seconds': round(read_seconds, 6),
                         'yara_execution_seconds': round(yara_seconds, 6),
-                        'filesystem_enumeration_seconds': round(max(0, duration - compilation_seconds - read_seconds - yara_seconds), 6),
+                        'pe_ml_seconds': round(ml_seconds, 6),
+                        'filesystem_enumeration_seconds': round(max(0, duration - compilation_seconds - read_seconds - yara_seconds - ml_seconds), 6),
                         'disk_analysis_seconds': round(duration, 6)},
             'scan_status': 'COMPLETE' if enumeration_complete and not warnings and scanned == len(rows) else 'PARTIAL',
             'enumeration_complete': enumeration_complete, 'warnings': warnings,
