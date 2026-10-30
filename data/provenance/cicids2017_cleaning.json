@@ -1,0 +1,196 @@
+{
+  "record_version": 1,
+  "policy": {
+    "id": "cicids2017-offline-cleaning",
+    "version": "1.0.0",
+    "rules": [
+      {
+        "code": "negative_measurements",
+        "rule": "exclude a source row when any of the 11 required features parses to a finite value < 0",
+        "effect": "row excluded from offline training and evaluation; retained verbatim in the ledger"
+      },
+      {
+        "code": "duplicate_row",
+        "rule": "exclude every source row whose canonical text of all parsed columns equals an earlier row",
+        "effect": "first occurrence kept; copies beyond the first excluded"
+      },
+      {
+        "code": "label_conflict",
+        "rule": "exclude every row of an 11-feature vector whose Attack Type or Label value is not constant across that vector",
+        "effect": "all rows of the conflicting vector excluded; labels are never rewritten"
+      }
+    ],
+    "reason_codes": [
+      "negative_measurements",
+      "duplicate_row",
+      "label_conflict"
+    ],
+    "applied_at": "2026-10-27T07:56:16Z",
+    "offline_only": true,
+    "modifications_never_applied": [
+      "imputation",
+      "clipping",
+      "absolute_value",
+      "relabel",
+      "value_replacement"
+    ]
+  },
+  "source": {
+    "path": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\data\\sample\\cicids2017_cleaned.csv",
+    "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+    "size_bytes": 717247573,
+    "rows": 2520751,
+    "columns": [
+      "Destination Port",
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Length of Fwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Fwd Packet Length Std",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Std",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Flow IAT Mean",
+      "Flow IAT Std",
+      "Flow IAT Max",
+      "Flow IAT Min",
+      "Fwd IAT Total",
+      "Fwd IAT Mean",
+      "Fwd IAT Std",
+      "Fwd IAT Max",
+      "Fwd IAT Min",
+      "Bwd IAT Total",
+      "Bwd IAT Mean",
+      "Bwd IAT Std",
+      "Bwd IAT Max",
+      "Bwd IAT Min",
+      "Fwd Header Length",
+      "Bwd Header Length",
+      "Fwd Packets/s",
+      "Bwd Packets/s",
+      "Min Packet Length",
+      "Max Packet Length",
+      "Packet Length Mean",
+      "Packet Length Std",
+      "Packet Length Variance",
+      "FIN Flag Count",
+      "PSH Flag Count",
+      "ACK Flag Count",
+      "Average Packet Size",
+      "Subflow Fwd Bytes",
+      "Init_Win_bytes_forward",
+      "Init_Win_bytes_backward",
+      "act_data_pkt_fwd",
+      "min_seg_size_forward",
+      "Active Mean",
+      "Active Max",
+      "Active Min",
+      "Idle Mean",
+      "Idle Max",
+      "Idle Min",
+      "Attack Type"
+    ],
+    "label_columns_checked": [
+      "Attack Type"
+    ],
+    "label_conflict_status": "checked",
+    "manifest_path": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\data\\provenance\\cicids2017_cleaned.provenance.json",
+    "manifest_handle": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+    "manifest_csv_path": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\data\\sample\\cicids2017_cleaned.csv",
+    "manifest_path_matches_source": true,
+    "dataset_version": {
+      "value": null,
+      "status": "unavailable",
+      "detail": "KaggleHub reported no dataset version/revision for this retrieval. Identity therefore rests on the recorded SHA-256 of the retrieved file."
+    }
+  },
+  "issues": {
+    "negative_measurements": {
+      "rows": 107,
+      "cells": 292,
+      "columns": {
+        "Flow Duration": 107,
+        "Total Fwd Packets": 0,
+        "Total Length of Fwd Packets": 0,
+        "Fwd Packet Length Max": 0,
+        "Fwd Packet Length Min": 0,
+        "Fwd Packet Length Mean": 0,
+        "Bwd Packet Length Max": 0,
+        "Bwd Packet Length Min": 0,
+        "Flow Bytes/s": 78,
+        "Flow Packets/s": 107,
+        "Packet Length Mean": 0
+      },
+      "non_finite_cells_not_excluded": {
+        "Flow Duration": 0,
+        "Total Fwd Packets": 0,
+        "Total Length of Fwd Packets": 0,
+        "Fwd Packet Length Max": 0,
+        "Fwd Packet Length Min": 0,
+        "Fwd Packet Length Mean": 0,
+        "Bwd Packet Length Max": 0,
+        "Bwd Packet Length Min": 0,
+        "Flow Bytes/s": 0,
+        "Flow Packets/s": 0,
+        "Packet Length Mean": 0
+      }
+    },
+    "duplicate_rows": {
+      "rows": 161,
+      "rows_in_duplicate_groups": 322,
+      "comparison": "exact canonical text of every parsed column; copies beyond the first"
+    },
+    "label_conflicts": {
+      "vectors": 1762,
+      "rows": 219323,
+      "columns_checked": [
+        "Attack Type"
+      ]
+    }
+  },
+  "exclusions": {
+    "unique_rows": 219512,
+    "by_reason": {
+      "negative_measurements": 107,
+      "duplicate_row": 161,
+      "label_conflict": 219323
+    },
+    "overlaps": {
+      "rows_with_multiple_reasons": 79,
+      "pairs": {
+        "negative_measurements & duplicate_row": 1,
+        "duplicate_row & label_conflict": 78
+      }
+    },
+    "input_rows": 2520751,
+    "retained_rows": 2301239,
+    "invariant": "input_rows == retained_rows + unique_rows"
+  },
+  "ledger": {
+    "path": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\data\\provenance\\cicids2017_cleaning_ledger.csv",
+    "sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+    "rows": 219512,
+    "columns": [
+      "source_row_index",
+      "reasons"
+    ],
+    "newline": "LF",
+    "row_identity": "0-based source data row index, header excluded"
+  },
+  "processing": {
+    "chunk_rows": 20000,
+    "passes": 2,
+    "grouping": "pandas hash_pandas_object with fixed keys, verified exactly on canonical text in pass 2",
+    "memory": "bounded by chunk size and candidate rows, not by file size"
+  },
+  "environment": {
+    "python": "3.14.7",
+    "pandas": "2.3.3",
+    "numpy": "2.5.4"
+  }
+}

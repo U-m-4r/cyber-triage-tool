@@ -1,6 +1,7 @@
 # Preserve byte-exact upstream extractor checksums on Windows checkouts.
 third_party/ember2024/features.py -text
 third_party/ember2024/pefile_warnings.txt -text
+data/provenance/cicids2017_cleaning.json -text
 # Generated review evidence must survive checkout byte-for-byte (PDF xref offsets).
 *.pdf binary
 *.png binary

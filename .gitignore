@@ -22,6 +22,7 @@ data/*.csv
 data/*.zip
 data/*.pcap
 data/*.json
+!data/provenance/cicids2017_cleaning.json
 # Explicit KaggleHub download target (scripts/download_dataset.py)
 data/kaggle/
 data/*.raw
