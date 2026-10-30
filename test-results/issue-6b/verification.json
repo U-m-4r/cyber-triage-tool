@@ -1,0 +1,12 @@
+{
+  "backend": "411 passed,46 skipped,zero failures/errors",
+  "frontend": "19 passed; production build PASS",
+  "static": "PASS",
+  "frozen_file_count": 246,
+  "frozen_changes": [],
+  "head": "dd3fcdddb99910317076cfac7b30547a823b9278",
+  "git_mutations": "NONE",
+  "browser": "UNVERIFIED: Local browser use is disabled in Work settings.",
+  "new_challenger_integration": "NOT_APPLICABLE: original deployment gates failed",
+  "logs": "Public text logs normalized UTF16 to UTF8; original bytes preserved ignored"
+}

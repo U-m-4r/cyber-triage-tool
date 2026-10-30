@@ -1,0 +1,86 @@
+{
+  "cicids2017-xgb": {
+    "population": "Genuine fixed source-order presentation subset, not full evaluation",
+    "metrics": {
+      "samples": 84,
+      "benign": 12,
+      "attack": 72,
+      "confusion_matrix": {
+        "tn": 12,
+        "fp": 0,
+        "fn": 17,
+        "tp": 55
+      },
+      "accuracy": 0.7976190476190477,
+      "precision": 1.0,
+      "recall": 0.7638888888888888,
+      "f1": 0.8661417322834646,
+      "macro_f1": 0.7257537929710005,
+      "roc_auc": 1.0,
+      "average_precision": 1.0,
+      "specificity": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.23611111111111116,
+      "balanced_accuracy": 0.8819444444444444,
+      "status": "EVALUATED"
+    },
+    "model_id": "xgb-bin-12ad91fa39",
+    "threshold": 0.4343418846451664
+  },
+  "cicids2017-iforest": {
+    "population": "Genuine fixed source-order presentation subset, not full evaluation",
+    "metrics": {
+      "samples": 84,
+      "benign": 12,
+      "attack": 72,
+      "confusion_matrix": {
+        "tn": 12,
+        "fp": 0,
+        "fn": 72,
+        "tp": 0
+      },
+      "accuracy": 0.14285714285714285,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "macro_f1": 0.125,
+      "roc_auc": 0.7175925925925927,
+      "average_precision": 0.9085215609713301,
+      "specificity": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 1.0,
+      "balanced_accuracy": 0.5,
+      "status": "EVALUATED"
+    },
+    "model_id": "iforest-65dd0b57a2b1a2020a0b",
+    "threshold": 0.0
+  },
+  "external-csv": {
+    "population": "Genuine fixed source-order presentation subset, not full evaluation",
+    "metrics": {
+      "samples": 60,
+      "benign": 20,
+      "attack": 40,
+      "confusion_matrix": {
+        "tn": 19,
+        "fp": 1,
+        "fn": 38,
+        "tp": 2
+      },
+      "accuracy": 0.35,
+      "precision": 0.6666666666666666,
+      "recall": 0.05,
+      "f1": 0.09302325581395349,
+      "macro_f1": 0.2932648746602235,
+      "roc_auc": 0.47625000000000006,
+      "average_precision": 0.6268293099372102,
+      "specificity": 0.95,
+      "false_positive_rate": 0.050000000000000044,
+      "false_negative_rate": 0.95,
+      "balanced_accuracy": 0.5,
+      "status": "EVALUATED"
+    },
+    "model_id": "xgb-bin-12ad91fa39",
+    "threshold": 0.4343418846451664
+  }
+}

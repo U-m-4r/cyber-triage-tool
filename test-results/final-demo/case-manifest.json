@@ -1,0 +1,3365 @@
+{
+  "database": "cyber_triage_test_f81c246a5f5c413aa1c951c45cd24423",
+  "run": "f81c246a5f5c413aa1c951c45cd24423",
+  "cases": [
+    {
+      "name": "disk",
+      "case_id": "CASE-E855F07F91D5",
+      "intake_id": "IN-d94e7171d932451e89d1122637bc897c",
+      "stored": 6,
+      "source_size": 1474560,
+      "sha256_before": "52e1ab55fc5bc3b96b542c4f4f16b3d47f908699c5af703b484024fc014395f3",
+      "sha256_after": "52e1ab55fc5bc3b96b542c4f4f16b3d47f908699c5af703b484024fc014395f3",
+      "status": "COMPLETED",
+      "http_seconds": 7.497891599996365,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 6,
+      "pdf_sha256": "bde7faf2dc4636cc4eff4df9b74a9665c53b09e27b9135a4e8dcdb36aa82118e",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 6,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.000134,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": true,
+          "examined": 2,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": "EMBER2024_PE@425202786349",
+          "input_scope": "individual_file_bytes",
+          "model": {
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "threshold": null
+          },
+          "prediction_counts": {
+            "benign": 2,
+            "malicious": 0
+          },
+          "processing_seconds": 7.236608,
+          "reason": null,
+          "scanner": "PE malware ML",
+          "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 6,
+          "findings": 3,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "embedded_file_bytes",
+          "processing_seconds": 0.001609,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "disk": {
+          "enumeration_complete": true,
+          "files_scanned": 6,
+          "files_skipped": 0,
+          "total_eligible_files": 6,
+          "total_files_discovered": 6
+        },
+        "findings_returned": 3,
+        "findings_total": 3,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "reason": null,
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "records_examined": 6,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": null,
+      "model": null,
+      "findings": 3,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\disk.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\disk-api.json",
+      "evidence_type": "disk_image",
+      "input_source": "harmless-fat12.img",
+      "risk_bands": {
+        "MEDIUM": 3,
+        "LOW": 3
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "ntfs",
+      "case_id": "CASE-56540E3BFE9B",
+      "intake_id": "IN-c40381eeb7ba45168b9ba7f9d6cca600",
+      "stored": 19,
+      "source_size": 67108864,
+      "sha256_before": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+      "sha256_after": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+      "status": "COMPLETED",
+      "http_seconds": 6.455952099997376,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 10,
+      "pdf_sha256": "6f99eff872432addb0e8c2edee4711c0f15212e35d240d3ae5b0b4ad88ab247a",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 19,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.000237,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": "EMBER2024_PE@425202786349",
+          "input_scope": "individual_file_bytes",
+          "model": {
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "threshold": null
+          },
+          "prediction_counts": {
+            "benign": 1,
+            "malicious": 0
+          },
+          "processing_seconds": 3.734384,
+          "reason": null,
+          "scanner": "PE malware ML",
+          "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 19,
+          "findings": 1,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "embedded_file_bytes",
+          "processing_seconds": 0.012498,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "disk": {
+          "enumeration_complete": true,
+          "files_scanned": 19,
+          "files_skipped": 0,
+          "total_eligible_files": 19,
+          "total_files_discovered": 19
+        },
+        "findings_returned": 1,
+        "findings_total": 1,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "reason": null,
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "records_examined": 19,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": null,
+      "model": null,
+      "findings": 1,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\ntfs.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\ntfs-api.json",
+      "evidence_type": "disk_image",
+      "input_source": "controlled.img",
+      "risk_bands": {
+        "MEDIUM": 1,
+        "LOW": 18
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "file-inventory",
+      "case_id": "CASE-53730B2651F2",
+      "intake_id": "IN-07061e689ee94fcc9fd1875d4e34b2ae",
+      "stored": 2,
+      "source_size": 71,
+      "sha256_before": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "sha256_after": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "status": "COMPLETED",
+      "http_seconds": 0.2514026999997441,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "a1a1f51d4e053fac923c6f2d4131c16bfdebf021643f96f546f06be05c80a539",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 2,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 3.8e-05,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.001802,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 0,
+        "findings_total": 0,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "processing_seconds": 0.00066,
+          "reason": null,
+          "records_parsed": 2,
+          "skipped": 0,
+          "source_records": 2,
+          "status": "COMPLETED"
+        },
+        "records_examined": 2,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 0,
+        "high": 0,
+        "low": 2,
+        "medium": 0,
+        "total_records": 2
+      },
+      "model": null,
+      "findings": 0,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\file-inventory.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\file-inventory-api.json",
+      "evidence_type": "file_export",
+      "input_source": "listing.csv",
+      "risk_bands": {
+        "LOW": 2
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "partial",
+      "case_id": "CASE-0DAA7F525B35",
+      "intake_id": "IN-3050827d7502470a896462b16e399796",
+      "stored": 1,
+      "source_size": 71,
+      "sha256_before": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "sha256_after": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "status": "PARTIAL",
+      "http_seconds": 0.2396630000002915,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "dff99449fdfd18cd4c68a4ab905e1c9fd528ed60b213c59f0ff141dedd2c77ed",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 3.3e-05,
+          "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 1,
+          "skipped_count_exact": true,
+          "status": "PARTIAL"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": null,
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0,
+          "reason": "Container exceeds 1 byte scan limit; no prefix-only verdict",
+          "scanner": "YARA",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 1,
+          "status": "SKIPPED_LIMIT"
+        }
+      },
+      "coverage": {
+        "findings_returned": 0,
+        "findings_total": 0,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "processing_seconds": 0.000761,
+          "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+          "records_parsed": 2,
+          "skipped": 1,
+          "source_records": 2,
+          "status": "PARTIAL"
+        },
+        "records_examined": 1,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 0,
+        "high": 0,
+        "low": 1,
+        "medium": 0,
+        "total_records": 1
+      },
+      "model": null,
+      "findings": 0,
+      "rulesets": null,
+      "pdf_path": "test-results\\final-demo\\backup\\partial.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\partial-api.json",
+      "evidence_type": "file_export",
+      "input_source": "listing.csv",
+      "risk_bands": {
+        "LOW": 1
+      },
+      "overall_scan_status": "PARTIAL"
+    },
+    {
+      "name": "unavailable",
+      "case_id": "CASE-9E450E7C0284",
+      "intake_id": "IN-84630bf79508459d9535a2761e30fca4",
+      "stored": 2,
+      "source_size": 71,
+      "sha256_before": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "sha256_after": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+      "status": "PARTIAL",
+      "http_seconds": 0.24541950000275392,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "5b11ad953fc1da82c16281d9d3831f67d3498a5725e02d3e38de61290adb6c9a",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 2,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 3.5e-05,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": null,
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0,
+          "reason": "Disabled by deployment configuration",
+          "scanner": "YARA",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 1,
+          "status": "UNAVAILABLE"
+        }
+      },
+      "coverage": {
+        "findings_returned": 0,
+        "findings_total": 0,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "processing_seconds": 0.000572,
+          "reason": null,
+          "records_parsed": 2,
+          "skipped": 0,
+          "source_records": 2,
+          "status": "COMPLETED"
+        },
+        "records_examined": 2,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 0,
+        "high": 0,
+        "low": 2,
+        "medium": 0,
+        "total_records": 2
+      },
+      "model": null,
+      "findings": 0,
+      "rulesets": null,
+      "pdf_path": "test-results\\final-demo\\backup\\unavailable.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\unavailable-api.json",
+      "evidence_type": "file_export",
+      "input_source": "listing.csv",
+      "risk_bands": {
+        "LOW": 2
+      },
+      "overall_scan_status": "PARTIAL"
+    },
+    {
+      "name": "standalone-pe",
+      "case_id": "CASE-30E18A99BCF7",
+      "intake_id": "IN-f229ae8b39784c4fb6d96de0036ea5e1",
+      "stored": 1,
+      "source_size": 108032,
+      "sha256_before": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "sha256_after": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "status": "COMPLETED",
+      "http_seconds": 4.870215700000699,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "a7ae3b514d70d532119ac72fb49e51d9e53cbc00ba8ce1a6ca9e9fbd4d97aa24",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.000608,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": "EMBER2024_PE@425202786349",
+          "input_scope": "individual_file_bytes",
+          "model": {
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "threshold": 0.5
+          },
+          "prediction_counts": {
+            "benign": 1,
+            "malicious": 0
+          },
+          "processing_seconds": 4.242137,
+          "reason": null,
+          "scanner": "PE malware ML",
+          "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 1,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "individual_file_bytes",
+          "processing_seconds": 0.001732,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 1,
+        "findings_total": 1,
+        "findings_truncated": false,
+        "parsing": {
+          "status": "COMPLETED"
+        },
+        "records_examined": 1,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": null,
+      "model": null,
+      "findings": 1,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\standalone-pe.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\standalone-pe-api.json",
+      "evidence_type": "pe",
+      "input_source": "t64.exe",
+      "risk_bands": {},
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "cicids2017-xgb",
+      "case_id": "CASE-F0A7D56A1116",
+      "intake_id": "IN-9cf4da991c02410da2bb33acf0230f49",
+      "stored": 84,
+      "source_size": 7102,
+      "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "status": "COMPLETED",
+      "http_seconds": 1.6832819000046584,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 30,
+      "pdf_sha256": "41a0d833d7bd2b0c42e79ef7afc54b7cd46fc07e94644312f0167957331b3465",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 84,
+          "findings": 37,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.008089,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": true,
+          "examined": 84,
+          "findings": 55,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": "xgb-bin-12ad91fa39",
+          "input_scope": "validated_network_flows",
+          "model": {
+            "active_threshold": 0.4343418846451664,
+            "calibrated": false,
+            "configured_threshold": 0.4343418846451664,
+            "detector_type": "supervised_binary",
+            "label_mapping": {
+              "0": "BENIGN",
+              "1": "ATTACK"
+            },
+            "model_id": "xgb-bin-12ad91fa39",
+            "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+            "model_type": "xgboost_binary",
+            "model_version": 1,
+            "preprocessing": {
+              "dropped_invalid_rows": 0,
+              "duplicates_preserved": true,
+              "input_rows": 84,
+              "valid_rows": 84
+            },
+            "provenance": {
+              "cleaning": {
+                "exclusions": {
+                  "by_reason": {
+                    "duplicate_row": 161,
+                    "label_conflict": 219323,
+                    "negative_measurements": 107
+                  },
+                  "input_rows": 2520751,
+                  "invariant": "input_rows == retained_rows + unique_rows",
+                  "overlaps": {
+                    "pairs": {
+                      "duplicate_row & label_conflict": 78,
+                      "negative_measurements & duplicate_row": 1
+                    },
+                    "rows_with_multiple_reasons": 79
+                  },
+                  "retained_rows": 2301239,
+                  "unique_rows": 219512
+                },
+                "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+                "policy_id": "cicids2017-offline-cleaning",
+                "policy_version": "1.0.0",
+                "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+              },
+              "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "dataset_version": "1.0",
+              "fit_duration_seconds": 20.111487,
+              "label_column": "Attack Type",
+              "model_id": "xgb-bin-12ad91fa39",
+              "negative_class": "BENIGN",
+              "positive_class": "ATTACK",
+              "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+              "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "split": {
+                "method": "numeric-feature-group-hash-v1",
+                "partitions": {
+                  "test": {
+                    "rows": 345892,
+                    "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+                  },
+                  "train": {
+                    "rows": 1612277,
+                    "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+                  },
+                  "validation": {
+                    "rows": 343070,
+                    "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+                  }
+                },
+                "seed": 42,
+                "test_percent": 15,
+                "train_percent": 70,
+                "validation_percent": 15
+              },
+              "trained_at": "2026-10-27T09:45:55.376787+00:00",
+              "training_rows": 1612277,
+              "validation_rows": 343070
+            },
+            "score_interpretation": "Uncalibrated tree score; higher indicates attack",
+            "threshold_overridden": false,
+            "threshold_selection": {
+              "calibrated": false,
+              "fallback": false,
+              "fallback_reason": null,
+              "max_fpr_constraint": 0.002,
+              "objective": "f1_score",
+              "score_semantics": "Uncalibrated continuous XGBoost score in [0.0, 1.0]; higher = attack likelihood",
+              "selected_at": "2026-10-27T09:45:55.371497+00:00",
+              "threshold": 0.4343418846451664,
+              "validation_metrics": {
+                "accuracy": 0.9976739440930422,
+                "confusion_matrix": {
+                  "false_negative": 498,
+                  "false_positive": 300,
+                  "true_negative": 284032,
+                  "true_positive": 58240
+                },
+                "f1_score": 0.9931956547690105,
+                "false_positive_rate": 0.0010551045960356202,
+                "precision": 0.9948752989408951,
+                "recall": 0.9915216725118322,
+                "support": {
+                  "negatives": 284332,
+                  "positives": 58738,
+                  "total": 343070
+                },
+                "threshold": 0.4343418846451664
+              }
+            },
+            "timings": {
+              "csv_inference_seconds": 0.06103119999897899,
+              "model_loading_seconds": 0.5272551000016392,
+              "records_per_second": 1376.3452136186943
+            }
+          },
+          "processing_seconds": 0.061031,
+          "reason": null,
+          "scanner": "Network ML",
+          "scanner_version": 1,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.003604,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 30,
+        "findings_total": 70,
+        "findings_truncated": true,
+        "parsing": {
+          "invalid_rows": 0,
+          "reason": null,
+          "records_retained": 84,
+          "rows_excluded_by_limit": 0,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "records_examined": 84,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "classified_attacks": 55,
+        "classified_benign": 29,
+        "critical": 19,
+        "high": 35,
+        "low": 24,
+        "medium": 6,
+        "total_records": 84
+      },
+      "model": {
+        "active_threshold": 0.4343418846451664,
+        "calibrated": false,
+        "configured_threshold": 0.4343418846451664,
+        "detector_type": "supervised_binary",
+        "label_mapping": {
+          "0": "BENIGN",
+          "1": "ATTACK"
+        },
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+        "model_type": "xgboost_binary",
+        "model_version": 1,
+        "preprocessing": {
+          "dropped_invalid_rows": 0,
+          "duplicates_preserved": true,
+          "input_rows": 84,
+          "valid_rows": 84
+        },
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_version": "1.0",
+          "fit_duration_seconds": 20.111487,
+          "label_column": "Attack Type",
+          "model_id": "xgb-bin-12ad91fa39",
+          "negative_class": "BENIGN",
+          "positive_class": "ATTACK",
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T09:45:55.376787+00:00",
+          "training_rows": 1612277,
+          "validation_rows": 343070
+        },
+        "score_interpretation": "Uncalibrated tree score; higher indicates attack",
+        "threshold_overridden": false,
+        "threshold_selection": {
+          "calibrated": false,
+          "fallback": false,
+          "fallback_reason": null,
+          "max_fpr_constraint": 0.002,
+          "objective": "f1_score",
+          "score_semantics": "Uncalibrated continuous XGBoost score in [0.0, 1.0]; higher = attack likelihood",
+          "selected_at": "2026-10-27T09:45:55.371497+00:00",
+          "threshold": 0.4343418846451664,
+          "validation_metrics": {
+            "accuracy": 0.9976739440930422,
+            "confusion_matrix": {
+              "false_negative": 498,
+              "false_positive": 300,
+              "true_negative": 284032,
+              "true_positive": 58240
+            },
+            "f1_score": 0.9931956547690105,
+            "false_positive_rate": 0.0010551045960356202,
+            "precision": 0.9948752989408951,
+            "recall": 0.9915216725118322,
+            "support": {
+              "negatives": 284332,
+              "positives": 58738,
+              "total": 343070
+            },
+            "threshold": 0.4343418846451664
+          }
+        },
+        "timings": {
+          "csv_inference_seconds": 0.06103119999897899,
+          "model_loading_seconds": 0.5272551000016392,
+          "records_per_second": 1376.3452136186943
+        }
+      },
+      "findings": 30,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\cicids2017-xgb.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\cicids2017-xgb-api.json",
+      "evidence_type": "network_csv",
+      "input_source": "demo.csv",
+      "risk_bands": {
+        "CRITICAL": 19,
+        "HIGH": 35,
+        "MEDIUM": 6,
+        "LOW": 24
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "cicids2017-iforest",
+      "case_id": "CASE-1F8449428D92",
+      "intake_id": "IN-9c525bef36864e3aa5547ea9912a4d58",
+      "stored": 84,
+      "source_size": 7102,
+      "sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "status": "COMPLETED",
+      "http_seconds": 1.0778878000055556,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 29,
+      "pdf_sha256": "5d5c267b4f425fd47834f229ed4e9a6d0c7ba01a3fa31ea69ec9fe3c7518f172",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 84,
+          "findings": 37,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.003419,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": true,
+          "examined": 84,
+          "findings": 16,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": "iforest-65dd0b57a2b1a2020a0b",
+          "input_scope": "validated_network_flows",
+          "model": {
+            "active_threshold": 0.0,
+            "calibrated": false,
+            "detector_type": "anomaly_baseline",
+            "model_id": "iforest-65dd0b57a2b1a2020a0b",
+            "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+            "model_version": 1,
+            "provenance": {
+              "cleaning": {
+                "exclusions": {
+                  "by_reason": {
+                    "duplicate_row": 161,
+                    "label_conflict": 219323,
+                    "negative_measurements": 107
+                  },
+                  "input_rows": 2520751,
+                  "invariant": "input_rows == retained_rows + unique_rows",
+                  "overlaps": {
+                    "pairs": {
+                      "duplicate_row & label_conflict": 78,
+                      "negative_measurements & duplicate_row": 1
+                    },
+                    "rows_with_multiple_reasons": 79
+                  },
+                  "retained_rows": 2301239,
+                  "unique_rows": 219512
+                },
+                "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+                "policy_id": "cicids2017-offline-cleaning",
+                "policy_version": "1.0.0",
+                "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+              },
+              "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "dataset_path": "data/cicids2017_cleaned.csv",
+              "dataset_version": "local-manual",
+              "decision_threshold": 0.0,
+              "dropped_benign_duplicates": 310489,
+              "dropped_invalid_rows": 0,
+              "excluded_non_benign_rows": 363117,
+              "input_rows": 2301239,
+              "label_column": "Attack Type",
+              "model_id": "iforest-65dd0b57a2b1a2020a0b",
+              "model_parameters": {
+                "bootstrap": false,
+                "contamination": 0.1,
+                "max_features": 1.0,
+                "max_samples": "auto",
+                "n_estimators": 100,
+                "n_jobs": -1,
+                "random_state": 42,
+                "verbose": 0,
+                "warm_start": false
+              },
+              "score_samples_threshold": -0.47321778481357596,
+              "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+              "size_bytes": 717247573,
+              "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "split": {
+                "method": "numeric-feature-group-hash-v1",
+                "partitions": {
+                  "test": {
+                    "rows": 345892,
+                    "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+                  },
+                  "train": {
+                    "rows": 1612277,
+                    "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+                  },
+                  "validation": {
+                    "rows": 343070,
+                    "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+                  }
+                },
+                "seed": 42,
+                "test_percent": 15,
+                "train_percent": 70,
+                "validation_percent": 15
+              },
+              "trained_at": "2026-10-27T07:59:07.227722+00:00",
+              "training_policy": "benign_only",
+              "training_rows": 1051117,
+              "valid_rows": 2301239
+            },
+            "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal",
+            "timings": {
+              "csv_inference_seconds": 0.03154940000240458,
+              "model_loading_seconds": 0.03071980000095209,
+              "records_per_second": 2662.4912040672034
+            }
+          },
+          "processing_seconds": 0.031549,
+          "reason": null,
+          "scanner": "Network ML",
+          "scanner_version": 1,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.002507,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 30,
+        "findings_total": 47,
+        "findings_truncated": true,
+        "parsing": {
+          "invalid_rows": 0,
+          "reason": null,
+          "records_retained": 84,
+          "rows_excluded_by_limit": 0,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "records_examined": 84,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "classified_attacks": 16,
+        "classified_benign": 68,
+        "critical": 2,
+        "high": 16,
+        "low": 55,
+        "medium": 11,
+        "total_records": 84
+      },
+      "model": {
+        "active_threshold": 0.0,
+        "calibrated": false,
+        "detector_type": "anomaly_baseline",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+        "model_version": 1,
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_path": "data/cicids2017_cleaned.csv",
+          "dataset_version": "local-manual",
+          "decision_threshold": 0.0,
+          "dropped_benign_duplicates": 310489,
+          "dropped_invalid_rows": 0,
+          "excluded_non_benign_rows": 363117,
+          "input_rows": 2301239,
+          "label_column": "Attack Type",
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_parameters": {
+            "bootstrap": false,
+            "contamination": 0.1,
+            "max_features": 1.0,
+            "max_samples": "auto",
+            "n_estimators": 100,
+            "n_jobs": -1,
+            "random_state": 42,
+            "verbose": 0,
+            "warm_start": false
+          },
+          "score_samples_threshold": -0.47321778481357596,
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "size_bytes": 717247573,
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T07:59:07.227722+00:00",
+          "training_policy": "benign_only",
+          "training_rows": 1051117,
+          "valid_rows": 2301239
+        },
+        "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal",
+        "timings": {
+          "csv_inference_seconds": 0.03154940000240458,
+          "model_loading_seconds": 0.03071980000095209,
+          "records_per_second": 2662.4912040672034
+        }
+      },
+      "findings": 30,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\cicids2017-iforest.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\cicids2017-iforest-api.json",
+      "evidence_type": "network_csv",
+      "input_source": "demo.csv",
+      "risk_bands": {
+        "CRITICAL": 2,
+        "HIGH": 16,
+        "MEDIUM": 11,
+        "LOW": 55
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "external-csv",
+      "case_id": "CASE-6E87BD593EAA",
+      "intake_id": "IN-4496e18e557145f3b7a583089944620c",
+      "stored": 60,
+      "source_size": 21738,
+      "sha256_before": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+      "sha256_after": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+      "status": "COMPLETED",
+      "http_seconds": 1.126454900004319,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 23,
+      "pdf_sha256": "0f40fcb8842c7c3c7e7447e50ad56424808e3bed7341db0117b85548ddd8a3c7",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 60,
+          "findings": 28,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.004273,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": true,
+          "examined": 60,
+          "findings": 3,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": "xgb-bin-12ad91fa39",
+          "input_scope": "validated_network_flows",
+          "model": {
+            "active_threshold": 0.4343418846451664,
+            "calibrated": false,
+            "configured_threshold": 0.4343418846451664,
+            "detector_type": "supervised_binary",
+            "external_dataset": {
+              "compatibility": {
+                "adapter_version": "cse-cic-ids2018-v1",
+                "dataset": "CSE-CIC-IDS2018",
+                "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+                "mapping": {
+                  "Bwd Packet Length Max": "Bwd Pkt Len Max",
+                  "Bwd Packet Length Min": "Bwd Pkt Len Min",
+                  "Flow Bytes/s": "Flow Byts/s",
+                  "Flow Duration": "Flow Duration",
+                  "Flow Packets/s": "Flow Pkts/s",
+                  "Fwd Packet Length Max": "Fwd Pkt Len Max",
+                  "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+                  "Fwd Packet Length Min": "Fwd Pkt Len Min",
+                  "Packet Length Mean": "Pkt Len Mean",
+                  "Total Fwd Packets": "Tot Fwd Pkts",
+                  "Total Length of Fwd Packets": "TotLen Fwd Pkts"
+                },
+                "status": "CONDITIONALLY_COMPATIBLE",
+                "threshold_changes": false,
+                "units": {
+                  "Bwd Packet Length Max": "bytes",
+                  "Bwd Packet Length Min": "bytes",
+                  "Flow Bytes/s": "bytes/second",
+                  "Flow Duration": "microseconds",
+                  "Flow Packets/s": "packets/second",
+                  "Fwd Packet Length Max": "bytes",
+                  "Fwd Packet Length Mean": "bytes",
+                  "Fwd Packet Length Min": "bytes",
+                  "Packet Length Mean": "bytes",
+                  "Total Fwd Packets": "packets",
+                  "Total Length of Fwd Packets": "bytes"
+                },
+                "values_changed": false
+              },
+              "duplicates_policy": "retained; no prediction-dependent exclusions",
+              "excluded_rows": 0,
+              "input_rows": 60,
+              "reason_counts": {
+                "infinite_measurement": 0,
+                "missing_measurement": 0,
+                "nan_measurement": 0,
+                "negative_measurement": 0,
+                "nonnumeric_measurement": 0
+              },
+              "unknown_labels": {},
+              "valid_rows": 60,
+              "zero_duration_rows": 0
+            },
+            "label_mapping": {
+              "0": "BENIGN",
+              "1": "ATTACK"
+            },
+            "model_id": "xgb-bin-12ad91fa39",
+            "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+            "model_type": "xgboost_binary",
+            "model_version": 1,
+            "preprocessing": {
+              "dropped_invalid_rows": 0,
+              "duplicates_preserved": true,
+              "input_rows": 60,
+              "valid_rows": 60
+            },
+            "provenance": {
+              "cleaning": {
+                "exclusions": {
+                  "by_reason": {
+                    "duplicate_row": 161,
+                    "label_conflict": 219323,
+                    "negative_measurements": 107
+                  },
+                  "input_rows": 2520751,
+                  "invariant": "input_rows == retained_rows + unique_rows",
+                  "overlaps": {
+                    "pairs": {
+                      "duplicate_row & label_conflict": 78,
+                      "negative_measurements & duplicate_row": 1
+                    },
+                    "rows_with_multiple_reasons": 79
+                  },
+                  "retained_rows": 2301239,
+                  "unique_rows": 219512
+                },
+                "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+                "policy_id": "cicids2017-offline-cleaning",
+                "policy_version": "1.0.0",
+                "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+              },
+              "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "dataset_version": "1.0",
+              "fit_duration_seconds": 20.111487,
+              "label_column": "Attack Type",
+              "model_id": "xgb-bin-12ad91fa39",
+              "negative_class": "BENIGN",
+              "positive_class": "ATTACK",
+              "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+              "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+              "split": {
+                "method": "numeric-feature-group-hash-v1",
+                "partitions": {
+                  "test": {
+                    "rows": 345892,
+                    "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+                  },
+                  "train": {
+                    "rows": 1612277,
+                    "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+                  },
+                  "validation": {
+                    "rows": 343070,
+                    "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+                  }
+                },
+                "seed": 42,
+                "test_percent": 15,
+                "train_percent": 70,
+                "validation_percent": 15
+              },
+              "trained_at": "2026-10-27T09:45:55.376787+00:00",
+              "training_rows": 1612277,
+              "validation_rows": 343070
+            },
+            "score_interpretation": "Uncalibrated tree score; higher indicates attack",
+            "threshold_overridden": false,
+            "threshold_selection": {
+              "calibrated": false,
+              "fallback": false,
+              "fallback_reason": null,
+              "max_fpr_constraint": 0.002,
+              "objective": "f1_score",
+              "score_semantics": "Uncalibrated continuous XGBoost score in [0.0, 1.0]; higher = attack likelihood",
+              "selected_at": "2026-10-27T09:45:55.371497+00:00",
+              "threshold": 0.4343418846451664,
+              "validation_metrics": {
+                "accuracy": 0.9976739440930422,
+                "confusion_matrix": {
+                  "false_negative": 498,
+                  "false_positive": 300,
+                  "true_negative": 284032,
+                  "true_positive": 58240
+                },
+                "f1_score": 0.9931956547690105,
+                "false_positive_rate": 0.0010551045960356202,
+                "precision": 0.9948752989408951,
+                "recall": 0.9915216725118322,
+                "support": {
+                  "negatives": 284332,
+                  "positives": 58738,
+                  "total": 343070
+                },
+                "threshold": 0.4343418846451664
+              }
+            },
+            "timings": {
+              "csv_inference_seconds": 0.07433439999294933,
+              "model_loading_seconds": 0.01616189999913331,
+              "records_per_second": 807.1633053564842
+            }
+          },
+          "processing_seconds": 0.074334,
+          "reason": null,
+          "scanner": "Network ML",
+          "scanner_version": 1,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.00368,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 30,
+        "findings_total": 30,
+        "findings_truncated": false,
+        "parsing": {
+          "invalid_rows": 0,
+          "reason": null,
+          "records_retained": 60,
+          "rows_excluded_by_limit": 0,
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "records_examined": 60,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "classified_attacks": 3,
+        "classified_benign": 57,
+        "critical": 1,
+        "high": 0,
+        "low": 38,
+        "medium": 21,
+        "total_records": 60
+      },
+      "model": {
+        "active_threshold": 0.4343418846451664,
+        "calibrated": false,
+        "configured_threshold": 0.4343418846451664,
+        "detector_type": "supervised_binary",
+        "external_dataset": {
+          "compatibility": {
+            "adapter_version": "cse-cic-ids2018-v1",
+            "dataset": "CSE-CIC-IDS2018",
+            "limitations": "CICFlowMeter family definitions/units verified; exact generating binary/commit for both published datasets is not available. Version-specific flow/packet statistics may differ.",
+            "mapping": {
+              "Bwd Packet Length Max": "Bwd Pkt Len Max",
+              "Bwd Packet Length Min": "Bwd Pkt Len Min",
+              "Flow Bytes/s": "Flow Byts/s",
+              "Flow Duration": "Flow Duration",
+              "Flow Packets/s": "Flow Pkts/s",
+              "Fwd Packet Length Max": "Fwd Pkt Len Max",
+              "Fwd Packet Length Mean": "Fwd Pkt Len Mean",
+              "Fwd Packet Length Min": "Fwd Pkt Len Min",
+              "Packet Length Mean": "Pkt Len Mean",
+              "Total Fwd Packets": "Tot Fwd Pkts",
+              "Total Length of Fwd Packets": "TotLen Fwd Pkts"
+            },
+            "status": "CONDITIONALLY_COMPATIBLE",
+            "threshold_changes": false,
+            "units": {
+              "Bwd Packet Length Max": "bytes",
+              "Bwd Packet Length Min": "bytes",
+              "Flow Bytes/s": "bytes/second",
+              "Flow Duration": "microseconds",
+              "Flow Packets/s": "packets/second",
+              "Fwd Packet Length Max": "bytes",
+              "Fwd Packet Length Mean": "bytes",
+              "Fwd Packet Length Min": "bytes",
+              "Packet Length Mean": "bytes",
+              "Total Fwd Packets": "packets",
+              "Total Length of Fwd Packets": "bytes"
+            },
+            "values_changed": false
+          },
+          "duplicates_policy": "retained; no prediction-dependent exclusions",
+          "excluded_rows": 0,
+          "input_rows": 60,
+          "reason_counts": {
+            "infinite_measurement": 0,
+            "missing_measurement": 0,
+            "nan_measurement": 0,
+            "negative_measurement": 0,
+            "nonnumeric_measurement": 0
+          },
+          "unknown_labels": {},
+          "valid_rows": 60,
+          "zero_duration_rows": 0
+        },
+        "label_mapping": {
+          "0": "BENIGN",
+          "1": "ATTACK"
+        },
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+        "model_type": "xgboost_binary",
+        "model_version": 1,
+        "preprocessing": {
+          "dropped_invalid_rows": 0,
+          "duplicates_preserved": true,
+          "input_rows": 60,
+          "valid_rows": 60
+        },
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_version": "1.0",
+          "fit_duration_seconds": 20.111487,
+          "label_column": "Attack Type",
+          "model_id": "xgb-bin-12ad91fa39",
+          "negative_class": "BENIGN",
+          "positive_class": "ATTACK",
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T09:45:55.376787+00:00",
+          "training_rows": 1612277,
+          "validation_rows": 343070
+        },
+        "score_interpretation": "Uncalibrated tree score; higher indicates attack",
+        "threshold_overridden": false,
+        "threshold_selection": {
+          "calibrated": false,
+          "fallback": false,
+          "fallback_reason": null,
+          "max_fpr_constraint": 0.002,
+          "objective": "f1_score",
+          "score_semantics": "Uncalibrated continuous XGBoost score in [0.0, 1.0]; higher = attack likelihood",
+          "selected_at": "2026-10-27T09:45:55.371497+00:00",
+          "threshold": 0.4343418846451664,
+          "validation_metrics": {
+            "accuracy": 0.9976739440930422,
+            "confusion_matrix": {
+              "false_negative": 498,
+              "false_positive": 300,
+              "true_negative": 284032,
+              "true_positive": 58240
+            },
+            "f1_score": 0.9931956547690105,
+            "false_positive_rate": 0.0010551045960356202,
+            "precision": 0.9948752989408951,
+            "recall": 0.9915216725118322,
+            "support": {
+              "negatives": 284332,
+              "positives": 58738,
+              "total": 343070
+            },
+            "threshold": 0.4343418846451664
+          }
+        },
+        "timings": {
+          "csv_inference_seconds": 0.07433439999294933,
+          "model_loading_seconds": 0.01616189999913331,
+          "records_per_second": 807.1633053564842
+        }
+      },
+      "findings": 30,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\external-csv.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\external-csv-api.json",
+      "evidence_type": "cse-cic-ids2018",
+      "input_source": "demo.csv",
+      "risk_bands": {
+        "CRITICAL": 1,
+        "MEDIUM": 21,
+        "LOW": 38
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "native-evtx",
+      "case_id": "CASE-6EC4EC7FD19D",
+      "intake_id": "IN-7ff6356138254036858a24f8f64004b6",
+      "stored": 1601,
+      "source_size": 1118208,
+      "sha256_before": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+      "sha256_after": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+      "status": "COMPLETED",
+      "http_seconds": 9.052261799995904,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 32,
+      "pdf_sha256": "19362e70888c9cb331b3dce804f38f0b4c9511bcd19b6bde840e716e4210c59a",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 1601,
+          "findings": 12,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.010814,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.003825,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 12,
+        "findings_total": 12,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "reason": null,
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "records_examined": 1601,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": null,
+      "model": null,
+      "findings": 12,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\native-evtx.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\native-evtx-api.json",
+      "evidence_type": "evtx",
+      "input_source": "system.evtx",
+      "risk_bands": {},
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "native-registry",
+      "case_id": "CASE-F479FBF39DF4",
+      "intake_id": "IN-d1a38f8ee6d043a4b904cfd1284d7297",
+      "stored": 2000,
+      "source_size": 7602176,
+      "sha256_before": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+      "sha256_after": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+      "status": "PARTIAL",
+      "http_seconds": 2.5723141999988,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 38,
+      "pdf_sha256": "a43b1ac0ea93823a5bc04b892b0bdcefc871f6cfc8d413419baa5e8b2c072663",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 2000,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.017246,
+          "reason": "25 unreadable entries; enumeration truncated: True",
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 25,
+          "skipped_count_exact": false,
+          "status": "PARTIAL"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.015522,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 0,
+        "findings_total": 0,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": false,
+          "reason": "25 unreadable entries; enumeration truncated: True",
+          "skipped": 25,
+          "skipped_count_exact": false,
+          "status": "PARTIAL"
+        },
+        "records_examined": 2000,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": null,
+      "model": null,
+      "findings": 0,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\native-registry.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\native-registry-api.json",
+      "evidence_type": "registry",
+      "input_source": "SYSTEM.hive",
+      "risk_bands": {},
+      "overall_scan_status": "PARTIAL"
+    },
+    {
+      "name": "event-export",
+      "case_id": "CASE-5E161F49F3C1",
+      "intake_id": "IN-3ad67fd94bdf468ba1bf16eb9885a5ad",
+      "stored": 2,
+      "source_size": 91,
+      "sha256_before": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68",
+      "sha256_after": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68",
+      "status": "COMPLETED",
+      "http_seconds": 0.29663910000090254,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "25b00f05625bd282cc4bdef15d6234c34c47a5d226bda8ef8c5d32c0694d060c",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 2,
+          "findings": 1,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 5e-05,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.002474,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 1,
+        "findings_total": 1,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "processing_seconds": 0.012718,
+          "reason": null,
+          "records_parsed": 2,
+          "skipped": 0,
+          "source_records": 2,
+          "status": "COMPLETED"
+        },
+        "records_examined": 2,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 1,
+        "high": 0,
+        "low": 1,
+        "medium": 0,
+        "total_records": 2
+      },
+      "model": null,
+      "findings": 1,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\event-export.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\event-export-api.json",
+      "evidence_type": "evtx_export",
+      "input_source": "events.csv",
+      "risk_bands": {
+        "CRITICAL": 1,
+        "LOW": 1
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "registry-export",
+      "case_id": "CASE-E8634644A6D7",
+      "intake_id": "IN-6d5675a8aebf474ab4053c140b5d65cb",
+      "stored": 2,
+      "source_size": 136,
+      "sha256_before": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "sha256_after": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "status": "COMPLETED",
+      "http_seconds": 0.2723413999992772,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "abb871a3f9bacd60e6b275c87a99ebf6f1a6ebddfb586a3e996bdfefc86cfcbc",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 2,
+          "findings": 2,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 4.9e-05,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.001941,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 2,
+        "findings_total": 2,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "processing_seconds": 0.003271,
+          "reason": null,
+          "records_parsed": 2,
+          "skipped": 0,
+          "source_records": null,
+          "status": "COMPLETED"
+        },
+        "records_examined": 2,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 2,
+        "high": 0,
+        "low": 0,
+        "medium": 0,
+        "total_records": 2
+      },
+      "model": null,
+      "findings": 2,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\registry-export.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\registry-export-api.json",
+      "evidence_type": "registry_export",
+      "input_source": "export.reg",
+      "risk_bands": {
+        "CRITICAL": 2
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "pcap",
+      "case_id": "CASE-FC0E8BDD23D9",
+      "intake_id": "IN-64d561af61e247d9b9e88a7241add770",
+      "stored": 1,
+      "source_size": 86,
+      "sha256_before": "24a98b71ca8feb9dc510bfd17b4e24ed60510f6b81f189b5d2299b356c5afd54",
+      "sha256_after": "24a98b71ca8feb9dc510bfd17b4e24ed60510f6b81f189b5d2299b356c5afd54",
+      "status": "COMPLETED",
+      "http_seconds": 7.361679099994944,
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_pages": 3,
+      "pdf_sha256": "02e515687416f0ad8a0ce6ad55e32b320725efac1e644313bb013226f0101353",
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.000123,
+          "reason": "Address-pair packet summaries, not verified CICFlowMeter flows; non-IPv4 packets excluded; remaining count unknown when truncated",
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Packet-derived/exported statistics do not verify the CICIDS2017 feature contract; network rules only",
+          "scanner": "Network ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "No supported PE content available",
+          "scanner": "PE malware ML",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "matched_rules",
+          "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+          "input_scope": "uploaded_container_bytes",
+          "processing_seconds": 0.002581,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "findings_returned": 0,
+        "findings_total": 0,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "non_ipv4_skipped": 0,
+          "packets_read": 1,
+          "reason": "Address-pair packet summaries, not verified CICFlowMeter flows; non-IPv4 packets excluded; remaining count unknown when truncated",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED",
+          "truncated": false
+        },
+        "records_examined": 1,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "summary": {
+        "critical": 0,
+        "high": 0,
+        "low": 1,
+        "medium": 0,
+        "total_records": 1
+      },
+      "model": null,
+      "findings": 0,
+      "rulesets": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "pdf_path": "test-results\\final-demo\\backup\\pcap.pdf",
+      "api_output": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\pcap-api.json",
+      "evidence_type": "pcap",
+      "input_source": "harmless.pcap",
+      "risk_bands": {
+        "LOW": 1
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "ntfs-final",
+      "case_id": "CASE-E042AF39B2C3",
+      "source_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+      "status": "COMPLETED",
+      "files_scanned": 19,
+      "matches": 3,
+      "pe": {
+        "benign": 1,
+        "classification_errors": 0,
+        "coverage_status": "COMPLETE",
+        "files_classified": 1,
+        "files_excluded": 0,
+        "malicious": 0,
+        "model": {
+          "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+          "available": true,
+          "default_decision_threshold": 0.5,
+          "dependencies": {
+            "lightgbm": "4.6.0",
+            "numpy": "2.5.4",
+            "pefile": "2024.8.26",
+            "scikit-learn": "1.8.0",
+            "signify": "0.7.1"
+          },
+          "feature_dimensions": 2568,
+          "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "license": "Apache-2.0",
+          "model_id": "EMBER2024_PE@425202786349",
+          "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+          "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+          "reason": null,
+          "score_calibrated": false,
+          "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+          "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+          "supported_formats": [
+            "native PE32 I386 EXE/DLL",
+            "native PE32+ AMD64 EXE/DLL"
+          ]
+        },
+        "not_applicable": 18,
+        "pe_files_discovered": 1,
+        "processing_seconds": 2.945978
+      },
+      "seconds": 5.961239099997329,
+      "pdf": ".test-artifacts/final-demo/ntfs-final.pdf",
+      "mongo": 200,
+      "pdf_path": "test-results\\final-demo\\backup\\ntfs-final.pdf",
+      "evidence_type": "disk_image",
+      "input_source": "controlled.img",
+      "risk_bands": {
+        "MEDIUM": 3,
+        "LOW": 16
+      },
+      "screening": {
+        "forensic_rules": {
+          "applicable": true,
+          "examined": 19,
+          "findings": 0,
+          "findings_unit": "flagged_records",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "input_scope": "parsed_records",
+          "processing_seconds": 0.000144,
+          "reason": null,
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "network_ml": {
+          "applicable": false,
+          "examined": 0,
+          "findings": 0,
+          "findings_unit": "attack_or_anomaly_decisions",
+          "identifier": null,
+          "input_scope": "none",
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "skipped": 0,
+          "status": "NOT_APPLICABLE"
+        },
+        "pe_ml": {
+          "applicable": true,
+          "examined": 1,
+          "findings": 0,
+          "findings_unit": "malicious_predictions",
+          "identifier": "EMBER2024_PE@425202786349",
+          "input_scope": "individual_file_bytes",
+          "model": {
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "threshold": null
+          },
+          "prediction_counts": {
+            "benign": 1,
+            "malicious": 0
+          },
+          "processing_seconds": 2.945978,
+          "reason": null,
+          "scanner": "PE malware ML",
+          "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "skipped": 0,
+          "status": "COMPLETED"
+        },
+        "yara": {
+          "applicable": true,
+          "examined": 19,
+          "findings": 3,
+          "findings_unit": "matched_rules",
+          "identifier": "7ba2a0cbe8459a6b64d1ce475da1e8a7c3b41800aa9233aa25bd4d9050b9071a",
+          "input_scope": "embedded_file_bytes",
+          "processing_seconds": 0.01079,
+          "reason": null,
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "skipped": 0,
+          "status": "COMPLETED"
+        }
+      },
+      "coverage": {
+        "disk": {
+          "enumeration_complete": true,
+          "files_scanned": 19,
+          "files_skipped": 0,
+          "total_eligible_files": 19,
+          "total_files_discovered": 19
+        },
+        "findings_returned": 3,
+        "findings_total": 3,
+        "findings_truncated": false,
+        "parsing": {
+          "enumeration_complete": true,
+          "reason": null,
+          "skipped": 0,
+          "skipped_count_exact": true,
+          "status": "COMPLETED"
+        },
+        "records_examined": 19,
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "overall_scan_status": "COMPLETED"
+    },
+    {
+      "name": "local-ewf",
+      "case_id": "CASE-639E1724B463",
+      "stored": 19,
+      "intake_id": "IN-2c3ac0908f244686a3ed85ebe87a9be1",
+      "source_sha256": "b3c279ee41c14b595b0f38d335e50e636c23d31b5b2037a88622ec843c1342f9",
+      "scan": {
+        "findings": [
+          {
+            "FileName": "$AttrDef",
+            "FilePath": "/$AttrDef",
+            "FileExtension": "",
+            "FileSizeBytes": 2560,
+            "inode": 4,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:4:/$AttrDef",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "d7de5b1b2f79f45f235ceb1adbc46908ed64eae174eb90ed66aefe5f25165da3",
+            "yara_matches": [],
+            "bytes_read": 2560,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "d7de5b1b2f79f45f235ceb1adbc46908ed64eae174eb90ed66aefe5f25165da3",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 1.5e-05
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$BadClus",
+            "FilePath": "/$BadClus",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 8,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:8:/$BadClus",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 7e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Bitmap",
+            "FilePath": "/$Bitmap",
+            "FileExtension": "",
+            "FileSizeBytes": 2048,
+            "inode": 6,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:6:/$Bitmap",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "1b6c9e4288a16c1a520398d346eb394fab432964859c3d0db7a8b06610c58310",
+            "yara_matches": [],
+            "bytes_read": 2048,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "1b6c9e4288a16c1a520398d346eb394fab432964859c3d0db7a8b06610c58310",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 1.6e-05
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Boot",
+            "FilePath": "/$Boot",
+            "FileExtension": "",
+            "FileSizeBytes": 8192,
+            "inode": 7,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:7:/$Boot",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "c3f9cc52956c1f8f1c16c98435676694a6f9ae7351a6a5663f3191d123f16d4a",
+            "yara_matches": [],
+            "bytes_read": 8192,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "c3f9cc52956c1f8f1c16c98435676694a6f9ae7351a6a5663f3191d123f16d4a",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 1.4e-05
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$LogFile",
+            "FilePath": "/$LogFile",
+            "FileExtension": "",
+            "FileSizeBytes": 2097152,
+            "inode": 2,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:2:/$LogFile",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5",
+            "yara_matches": [],
+            "bytes_read": 2097152,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 0.001276
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$MFT",
+            "FilePath": "/$MFT",
+            "FileExtension": "",
+            "FileSizeBytes": 72704,
+            "inode": 0,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:0:/$MFT",
+            "CreatedTime": "1970-01-01T00:00:00+00:00",
+            "ModifiedTime": "1970-01-01T00:00:00+00:00",
+            "AccessedTime": "1970-01-01T00:00:00+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e95bceaf5dab073591981da8d1a883faafaa140326f37f57507ae55f299748ae",
+            "yara_matches": [
+              {
+                "rule": "Issue8_Harmless_Marker",
+                "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+                "tags": [],
+                "target": "volume:0:inode:0:/$MFT",
+                "matched_strings": [
+                  "$a"
+                ],
+                "meta": {
+                  "description": "Harmless controlled NTFS test",
+                  "severity": "low"
+                }
+              }
+            ],
+            "bytes_read": 72704,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e95bceaf5dab073591981da8d1a883faafaa140326f37f57507ae55f299748ae",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 5e-05
+            },
+            "scan_status": "MATCHED",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$MFTMirr",
+            "FilePath": "/$MFTMirr",
+            "FileExtension": "",
+            "FileSizeBytes": 4096,
+            "inode": 1,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:1:/$MFTMirr",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "1a1ded4561fbb4fe4f030fc46c694bc1f44d5cc8d715fd964985e8c87473c5d0",
+            "yara_matches": [],
+            "bytes_read": 4096,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "1a1ded4561fbb4fe4f030fc46c694bc1f44d5cc8d715fd964985e8c87473c5d0",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 7e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Secure",
+            "FilePath": "/$Secure",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 9,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:9:/$Secure",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 7e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$UpCase",
+            "FilePath": "/$UpCase",
+            "FileExtension": "",
+            "FileSizeBytes": 131072,
+            "inode": 10,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:10:/$UpCase",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "41c26bc7a12bdaeb26025c93118697c7e3ef81ee048b00fe5cce2a472e0e0742",
+            "yara_matches": [],
+            "bytes_read": 131072,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "41c26bc7a12bdaeb26025c93118697c7e3ef81ee048b00fe5cce2a472e0e0742",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 8.3e-05
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Volume",
+            "FilePath": "/$Volume",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 3,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:3:/$Volume",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 4e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "empty.txt",
+            "FilePath": "/empty.txt",
+            "FileExtension": ".txt",
+            "FileSizeBytes": 0,
+            "inode": 67,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:67:/empty.txt",
+            "CreatedTime": "2026-10-30T18:08:31+00:00",
+            "ModifiedTime": "2026-10-30T18:08:31+00:00",
+            "AccessedTime": "2026-10-30T18:08:31+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 4e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "large.txt",
+            "FilePath": "/large.txt",
+            "FileExtension": ".txt",
+            "FileSizeBytes": 3000000,
+            "inode": 68,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:68:/large.txt",
+            "CreatedTime": "2026-10-30T18:08:31+00:00",
+            "ModifiedTime": "2026-10-30T18:08:31+00:00",
+            "AccessedTime": "2026-10-30T18:08:31+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "9f04168ec3b8181af6c8408f8976680df5d524d68ded7ea37e78d856a9404cf7",
+            "yara_matches": [],
+            "bytes_read": 3000000,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "9f04168ec3b8181af6c8408f8976680df5d524d68ded7ea37e78d856a9404cf7",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 0.001836
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "launcher.bin",
+            "FilePath": "/nested/launcher.bin",
+            "FileExtension": ".bin",
+            "FileSizeBytes": 108032,
+            "inode": 69,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:69:/nested/launcher.bin",
+            "CreatedTime": "2026-10-30T18:08:32+00:00",
+            "ModifiedTime": "2026-10-30T18:08:32+00:00",
+            "AccessedTime": "2026-10-30T18:08:32+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+            "yara_matches": [],
+            "bytes_read": 108032,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+              "prediction": "benign",
+              "model_score": 0.012141118467631745,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "CLASSIFIED",
+              "file_type": "PE32+-AMD64",
+              "is_pe": true,
+              "feature_dimensions": 2568,
+              "worker_seconds": 2.981645,
+              "processing_seconds": 3.459754
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "na\u00c3\u0192\u00c2\u00afve.txt",
+            "FilePath": "/nested/na\u00c3\u0192\u00c2\u00afve.txt",
+            "FileExtension": ".txt",
+            "FileSizeBytes": 35,
+            "inode": 70,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:70:/nested/na\u00c3\u0192\u00c2\u00afve.txt",
+            "CreatedTime": "2026-10-30T18:08:32+00:00",
+            "ModifiedTime": "2026-10-30T18:08:32+00:00",
+            "AccessedTime": "2026-10-30T18:08:32+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "ca5d614ff55b75b5be58680748cd7a18c2fa5420a81ba67c789aa58684193a35",
+            "yara_matches": [],
+            "bytes_read": 35,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "ca5d614ff55b75b5be58680748cd7a18c2fa5420a81ba67c789aa58684193a35",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 1.3e-05
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "negative.txt",
+            "FilePath": "/nested/negative.txt",
+            "FileExtension": ".txt",
+            "FileSizeBytes": 35,
+            "inode": 66,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:66:/nested/negative.txt",
+            "CreatedTime": "2026-10-30T18:08:31+00:00",
+            "ModifiedTime": "2026-10-30T18:08:31+00:00",
+            "AccessedTime": "2026-10-30T18:08:31+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "ca5d614ff55b75b5be58680748cd7a18c2fa5420a81ba67c789aa58684193a35",
+            "yara_matches": [],
+            "bytes_read": 35,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "ca5d614ff55b75b5be58680748cd7a18c2fa5420a81ba67c789aa58684193a35",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 6e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "positive.txt",
+            "FilePath": "/nested/positive.txt",
+            "FileExtension": ".txt",
+            "FileSizeBytes": 38,
+            "inode": 65,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:65:/nested/positive.txt",
+            "CreatedTime": "2026-10-30T18:08:31+00:00",
+            "ModifiedTime": "2026-10-30T18:08:31+00:00",
+            "AccessedTime": "2026-10-30T18:08:31+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "bef9a2161a206ad923bb11b70a3bd24bc089b9850e1198121431a594999efc1a",
+            "yara_matches": [
+              {
+                "rule": "Issue8_Harmless_Marker",
+                "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+                "tags": [],
+                "target": "volume:0:inode:65:/nested/positive.txt",
+                "matched_strings": [
+                  "$a"
+                ],
+                "meta": {
+                  "description": "Harmless controlled NTFS test",
+                  "severity": "low"
+                }
+              }
+            ],
+            "bytes_read": 38,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "bef9a2161a206ad923bb11b70a3bd24bc089b9850e1198121431a594999efc1a",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 6e-06
+            },
+            "scan_status": "MATCHED",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$ObjId",
+            "FilePath": "/$Extend/$ObjId",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 25,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:25:/$Extend/$ObjId",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 4e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Quota",
+            "FilePath": "/$Extend/$Quota",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 24,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:24:/$Extend/$Quota",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 6e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          },
+          {
+            "FileName": "$Reparse",
+            "FilePath": "/$Extend/$Reparse",
+            "FileExtension": "",
+            "FileSizeBytes": 0,
+            "inode": 26,
+            "volume_offset": 0,
+            "artifact_type": "file",
+            "artifact_location": "volume:0:inode:26:/$Extend/$Reparse",
+            "CreatedTime": "2026-10-30T18:08:01+00:00",
+            "ModifiedTime": "2026-10-30T18:08:01+00:00",
+            "AccessedTime": "2026-10-30T18:08:01+00:00",
+            "metadata_flags": 5,
+            "filesystem_type": 1,
+            "content_scope": "allocated default unnamed stream only; no ADS or deleted recovery",
+            "entry_kind": "regular_file",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "yara_matches": [],
+            "bytes_read": 0,
+            "pe_ml": {
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "prediction": null,
+              "model_score": null,
+              "threshold": 0.5,
+              "score_calibrated": false,
+              "status": "NOT_APPLICABLE",
+              "reason": "Not a DOS/PE image",
+              "file_type": "non-PE",
+              "processing_seconds": 4e-06
+            },
+            "scan_status": "SCANNED_NO_MATCH",
+            "scan_reason": "Complete default file stream scanned"
+          }
+        ],
+        "total_files_discovered": 19,
+        "total_eligible_files": 19,
+        "image_container": {
+          "format": "EWF",
+          "segments": [
+            ".test-artifacts\\issue8\\controlled\\controlled-ewf.E01",
+            ".test-artifacts\\issue8\\controlled\\controlled-ewf.E02",
+            ".test-artifacts\\issue8\\controlled\\controlled-ewf.E03",
+            ".test-artifacts\\issue8\\controlled\\controlled-ewf.E04",
+            ".test-artifacts\\issue8\\controlled\\controlled-ewf.E05"
+          ],
+          "logical_media_bytes": 67108864,
+          "hash_scope": "Intake evidence SHA256 identifies uploaded container bytes, not decompressed logical media"
+        },
+        "filesystems": [
+          {
+            "volume_offset": 0,
+            "type": 1,
+            "block_size": 4096,
+            "root_inode": 5
+          }
+        ],
+        "deleted_entries_ignored": 0,
+        "content_scope": "Allocated default streams; ADS, deleted recovery and reparse targets are outside scope",
+        "entries_discovered": 22,
+        "regular_files_discovered": 19,
+        "non_file_entries_ignored": 3,
+        "directories_discovered": 2,
+        "virtual_entries_ignored": 1,
+        "metadata_entries_ignored": 0,
+        "files_skipped_limits": 0,
+        "files_failed": 0,
+        "files_scanned": 19,
+        "files_skipped": 0,
+        "files_with_yara_matches": 2,
+        "matched_rules": 2,
+        "bytes_read": 5425964,
+        "pe_ml": {
+          "model": {
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "feature_dimensions": 2568,
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "available": true,
+            "reason": null,
+            "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+            "license": "Apache-2.0",
+            "score_calibrated": false,
+            "default_decision_threshold": 0.5,
+            "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+            "dependencies": {
+              "lightgbm": "4.6.0",
+              "pefile": "2024.8.26",
+              "signify": "0.7.1",
+              "numpy": "2.5.4",
+              "scikit-learn": "1.8.0"
+            },
+            "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+            "supported_formats": [
+              "native PE32 I386 EXE/DLL",
+              "native PE32+ AMD64 EXE/DLL"
+            ]
+          },
+          "pe_files_discovered": 1,
+          "files_classified": 1,
+          "malicious": 0,
+          "benign": 1,
+          "files_excluded": 0,
+          "classification_errors": 0,
+          "not_applicable": 18,
+          "processing_seconds": 3.464873,
+          "coverage_status": "COMPLETE"
+        },
+        "processing_seconds": 3.578557,
+        "timings": {
+          "rules_compilation_seconds": 0.00124,
+          "file_read_hash_seconds": 0.015601,
+          "yara_execution_seconds": 0.009439,
+          "pe_ml_seconds": 3.464873,
+          "filesystem_enumeration_seconds": 0.087404,
+          "disk_analysis_seconds": 3.578557
+        },
+        "scan_status": "COMPLETE",
+        "enumeration_complete": true,
+        "warnings": [],
+        "ruleset_id": "b8e42086aa6c8b2c6066e7af8912868695025dfcb3117ce29461c5cf1657ebac",
+        "yara_status": "READY",
+        "limits": {
+          "max_files": 10000,
+          "max_file_bytes": 33554432,
+          "max_total_bytes": 268435456,
+          "max_seconds": 120,
+          "yara_timeout": 5,
+          "max_entries": 20000,
+          "max_depth": 64
+        }
+      },
+      "screening": {
+        "yara": {
+          "scanner": "YARA",
+          "scanner_version": "4.5.4",
+          "identifier": "b8e42086aa6c8b2c6066e7af8912868695025dfcb3117ce29461c5cf1657ebac",
+          "applicable": true,
+          "status": "COMPLETED",
+          "input_scope": "embedded_file_bytes",
+          "examined": 19,
+          "skipped": 0,
+          "findings": 2,
+          "processing_seconds": 0.009439,
+          "reason": null,
+          "findings_unit": "matched_rules"
+        },
+        "forensic_rules": {
+          "scanner": "Forensic rules",
+          "scanner_version": "unified-screening-v1",
+          "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+          "applicable": true,
+          "status": "COMPLETED",
+          "input_scope": "parsed_records",
+          "examined": 19,
+          "skipped": 0,
+          "findings": 0,
+          "processing_seconds": 0,
+          "reason": null,
+          "skipped_count_exact": true,
+          "findings_unit": "flagged_records"
+        },
+        "network_ml": {
+          "scanner": "network_ml",
+          "scanner_version": "unified-screening-v1",
+          "identifier": null,
+          "applicable": false,
+          "status": "NOT_APPLICABLE",
+          "input_scope": "none",
+          "examined": 0,
+          "skipped": 0,
+          "findings": 0,
+          "processing_seconds": 0,
+          "reason": "Not applicable to this evidence representation",
+          "findings_unit": "attack_or_anomaly_decisions"
+        },
+        "pe_ml": {
+          "scanner": "PE malware ML",
+          "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+          "identifier": "EMBER2024_PE@425202786349",
+          "applicable": true,
+          "status": "COMPLETED",
+          "input_scope": "individual_file_bytes",
+          "examined": 1,
+          "skipped": 0,
+          "findings": 0,
+          "processing_seconds": 3.464873,
+          "reason": null,
+          "model": {
+            "model_id": "EMBER2024_PE@425202786349",
+            "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+            "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+            "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+            "threshold": null
+          },
+          "prediction_counts": {
+            "malicious": 0,
+            "benign": 1
+          },
+          "findings_unit": "malicious_predictions"
+        }
+      },
+      "elapsed_seconds": 3.891498100005265,
+      "workflow": "Local existing analysis/scoring/persist_intake; no segmented web upload",
+      "pdf": ".test-artifacts\\final-demo\\f81c246a5f5c413aa1c951c45cd24423\\local-ewf.pdf",
+      "mongo_roundtrip": "PASS",
+      "pdf_path": "test-results\\final-demo\\backup\\local-ewf.pdf",
+      "evidence_type": "disk_image",
+      "input_source": "local-ewf",
+      "risk_bands": {},
+      "coverage": {
+        "records_examined": 19,
+        "findings_total": 2,
+        "findings_returned": 2,
+        "findings_truncated": false,
+        "parsing": {
+          "status": "COMPLETED",
+          "enumeration_complete": true,
+          "skipped_count_exact": true,
+          "skipped": 0,
+          "reason": null
+        },
+        "disk": {
+          "total_files_discovered": 19,
+          "total_eligible_files": 19,
+          "files_scanned": 19,
+          "files_skipped": 0,
+          "enumeration_complete": true
+        },
+        "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+      },
+      "overall_scan_status": "COMPLETED"
+    }
+  ],
+  "unsupported": {
+    "error": {
+      "code": "UNSUPPORTED_FILE_TYPE",
+      "message": "Unsupported or invalid evidence structure."
+    },
+    "overall_scan_status": "INVALID_INPUT",
+    "warnings": [
+      "Unsupported or invalid evidence structure."
+    ]
+  },
+  "backup_label": "Previously captured genuine execution evidence, not live",
+  "browser": "Real browser interactions verified for listed smoke workflow; exhaustive every-type interactive testing not claimed"
+}

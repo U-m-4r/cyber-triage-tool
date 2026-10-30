@@ -1,0 +1,1950 @@
+[
+  {
+    "threshold": 0.8797765271739961,
+    "overall": {
+      "samples": 2091530,
+      "benign": 1489366,
+      "attack": 602164,
+      "confusion_matrix": {
+        "tn": 1486088,
+        "fp": 3278,
+        "fn": 602120,
+        "tp": 44
+      },
+      "accuracy": 0.7105477808111765,
+      "precision": 0.013245033112582781,
+      "recall": 7.306979493958456e-05,
+      "f1": 0.000145337794763215,
+      "macro_f1": 0.4154625392396862,
+      "roc_auc": 0.8091954426578584,
+      "average_precision": 0.5143870351653137,
+      "specificity": 0.997799063494131,
+      "false_positive_rate": 0.0022009365058689445,
+      "false_negative_rate": 0.9999269302050604,
+      "balanced_accuracy": 0.4989360666445353,
+      "status": "EVALUATED"
+    },
+    "per_family": {
+      "Benign": {
+        "samples": 1489366,
+        "binary_label": 0,
+        "true_positive": null,
+        "false_negative": null,
+        "recall": null,
+        "false_positive": 3278,
+        "false_positive_rate": 0.00220093650586894,
+        "small_sample": false
+      },
+      "Brute Force -Web": {
+        "samples": 249,
+        "binary_label": 1,
+        "true_positive": 5,
+        "false_negative": 244,
+        "recall": 0.020080321285140562,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "Brute Force -XSS": {
+        "samples": 79,
+        "binary_label": 1,
+        "true_positive": 25,
+        "false_negative": 54,
+        "recall": 0.31645569620253167,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-Hulk": {
+        "samples": 461912,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 461912,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-SlowHTTPTest": {
+        "samples": 139890,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 139890,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "SQL Injection": {
+        "samples": 34,
+        "binary_label": 1,
+        "true_positive": 14,
+        "false_negative": 20,
+        "recall": 0.4117647058823529,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      }
+    },
+    "top_k": [
+      {
+        "fraction": 0.001,
+        "k": 2091,
+        "boundary_score": 0.8941379817186529,
+        "tie_group_size": 260,
+        "certain_true_positives": 42,
+        "recall_lower_bound": 6.97484406241489e-05,
+        "recall_upper_bound": 6.97484406241489e-05
+      },
+      {
+        "fraction": 0.01,
+        "k": 20915,
+        "boundary_score": 0.815115782062802,
+        "tie_group_size": 11472,
+        "certain_true_positives": 569,
+        "recall_lower_bound": 0.007316943556904764,
+        "recall_upper_bound": 0.008246922765226749
+      },
+      {
+        "fraction": 0.05,
+        "k": 104576,
+        "boundary_score": 0.7955188743501403,
+        "tie_group_size": 58829,
+        "certain_true_positives": 33331,
+        "recall_lower_bound": 0.05937751177420105,
+        "recall_upper_bound": 0.07328236161577245
+      },
+      {
+        "fraction": 0.1,
+        "k": 209153,
+        "boundary_score": 0.7156217094785556,
+        "tie_group_size": 76383,
+        "certain_true_positives": 59955,
+        "recall_lower_bound": 0.09956589899097255,
+        "recall_upper_bound": 0.09956589899097255
+      },
+      {
+        "fraction": 0.2,
+        "k": 418306,
+        "boundary_score": 0.6890147977151438,
+        "tie_group_size": 175558,
+        "certain_true_positives": 74093,
+        "recall_lower_bound": 0.2545369699948851,
+        "recall_upper_bound": 0.31380985910814996
+      }
+    ],
+    "per_day": {
+      "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.8797765271739961,
+        "overall": {
+          "samples": 1048574,
+          "benign": 446772,
+          "attack": 601802,
+          "confusion_matrix": {
+            "tn": 446767,
+            "fp": 5,
+            "fn": 601802,
+            "tp": 0
+          },
+          "accuracy": 0.42607102598386,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "macro_f1": 0.2987726545316419,
+          "roc_auc": 0.9960465476512501,
+          "average_precision": 0.9950661300714881,
+          "specificity": 0.999988808609313,
+          "false_positive_rate": 1.1191390686948743e-05,
+          "false_negative_rate": 1.0,
+          "balanced_accuracy": 0.4999944043046565,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 446772,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 5,
+            "false_positive_rate": 1.1191390686972326e-05,
+            "small_sample": false
+          },
+          "DoS attacks-Hulk": {
+            "samples": 461912,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 461912,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "DoS attacks-SlowHTTPTest": {
+            "samples": 139890,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 139890,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1048,
+            "boundary_score": 0.815115782062802,
+            "tie_group_size": 10921,
+            "certain_true_positives": 525,
+            "recall_lower_bound": 0.0014390115021219604,
+            "recall_upper_bound": 0.0014606132914147842
+          },
+          {
+            "fraction": 0.01,
+            "k": 10485,
+            "boundary_score": 0.815115782062802,
+            "tie_group_size": 10921,
+            "certain_true_positives": 525,
+            "recall_lower_bound": 0.01712024885261265,
+            "recall_upper_bound": 0.017141850641905477
+          },
+          {
+            "fraction": 0.05,
+            "k": 52428,
+            "boundary_score": 0.7306859277914286,
+            "tie_group_size": 10337,
+            "certain_true_positives": 48708,
+            "recall_lower_bound": 0.08666970199500833,
+            "recall_upper_bound": 0.08670293551699729
+          },
+          {
+            "fraction": 0.1,
+            "k": 104857,
+            "boundary_score": 0.6890147977151438,
+            "tie_group_size": 139884,
+            "certain_true_positives": 73920,
+            "recall_lower_bound": 0.17367173920990625,
+            "recall_upper_bound": 0.17370164937969632
+          },
+          {
+            "fraction": 0.2,
+            "k": 209714,
+            "boundary_score": 0.6890147977151438,
+            "tie_group_size": 139884,
+            "certain_true_positives": 73920,
+            "recall_lower_bound": 0.34791010996972427,
+            "recall_upper_bound": 0.3479400201395143
+          }
+        ]
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.8797765271739961,
+        "overall": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 1039321,
+            "fp": 3273,
+            "fn": 318,
+            "tp": 44
+          },
+          "accuracy": 0.9965569017293155,
+          "precision": 0.013264998492613807,
+          "recall": 0.12154696132596685,
+          "f1": 0.02391954335417233,
+          "macro_f1": 0.5110974762471319,
+          "roc_auc": 0.7993133311233052,
+          "average_precision": 0.010881491183747446,
+          "specificity": 0.9968607147173301,
+          "false_positive_rate": 0.0031392852826699347,
+          "false_negative_rate": 0.8784530386740331,
+          "balanced_accuracy": 0.5592038380216484,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 1042594,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 3273,
+            "false_positive_rate": 0.003139285282669956,
+            "small_sample": false
+          },
+          "Brute Force -Web": {
+            "samples": 249,
+            "binary_label": 1,
+            "true_positive": 5,
+            "false_negative": 244,
+            "recall": 0.020080321285140562,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "Brute Force -XSS": {
+            "samples": 79,
+            "binary_label": 1,
+            "true_positive": 25,
+            "false_negative": 54,
+            "recall": 0.31645569620253167,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "SQL Injection": {
+            "samples": 34,
+            "binary_label": 1,
+            "true_positive": 14,
+            "false_negative": 20,
+            "recall": 0.4117647058823529,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1042,
+            "boundary_score": 0.9204487841467514,
+            "tie_group_size": 1,
+            "certain_true_positives": 38,
+            "recall_lower_bound": 0.10497237569060773,
+            "recall_upper_bound": 0.10497237569060773
+          },
+          {
+            "fraction": 0.01,
+            "k": 10429,
+            "boundary_score": 0.8675165938499554,
+            "tie_group_size": 10110,
+            "certain_true_positives": 44,
+            "recall_lower_bound": 0.12154696132596685,
+            "recall_upper_bound": 0.12154696132596685
+          },
+          {
+            "fraction": 0.05,
+            "k": 52147,
+            "boundary_score": 0.7955188743501403,
+            "tie_group_size": 48063,
+            "certain_true_positives": 61,
+            "recall_lower_bound": 0.1685082872928177,
+            "recall_upper_bound": 0.292817679558011
+          },
+          {
+            "fraction": 0.1,
+            "k": 104295,
+            "boundary_score": 0.7194315818944872,
+            "tie_group_size": 28565,
+            "certain_true_positives": 120,
+            "recall_lower_bound": 0.3314917127071823,
+            "recall_upper_bound": 0.3314917127071823
+          },
+          {
+            "fraction": 0.2,
+            "k": 208591,
+            "boundary_score": 0.7156217094785556,
+            "tie_group_size": 76380,
+            "certain_true_positives": 163,
+            "recall_lower_bound": 0.45027624309392267,
+            "recall_upper_bound": 0.45027624309392267
+          }
+        ]
+      }
+    },
+    "name": "lightgbm",
+    "seed": 42,
+    "path": ".test-artifacts\\issue6b\\lightgbm-42.model",
+    "sha256": "dbe8dbda57660e393e3e7ae566864e3cc37190254516afc720c5d41f0900ff97",
+    "fit_seconds": 1.0572262999994564,
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "reg_lambda": 20,
+      "n_jobs": 2,
+      "random_state": 42,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "calibration": {
+      "threshold": 0.8797765271739961,
+      "overall": {
+        "samples": 1042867,
+        "benign": 1042301,
+        "attack": 566,
+        "confusion_matrix": {
+          "tn": 1037984,
+          "fp": 4317,
+          "fn": 517,
+          "tp": 49
+        },
+        "accuracy": 0.9953647013473435,
+        "precision": 0.011223087494273936,
+        "recall": 0.08657243816254417,
+        "f1": 0.019870235198702353,
+        "macro_f1": 0.5087735462436912,
+        "roc_auc": 0.7712094353976267,
+        "average_precision": 0.010881492896146745,
+        "specificity": 0.9958582021891949,
+        "false_positive_rate": 0.004141797810805148,
+        "false_negative_rate": 0.9134275618374559,
+        "balanced_accuracy": 0.5412153201758695,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1042301,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 4317,
+          "false_positive_rate": 0.004141797810805132,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 362,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 32,
+          "false_negative": 119,
+          "recall": 0.2119205298013245,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 17,
+          "false_negative": 36,
+          "recall": 0.32075471698113206,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 1042,
+          "boundary_score": 0.9375600402032995,
+          "tie_group_size": 580,
+          "certain_true_positives": 37,
+          "recall_lower_bound": 0.06537102473498234,
+          "recall_upper_bound": 0.0706713780918728
+        },
+        {
+          "fraction": 0.01,
+          "k": 10428,
+          "boundary_score": 0.8675165938499554,
+          "tie_group_size": 9949,
+          "certain_true_positives": 49,
+          "recall_lower_bound": 0.08657243816254417,
+          "recall_upper_bound": 0.12367491166077739
+        },
+        {
+          "fraction": 0.05,
+          "k": 52143,
+          "boundary_score": 0.7955188743501403,
+          "tie_group_size": 50529,
+          "certain_true_positives": 96,
+          "recall_lower_bound": 0.1696113074204947,
+          "recall_upper_bound": 0.2703180212014134
+        },
+        {
+          "fraction": 0.1,
+          "k": 104286,
+          "boundary_score": 0.7194315818944872,
+          "tie_group_size": 27839,
+          "certain_true_positives": 167,
+          "recall_lower_bound": 0.2950530035335689,
+          "recall_upper_bound": 0.2950530035335689
+        },
+        {
+          "fraction": 0.2,
+          "k": 208573,
+          "boundary_score": 0.7156217094785556,
+          "tie_group_size": 81600,
+          "certain_true_positives": 205,
+          "recall_lower_bound": 0.3621908127208481,
+          "recall_upper_bound": 0.3621908127208481
+        }
+      ]
+    }
+  },
+  {
+    "threshold": 0.9020940295106514,
+    "overall": {
+      "samples": 2091530,
+      "benign": 1489366,
+      "attack": 602164,
+      "confusion_matrix": {
+        "tn": 1487413,
+        "fp": 1953,
+        "fn": 602122,
+        "tp": 42
+      },
+      "accuracy": 0.7111803321013803,
+      "precision": 0.021052631578947368,
+      "recall": 6.97484406241489e-05,
+      "f1": 0.0001390362470806526,
+      "macro_f1": 0.4156755938434331,
+      "roc_auc": 0.8245295527460069,
+      "average_precision": 0.5393664198258747,
+      "specificity": 0.9986887037840262,
+      "false_positive_rate": 0.0013112962159738117,
+      "false_negative_rate": 0.9999302515593759,
+      "balanced_accuracy": 0.49937922611232516,
+      "status": "EVALUATED"
+    },
+    "per_family": {
+      "Benign": {
+        "samples": 1489366,
+        "binary_label": 0,
+        "true_positive": null,
+        "false_negative": null,
+        "recall": null,
+        "false_positive": 1953,
+        "false_positive_rate": 0.0013112962159737768,
+        "small_sample": false
+      },
+      "Brute Force -Web": {
+        "samples": 249,
+        "binary_label": 1,
+        "true_positive": 3,
+        "false_negative": 246,
+        "recall": 0.012048192771084338,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "Brute Force -XSS": {
+        "samples": 79,
+        "binary_label": 1,
+        "true_positive": 25,
+        "false_negative": 54,
+        "recall": 0.31645569620253167,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-Hulk": {
+        "samples": 461912,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 461912,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-SlowHTTPTest": {
+        "samples": 139890,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 139890,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "SQL Injection": {
+        "samples": 34,
+        "binary_label": 1,
+        "true_positive": 14,
+        "false_negative": 20,
+        "recall": 0.4117647058823529,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      }
+    },
+    "top_k": [
+      {
+        "fraction": 0.001,
+        "k": 2091,
+        "boundary_score": 0.901009279509197,
+        "tie_group_size": 74,
+        "certain_true_positives": 42,
+        "recall_lower_bound": 6.97484406241489e-05,
+        "recall_upper_bound": 6.97484406241489e-05
+      },
+      {
+        "fraction": 0.01,
+        "k": 20915,
+        "boundary_score": 0.8319283393125968,
+        "tie_group_size": 8730,
+        "certain_true_positives": 2705,
+        "recall_lower_bound": 0.00792475139662949,
+        "recall_upper_bound": 0.008633860542975004
+      },
+      {
+        "fraction": 0.05,
+        "k": 104576,
+        "boundary_score": 0.7875865888363902,
+        "tie_group_size": 17880,
+        "certain_true_positives": 42347,
+        "recall_lower_bound": 0.07032469559787699,
+        "recall_upper_bound": 0.07032469559787699
+      },
+      {
+        "fraction": 0.1,
+        "k": 209153,
+        "boundary_score": 0.7299720400308319,
+        "tie_group_size": 46978,
+        "certain_true_positives": 104640,
+        "recall_lower_bound": 0.17377325778359384,
+        "recall_upper_bound": 0.17583581881347937
+      },
+      {
+        "fraction": 0.2,
+        "k": 418306,
+        "boundary_score": 0.6869109571582979,
+        "tie_group_size": 76349,
+        "certain_true_positives": 164570,
+        "recall_lower_bound": 0.27329763984562344,
+        "recall_upper_bound": 0.27329763984562344
+      }
+    ],
+    "per_day": {
+      "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.9020940295106514,
+        "overall": {
+          "samples": 1048574,
+          "benign": 446772,
+          "attack": 601802,
+          "confusion_matrix": {
+            "tn": 446770,
+            "fp": 2,
+            "fn": 601802,
+            "tp": 0
+          },
+          "accuracy": 0.4260738870122662,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "macro_f1": 0.2987740613531067,
+          "roc_auc": 0.9969124666052359,
+          "average_precision": 0.9955395404629842,
+          "specificity": 0.9999955234437252,
+          "false_positive_rate": 4.476556274779497e-06,
+          "false_negative_rate": 1.0,
+          "balanced_accuracy": 0.4999977617218626,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 446772,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 2,
+            "false_positive_rate": 4.476556274788931e-06,
+            "small_sample": false
+          },
+          "DoS attacks-Hulk": {
+            "samples": 461912,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 461912,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "DoS attacks-SlowHTTPTest": {
+            "samples": 139890,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 139890,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1048,
+            "boundary_score": 0.8439242207884579,
+            "tie_group_size": 2611,
+            "certain_true_positives": 46,
+            "recall_lower_bound": 0.0014572899392158883,
+            "recall_upper_bound": 0.0014606132914147842
+          },
+          {
+            "fraction": 0.01,
+            "k": 10485,
+            "boundary_score": 0.8319283393125968,
+            "tie_group_size": 8310,
+            "certain_true_positives": 2660,
+            "recall_lower_bound": 0.01712024885261265,
+            "recall_upper_bound": 0.017138527289706582
+          },
+          {
+            "fraction": 0.05,
+            "k": 52428,
+            "boundary_score": 0.7548669964921662,
+            "tie_group_size": 55775,
+            "certain_true_positives": 47964,
+            "recall_lower_bound": 0.08649688768066574,
+            "recall_upper_bound": 0.08671622892579287
+          },
+          {
+            "fraction": 0.1,
+            "k": 104857,
+            "boundary_score": 0.7299720400308319,
+            "tie_group_size": 45808,
+            "certain_true_positives": 104450,
+            "recall_lower_bound": 0.1735620685873427,
+            "recall_upper_bound": 0.1736085955181272
+          },
+          {
+            "fraction": 0.2,
+            "k": 209714,
+            "boundary_score": 0.6658244547901715,
+            "tie_group_size": 139884,
+            "certain_true_positives": 182174,
+            "recall_lower_bound": 0.34732187663051967,
+            "recall_upper_bound": 0.34735178680030976
+          }
+        ]
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.9020940295106514,
+        "overall": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 1040643,
+            "fp": 1951,
+            "fn": 320,
+            "tp": 42
+          },
+          "accuracy": 0.997822535178857,
+          "precision": 0.021073758153537382,
+          "recall": 0.11602209944751381,
+          "f1": 0.035668789808917196,
+          "macro_f1": 0.5172894134136715,
+          "roc_auc": 0.8366658106066661,
+          "average_precision": 0.007385288430840436,
+          "specificity": 0.9981287059008588,
+          "false_positive_rate": 0.0018712940991412186,
+          "false_negative_rate": 0.8839779005524862,
+          "balanced_accuracy": 0.5570754026741863,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 1042594,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 1951,
+            "false_positive_rate": 0.0018712940991411806,
+            "small_sample": false
+          },
+          "Brute Force -Web": {
+            "samples": 249,
+            "binary_label": 1,
+            "true_positive": 3,
+            "false_negative": 246,
+            "recall": 0.012048192771084338,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "Brute Force -XSS": {
+            "samples": 79,
+            "binary_label": 1,
+            "true_positive": 25,
+            "false_negative": 54,
+            "recall": 0.31645569620253167,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "SQL Injection": {
+            "samples": 34,
+            "binary_label": 1,
+            "true_positive": 14,
+            "false_negative": 20,
+            "recall": 0.4117647058823529,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1042,
+            "boundary_score": 0.9195681236947157,
+            "tie_group_size": 88,
+            "certain_true_positives": 37,
+            "recall_lower_bound": 0.10220994475138122,
+            "recall_upper_bound": 0.11049723756906077
+          },
+          {
+            "fraction": 0.01,
+            "k": 10429,
+            "boundary_score": 0.8556730661243649,
+            "tie_group_size": 10110,
+            "certain_true_positives": 44,
+            "recall_lower_bound": 0.12154696132596685,
+            "recall_upper_bound": 0.12154696132596685
+          },
+          {
+            "fraction": 0.05,
+            "k": 52147,
+            "boundary_score": 0.7922770959380803,
+            "tie_group_size": 8193,
+            "certain_true_positives": 90,
+            "recall_lower_bound": 0.24861878453038674,
+            "recall_upper_bound": 0.24861878453038674
+          },
+          {
+            "fraction": 0.1,
+            "k": 104295,
+            "boundary_score": 0.727549108640629,
+            "tie_group_size": 505,
+            "certain_true_positives": 190,
+            "recall_lower_bound": 0.5248618784530387,
+            "recall_upper_bound": 0.5248618784530387
+          },
+          {
+            "fraction": 0.2,
+            "k": 208591,
+            "boundary_score": 0.6869109571582979,
+            "tie_group_size": 76346,
+            "certain_true_positives": 244,
+            "recall_lower_bound": 0.6740331491712708,
+            "recall_upper_bound": 0.6740331491712708
+          }
+        ]
+      }
+    },
+    "name": "lightgbm",
+    "seed": 43,
+    "path": ".test-artifacts\\issue6b\\lightgbm-43.model",
+    "sha256": "ac789d4bd9ba59951c17afdfa662e5f1a4f9b47bec82e9b59bb3f3a1ed3979ae",
+    "fit_seconds": 0.49176140000054147,
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "reg_lambda": 20,
+      "n_jobs": 2,
+      "random_state": 43,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "calibration": {
+      "threshold": 0.9020940295106514,
+      "overall": {
+        "samples": 1042867,
+        "benign": 1042301,
+        "attack": 566,
+        "confusion_matrix": {
+          "tn": 1039331,
+          "fp": 2970,
+          "fn": 517,
+          "tp": 49
+        },
+        "accuracy": 0.9966563329743869,
+        "precision": 0.016230539913878766,
+        "recall": 0.08657243816254417,
+        "f1": 0.027336122733612273,
+        "macro_f1": 0.5128307053466558,
+        "roc_auc": 0.7846341569576307,
+        "average_precision": 0.006341161348571005,
+        "specificity": 0.9971505352100785,
+        "false_positive_rate": 0.002849464789921541,
+        "false_negative_rate": 0.9134275618374559,
+        "balanced_accuracy": 0.5418614866863113,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1042301,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 2970,
+          "false_positive_rate": 0.0028494647899215296,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 362,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 32,
+          "false_negative": 119,
+          "recall": 0.2119205298013245,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 17,
+          "false_negative": 36,
+          "recall": 0.32075471698113206,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 1042,
+          "boundary_score": 0.9281807979839314,
+          "tie_group_size": 128,
+          "certain_true_positives": 38,
+          "recall_lower_bound": 0.06713780918727916,
+          "recall_upper_bound": 0.0706713780918728
+        },
+        {
+          "fraction": 0.01,
+          "k": 10428,
+          "boundary_score": 0.8556730661243649,
+          "tie_group_size": 9949,
+          "certain_true_positives": 49,
+          "recall_lower_bound": 0.08657243816254417,
+          "recall_upper_bound": 0.12367491166077739
+        },
+        {
+          "fraction": 0.05,
+          "k": 52143,
+          "boundary_score": 0.7922770959380803,
+          "tie_group_size": 8404,
+          "certain_true_positives": 122,
+          "recall_lower_bound": 0.21554770318021202,
+          "recall_upper_bound": 0.21554770318021202
+        },
+        {
+          "fraction": 0.1,
+          "k": 104286,
+          "boundary_score": 0.7361823713411652,
+          "tie_group_size": 477,
+          "certain_true_positives": 230,
+          "recall_lower_bound": 0.40636042402826855,
+          "recall_upper_bound": 0.40636042402826855
+        },
+        {
+          "fraction": 0.2,
+          "k": 208573,
+          "boundary_score": 0.6869109571582979,
+          "tie_group_size": 81570,
+          "certain_true_positives": 283,
+          "recall_lower_bound": 0.5,
+          "recall_upper_bound": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "threshold": 0.918644905090332,
+    "overall": {
+      "samples": 2091530,
+      "benign": 1489366,
+      "attack": 602164,
+      "confusion_matrix": {
+        "tn": 1488424,
+        "fp": 942,
+        "fn": 602126,
+        "tp": 38
+      },
+      "accuracy": 0.7116617978226466,
+      "precision": 0.03877551020408163,
+      "recall": 6.310573199327758e-05,
+      "f1": 0.00012600639316647435,
+      "macro_f1": 0.41583365256377514,
+      "roc_auc": 0.8224740297544395,
+      "average_precision": 0.5205440430988302,
+      "specificity": 0.999367516110882,
+      "false_positive_rate": 0.0006324838891179629,
+      "false_negative_rate": 0.9999368942680067,
+      "balanced_accuracy": 0.49971531092143767,
+      "status": "EVALUATED"
+    },
+    "per_family": {
+      "Benign": {
+        "samples": 1489366,
+        "binary_label": 0,
+        "true_positive": null,
+        "false_negative": null,
+        "recall": null,
+        "false_positive": 942,
+        "false_positive_rate": 0.00063248388911792,
+        "small_sample": false
+      },
+      "Brute Force -Web": {
+        "samples": 249,
+        "binary_label": 1,
+        "true_positive": 4,
+        "false_negative": 245,
+        "recall": 0.01606425702811245,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "Brute Force -XSS": {
+        "samples": 79,
+        "binary_label": 1,
+        "true_positive": 24,
+        "false_negative": 55,
+        "recall": 0.3037974683544304,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-Hulk": {
+        "samples": 461912,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 461912,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-SlowHTTPTest": {
+        "samples": 139890,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 139890,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "SQL Injection": {
+        "samples": 34,
+        "binary_label": 1,
+        "true_positive": 10,
+        "false_negative": 24,
+        "recall": 0.29411764705882354,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      }
+    },
+    "top_k": [
+      {
+        "fraction": 0.001,
+        "k": 2091,
+        "boundary_score": 0.9084276556968689,
+        "tie_group_size": 1059,
+        "certain_true_positives": 131,
+        "recall_lower_bound": 0.00021754870766103586,
+        "recall_upper_bound": 0.00021754870766103586
+      },
+      {
+        "fraction": 0.01,
+        "k": 20915,
+        "boundary_score": 0.8143889307975769,
+        "tie_group_size": 23,
+        "certain_true_positives": 3653,
+        "recall_lower_bound": 0.006098006523139876,
+        "recall_upper_bound": 0.006098006523139876
+      },
+      {
+        "fraction": 0.05,
+        "k": 104576,
+        "boundary_score": 0.7706738710403442,
+        "tie_group_size": 36853,
+        "certain_true_positives": 42945,
+        "recall_lower_bound": 0.07131778053819225,
+        "recall_upper_bound": 0.07353146318943012
+      },
+      {
+        "fraction": 0.1,
+        "k": 209153,
+        "boundary_score": 0.7268199324607849,
+        "tie_group_size": 76344,
+        "certain_true_positives": 84679,
+        "recall_lower_bound": 0.1406244810383882,
+        "recall_upper_bound": 0.1406244810383882
+      },
+      {
+        "fraction": 0.2,
+        "k": 418306,
+        "boundary_score": 0.6687027215957642,
+        "tie_group_size": 78965,
+        "certain_true_positives": 158212,
+        "recall_lower_bound": 0.2784125254913944,
+        "recall_upper_bound": 0.30801575650487245
+      }
+    ],
+    "per_day": {
+      "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.918644905090332,
+        "overall": {
+          "samples": 1048574,
+          "benign": 446772,
+          "attack": 601802,
+          "confusion_matrix": {
+            "tn": 446770,
+            "fp": 2,
+            "fn": 601802,
+            "tp": 0
+          },
+          "accuracy": 0.4260738870122662,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "macro_f1": 0.2987740613531067,
+          "roc_auc": 0.9962500450956501,
+          "average_precision": 0.9947455604749478,
+          "specificity": 0.9999955234437252,
+          "false_positive_rate": 4.476556274779497e-06,
+          "false_negative_rate": 1.0,
+          "balanced_accuracy": 0.4999977617218626,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 446772,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 2,
+            "false_positive_rate": 4.476556274788931e-06,
+            "small_sample": false
+          },
+          "DoS attacks-Hulk": {
+            "samples": 461912,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 461912,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "DoS attacks-SlowHTTPTest": {
+            "samples": 139890,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 139890,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1048,
+            "boundary_score": 0.8576870560646057,
+            "tie_group_size": 713,
+            "certain_true_positives": 552,
+            "recall_lower_bound": 0.0014606132914147842,
+            "recall_upper_bound": 0.0014606132914147842
+          },
+          {
+            "fraction": 0.01,
+            "k": 10485,
+            "boundary_score": 0.8025835156440735,
+            "tie_group_size": 6614,
+            "certain_true_positives": 7801,
+            "recall_lower_bound": 0.017125233880910997,
+            "recall_upper_bound": 0.017135203937507684
+          },
+          {
+            "fraction": 0.05,
+            "k": 52428,
+            "boundary_score": 0.7572939395904541,
+            "tie_group_size": 14356,
+            "certain_true_positives": 44938,
+            "recall_lower_bound": 0.0866962888125995,
+            "recall_upper_bound": 0.08673949239118514
+          },
+          {
+            "fraction": 0.1,
+            "k": 104857,
+            "boundary_score": 0.7127354145050049,
+            "tie_group_size": 31910,
+            "certain_true_positives": 84890,
+            "recall_lower_bound": 0.1735770236722377,
+            "recall_upper_bound": 0.1737398679299836
+          },
+          {
+            "fraction": 0.2,
+            "k": 209714,
+            "boundary_score": 0.6687027215957642,
+            "tie_group_size": 61140,
+            "certain_true_positives": 157965,
+            "recall_lower_bound": 0.3475312478190501,
+            "recall_upper_bound": 0.3475329094951496
+          }
+        ]
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.918644905090332,
+        "overall": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 1041654,
+            "fp": 940,
+            "fn": 324,
+            "tp": 38
+          },
+          "accuracy": 0.9987880600907421,
+          "precision": 0.03885480572597137,
+          "recall": 0.10497237569060773,
+          "f1": 0.056716417910447764,
+          "macro_f1": 0.5280550292137709,
+          "roc_auc": 0.8427493671569734,
+          "average_precision": 0.007841520865534109,
+          "specificity": 0.9990984026380355,
+          "false_positive_rate": 0.0009015973619644901,
+          "false_negative_rate": 0.8950276243093923,
+          "balanced_accuracy": 0.5520353891643216,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 1042594,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 940,
+            "false_positive_rate": 0.0009015973619644847,
+            "small_sample": false
+          },
+          "Brute Force -Web": {
+            "samples": 249,
+            "binary_label": 1,
+            "true_positive": 4,
+            "false_negative": 245,
+            "recall": 0.01606425702811245,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "Brute Force -XSS": {
+            "samples": 79,
+            "binary_label": 1,
+            "true_positive": 24,
+            "false_negative": 55,
+            "recall": 0.3037974683544304,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "SQL Injection": {
+            "samples": 34,
+            "binary_label": 1,
+            "true_positive": 10,
+            "false_negative": 24,
+            "recall": 0.29411764705882354,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1042,
+            "boundary_score": 0.9121078848838806,
+            "tie_group_size": 13,
+            "certain_true_positives": 40,
+            "recall_lower_bound": 0.11049723756906077,
+            "recall_upper_bound": 0.11049723756906077
+          },
+          {
+            "fraction": 0.01,
+            "k": 10429,
+            "boundary_score": 0.8940573334693909,
+            "tie_group_size": 9098,
+            "certain_true_positives": 40,
+            "recall_lower_bound": 0.11049723756906077,
+            "recall_upper_bound": 0.11049723756906077
+          },
+          {
+            "fraction": 0.05,
+            "k": 52147,
+            "boundary_score": 0.7706738710403442,
+            "tie_group_size": 35527,
+            "certain_true_positives": 162,
+            "recall_lower_bound": 0.44751381215469616,
+            "recall_upper_bound": 0.4889502762430939
+          },
+          {
+            "fraction": 0.1,
+            "k": 104295,
+            "boundary_score": 0.7268199324607849,
+            "tie_group_size": 76341,
+            "certain_true_positives": 194,
+            "recall_lower_bound": 0.5359116022099447,
+            "recall_upper_bound": 0.5359116022099447
+          },
+          {
+            "fraction": 0.2,
+            "k": 208591,
+            "boundary_score": 0.7030246257781982,
+            "tie_group_size": 33973,
+            "certain_true_positives": 196,
+            "recall_lower_bound": 0.5414364640883977,
+            "recall_upper_bound": 0.6767955801104972
+          }
+        ]
+      }
+    },
+    "name": "xgboost",
+    "seed": 42,
+    "path": ".test-artifacts\\issue6b\\xgboost-42.ubj",
+    "sha256": "5ba3e0753a0fec77344555ec0fdd1e0c3db21d2d64958e339dcb72e0d32dedf6",
+    "fit_seconds": 1.4555476999994426,
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "reg_lambda": 20,
+      "n_jobs": 2,
+      "random_state": 42,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "calibration": {
+      "threshold": 0.918644905090332,
+      "overall": {
+        "samples": 1042867,
+        "benign": 1042301,
+        "attack": 566,
+        "confusion_matrix": {
+          "tn": 1040616,
+          "fp": 1685,
+          "fn": 523,
+          "tp": 43
+        },
+        "accuracy": 0.9978827597382983,
+        "precision": 0.02488425925925926,
+        "recall": 0.07597173144876325,
+        "f1": 0.037489102005231034,
+        "macro_f1": 0.5182146581331304,
+        "roc_auc": 0.8178933897756379,
+        "average_precision": 0.008116542999038565,
+        "specificity": 0.9983833844542027,
+        "false_positive_rate": 0.0016166155457972842,
+        "false_negative_rate": 0.9240282685512368,
+        "balanced_accuracy": 0.537177557951483,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1042301,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 1685,
+          "false_positive_rate": 0.0016166155457972313,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 362,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 32,
+          "false_negative": 119,
+          "recall": 0.2119205298013245,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 11,
+          "false_negative": 42,
+          "recall": 0.20754716981132076,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 1042,
+          "boundary_score": 0.9493923783302307,
+          "tie_group_size": 529,
+          "certain_true_positives": 38,
+          "recall_lower_bound": 0.06713780918727916,
+          "recall_upper_bound": 0.07243816254416961
+        },
+        {
+          "fraction": 0.01,
+          "k": 10428,
+          "boundary_score": 0.8940573334693909,
+          "tie_group_size": 8743,
+          "certain_true_positives": 43,
+          "recall_lower_bound": 0.07597173144876325,
+          "recall_upper_bound": 0.11307420494699646
+        },
+        {
+          "fraction": 0.05,
+          "k": 52143,
+          "boundary_score": 0.7706738710403442,
+          "tie_group_size": 35582,
+          "certain_true_positives": 194,
+          "recall_lower_bound": 0.34275618374558303,
+          "recall_upper_bound": 0.39399293286219084
+        },
+        {
+          "fraction": 0.1,
+          "k": 104286,
+          "boundary_score": 0.7268199324607849,
+          "tie_group_size": 81557,
+          "certain_true_positives": 237,
+          "recall_lower_bound": 0.41872791519434627,
+          "recall_upper_bound": 0.41872791519434627
+        },
+        {
+          "fraction": 0.2,
+          "k": 208573,
+          "boundary_score": 0.7030246257781982,
+          "tie_group_size": 35276,
+          "certain_true_positives": 239,
+          "recall_lower_bound": 0.42226148409893993,
+          "recall_upper_bound": 0.49646643109540634
+        }
+      ]
+    }
+  },
+  {
+    "threshold": 0.8671140670776367,
+    "overall": {
+      "samples": 2091530,
+      "benign": 1489366,
+      "attack": 602164,
+      "confusion_matrix": {
+        "tn": 1483882,
+        "fp": 5484,
+        "fn": 601652,
+        "tp": 512
+      },
+      "accuracy": 0.7097168101820198,
+      "precision": 0.08539026017344896,
+      "recall": 0.0008502667047515295,
+      "f1": 0.0016837674296237832,
+      "macro_f1": 0.41592538255394024,
+      "roc_auc": 0.8225935573420358,
+      "average_precision": 0.5278866254638018,
+      "specificity": 0.9963178963397848,
+      "false_positive_rate": 0.0036821036602151525,
+      "false_negative_rate": 0.9991497332952485,
+      "balanced_accuracy": 0.4985840815222682,
+      "status": "EVALUATED"
+    },
+    "per_family": {
+      "Benign": {
+        "samples": 1489366,
+        "binary_label": 0,
+        "true_positive": null,
+        "false_negative": null,
+        "recall": null,
+        "false_positive": 5484,
+        "false_positive_rate": 0.003682103660215152,
+        "small_sample": false
+      },
+      "Brute Force -Web": {
+        "samples": 249,
+        "binary_label": 1,
+        "true_positive": 5,
+        "false_negative": 244,
+        "recall": 0.020080321285140562,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "Brute Force -XSS": {
+        "samples": 79,
+        "binary_label": 1,
+        "true_positive": 27,
+        "false_negative": 52,
+        "recall": 0.34177215189873417,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-Hulk": {
+        "samples": 461912,
+        "binary_label": 1,
+        "true_positive": 467,
+        "false_negative": 461445,
+        "recall": 0.0010110150851244393,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "DoS attacks-SlowHTTPTest": {
+        "samples": 139890,
+        "binary_label": 1,
+        "true_positive": 0,
+        "false_negative": 139890,
+        "recall": 0.0,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      },
+      "SQL Injection": {
+        "samples": 34,
+        "binary_label": 1,
+        "true_positive": 13,
+        "false_negative": 21,
+        "recall": 0.38235294117647056,
+        "false_positive": null,
+        "false_positive_rate": null,
+        "small_sample": false
+      }
+    },
+    "top_k": [
+      {
+        "fraction": 0.001,
+        "k": 2091,
+        "boundary_score": 0.8834856748580933,
+        "tie_group_size": 267,
+        "certain_true_positives": 136,
+        "recall_lower_bound": 0.000225852093449625,
+        "recall_upper_bound": 0.000225852093449625
+      },
+      {
+        "fraction": 0.01,
+        "k": 20915,
+        "boundary_score": 0.8481248021125793,
+        "tie_group_size": 103,
+        "certain_true_positives": 4118,
+        "recall_lower_bound": 0.0068386685354820285,
+        "recall_upper_bound": 0.0068386685354820285
+      },
+      {
+        "fraction": 0.05,
+        "k": 104576,
+        "boundary_score": 0.8242999315261841,
+        "tie_group_size": 36853,
+        "certain_true_positives": 53377,
+        "recall_lower_bound": 0.08864196464750466,
+        "recall_upper_bound": 0.09085564729874253
+      },
+      {
+        "fraction": 0.1,
+        "k": 209153,
+        "boundary_score": 0.721321702003479,
+        "tie_group_size": 105476,
+        "certain_true_positives": 86715,
+        "recall_lower_bound": 0.14400561973150172,
+        "recall_upper_bound": 0.14400561973150172
+      },
+      {
+        "fraction": 0.2,
+        "k": 418306,
+        "boundary_score": 0.6772331595420837,
+        "tie_group_size": 178920,
+        "certain_true_positives": 171911,
+        "recall_lower_bound": 0.28548867086043006,
+        "recall_upper_bound": 0.3083844268338858
+      }
+    ],
+    "per_day": {
+      "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.8671140670776367,
+        "overall": {
+          "samples": 1048574,
+          "benign": 446772,
+          "attack": 601802,
+          "confusion_matrix": {
+            "tn": 446768,
+            "fp": 4,
+            "fn": 601335,
+            "tp": 467
+          },
+          "accuracy": 0.42651734641522676,
+          "precision": 0.9915074309978769,
+          "recall": 0.0007760027384422119,
+          "f1": 0.0015507917505848676,
+          "macro_f1": 0.2996418562816809,
+          "roc_auc": 0.9960951591882717,
+          "average_precision": 0.9949535965662502,
+          "specificity": 0.9999910468874504,
+          "false_positive_rate": 8.953112549558995e-06,
+          "false_negative_rate": 0.9992239972615578,
+          "balanced_accuracy": 0.5003835248129463,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 446772,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 4,
+            "false_positive_rate": 8.953112549577862e-06,
+            "small_sample": false
+          },
+          "DoS attacks-Hulk": {
+            "samples": 461912,
+            "binary_label": 1,
+            "true_positive": 467,
+            "false_negative": 461445,
+            "recall": 0.0010110150851244393,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "DoS attacks-SlowHTTPTest": {
+            "samples": 139890,
+            "binary_label": 1,
+            "true_positive": 0,
+            "false_negative": 139890,
+            "recall": 0.0,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1048,
+            "boundary_score": 0.861260712146759,
+            "tie_group_size": 3332,
+            "certain_true_positives": 499,
+            "recall_lower_bound": 0.0014589516153153362,
+            "recall_upper_bound": 0.0014655983197131282
+          },
+          {
+            "fraction": 0.01,
+            "k": 10485,
+            "boundary_score": 0.8479004502296448,
+            "tie_group_size": 6614,
+            "certain_true_positives": 4068,
+            "recall_lower_bound": 0.017130218909209342,
+            "recall_upper_bound": 0.01714018896580603
+          },
+          {
+            "fraction": 0.05,
+            "k": 52428,
+            "boundary_score": 0.8295737504959106,
+            "tie_group_size": 1204,
+            "certain_true_positives": 51275,
+            "recall_lower_bound": 0.08670958222139508,
+            "recall_upper_bound": 0.08671456724969342
+          },
+          {
+            "fraction": 0.1,
+            "k": 104857,
+            "boundary_score": 0.7098048329353333,
+            "tie_group_size": 68005,
+            "certain_true_positives": 89459,
+            "recall_lower_bound": 0.17327293694603874,
+            "recall_upper_bound": 0.17365179909671288
+          },
+          {
+            "fraction": 0.2,
+            "k": 209714,
+            "boundary_score": 0.6772331595420837,
+            "tie_group_size": 139908,
+            "certain_true_positives": 171664,
+            "recall_lower_bound": 0.3473468017720114,
+            "recall_upper_bound": 0.3473767119418015
+          }
+        ]
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv": {
+        "threshold": 0.8671140670776367,
+        "overall": {
+          "samples": 1042956,
+          "benign": 1042594,
+          "attack": 362,
+          "confusion_matrix": {
+            "tn": 1037114,
+            "fp": 5480,
+            "fn": 317,
+            "tp": 45
+          },
+          "accuracy": 0.9944417597674302,
+          "precision": 0.008144796380090498,
+          "recall": 0.12430939226519337,
+          "f1": 0.015287922541192458,
+          "macro_f1": 0.506250468403924,
+          "roc_auc": 0.8635405843925812,
+          "average_precision": 0.007442041310482539,
+          "specificity": 0.994743879208973,
+          "false_positive_rate": 0.005256120791026997,
+          "false_negative_rate": 0.8756906077348067,
+          "balanced_accuracy": 0.5595266357370832,
+          "status": "EVALUATED"
+        },
+        "per_family": {
+          "Benign": {
+            "samples": 1042594,
+            "binary_label": 0,
+            "true_positive": null,
+            "false_negative": null,
+            "recall": null,
+            "false_positive": 5480,
+            "false_positive_rate": 0.005256120791026996,
+            "small_sample": false
+          },
+          "Brute Force -Web": {
+            "samples": 249,
+            "binary_label": 1,
+            "true_positive": 5,
+            "false_negative": 244,
+            "recall": 0.020080321285140562,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "Brute Force -XSS": {
+            "samples": 79,
+            "binary_label": 1,
+            "true_positive": 27,
+            "false_negative": 52,
+            "recall": 0.34177215189873417,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          },
+          "SQL Injection": {
+            "samples": 34,
+            "binary_label": 1,
+            "true_positive": 13,
+            "false_negative": 21,
+            "recall": 0.38235294117647056,
+            "false_positive": null,
+            "false_positive_rate": null,
+            "small_sample": false
+          }
+        },
+        "top_k": [
+          {
+            "fraction": 0.001,
+            "k": 1042,
+            "boundary_score": 0.9212712645530701,
+            "tie_group_size": 2,
+            "certain_true_positives": 38,
+            "recall_lower_bound": 0.10497237569060773,
+            "recall_upper_bound": 0.10497237569060773
+          },
+          {
+            "fraction": 0.01,
+            "k": 10429,
+            "boundary_score": 0.8652913570404053,
+            "tie_group_size": 9098,
+            "certain_true_positives": 45,
+            "recall_lower_bound": 0.12430939226519337,
+            "recall_upper_bound": 0.12430939226519337
+          },
+          {
+            "fraction": 0.05,
+            "k": 52147,
+            "boundary_score": 0.8242999315261841,
+            "tie_group_size": 35527,
+            "certain_true_positives": 169,
+            "recall_lower_bound": 0.46685082872928174,
+            "recall_upper_bound": 0.5082872928176796
+          },
+          {
+            "fraction": 0.1,
+            "k": 104295,
+            "boundary_score": 0.7718499302864075,
+            "tie_group_size": 33973,
+            "certain_true_positives": 193,
+            "recall_lower_bound": 0.5331491712707183,
+            "recall_upper_bound": 0.6685082872928176
+          },
+          {
+            "fraction": 0.2,
+            "k": 208591,
+            "boundary_score": 0.721321702003479,
+            "tie_group_size": 105473,
+            "certain_true_positives": 243,
+            "recall_lower_bound": 0.6712707182320442,
+            "recall_upper_bound": 0.6712707182320442
+          }
+        ]
+      }
+    },
+    "name": "xgboost",
+    "seed": 43,
+    "path": ".test-artifacts\\issue6b\\xgboost-43.ubj",
+    "sha256": "b620d88e30d76f8b434e86b8f48773c712ee06f97f956e9c10ac0e89fb917fd8",
+    "fit_seconds": 0.7852070000008098,
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "reg_lambda": 20,
+      "n_jobs": 2,
+      "random_state": 43,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "calibration": {
+      "threshold": 0.8671140670776367,
+      "overall": {
+        "samples": 1042867,
+        "benign": 1042301,
+        "attack": 566,
+        "confusion_matrix": {
+          "tn": 1035660,
+          "fp": 6641,
+          "fn": 516,
+          "tp": 50
+        },
+        "accuracy": 0.9931371881553448,
+        "precision": 0.007472724555372889,
+        "recall": 0.08833922261484099,
+        "f1": 0.013779798814937303,
+        "macro_f1": 0.5051682060714346,
+        "roc_auc": 0.8205862858813568,
+        "average_precision": 0.007169445535985045,
+        "specificity": 0.9936285199764752,
+        "false_positive_rate": 0.006371480023524834,
+        "false_negative_rate": 0.911660777385159,
+        "balanced_accuracy": 0.5409838712956581,
+        "status": "EVALUATED"
+      },
+      "per_family": {
+        "Benign": {
+          "samples": 1042301,
+          "binary_label": 0,
+          "true_positive": null,
+          "false_negative": null,
+          "recall": null,
+          "false_positive": 6641,
+          "false_positive_rate": 0.0063714800235248744,
+          "small_sample": false
+        },
+        "Brute Force -Web": {
+          "samples": 362,
+          "binary_label": 1,
+          "true_positive": 0,
+          "false_negative": 362,
+          "recall": 0.0,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "Brute Force -XSS": {
+          "samples": 151,
+          "binary_label": 1,
+          "true_positive": 33,
+          "false_negative": 118,
+          "recall": 0.2185430463576159,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        },
+        "SQL Injection": {
+          "samples": 53,
+          "binary_label": 1,
+          "true_positive": 17,
+          "false_negative": 36,
+          "recall": 0.32075471698113206,
+          "false_positive": null,
+          "false_positive_rate": null,
+          "small_sample": false
+        }
+      },
+      "top_k": [
+        {
+          "fraction": 0.001,
+          "k": 1042,
+          "boundary_score": 0.9458203911781311,
+          "tie_group_size": 529,
+          "certain_true_positives": 37,
+          "recall_lower_bound": 0.06537102473498234,
+          "recall_upper_bound": 0.0706713780918728
+        },
+        {
+          "fraction": 0.01,
+          "k": 10428,
+          "boundary_score": 0.8652913570404053,
+          "tie_group_size": 8743,
+          "certain_true_positives": 50,
+          "recall_lower_bound": 0.08833922261484099,
+          "recall_upper_bound": 0.1254416961130742
+        },
+        {
+          "fraction": 0.05,
+          "k": 52143,
+          "boundary_score": 0.8242999315261841,
+          "tie_group_size": 35582,
+          "certain_true_positives": 199,
+          "recall_lower_bound": 0.35159010600706714,
+          "recall_upper_bound": 0.4028268551236749
+        },
+        {
+          "fraction": 0.1,
+          "k": 104286,
+          "boundary_score": 0.7718499302864075,
+          "tie_group_size": 35276,
+          "certain_true_positives": 238,
+          "recall_lower_bound": 0.4204946996466431,
+          "recall_upper_bound": 0.49469964664310956
+        },
+        {
+          "fraction": 0.2,
+          "k": 208573,
+          "boundary_score": 0.721321702003479,
+          "tie_group_size": 109926,
+          "certain_true_positives": 280,
+          "recall_lower_bound": 0.49469964664310956,
+          "recall_upper_bound": 0.49469964664310956
+        }
+      ]
+    }
+  }
+]

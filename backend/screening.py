@@ -48,6 +48,8 @@ def identify(path, hint=None):
         head = source.read(65536)
     if not head:
         return 'invalid'
+    if head.startswith(b'EVF\x09\x0d\x0a\xff\x00'):
+        return 'disk_image'
     if head.startswith(b'MZ'):
         return 'pe'  # Full supported-PE validation occurs in pe_features.
     if head.startswith(b'ElfFile\x00'):

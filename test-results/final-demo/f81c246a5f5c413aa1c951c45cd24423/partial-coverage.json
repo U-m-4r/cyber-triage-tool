@@ -1,0 +1,87 @@
+{
+  "evidence_type": "file_export",
+  "evidence_sha256": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+  "overall_scan_status": "PARTIAL",
+  "screening": {
+    "forensic_rules": {
+      "applicable": true,
+      "examined": 1,
+      "findings": 0,
+      "findings_unit": "flagged_records",
+      "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+      "input_scope": "parsed_records",
+      "processing_seconds": 3.3e-05,
+      "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+      "scanner": "Forensic rules",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 1,
+      "skipped_count_exact": true,
+      "status": "PARTIAL"
+    },
+    "network_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "attack_or_anomaly_decisions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "Not applicable to this evidence representation",
+      "scanner": "network_ml",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "pe_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "malicious_predictions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "No supported PE content available",
+      "scanner": "PE malware ML",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "yara": {
+      "applicable": true,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "matched_rules",
+      "identifier": null,
+      "input_scope": "uploaded_container_bytes",
+      "processing_seconds": 0,
+      "reason": "Container exceeds 1 byte scan limit; no prefix-only verdict",
+      "scanner": "YARA",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 1,
+      "status": "SKIPPED_LIMIT"
+    }
+  },
+  "coverage": {
+    "findings_returned": 0,
+    "findings_total": 0,
+    "findings_truncated": false,
+    "parsing": {
+      "enumeration_complete": true,
+      "processing_seconds": 0.000761,
+      "reason": "0 malformed or unparsed records; 1 excluded by record limit",
+      "records_parsed": 2,
+      "skipped": 1,
+      "source_records": 2,
+      "status": "PARTIAL"
+    },
+    "records_examined": 1,
+    "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+  },
+  "warnings": [
+    "yara: SKIPPED_LIMIT: Container exceeds 1 byte scan limit; no prefix-only verdict",
+    "forensic_rules: PARTIAL: 0 malformed or unparsed records; 1 excluded by record limit",
+    "0 malformed or unparsed records; 1 excluded by record limit"
+  ],
+  "findings": [],
+  "iocs": []
+}

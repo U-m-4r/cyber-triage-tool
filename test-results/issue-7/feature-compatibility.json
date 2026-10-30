@@ -1,0 +1,87 @@
+{
+  "model": {
+    "model_id": "EMBER2024_PE@425202786349",
+    "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+    "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+    "feature_dimensions": 2568,
+    "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+    "available": true,
+    "reason": null,
+    "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+    "license": "Apache-2.0",
+    "score_calibrated": false,
+    "default_decision_threshold": 0.5,
+    "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+    "dependencies": {
+      "lightgbm": "4.6.0",
+      "pefile": "2024.8.26",
+      "signify": "0.7.1",
+      "numpy": "2.5.4",
+      "scikit-learn": "1.8.0"
+    },
+    "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+    "supported_formats": [
+      "native PE32 I386 EXE/DLL",
+      "native PE32+ AMD64 EXE/DLL"
+    ]
+  },
+  "features": [
+    [
+      "general",
+      7
+    ],
+    [
+      "histogram",
+      256
+    ],
+    [
+      "byteentropy",
+      256
+    ],
+    [
+      "strings",
+      177
+    ],
+    [
+      "header",
+      74
+    ],
+    [
+      "section",
+      224
+    ],
+    [
+      "imports",
+      1282
+    ],
+    [
+      "exports",
+      129
+    ],
+    [
+      "datadirectories",
+      34
+    ],
+    [
+      "richheader",
+      33
+    ],
+    [
+      "authenticode",
+      8
+    ],
+    [
+      "pefilewarnings",
+      88
+    ]
+  ],
+  "dimensions": 2568,
+  "model_dimensions": 2568,
+  "feature_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+  "source_hashes": {
+    "features.py": "58a085e9ad307aa2c52e165985ff80db8fd5b763891c0cba2d1758a4825f7273",
+    "pefile_warnings.txt": "a23a9d0a7a938b19390a75fe0eb024dbc9bad7a134bb1511a2913f365a52e5fb"
+  },
+  "preprocessing": "Official process_raw_features, float32, no additional transforms",
+  "compatibility": "Same pinned official processor used for raw benchmark JSON and live bytes; metadata missingness never changes model vectors"
+}

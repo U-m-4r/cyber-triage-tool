@@ -1,0 +1,22 @@
+{
+  "train_bot": {
+    "path": ".test-artifacts\\issue4\\raw\\Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+    "sha256": "d96f38e7496aba83475031e6fb8c6fdf1abf6aa1b71325a917798f3c7de93de1"
+  },
+  "validation_web": {
+    "path": ".test-artifacts\\issue4\\raw\\Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+    "sha256": "da33c927018274f9d49b145baa00e4ce0526c25b3b890b34c489e247b5e24544"
+  },
+  "validation_dos": {
+    "path": ".test-artifacts\\issue6\\raw\\Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+    "sha256": "1a4919faa0c49c7af97230b0c2d076eba23ee6dd81103a3801d51ac316355d8b"
+  },
+  "calibration": {
+    "path": ".test-artifacts\\issue6\\raw\\Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+    "sha256": "d0a7f5059d9823b6e9b392b759e306481a3502d190dea7a1b5502ae079ea069b"
+  },
+  "train_2017": {
+    "path": "data\\sample\\cicids2017_cleaned.csv",
+    "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292"
+  }
+}

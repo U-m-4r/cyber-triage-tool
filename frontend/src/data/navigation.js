@@ -1,6 +1,7 @@
 /** Workspace destinations; each opens the corresponding case result view. */
 
 export const NAV_ITEMS = [
+  { label: 'Model evaluation', path: '/evaluations', icon: 'analysis', phase: 'Saved labeled experiments and limitations' },
   {
     label: 'Dashboard',
     path: '/dashboard',

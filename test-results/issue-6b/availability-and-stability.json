@@ -1,0 +1,50 @@
+{
+  "original_eligible_2017_training_family_counts": {
+    "Normal Traffic": 1361606,
+    "Port Scanning": 18583,
+    "Web Attacks": 1414,
+    "Brute Force": 6258,
+    "DDoS": 89566,
+    "Bots": 856,
+    "DoS": 133994
+  },
+  "validation_two_seed_spread": {
+    "lightgbm": {
+      "recall": {
+        "mean": 7.140911778186673e-05,
+        "std_population": 1.6606771577178326e-06
+      },
+      "precision": {
+        "mean": 0.017148832345765076,
+        "std_population": 0.0039037992331822933
+      },
+      "false_positive_rate": {
+        "mean": 0.0017561163609213781,
+        "std_population": 0.0004448201449475664
+      },
+      "average_precision": {
+        "mean": 0.5268767274955942,
+        "std_population": 0.012489692330280522
+      }
+    },
+    "xgboost": {
+      "recall": {
+        "mean": 0.00045668621837240353,
+        "std_population": 0.000393580486379126
+      },
+      "precision": {
+        "mean": 0.0620828851887653,
+        "std_population": 0.023307374984683663
+      },
+      "false_positive_rate": {
+        "mean": 0.0021572937746665577,
+        "std_population": 0.0015248098855485948
+      },
+      "average_precision": {
+        "mean": 0.5242153342813161,
+        "std_population": 0.003671291182485825
+      }
+    }
+  },
+  "limitation": "2017 DoS label is aggregated; named SlowHTTPTest training counts cannot be recovered from this cleaned source"
+}

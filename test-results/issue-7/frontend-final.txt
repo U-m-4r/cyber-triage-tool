@@ -1,0 +1,49 @@
+
+> cyber-triage-frontend@0.1.0 check
+> npm run test && npm run build
+
+
+> cyber-triage-frontend@0.1.0 test
+> node --test tests/*.test.js
+
+✔ shared evidence is one entity with distinct finding references and highest severity (3.9514ms)
+✔ host associations come only from findings with recorded hosts (0.3828ms)
+✔ historical evidence has unknown screening rather than a clean verdict (1.3405ms)
+✔ coverage adapter preserves unavailable, skipped and measured zero counts (1.3489ms)
+✔ API configuration is validated and demo mode cannot enable fixtures (3.0407ms)
+✔ network failure never substitutes a known sample case (22.417ms)
+✔ only case 404 maps to a missing case (6.7787ms)
+✔ database failure cannot look like an empty artifact collection (0.5763ms)
+✔ dashboard failures propagate and a subsequent retry can recover (2.0245ms)
+✔ concurrent dashboard reads share one request (0.5399ms)
+✔ malformed dashboard response is an error (0.3764ms)
+✔ API requests carry the session token without putting it in the URL (0.5806ms)
+✔ PDF downloads use the same authenticated request path (2.1413ms)
+✔ sign in validates token before storing a session (2.5122ms)
+✔ unauthorized request clears the browser session (0.4507ms)
+✔ cancellation remains AbortError instead of a false service outage (0.9371ms)
+✔ multipart carries evidence and case ID without forcing a content type (0.8519ms)
+✔ case mutations use persisted API routes and propagate failures (0.6857ms)
+✔ dashboard refetches after earlier request completes (0.451ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 204.9121
+
+> cyber-triage-frontend@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 107 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.78 kB │ gzip:  0.44 kB
+dist/assets/index-DkngZtH1.css   76.23 kB │ gzip: 14.08 kB
+dist/assets/index-1Yx_IK2t.js   330.87 kB │ gzip: 99.25 kB
+
+✓ built in 352ms

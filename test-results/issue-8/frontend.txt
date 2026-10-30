@@ -1,0 +1,64 @@
+
+> cyber-triage-frontend@0.1.0 check
+> npm run test && npm run build
+
+
+> cyber-triage-frontend@0.1.0 test
+> node --test tests/*.test.js
+
+✔ shared evidence is one entity with distinct finding references and highest severity (141.954ms)
+✔ host associations come only from findings with recorded hosts (0.4547ms)
+✔ historical evidence has unknown screening rather than a clean verdict (19.3831ms)
+✔ coverage adapter preserves unavailable, skipped and measured zero counts (80.7589ms)
+✔ API configuration is validated and demo mode cannot enable fixtures (7.2805ms)
+✔ network failure never substitutes a known sample case (135.219ms)
+✔ only case 404 maps to a missing case (17.8265ms)
+✔ database failure cannot look like an empty artifact collection (1.1902ms)
+✔ dashboard failures propagate and a subsequent retry can recover (2.8559ms)
+✔ concurrent dashboard reads share one request (1.4696ms)
+✔ malformed dashboard response is an error (0.9294ms)
+✔ API requests carry the session token without putting it in the URL (1.1427ms)
+✔ PDF downloads use the same authenticated request path (7.4435ms)
+✔ sign in validates token before storing a session (4.4871ms)
+✔ unauthorized request clears the browser session (0.9709ms)
+✔ cancellation remains AbortError instead of a false service outage (4.5232ms)
+✔ multipart carries evidence and case ID without forcing a content type (2.2155ms)
+✔ case mutations use persisted API routes and propagate failures (1.7632ms)
+✔ dashboard refetches after earlier request completes (0.9835ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 604.6704
+
+> cyber-triage-frontend@0.1.0 build
+> vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 107 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.78 kB │ gzip:  0.44 kB
+dist/assets/index-DkngZtH1.css   76.23 kB │ gzip: 14.08 kB
+dist/assets/index-1Yx_IK2t.js   330.87 kB │ gzip: 99.25 kB
+
+✓ built in 8.25s
+node.exe : [33m[PLUGIN_TIMINGS] [0mYour build spent 97% of 8.2s inside plugin hooks (8.0s).
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([33m[PLUGIN_TI...n hooks (8.0s).:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Measured inside the callback, so queue time is excluded and time the callback itself awaited is not:
+  - vite:css-post renderChunk (95%, 7.9s, 1 call)
+Those rows are 95% of the build; the rest of the 97% is below.
+Not measurable — 1 hook whose calls overlap, so elapsed time covers work other calls were doing. Profile with `node 
+--cpu-prof`:
+  - vite:css transform (33 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+

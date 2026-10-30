@@ -1,0 +1,12 @@
+{
+  "run": "4febd9d57e264b88a9d8a196afebf494",
+  "case_id": "CASE-95006490E558",
+  "database": "cyber_triage_test_4febd9d57e264b88a9d8a196afebf494",
+  "api_end_to_end_seconds": 7.490808099999413,
+  "image_integrity": true,
+  "pdf": ".test-artifacts\\issue8\\4febd9d57e264b88a9d8a196afebf494\\report.pdf",
+  "pdf_content": "PASS",
+  "mongo": "PASS",
+  "direct_pe_score": 0.012141118467631745,
+  "outputs": "test-results\\issue-8\\4febd9d57e264b88a9d8a196afebf494"
+}

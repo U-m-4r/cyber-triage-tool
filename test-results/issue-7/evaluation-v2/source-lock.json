@@ -1,0 +1,7 @@
+{
+  "protocol_sha256": "1b484ca25fcd07981d30b77892f9ed9d58d67705d1b132205a0a4e0f11da9984",
+  "archives": {
+    "Win32_test.zip": "c05f6562dee3ace4195087be918eb00181e33bc31464c671fb5ba00c9dd5dfdb",
+    "Win64_test.zip": "52a5a05c1bfa5bb021bb8b44c2e0afcf8983dfa1c6c0a9d76db393e5c682ce10"
+  }
+}

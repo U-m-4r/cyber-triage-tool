@@ -1,0 +1,130 @@
+{
+  "evidence_type": "registry_export",
+  "evidence_sha256": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+  "overall_scan_status": "COMPLETED",
+  "screening": {
+    "forensic_rules": {
+      "applicable": true,
+      "examined": 2,
+      "findings": 2,
+      "findings_unit": "flagged_records",
+      "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+      "input_scope": "parsed_records",
+      "processing_seconds": 4.9e-05,
+      "reason": null,
+      "scanner": "Forensic rules",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "skipped_count_exact": true,
+      "status": "COMPLETED"
+    },
+    "network_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "attack_or_anomaly_decisions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "Not applicable to this evidence representation",
+      "scanner": "network_ml",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "pe_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "malicious_predictions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "No supported PE content available",
+      "scanner": "PE malware ML",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "yara": {
+      "applicable": true,
+      "examined": 1,
+      "findings": 0,
+      "findings_unit": "matched_rules",
+      "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "input_scope": "uploaded_container_bytes",
+      "processing_seconds": 0.001941,
+      "reason": null,
+      "scanner": "YARA",
+      "scanner_version": "4.5.4",
+      "skipped": 0,
+      "status": "COMPLETED"
+    }
+  },
+  "coverage": {
+    "findings_returned": 2,
+    "findings_total": 2,
+    "findings_truncated": false,
+    "parsing": {
+      "enumeration_complete": true,
+      "processing_seconds": 0.003271,
+      "reason": null,
+      "records_parsed": 2,
+      "skipped": 0,
+      "source_records": null,
+      "status": "COMPLETED"
+    },
+    "records_examined": 2,
+    "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+  },
+  "warnings": [],
+  "findings": [
+    {
+      "artifact": {
+        "RegistryKey": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "RegistryValue": "",
+        "record_id": 0,
+        "source_line": 2,
+        "source_row": 0
+      },
+      "detection_sources": [
+        "forensic_rules"
+      ],
+      "evidence_sha256": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "forensic_rule_matches": [
+        "Autorun Entry Added"
+      ],
+      "matched_rules": "Autorun Entry Added",
+      "network_ml": {},
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Existing evidence rules; no network anomaly model applied.",
+      "risk_score": 90.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "RegistryKey": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\HarmlessDemo",
+        "RegistryValue": "\"ordinary.txt\"",
+        "record_id": 1,
+        "source_line": 3,
+        "source_row": 1
+      },
+      "detection_sources": [
+        "forensic_rules"
+      ],
+      "evidence_sha256": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+      "forensic_rule_matches": [
+        "Autorun Entry Added"
+      ],
+      "matched_rules": "Autorun Entry Added",
+      "network_ml": {},
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Existing evidence rules; no network anomaly model applied.",
+      "risk_score": 90.0,
+      "yara_matches": []
+    }
+  ],
+  "iocs": []
+}

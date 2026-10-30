@@ -1,0 +1,31 @@
+{
+  "status": "PASS within documented smoke/API/native scopes",
+  "backend": "423passed46skipped0failures/errors",
+  "frontend": "19passed productionbuildPASS",
+  "static": "PASS",
+  "browser": "Actual observed smoke: signin,evaluation,case list,NTFSYARA,PEscore,reopen,partial,network,PDFdownload. Exhaustive upload/crossbrowser testing not claimed.",
+  "case_count": 16,
+  "backup_pdf_count": 16,
+  "pdf_pages_rendered": 209,
+  "pdf_out_of_page_text": 0,
+  "preserved_historical_files": 109,
+  "historical_changes": [],
+  "models_unchanged": {
+    "models/supervised_binary.joblib": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+    "models/cicids2017_baseline.joblib": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+    "models/pe/EMBER2024_PE.model": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99"
+  },
+  "head": "dd3fcdddb99910317076cfac7b30547a823b9278",
+  "publication": "NONE",
+  "timed_navigation": {
+    "start_utc": "2026-10-30 18:34:59",
+    "end_utc": "2026-10-30 18:35:11",
+    "elapsed_seconds": 12,
+    "scope": "Automated savedcase navigation only, not a narrated presentation duration"
+  },
+  "services": {
+    "frontend": "http://127.0.0.1:5259",
+    "backend": "http://127.0.0.1:5109",
+    "mongo": "127.0.0.1:27018"
+  }
+}

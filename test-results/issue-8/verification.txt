@@ -1,0 +1,23 @@
+python.exe : INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_4febd9d57e264b88a9d8a196afebf494'
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.verify_issue8 *> .test-artifact ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:backend.db...d8a196afebf494':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:39:59] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:40:06] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:40:06] "GET /api/artifacts?case_id=CASE-95006490E558 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:40:06] "GET /api/cases/CASE-95006490E558 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-95006490E558 (23839 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:40:06] "GET /api/report/CASE-95006490E558 HTTP/1.1" 200 -
+{
+  "run": "4febd9d57e264b88a9d8a196afebf494",
+  "case": "CASE-95006490E558",
+  "out": "test-results\\issue-8\\4febd9d57e264b88a9d8a196afebf494",
+  "raw_status": "COMPLETE",
+  "containers_tested": [
+    "controlled.img",
+    "controlled-ewf.E01"
+  ]
+}

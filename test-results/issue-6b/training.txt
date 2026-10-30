@@ -1,0 +1,27 @@
+Actual fitting-process observed peak RSS: 192716800
+python.exe : 
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.issue6b train *> .test-artifact ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\aumar\...h feature names:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+lightgbm 42 {'samples': 2091530, 'benign': 1489366, 'attack': 602164, 'confusion_matrix': {'tn': 1486088, 'fp': 3278, 'fn': 602120, 'tp': 44}, 'accuracy': 0.7105477808111765, 'precision': 0.013245033112582781, 'recall': 7.306979493958456e-05, 'f1': 0.000145337794763215, 'macro_f1': 0.4154625392396862, 'roc_auc': 0.8091954426578584, 'average_precision': 0.5143870351653137, 'specificity': 0.997799063494131, 'false_positive_rate': 0.0022009365058689445, 'false_negative_rate': 0.9999269302050604, 'balanced_accuracy': 0.4989360666445353, 'status': 'EVALUATED'}
+Actual fitting-process observed peak RSS: 113008640
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: 
+UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+lightgbm 43 {'samples': 2091530, 'benign': 1489366, 'attack': 602164, 'confusion_matrix': {'tn': 1487413, 'fp': 1953, 'fn': 602122, 'tp': 42}, 'accuracy': 0.7111803321013803, 'precision': 0.021052631578947368, 'recall': 6.97484406241489e-05, 'f1': 0.0001390362470806526, 'macro_f1': 0.4156755938434331, 'roc_auc': 0.8245295527460069, 'average_precision': 0.5393664198258747, 'specificity': 0.9986887037840262, 'false_positive_rate': 0.0013112962159738117, 'false_negative_rate': 0.9999302515593759, 'balanced_accuracy': 0.49937922611232516, 'status': 'EVALUATED'}
+Actual fitting-process observed peak RSS: 266178560
+xgboost 42 {'samples': 2091530, 'benign': 1489366, 'attack': 602164, 'confusion_matrix': {'tn': 1488424, 'fp': 942, 'fn': 602126, 'tp': 38}, 'accuracy': 0.7116617978226466, 'precision': 0.03877551020408163, 'recall': 6.310573199327758e-05, 'f1': 0.00012600639316647435, 'macro_f1': 0.41583365256377514, 'roc_auc': 0.8224740297544395, 'average_precision': 0.5205440430988302, 'specificity': 0.999367516110882, 'false_positive_rate': 0.0006324838891179629, 'false_negative_rate': 0.9999368942680067, 'balanced_accuracy': 0.49971531092143767, 'status': 'EVALUATED'}
+Actual fitting-process observed peak RSS: 268931072
+xgboost 43 {'samples': 2091530, 'benign': 1489366, 'attack': 602164, 'confusion_matrix': {'tn': 1483882, 'fp': 5484, 'fn': 601652, 'tp': 512}, 'accuracy': 0.7097168101820198, 'precision': 0.08539026017344896, 'recall': 0.0008502667047515295, 'f1': 0.0016837674296237832, 'macro_f1': 0.41592538255394024, 'roc_auc': 0.8225935573420358, 'average_precision': 0.5278866254638018, 'specificity': 0.9963178963397848, 'false_positive_rate': 0.0036821036602151525, 'false_negative_rate': 0.9991497332952485, 'balanced_accuracy': 0.4985840815222682, 'status': 'EVALUATED'}

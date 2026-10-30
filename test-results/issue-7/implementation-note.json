@@ -1,0 +1,5 @@
+{
+  "evaluated_implementation": ".test-artifacts\\issue7\\evaluated-implementation.py",
+  "sha256": "ee72087df3d419bd623ba0893c0dc844d1017d4a98fc7416377ac0709f3562c0",
+  "later_change": "Downloader API acquisition and storage guard only; evaluation/model/threshold unchanged; receipt-matching original preserved"
+}

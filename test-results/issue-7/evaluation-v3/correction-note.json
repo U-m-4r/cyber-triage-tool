@@ -1,0 +1,7 @@
+{
+  "reason": "Preserve duplicate observations as actual archive population; report separate unique-identity metrics. Header metadata absent means unknown scope, never a feature/model failure. No feature/model/threshold/label changes.",
+  "initial_run": "Root preserved, incomplete duplicate/metadata exclusions",
+  "v2": "Aborted after duplicate guard defect identified; partial artifacts preserved; no authoritative metrics",
+  "implementation_sha256": "9731988bb61b94f3400b9e5d8555ba1aa9e075c9e677ff99e0c6076add00dc79",
+  "sampling": "All original rows; no prediction-dependent filtering"
+}

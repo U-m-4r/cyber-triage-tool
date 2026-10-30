@@ -1,0 +1,29 @@
+{
+  "observed": [
+    {
+      "utf8_hex": "6c61756e636865722e62696e",
+      "path": "/nested/launcher.bin",
+      "inode": 69,
+      "bytes": 108032
+    },
+    {
+      "utf8_hex": "6e61c383c692c382c2af76652e747874",
+      "path": "/nested/na\u00c3\u0192\u00c2\u00afve.txt",
+      "inode": 70,
+      "bytes": 35
+    },
+    {
+      "utf8_hex": "6e656761746976652e747874",
+      "path": "/nested/negative.txt",
+      "inode": 66,
+      "bytes": 35
+    },
+    {
+      "utf8_hex": "706f7369746976652e747874",
+      "path": "/nested/positive.txt",
+      "inode": 65,
+      "bytes": 38
+    }
+  ],
+  "limitation": "Initial Windows-generated population script encoded intended naive name as mojibake. Actual nonASCII name is preserved exactly by pytsk3; do not claim intended accented spelling roundtrip. Reproduction builder writes explicit UTF8."
+}

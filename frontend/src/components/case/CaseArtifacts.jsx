@@ -52,6 +52,7 @@ export default function CaseArtifacts({ caseRecord, onChange }) {
   const { data, loading, error } = useApi(`/artifacts?${params}`, revision)
   function filter(setter, value) { setter(value); setOffset(0) }
   return <div className="case-artifacts">
+    <p><strong>LIVE APPLICATION ANALYSIS</strong> · Flagged artifacts are review findings. Accuracy and recall require separate ground truth.</p>
     <p>Network intrusion predictions and anomaly decisions use the selected detector. PE malware predictions use static file features.
       YARA findings, ML model scores, and final triage risk are separate signals; none establishes proof of compromise.</p>
     {caseRecord && <p>Upload files in the Evidence tab. This explorer shows the resulting stored artifacts.</p>}
@@ -65,7 +66,7 @@ export default function CaseArtifacts({ caseRecord, onChange }) {
   </div>
 }
 
-function ArtifactTable({ rows, total, loading, type, setType, severity, setSeverity }) {
+export function ArtifactTable({ rows, total, loading, type, setType, severity, setSeverity }) {
   return (
     <section className="artifacts-explorer">
       <div className="artifacts-toolbar">

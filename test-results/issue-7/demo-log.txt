@@ -1,0 +1,126 @@
+python.exe : C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\fs\__init__.py:4: 
+UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The 
+pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to 
+Setuptools<81.
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.verify_issue7 *> .test-artifact ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\aumar\... Setuptools<81.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_6fd8319c3c0d4b619e97bdc508873448'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:44] "GET /__issue2_6fd8319c3c0d4b619e97bdc508873448 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:44] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:53] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:53] "GET /api/cases/CASE-0B8976F917BE HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:53] "GET /api/artifacts?case_id=CASE-0B8976F917BE HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:53] "GET /api/ingestions?case_id=CASE-0B8976F917BE HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-0B8976F917BE (12594 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 22:02:53] "GET /api/report/CASE-0B8976F917BE HTTP/1.1" 200 -
+{
+  "run": "6fd8319c3c0d4b619e97bdc508873448",
+  "case_id": "CASE-0B8976F917BE",
+  "database": "cyber_triage_test_6fd8319c3c0d4b619e97bdc508873448",
+  "sha256_before": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+  "sha256_after": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+  "integrity": "PASS",
+  "api_request_seconds": 8.571175,
+  "scan": {
+    "bytes_read": 210012,
+    "directories_discovered": 0,
+    "entries_discovered": 11,
+    "enumeration_complete": true,
+    "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+    "files_failed": 0,
+    "files_scanned": 6,
+    "files_skipped": 0,
+    "files_skipped_limits": 0,
+    "files_with_yara_matches": 1,
+    "limits": {
+      "max_depth": 64,
+      "max_entries": 20000,
+      "max_file_bytes": 33554432,
+      "max_files": 10000,
+      "max_seconds": 120,
+      "max_total_bytes": 268435456,
+      "yara_timeout": 5
+    },
+    "matched_rules": 1,
+    "metadata_entries_ignored": 1,
+    "non_file_entries_ignored": 5,
+    "pe_ml": {
+      "benign": 2,
+      "classification_errors": 0,
+      "coverage_status": "COMPLETE",
+      "files_classified": 2,
+      "files_excluded": 0,
+      "malicious": 0,
+      "model": {
+        "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+        "available": true,
+        "default_decision_threshold": 0.5,
+        "dependencies": {
+          "lightgbm": "4.6.0",
+          "numpy": "2.5.4",
+          "pefile": "2024.8.26",
+          "scikit-learn": "1.8.0",
+          "signify": "0.7.1"
+        },
+        "feature_dimensions": 2568,
+        "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+        "license": "Apache-2.0",
+        "model_id": "EMBER2024_PE@425202786349",
+        "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+        "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+        "reason": null,
+        "score_calibrated": false,
+        "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+        "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+        "supported_formats": [
+          "native PE32 I386 EXE/DLL",
+          "native PE32+ AMD64 EXE/DLL"
+        ]
+      },
+      "not_applicable": 4,
+      "pe_files_discovered": 2,
+      "processing_seconds": 8.406781
+    },
+    "processing_seconds": 8.4201,
+    "regular_files_discovered": 6,
+    "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+    "scan_status": "COMPLETE",
+    "timings": {
+      "backend_analysis_seconds": 8.474279,
+      "disk_analysis_seconds": 8.4201,
+      "file_read_hash_seconds": 0.000455,
+      "filesystem_enumeration_seconds": 0.006064,
+      "pe_ml_seconds": 8.406781,
+      "rules_compilation_seconds": 0.005248,
+      "yara_execution_seconds": 0.001552
+    },
+    "total_eligible_files": 6,
+    "total_files_discovered": 6,
+    "virtual_entries_ignored": 4,
+    "warnings": [],
+    "yara_status": "READY"
+  },
+  "fixture": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\.test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\harmless-fat12.img",
+  "pe_sources": [
+    {
+      "file_path": "/LAUNCH64.BIN",
+      "source": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\.venv\\Lib\\site-packages\\pip\\_vendor\\distlib\\t64.exe",
+      "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "size_bytes": 108032,
+      "description": "Harmless PyPA distlib console launcher bundled with pip; never executed"
+    },
+    {
+      "file_path": "/LAUNCH32.EXE",
+      "source": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\.venv\\Lib\\site-packages\\pip\\_vendor\\distlib\\t32.exe",
+      "sha256": "6b4195e640a85ac32eb6f9628822a622057df1e459df7c17a12f97aeabc9415b",
+      "size_bytes": 97792,
+      "description": "Harmless PyPA distlib console launcher bundled with pip; never executed"
+    }
+  ],
+  "output": "C:\\Users\\aumar\\OneDrive\\Desktop\\Projects\\cyber-triage-tool\\test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448"
+}

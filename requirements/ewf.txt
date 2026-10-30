@@ -1,0 +1,2 @@
+# Optional Windows AMD64/Python3.14 wheel verified in Issue8; no production model changes.
+libewf-python==20260924

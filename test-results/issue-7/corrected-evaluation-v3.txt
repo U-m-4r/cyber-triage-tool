@@ -1,0 +1,173 @@
+Processed 10000 elapsed 13
+Processed 20000 elapsed 24
+Processed 30000 elapsed 35
+Processed 40000 elapsed 44
+Processed 50000 elapsed 54
+Processed 60000 elapsed 64
+Processed 70000 elapsed 74
+Processed 80000 elapsed 84
+Processed 90000 elapsed 94
+Processed 100000 elapsed 104
+Processed 110000 elapsed 114
+Processed 120000 elapsed 124
+Processed 130000 elapsed 134
+Processed 140000 elapsed 144
+Processed 150000 elapsed 154
+Processed 160000 elapsed 165
+Processed 170000 elapsed 175
+Processed 180000 elapsed 184
+Processed 190000 elapsed 195
+Processed 200000 elapsed 205
+Processed 210000 elapsed 214
+Processed 220000 elapsed 223
+Processed 230000 elapsed 233
+Processed 240000 elapsed 242
+Processed 250000 elapsed 251
+Processed 260000 elapsed 259
+Processed 270000 elapsed 268
+Processed 280000 elapsed 278
+Processed 290000 elapsed 286
+Processed 300000 elapsed 296
+Processed 310000 elapsed 305
+Processed 320000 elapsed 314
+Processed 330000 elapsed 324
+Processed 340000 elapsed 335
+Processed 350000 elapsed 346
+Processed 360000 elapsed 356
+Processed 370000 elapsed 366
+Processed 380000 elapsed 375
+Processed 390000 elapsed 384
+Processed 400000 elapsed 394
+Processed 410000 elapsed 403
+Processed 420000 elapsed 412
+Processed 430000 elapsed 421
+Processed 440000 elapsed 431
+Processed 450000 elapsed 440
+Processed 460000 elapsed 449
+Processed 470000 elapsed 458
+Processed 480000 elapsed 467
+Processed 490000 elapsed 476
+Processed 500000 elapsed 485
+Processed 510000 elapsed 494
+Processed 520000 elapsed 504
+Processed 530000 elapsed 513
+Processed 540000 elapsed 522
+Processed 550000 elapsed 531
+Processed 560000 elapsed 541
+Processed 570000 elapsed 550
+Processed 580000 elapsed 559
+Processed 590000 elapsed 568
+Processed 600000 elapsed 578
+Processed 610000 elapsed 587
+Processed 620000 elapsed 597
+Processed 630000 elapsed 606
+Processed 640000 elapsed 615
+Processed 650000 elapsed 626
+Processed 660000 elapsed 637
+Processed 670000 elapsed 646
+Processed 680000 elapsed 656
+Processed 690000 elapsed 666
+Processed 700000 elapsed 675
+Processed 710000 elapsed 685
+Processed 720000 elapsed 695
+Processed 730000 elapsed 705
+Processed 740000 elapsed 716
+Processed 750000 elapsed 726
+Processed 760000 elapsed 737
+Processed 770000 elapsed 747
+Processed 780000 elapsed 759
+Processed 790000 elapsed 774
+Processed 800000 elapsed 786
+Processed 810000 elapsed 797
+Processed 820000 elapsed 807
+Processed 830000 elapsed 817
+Processed 840000 elapsed 828
+Processed 850000 elapsed 839
+Processed 860000 elapsed 849
+Processed 870000 elapsed 860
+Processed 880000 elapsed 870
+Processed 890000 elapsed 881
+Processed 900000 elapsed 891
+Processed 910000 elapsed 901
+Processed 920000 elapsed 911
+Processed 930000 elapsed 922
+Processed 940000 elapsed 933
+Processed 950000 elapsed 943
+Processed 960000 elapsed 954
+{
+  "overall": {
+    "samples": 960000,
+    "benign": 480000,
+    "attack": 480000,
+    "confusion_matrix": {
+      "tn": 473852,
+      "fp": 6148,
+      "fn": 11862,
+      "tp": 468138
+    },
+    "accuracy": 0.9812395833333334,
+    "precision": 0.9870373572064113,
+    "recall": 0.9752875,
+    "f1": 0.9811272511595056,
+    "macro_f1": 0.981238918678952,
+    "roc_auc": 0.9983209533420139,
+    "average_precision": 0.9984530110457932,
+    "specificity": 0.9871916666666667,
+    "false_positive_rate": 0.01280833333333331,
+    "false_negative_rate": 0.024712500000000026,
+    "balanced_accuracy": 0.9812395833333334,
+    "status": "EVALUATED"
+  },
+  "per_type": {
+    "Win32": {
+      "samples": 720000,
+      "benign": 360000,
+      "attack": 360000,
+      "confusion_matrix": {
+        "tn": 355724,
+        "fp": 4276,
+        "fn": 9798,
+        "tp": 350202
+      },
+      "accuracy": 0.9804527777777777,
+      "precision": 0.9879371921529686,
+      "recall": 0.9727833333333333,
+      "f1": 0.9803017027816112,
+      "macro_f1": 0.980451627935142,
+      "roc_auc": 0.9982701791512346,
+      "average_precision": 0.9984085438148554,
+      "specificity": 0.9881222222222222,
+      "false_positive_rate": 0.011877777777777765,
+      "false_negative_rate": 0.027216666666666667,
+      "balanced_accuracy": 0.9804527777777778,
+      "status": "EVALUATED"
+    },
+    "Win64": {
+      "samples": 240000,
+      "benign": 120000,
+      "attack": 120000,
+      "confusion_matrix": {
+        "tn": 118128,
+        "fp": 1872,
+        "fn": 2064,
+        "tp": 117936
+      },
+      "accuracy": 0.9836,
+      "precision": 0.984375,
+      "recall": 0.9828,
+      "f1": 0.9835868694955965,
+      "macro_f1": 0.9835999895039933,
+      "roc_auc": 0.99854832,
+      "average_precision": 0.9986716095047068,
+      "specificity": 0.9844,
+      "false_positive_rate": 0.015599999999999947,
+      "false_negative_rate": 0.017199999999999993,
+      "balanced_accuracy": 0.9836,
+      "status": "EVALUATED"
+    }
+  },
+  "counts": {
+    "total": 960000,
+    "duplicate_identity_rows_retained": 480013
+  }
+}

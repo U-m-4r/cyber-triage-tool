@@ -1,0 +1,166 @@
+{
+  "evidence_type": "disk_image",
+  "evidence_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+  "overall_scan_status": "COMPLETED",
+  "screening": {
+    "forensic_rules": {
+      "applicable": true,
+      "examined": 19,
+      "findings": 0,
+      "findings_unit": "flagged_records",
+      "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+      "input_scope": "parsed_records",
+      "processing_seconds": 0.000237,
+      "reason": null,
+      "scanner": "Forensic rules",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "skipped_count_exact": true,
+      "status": "COMPLETED"
+    },
+    "network_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "attack_or_anomaly_decisions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "Not applicable to this evidence representation",
+      "scanner": "network_ml",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "pe_ml": {
+      "applicable": true,
+      "examined": 1,
+      "findings": 0,
+      "findings_unit": "malicious_predictions",
+      "identifier": "EMBER2024_PE@425202786349",
+      "input_scope": "individual_file_bytes",
+      "model": {
+        "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+        "model_id": "EMBER2024_PE@425202786349",
+        "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+        "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+        "threshold": null
+      },
+      "prediction_counts": {
+        "benign": 1,
+        "malicious": 0
+      },
+      "processing_seconds": 3.734384,
+      "reason": null,
+      "scanner": "PE malware ML",
+      "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+      "skipped": 0,
+      "status": "COMPLETED"
+    },
+    "yara": {
+      "applicable": true,
+      "examined": 19,
+      "findings": 1,
+      "findings_unit": "matched_rules",
+      "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "input_scope": "embedded_file_bytes",
+      "processing_seconds": 0.012498,
+      "reason": null,
+      "scanner": "YARA",
+      "scanner_version": "4.5.4",
+      "skipped": 0,
+      "status": "COMPLETED"
+    }
+  },
+  "coverage": {
+    "disk": {
+      "enumeration_complete": true,
+      "files_scanned": 19,
+      "files_skipped": 0,
+      "total_eligible_files": 19,
+      "total_files_discovered": 19
+    },
+    "findings_returned": 1,
+    "findings_total": 1,
+    "findings_truncated": false,
+    "parsing": {
+      "enumeration_complete": true,
+      "reason": null,
+      "skipped": 0,
+      "skipped_count_exact": true,
+      "status": "COMPLETED"
+    },
+    "records_examined": 19,
+    "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+  },
+  "warnings": [],
+  "findings": [
+    {
+      "artifact": {
+        "FilePath": "/nested/launcher.bin",
+        "artifact_location": "volume:0:inode:69:/nested/launcher.bin",
+        "inode": 69,
+        "record_id": 0,
+        "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+        "volume_offset": 0
+      },
+      "detection_sources": [
+        "yara"
+      ],
+      "evidence_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+      "forensic_rule_matches": [],
+      "matched_rules": "YARA: Harmless_PE_Header_Test",
+      "network_ml": {},
+      "pe_ml": {
+        "feature_dimensions": 2568,
+        "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+        "file_type": "PE32+-AMD64",
+        "is_pe": true,
+        "model_id": "EMBER2024_PE@425202786349",
+        "model_score": 0.012141118467631745,
+        "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+        "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+        "prediction": "benign",
+        "processing_seconds": 3.728176,
+        "score_calibrated": false,
+        "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+        "status": "CLASSIFIED",
+        "threshold": 0.5,
+        "worker_seconds": 3.134097
+      },
+      "priority": "MEDIUM",
+      "risk_explanation": "PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety.",
+      "risk_score": 25.0,
+      "yara_matches": [
+        {
+          "matched_strings": [],
+          "meta": {
+            "description": "Test-only PE header, not malware",
+            "severity": "informational"
+          },
+          "namespace": "rules_175edf511ebc68883ea222a17b416c1a0cbe567e1d9168b896f1c959403756f6",
+          "rule": "Harmless_PE_Header_Test",
+          "tags": [],
+          "target": "volume:0:inode:69:/nested/launcher.bin"
+        }
+      ]
+    }
+  ],
+  "iocs": [
+    {
+      "artifact_location": "volume:0:inode:69:/nested/launcher.bin",
+      "evidence_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+      "input_scope": "embedded_file_bytes",
+      "matched_strings": [],
+      "meta": {
+        "description": "Test-only PE header, not malware",
+        "severity": "informational"
+      },
+      "namespace": "rules_175edf511ebc68883ea222a17b416c1a0cbe567e1d9168b896f1c959403756f6",
+      "rule": "Harmless_PE_Header_Test",
+      "sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+      "tags": [],
+      "target": "volume:0:inode:69:/nested/launcher.bin"
+    }
+  ]
+}

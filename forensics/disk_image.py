@@ -15,6 +15,7 @@ import time
 from dataclasses import dataclass, asdict
 from forensics import yara_scanner
 from ml import pe_malware_detector
+from forensics.image_reader import open_image
 
 try:
     import pytsk3
@@ -78,7 +79,7 @@ def ingest_disk_image(filepath, limit=None):
     if not AVAILABLE:
         raise RuntimeError(UNAVAILABLE_REASON)
 
-    img = pytsk3.Img_Info(filepath)
+    img = open_image(filepath, pytsk3)
     rows = []
 
     # Try a partition table first; fall back to treating the image as a single
@@ -137,6 +138,8 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
     pe_model = pe_malware_detector.get_model_metadata(pe_options.get('model_path'))
     started = time.monotonic()
     warnings, rows = [], []
+    filesystem_details = []
+    deleted_ignored = 0
     total_read = attempts = entries = eligible = 0
     discovered_entries = directories = ignored = virtual = metadata_entries = 0
     read_seconds = yara_seconds = 0.0
@@ -162,7 +165,11 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
     def expired():
         return time.monotonic() - started >= limits.max_seconds
 
-    img = pytsk3.Img_Info(str(filepath))
+    img = open_image(filepath, pytsk3)
+    container_info = {'format': 'EWF' if hasattr(img, 'segments') else 'raw',
+                      'segments': getattr(img, 'segments', [str(filepath)]),
+                      'logical_media_bytes': int(img.get_size()),
+                      'hash_scope': 'Intake evidence SHA256 identifies uploaded container bytes, not decompressed logical media'}
     try:
         filesystems = []
         try:
@@ -184,6 +191,8 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
                 raise ValueError(f'No supported filesystem: {exc}') from exc
 
         for offset, fs in filesystems:
+            filesystem_details.append({'volume_offset': offset, 'type': int(fs.info.ftype),
+                'block_size': int(fs.info.block_size), 'root_inode': int(fs.info.root_inum)})
             seen = set()
             stack = [('/', None, 0)]
             while stack:
@@ -207,6 +216,13 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
                         filename = name.name.decode('utf-8', errors='replace')
                         path = parent.rstrip('/') + '/' + filename
                         meta = getattr(entry.info, 'meta', None)
+                        # Allocated-only analysis: never treat residual deleted entries
+                        # as accessible evidence or recurse into deleted directories.
+                        if ((meta is not None and getattr(meta, 'flags', 0) & pytsk3.TSK_FS_META_FLAG_UNALLOC)
+                                or getattr(name, 'flags', 0) & pytsk3.TSK_FS_NAME_FLAG_UNALLOC):
+                            deleted_ignored += 1
+                            ignored += 1
+                            continue
                         entry_type = getattr(meta, 'type', None)
                         if entry_type in (pytsk3.TSK_FS_META_TYPE_VIRT, pytsk3.TSK_FS_META_TYPE_VIRT_DIR):
                             virtual += 1
@@ -243,6 +259,8 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
                                'ModifiedTime': _ts(getattr(meta, 'mtime', 0)),
                                'AccessedTime': _ts(getattr(meta, 'atime', 0)),
                                'metadata_flags': int(getattr(meta, 'flags', 0)),
+                               'filesystem_type': int(fs.info.ftype),
+                               'content_scope': 'allocated default unnamed stream only; no ADS or deleted recovery',
                                'entry_kind': 'regular_file' if meta is not None else 'unknown_unreadable',
                                'sha256': None, 'yara_matches': [], 'bytes_read': 0}
                         row['pe_ml'] = {'status': 'NOT_ANALYZED', 'reason': 'File content not completely read'}
@@ -330,6 +348,9 @@ def analyze_disk_image(filepath, limits=None, rules_dir=None, pe_options=None, y
     if ml_excluded:
         warnings.append(f'PE ML coverage reduced: {ml_excluded} artifacts unclassified; {ml_errors} errors')
     return {'findings': rows, 'total_files_discovered': len(rows), 'total_eligible_files': eligible,
+            'image_container': container_info,
+            'filesystems': filesystem_details, 'deleted_entries_ignored': deleted_ignored,
+            'content_scope': 'Allocated default streams; ADS, deleted recovery and reparse targets are outside scope',
             'entries_discovered': discovered_entries, 'regular_files_discovered': sum(r['entry_kind'] == 'regular_file' for r in rows),
             'non_file_entries_ignored': ignored, 'directories_discovered': directories,
             'virtual_entries_ignored': virtual, 'metadata_entries_ignored': metadata_entries,

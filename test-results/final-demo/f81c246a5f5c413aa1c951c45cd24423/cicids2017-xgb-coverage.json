@@ -1,0 +1,962 @@
+{
+  "evidence_type": "network_csv",
+  "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+  "overall_scan_status": "COMPLETED",
+  "screening": {
+    "forensic_rules": {
+      "applicable": true,
+      "examined": 84,
+      "findings": 37,
+      "findings_unit": "flagged_records",
+      "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+      "input_scope": "parsed_records",
+      "processing_seconds": 0.008089,
+      "reason": null,
+      "scanner": "Forensic rules",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "skipped_count_exact": true,
+      "status": "COMPLETED"
+    },
+    "network_ml": {
+      "applicable": true,
+      "examined": 84,
+      "findings": 55,
+      "findings_unit": "attack_or_anomaly_decisions",
+      "identifier": "xgb-bin-12ad91fa39",
+      "input_scope": "validated_network_flows",
+      "model": {
+        "active_threshold": 0.4343418846451664,
+        "calibrated": false,
+        "configured_threshold": 0.4343418846451664,
+        "detector_type": "supervised_binary",
+        "label_mapping": {
+          "0": "BENIGN",
+          "1": "ATTACK"
+        },
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+        "model_type": "xgboost_binary",
+        "model_version": 1,
+        "preprocessing": {
+          "dropped_invalid_rows": 0,
+          "duplicates_preserved": true,
+          "input_rows": 84,
+          "valid_rows": 84
+        },
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_version": "1.0",
+          "fit_duration_seconds": 20.111487,
+          "label_column": "Attack Type",
+          "model_id": "xgb-bin-12ad91fa39",
+          "negative_class": "BENIGN",
+          "positive_class": "ATTACK",
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T09:45:55.376787+00:00",
+          "training_rows": 1612277,
+          "validation_rows": 343070
+        },
+        "score_interpretation": "Uncalibrated tree score; higher indicates attack",
+        "threshold_overridden": false,
+        "threshold_selection": {
+          "calibrated": false,
+          "fallback": false,
+          "fallback_reason": null,
+          "max_fpr_constraint": 0.002,
+          "objective": "f1_score",
+          "score_semantics": "Uncalibrated continuous XGBoost score in [0.0, 1.0]; higher = attack likelihood",
+          "selected_at": "2026-10-27T09:45:55.371497+00:00",
+          "threshold": 0.4343418846451664,
+          "validation_metrics": {
+            "accuracy": 0.9976739440930422,
+            "confusion_matrix": {
+              "false_negative": 498,
+              "false_positive": 300,
+              "true_negative": 284032,
+              "true_positive": 58240
+            },
+            "f1_score": 0.9931956547690105,
+            "false_positive_rate": 0.0010551045960356202,
+            "precision": 0.9948752989408951,
+            "recall": 0.9915216725118322,
+            "support": {
+              "negatives": 284332,
+              "positives": 58738,
+              "total": 343070
+            },
+            "threshold": 0.4343418846451664
+          }
+        },
+        "timings": {
+          "csv_inference_seconds": 0.06103119999897899,
+          "model_loading_seconds": 0.5272551000016392,
+          "records_per_second": 1376.3452136186943
+        }
+      },
+      "processing_seconds": 0.061031,
+      "reason": null,
+      "scanner": "Network ML",
+      "scanner_version": 1,
+      "skipped": 0,
+      "status": "COMPLETED"
+    },
+    "pe_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "malicious_predictions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "No supported PE content available",
+      "scanner": "PE malware ML",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "yara": {
+      "applicable": true,
+      "examined": 1,
+      "findings": 0,
+      "findings_unit": "matched_rules",
+      "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "input_scope": "uploaded_container_bytes",
+      "processing_seconds": 0.003604,
+      "reason": null,
+      "scanner": "YARA",
+      "scanner_version": "4.5.4",
+      "skipped": 0,
+      "status": "COMPLETED"
+    }
+  },
+  "coverage": {
+    "findings_returned": 30,
+    "findings_total": 70,
+    "findings_truncated": true,
+    "parsing": {
+      "invalid_rows": 0,
+      "reason": null,
+      "records_retained": 84,
+      "rows_excluded_by_limit": 0,
+      "skipped": 0,
+      "status": "COMPLETED"
+    },
+    "records_examined": 84,
+    "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+  },
+  "warnings": [
+    "Finding details capped at 30; all artifact results remain in storage"
+  ],
+  "findings": [
+    {
+      "artifact": {
+        "record_id": 37,
+        "source_row": 37
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.998806357383728
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.93,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 41,
+        "source_row": 41
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.998806357383728
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.93,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 45,
+        "source_row": 45
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.998806357383728
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.93,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 36,
+        "source_row": 36
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9987426400184631
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.92,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 39,
+        "source_row": 39
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9987426400184631
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.92,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 46,
+        "source_row": 46
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9987426400184631
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.92,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 17,
+        "source_row": 17
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9969531297683716
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.82,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 14,
+        "source_row": 14
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9947825074195862
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.69,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 18,
+        "source_row": 18
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9947825074195862
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.69,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 20,
+        "source_row": 20
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9915378093719482
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.49,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 21,
+        "source_row": 21
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9911235570907593
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 99.47,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 13,
+        "source_row": 13
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "High Packet Rate",
+        "Low Packet Size"
+      ],
+      "matched_rules": "High Packet Rate, Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9644895195960999
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 97.87,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 52,
+        "source_row": 52
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Large Byte Transfer"
+      ],
+      "matched_rules": "Large Byte Transfer",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9998946189880371
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 87.99,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 57,
+        "source_row": 57
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9992234706878662
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.95,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 58,
+        "source_row": 58
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9992234706878662
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.95,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 51,
+        "source_row": 51
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.999030351638794
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.94,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 53,
+        "source_row": 53
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.999030351638794
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.94,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 15,
+        "source_row": 15
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.989321231842041
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.36,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 16,
+        "source_row": 16
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.989321231842041
+      },
+      "pe_ml": null,
+      "priority": "CRITICAL",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 75.36,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 19,
+        "source_row": 19
+      },
+      "detection_sources": [
+        "forensic_rules",
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [
+        "Low Packet Size"
+      ],
+      "matched_rules": "Low Packet Size",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.7667675614356995
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 62.01,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 48,
+        "source_row": 48
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.999987006187439
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 49,
+        "source_row": 49
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999855756759644
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 50,
+        "source_row": 50
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999440908432007
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 54,
+        "source_row": 54
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999594688415527
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 55,
+        "source_row": 55
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999828338623047
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 56,
+        "source_row": 56
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999884366989136
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 59,
+        "source_row": 59
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9999843835830688
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 60.0,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 40,
+        "source_row": 40
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9989871382713318
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 59.94,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 42,
+        "source_row": 42
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.9989731311798096
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 59.94,
+      "yara_matches": []
+    },
+    {
+      "artifact": {
+        "record_id": 47,
+        "source_row": 47
+      },
+      "detection_sources": [
+        "network_ml"
+      ],
+      "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+      "forensic_rule_matches": [],
+      "matched_rules": "None",
+      "network_ml": {
+        "binary_prediction": "ATTACK",
+        "decision_threshold": 0.4343418846451664,
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_score": 0.998916745185852
+      },
+      "pe_ml": null,
+      "priority": "HIGH",
+      "risk_explanation": "Network review risk uses the configured ML/rule weights with the direct uncalibrated tree score; higher attack scores increase risk.",
+      "risk_score": 59.94,
+      "yara_matches": []
+    }
+  ],
+  "iocs": []
+}

@@ -1,0 +1,98 @@
+{
+  "cicids2017-iforest.pdf": {
+    "pages": 29,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "5d5c267b4f425fd47834f229ed4e9a6d0c7ba01a3fa31ea69ec9fe3c7518f172"
+  },
+  "cicids2017-xgb.pdf": {
+    "pages": 30,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "41a0d833d7bd2b0c42e79ef7afc54b7cd46fc07e94644312f0167957331b3465"
+  },
+  "disk.pdf": {
+    "pages": 6,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "bde7faf2dc4636cc4eff4df9b74a9665c53b09e27b9135a4e8dcdb36aa82118e"
+  },
+  "event-export.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "25b00f05625bd282cc4bdef15d6234c34c47a5d226bda8ef8c5d32c0694d060c"
+  },
+  "external-csv.pdf": {
+    "pages": 23,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "0f40fcb8842c7c3c7e7447e50ad56424808e3bed7341db0117b85548ddd8a3c7"
+  },
+  "file-inventory.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "a1a1f51d4e053fac923c6f2d4131c16bfdebf021643f96f546f06be05c80a539"
+  },
+  "local-ewf.pdf": {
+    "pages": 10,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "55a94985895f584d4d3afa8a15126fe479c6fa98382a8e55b9f7e2a31c0e1388"
+  },
+  "native-evtx.pdf": {
+    "pages": 32,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "19362e70888c9cb331b3dce804f38f0b4c9511bcd19b6bde840e716e4210c59a"
+  },
+  "native-registry.pdf": {
+    "pages": 38,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "a43b1ac0ea93823a5bc04b892b0bdcefc871f6cfc8d413419baa5e8b2c072663"
+  },
+  "ntfs-final.pdf": {
+    "pages": 10,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "3e75ff75a69719e82bbafbf6649c5c5fc8e5aca02c3d17a8b3ee6c838ca1574e"
+  },
+  "ntfs.pdf": {
+    "pages": 10,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "6f99eff872432addb0e8c2edee4711c0f15212e35d240d3ae5b0b4ad88ab247a"
+  },
+  "partial.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "dff99449fdfd18cd4c68a4ab905e1c9fd528ed60b213c59f0ff141dedd2c77ed"
+  },
+  "pcap.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "02e515687416f0ad8a0ce6ad55e32b320725efac1e644313bb013226f0101353"
+  },
+  "registry-export.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "abb871a3f9bacd60e6b275c87a99ebf6f1a6ebddfb586a3e996bdfefc86cfcbc"
+  },
+  "standalone-pe.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "a7ae3b514d70d532119ac72fb49e51d9e53cbc00ba8ce1a6ca9e9fbd4d97aa24"
+  },
+  "unavailable.pdf": {
+    "pages": 3,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "sha256": "5b11ad953fc1da82c16281d9d3831f67d3498a5725e02d3e38de61290adb6c9a"
+  }
+}

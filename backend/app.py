@@ -66,6 +66,24 @@ logger = logging.getLogger(__name__)
 scorer = RiskScorer()
 
 
+@api.route('/api/evaluations', methods=['GET'])
+def saved_evaluations():
+    from backend.evaluation_results import catalog
+    return jsonify(catalog())
+
+
+@api.route('/api/evaluations/<key>', methods=['GET'])
+def saved_evaluation_source(key):
+    from backend.evaluation_results import SOURCES, read_source
+    if key not in SOURCES:
+        return jsonify({'status':'VERIFICATION DATA UNAVAILABLE'}),404
+    try:
+        data,provenance=read_source(key)
+        return jsonify({'source':data,'provenance':provenance})
+    except (OSError,ValueError,KeyError):
+        return jsonify({'status':'VERIFICATION DATA UNAVAILABLE'}),503
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

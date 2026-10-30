@@ -1,0 +1,59 @@
+{
+  "raw_rows": 960000,
+  "unique_identities": 479987,
+  "unique_per_type": {
+    "Win32": {
+      "samples": 359994,
+      "benign": 179994,
+      "attack": 180000,
+      "confusion_matrix": {
+        "tn": 177856,
+        "fp": 2138,
+        "fn": 4899,
+        "tp": 175101
+      },
+      "accuracy": 0.9804524519853108,
+      "precision": 0.9879371921529686,
+      "recall": 0.9727833333333333,
+      "f1": 0.9803017027816112,
+      "macro_f1": 0.9804513070777958,
+      "roc_auc": 0.9982701674469396,
+      "average_precision": 0.9984085743242629,
+      "specificity": 0.9881218262830983,
+      "false_positive_rate": 0.011878173716901697,
+      "false_negative_rate": 0.027216666666666667,
+      "balanced_accuracy": 0.9804525798082158,
+      "status": "EVALUATED"
+    },
+    "Win64": {
+      "samples": 119993,
+      "benign": 59993,
+      "attack": 60000,
+      "confusion_matrix": {
+        "tn": 59057,
+        "fp": 936,
+        "fn": 1032,
+        "tp": 58968
+      },
+      "accuracy": 0.9835990432775246,
+      "precision": 0.984375,
+      "recall": 0.9828,
+      "f1": 0.9835868694955965,
+      "macro_f1": 0.9835990342548018,
+      "roc_auc": 0.9985481792320215,
+      "average_precision": 0.9986716230100714,
+      "specificity": 0.9843981797876419,
+      "false_positive_rate": 0.01560182021235812,
+      "false_negative_rate": 0.017199999999999993,
+      "balanced_accuracy": 0.9835990898938209,
+      "status": "EVALUATED"
+    }
+  },
+  "multiplicity_distribution": {
+    "2": 479974,
+    "4": 13
+  },
+  "score_disagreement_groups": 0,
+  "label_disagreement_groups": 0,
+  "policy": "All original rows evaluated; unique metrics retain first archive/member/line observation, never select by score/label"
+}

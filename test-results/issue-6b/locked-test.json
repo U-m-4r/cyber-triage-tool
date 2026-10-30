@@ -1,0 +1,9 @@
+{
+  "protocol_sha256": "19fc9e130734596d2ef304a7eed0943aa673d4a8cd02fd22e5596467b2cbcdfe",
+  "locked_at": "2026-10-30T16:19:28.150815+00:00",
+  "path": ".test-artifacts\\issue6b\\Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv",
+  "sha256": "fa2947a8256d81ee9103ae16139d62d0e17aa23e696ee80d9e76fb51c01c9c4b",
+  "bytes": 375945899,
+  "url": "https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com/Processed%20Traffic%20Data%20for%20ML%20Algorithms/Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv",
+  "labels_opened": false
+}

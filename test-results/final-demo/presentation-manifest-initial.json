@@ -1,0 +1,57 @@
+{
+  "internal": {
+    "source": "test-results/issue-3/evaluation.json",
+    "sha256": "b78e002d4ab446c154a7d36c72abb66be21b80ec240222a6006470c9b2e54959",
+    "dataset": "internal",
+    "evaluation_script": "scripts/verify_issue3.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "external": {
+    "source": "test-results/issue-4/evaluation.json",
+    "sha256": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683",
+    "dataset": "external",
+    "evaluation_script": "scripts/evaluate_external.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "research": {
+    "source": "test-results/issue-6b/final-results.json",
+    "sha256": "ae9205ee153d6dc948743aaeaa89b3f0b1b619a9d2d9736aa8a8f1216d5cad24",
+    "dataset": "research",
+    "evaluation_script": "scripts/issue6b.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "pe": {
+    "source": "test-results/issue-7/evaluation-v3/metrics.json",
+    "sha256": "a2b7c9ee732b6a371fc4d842b35a01ea67b7a92dda00748d0b80347e98851cb6",
+    "dataset": "pe",
+    "evaluation_script": "scripts/evaluate_pe_test.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "pe-types": {
+    "source": "test-results/issue-7/evaluation-v3/unique-identity-analysis.json",
+    "sha256": "1ff1bac5812c41041e2c0ec7ae8ce571f0dbec92aebfb874b6d9a2c711be3f51",
+    "dataset": "pe-types",
+    "evaluation_script": "scripts/report_pe_test.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "challenge": {
+    "source": "test-results/issue-2/evaluation-v1/metrics.json",
+    "sha256": "6da5d68d44df566885f5848850639f14c2d989cc20eab3f31d1301fb725521cf",
+    "dataset": "challenge",
+    "evaluation_script": "scripts/evaluate_pe_challenge.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "research-selection": {
+    "source": "test-results/issue-6b/selection.json",
+    "sha256": "21ca1164330c641cba16b3a05fa5fb9167e37794ec841e93659ca7876c3bfb78",
+    "feature_schema": "identity-float32 ordered11features",
+    "evaluation_script": "scripts/issue6b.py",
+    "date_provenance": "Local sealed selection timestamp; not authenticated externally"
+  }
+}

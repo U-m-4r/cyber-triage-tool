@@ -1,0 +1,82 @@
+{
+  "evidence_type": "registry",
+  "evidence_sha256": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+  "overall_scan_status": "PARTIAL",
+  "screening": {
+    "forensic_rules": {
+      "applicable": true,
+      "examined": 2000,
+      "findings": 0,
+      "findings_unit": "flagged_records",
+      "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+      "input_scope": "parsed_records",
+      "processing_seconds": 0.017246,
+      "reason": "25 unreadable entries; enumeration truncated: True",
+      "scanner": "Forensic rules",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 25,
+      "skipped_count_exact": false,
+      "status": "PARTIAL"
+    },
+    "network_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "attack_or_anomaly_decisions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "Not applicable to this evidence representation",
+      "scanner": "network_ml",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "pe_ml": {
+      "applicable": false,
+      "examined": 0,
+      "findings": 0,
+      "findings_unit": "malicious_predictions",
+      "identifier": null,
+      "input_scope": "none",
+      "processing_seconds": 0,
+      "reason": "No supported PE content available",
+      "scanner": "PE malware ML",
+      "scanner_version": "unified-screening-v1",
+      "skipped": 0,
+      "status": "NOT_APPLICABLE"
+    },
+    "yara": {
+      "applicable": true,
+      "examined": 1,
+      "findings": 0,
+      "findings_unit": "matched_rules",
+      "identifier": "35bf4947ea74dbd5e62914e982372ca348ca367c3e60dda5442858483af57221",
+      "input_scope": "uploaded_container_bytes",
+      "processing_seconds": 0.015522,
+      "reason": null,
+      "scanner": "YARA",
+      "scanner_version": "4.5.4",
+      "skipped": 0,
+      "status": "COMPLETED"
+    }
+  },
+  "coverage": {
+    "findings_returned": 0,
+    "findings_total": 0,
+    "findings_truncated": false,
+    "parsing": {
+      "enumeration_complete": false,
+      "reason": "25 unreadable entries; enumeration truncated: True",
+      "skipped": 25,
+      "skipped_count_exact": false,
+      "status": "PARTIAL"
+    },
+    "records_examined": 2000,
+    "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+  },
+  "warnings": [
+    "forensic_rules: PARTIAL: 25 unreadable entries; enumeration truncated: True",
+    "25 unreadable entries; enumeration truncated: True"
+  ]
+}

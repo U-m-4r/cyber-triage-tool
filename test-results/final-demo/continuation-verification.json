@@ -1,0 +1,21 @@
+{
+  "backend": "426passed46skipped0failures/errors",
+  "frontend": "19passed,productionbuildPASS",
+  "static": "PASS",
+  "source_authentication": "PASS",
+  "api_and_components": "PASS actual catalog/supporting endpoint checks and actual React render",
+  "case_reopening": "16savedcases passed; no reprocessing",
+  "browser": "Current continuation UNVERIFIED: browser.user is unavailable. Earlier real screenshots and browser acceptance remain preserved. No retries beyond one reconnection check; no bypass.",
+  "preserved_historical_files": 109,
+  "historical_changes": [],
+  "changes": [
+    "Corrected internal/external evaluator script references",
+    "Added checksum-protected split/dataset/receipt source inspection",
+    "Limited source reads before allocation/parsing",
+    "Use existing authenticated API client for source inspection",
+    "Show available recorded receipt dates and missing-date limitations",
+    "Show model checksum and feature contract in expandable details"
+  ],
+  "head": "dd3fcdddb99910317076cfac7b30547a823b9278",
+  "publication": "NONE"
+}

@@ -1,0 +1,69 @@
+{
+  "sampled_training": 127111,
+  "purged_development_overlap": 26314,
+  "training_duplicates_removed": 26273,
+  "training_conflict_groups": 0,
+  "quality": {
+    "train_bot": {
+      "input": 1048575,
+      "eligible": 1044525,
+      "excluded": 4050
+    },
+    "validation_web": {
+      "input": 1048575,
+      "eligible": 1042956,
+      "excluded": 5619
+    },
+    "validation_dos": {
+      "input": 1048575,
+      "eligible": 1048574,
+      "excluded": 1
+    },
+    "calibration": {
+      "input": 1048575,
+      "eligible": 1042867,
+      "excluded": 5708
+    }
+  },
+  "partitions": {
+    "train": {
+      "rows": 74524,
+      "sha256": "019b81acdb9ae7bb1b83b3860d2655f42b524e26fce65b8e057df1f7d91d0352",
+      "groups": {
+        "('CICIDS2017', 'Bots')": 847,
+        "('CICIDS2017', 'Brute Force')": 5031,
+        "('CICIDS2017', 'DDoS')": 19979,
+        "('CICIDS2017', 'DoS')": 19328,
+        "('CICIDS2017', 'Normal Traffic')": 17251,
+        "('CICIDS2017', 'Port Scanning')": 956,
+        "('CICIDS2017', 'Web Attacks')": 140,
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Benign')": 6711,
+        "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Bot')": 4281
+      }
+    },
+    "validation": {
+      "rows": 2091530,
+      "sha256": "f530ec818e3d22516657e68304167232ee14fdc7dd40d60dfb8210b6459d16d9",
+      "groups": {
+        "('Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign')": 446772,
+        "('Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', 'DoS attacks-Hulk')": 461912,
+        "('Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', 'DoS attacks-SlowHTTPTest')": 139890,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign')": 1042594,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -Web')": 249,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -XSS')": 79,
+        "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'SQL Injection')": 34
+      }
+    },
+    "calibration": {
+      "rows": 1042867,
+      "sha256": "ff3b2deaada060124dc4335f4c36c93820087f0c16deff0422692544b6e4f4ce",
+      "groups": {
+        "('Friday-23-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign')": 1042301,
+        "('Friday-23-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -Web')": 362,
+        "('Friday-23-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -XSS')": 151,
+        "('Friday-23-02-2018_TrafficForML_CICFlowMeter.csv', 'SQL Injection')": 53
+      }
+    }
+  },
+  "protocol_sha256": "19fc9e130734596d2ef304a7eed0943aa673d4a8cd02fd22e5596467b2cbcdfe"
+}

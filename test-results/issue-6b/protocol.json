@@ -1,0 +1,52 @@
+{
+  "created_at": "2026-10-30T16:18:27.554473+00:00",
+  "schema": {
+    "version": "network-generalization-11-v1",
+    "columns": [
+      "Flow Duration",
+      "Total Fwd Packets",
+      "Total Length of Fwd Packets",
+      "Fwd Packet Length Max",
+      "Fwd Packet Length Min",
+      "Fwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Flow Packets/s",
+      "Packet Length Mean"
+    ],
+    "preprocessing": "identity-float32-no-fit",
+    "duration_unit": "microseconds",
+    "counts_unit": "packets",
+    "lengths_unit": "bytes",
+    "rates_unit": "per-second",
+    "calibrated": false
+  },
+  "final_source": "Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv",
+  "training": "Original eligible 2017 training mask + March 2 2018; cap 20000 per source/family, bottom row hash seed42",
+  "validation": "Entire February22 and February16 capture days (already opened; development only)",
+  "calibration": "Entire February23 capture day (already opened; development only)",
+  "final": "Entire previously unused February15; no feature access before selection; inductive",
+  "sampling": "Only training sampled/deduplicated. All eligible validation/calibration/final rows retained.",
+  "overlap": "Train purged exact/rounded-log against development only; final overlaps measured AFTER selection, never filtered",
+  "candidates": [
+    "lightgbm",
+    "xgboost"
+  ],
+  "seeds": [
+    42,
+    43
+  ],
+  "threads": 2,
+  "rounds": 200,
+  "max_training_seconds": 120,
+  "max_process_tree_rss_bytes": 1500000000,
+  "threshold": "Calibration only: maximize recall under 1% empirical FPR; complete ties; no calibration fitting",
+  "selection": "maximize worst validation-day attack recall at calibration threshold; tie average precision then name/seed",
+  "gates": "Original Issue6 gates unmodified, family N>=30; missing families explicitly unverified",
+  "timestamp_limitation": "Local write-once hash chain only; no independent timestamp authentication",
+  "resources": {
+    "available_ram": 1566580736
+  },
+  "scope": "Four fits only, no ensembles/family cascade, no production deployment without gates"
+}

@@ -1,0 +1,19 @@
+python.exe : C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\fs\__init__.py:4: 
+UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The 
+pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to 
+Setuptools<81.
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.prepare_final_demo *> .test-art ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\aumar\... Setuptools<81.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_ade9c9f21c1a4b72bb3b29201c45571f'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:52:38] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:52:45] "POST /api/forensics/ingest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:52:45] "GET /api/cases/CASE-2F24402A8FED HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-2F24402A8FED (13758 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:52:45] "GET /api/report/CASE-2F24402A8FED HTTP/1.1" 200 -
+disk {"case_id": "CASE-2F24402A8FED", "intake_id": "IN-2bb96712e53e49d6b287374a5863b139", "stored": 6, "source_size": 1474560, "sha256_before": "187b5c3f3b07385b020b4c7d4df34c6de53707058218a0df8bb6628d4bd198e2", "sha256_after": "187b5c3f3b07385b020b4c7d4df34c6de53707058218a0df8bb6628d4bd198e2", "status": "COMPLETED", "http_seconds": 6.83088459999999, "mongo_roundtrip": "PASS", "pdf": "PASS", "pdf_pages": 6, "pdf_sha256": "79b8137c5159485486615755a85c22c50845202890fbd445378bac278d0a3de9"}
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 23:52:45] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -

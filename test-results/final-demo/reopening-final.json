@@ -1,0 +1,58 @@
+{
+  "disk": {
+    "id": "CASE-E855F07F91D5",
+    "reopened_records": 6
+  },
+  "ntfs": {
+    "id": "CASE-56540E3BFE9B",
+    "reopened_records": 19
+  },
+  "file-inventory": {
+    "id": "CASE-53730B2651F2",
+    "reopened_records": 2
+  },
+  "partial": {
+    "id": "CASE-0DAA7F525B35",
+    "reopened_records": 1
+  },
+  "unavailable": {
+    "id": "CASE-9E450E7C0284",
+    "reopened_records": 2
+  },
+  "standalone-pe": {
+    "id": "CASE-30E18A99BCF7",
+    "reopened_records": 1
+  },
+  "cicids2017-xgb": {
+    "id": "CASE-F0A7D56A1116",
+    "reopened_records": 84
+  },
+  "cicids2017-iforest": {
+    "id": "CASE-1F8449428D92",
+    "reopened_records": 84
+  },
+  "external-csv": {
+    "id": "CASE-6E87BD593EAA",
+    "reopened_records": 60
+  },
+  "native-evtx": {
+    "id": "CASE-6EC4EC7FD19D",
+    "reopened_records": 1601
+  },
+  "native-registry": {
+    "id": "CASE-F479FBF39DF4",
+    "reopened_records": 2000
+  },
+  "event-export": {
+    "id": "CASE-5E161F49F3C1",
+    "reopened_records": 2
+  },
+  "registry-export": {
+    "id": "CASE-E8634644A6D7",
+    "reopened_records": 2
+  },
+  "pcap": {
+    "id": "CASE-FC0E8BDD23D9",
+    "reopened_records": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "completion": "PASS for frozen-model evaluation/native integration; browser UNVERIFIED",
+  "backend": "415 passed,46 skipped,zero failures/errors",
+  "frontend": "19 passed,build PASS",
+  "component": "Actual React table with genuine saved6rows/2PEresults PASS",
+  "static": "PASS",
+  "frozen_files_verified": 85,
+  "frozen_changes": [],
+  "head": "dd3fcdddb99910317076cfac7b30547a823b9278",
+  "git_operations": "Read-only status/rev-parse; no commits,pushes,merges,branches,tags,releases,PRs",
+  "model_threshold_changed": false,
+  "browser": "Local browser use is disabled in Work settings.",
+  "independent_test_sampling": "Full upstream test archives; no model training/tuning; corrected accounting attempts preserved"
+}

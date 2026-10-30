@@ -1,0 +1,24 @@
+node.exe : node:internal/modules/run_main:107
+At line:1 char:93
++ ... ).FullName; & node frontend/scripts/verify-pe-render.mjs $p .test-art ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== 2
+
+    at file:///C:/Users/aumar/OneDrive/Desktop/Projects/cyber-triage-tool/frontend/scripts/verify-pe-render.mjs:20:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 2,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.20.0

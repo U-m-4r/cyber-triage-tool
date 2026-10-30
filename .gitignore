@@ -57,3 +57,10 @@ temp/
 # Third-party design reference used while building the landing page.
 # Kept local: it describes another product's page and pins an external CDN asset.
 frontend/landingpage.md
+
+# Local presentation backup may contain native fixture records and full PDFs.
+test-results/final-demo/backup/
+
+dfr-01-ntfs.dd/
+*.dd
+

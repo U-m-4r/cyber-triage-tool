@@ -1,0 +1,380 @@
+python.exe : 
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.issue6b evaluate *> .test-artif ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\aumar\...t feature names:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: 
+UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+{
+  "challenger": {
+    "samples": 1040548,
+    "benign": 988050,
+    "attack": 52498,
+    "confusion_matrix": {
+      "tn": 979058,
+      "fp": 8992,
+      "fn": 43388,
+      "tp": 9110
+    },
+    "accuracy": 0.9496611400915671,
+    "precision": 0.5032593083637167,
+    "recall": 0.17353042020648404,
+    "f1": 0.2580736543909348,
+    "macro_f1": 0.616010190982314,
+    "roc_auc": 0.847234966237332,
+    "average_precision": 0.25553069505580145,
+    "specificity": 0.9908992459895755,
+    "false_positive_rate": 0.009100754010424539,
+    "false_negative_rate": 0.826469579793516,
+    "balanced_accuracy": 0.5822148330980298,
+    "status": "EVALUATED"
+  },
+  "incumbent": {
+    "samples": 1040548,
+    "benign": 988050,
+    "attack": 52498,
+    "confusion_matrix": {
+      "tn": 944616,
+      "fp": 43434,
+      "fn": 36584,
+      "tp": 15914
+    },
+    "accuracy": 0.9231001356977285,
+    "precision": 0.26814719956864597,
+    "recall": 0.30313535753743,
+    "f1": 0.28456985497916776,
+    "macro_f1": 0.6219680555840361,
+    "roc_auc": 0.9043861022818243,
+    "average_precision": 0.37886953294000875,
+    "specificity": 0.9560406862000911,
+    "false_positive_rate": 0.04395931379990892,
+    "false_negative_rate": 0.69686464246257,
+    "balanced_accuracy": 0.6295880218687605,
+    "status": "EVALUATED"
+  },
+  "gates": {
+    "recall_gain_at_least_10pp": false,
+    "overall_fpr_at_most_5pct": true,
+    "every_day_fpr_at_most_5pct": true,
+    "precision_at_least_20pct": true,
+    "balanced_accuracy_at_least_60pct": false,
+    "supported_family_recall_at_least_10pct": true,
+    "inference_at_least_1000_flows_per_second": true,
+    "loading_under_5seconds": true
+  }
+}

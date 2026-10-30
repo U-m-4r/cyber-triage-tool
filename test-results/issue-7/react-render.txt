@@ -1,0 +1,1 @@
+{"rows":6,"genuine_pe_predictions_rendered":2,"model_id":"EMBER2024_PE@425202786349","status":"PASS","scope":"Actual React artifact table server-rendered using saved real API payload; no browser interaction verified"}

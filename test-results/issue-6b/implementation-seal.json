@@ -1,0 +1,5 @@
+{
+  "script_sha256": "c375b7b9dd293db753b7643756dce7bc6c87a187b8d07d2957498e9c47a8f0dc",
+  "tests_sha256": "5c81537051476e844e9a666d37ed67ea29481a2a3cf370d3fbad7dceed687aab",
+  "policy": "Sealed before training/final access; local timestamp only"
+}

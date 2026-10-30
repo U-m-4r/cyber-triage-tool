@@ -1,0 +1,38 @@
+{
+  "pyewf_version": "20260924",
+  "segments": [
+    {
+      "name": "controlled-ewf.E01",
+      "bytes": 16752722,
+      "sha256": "b3c279ee41c14b595b0f38d335e50e636c23d31b5b2037a88622ec843c1342f9"
+    },
+    {
+      "name": "controlled-ewf.E02",
+      "bytes": 16752081,
+      "sha256": "18237be78d939106d642182552658b0f529cb62e70e71dfca2f0d03ca3b9ea89"
+    },
+    {
+      "name": "controlled-ewf.E03",
+      "bytes": 16752081,
+      "sha256": "577b96b7e8ef9a4cc7cc66288c486762ed383687498ef0d9afb99099906c1e6f"
+    },
+    {
+      "name": "controlled-ewf.E04",
+      "bytes": 16752081,
+      "sha256": "c7a8c03b2040847fae5f73c61d5a75b49dbb51b9e854bdad5372c8718d567667"
+    },
+    {
+      "name": "controlled-ewf.E05",
+      "bytes": 132733,
+      "sha256": "d71c2f79839c2712e6e49ef67880746bb405f470deca545cc192aea7552c1fcf"
+    }
+  ],
+  "logical_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+  "raw_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+  "logical_md5": "8e7737b7ef5692126799bafb54cba4a5",
+  "stored_hashes": {
+    "MD5": "8e7737b7ef5692126799bafb54cba4a5"
+  },
+  "media_bytes": 67108864,
+  "verification": "All decompressed bytes hashed; logical SHA256 equals raw, MD5 compared with stored; distinct from segment container hashes"
+}

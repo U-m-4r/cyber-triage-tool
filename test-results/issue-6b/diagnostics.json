@@ -1,0 +1,1367 @@
+{
+  "train": {
+    "groups": [
+      {
+        "source": "CICIDS2017",
+        "family": "Bots",
+        "rows": 847,
+        "unique_vectors": 847,
+        "feature_quantiles": {
+          "Flow Duration": [
+            65079.4,
+            106700.0,
+            1025449.6
+          ],
+          "Total Fwd Packets": [
+            3.0,
+            4.0,
+            4.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            207.0,
+            212.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            195.0,
+            198.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            51.5,
+            52.5
+          ],
+          "Bwd Packet Length Max": [
+            6.0,
+            128.0,
+            128.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            6.0
+          ],
+          "Flow Bytes/s": [
+            17.533857258,
+            3465.003465,
+            5392.810895199999
+          ],
+          "Flow Packets/s": [
+            5.8510923111999995,
+            67.74871035,
+            109.74195224
+          ],
+          "Packet Length Mean": [
+            2.571428571,
+            42.5,
+            43.0
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "Brute Force",
+        "rows": 5031,
+        "unique_vectors": 5031,
+        "feature_quantiles": {
+          "Flow Duration": [
+            8371608.0,
+            9576881.0,
+            12902115.0
+          ],
+          "Total Fwd Packets": [
+            9.0,
+            9.0,
+            22.0
+          ],
+          "Total Length of Fwd Packets": [
+            99.0,
+            112.0,
+            2008.0
+          ],
+          "Fwd Packet Length Max": [
+            21.0,
+            27.0,
+            640.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            11.11111111,
+            12.44444444,
+            95.61904762
+          ],
+          "Bwd Packet Length Max": [
+            34.0,
+            34.0,
+            976.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            30.73213744,
+            35.46939247,
+            419.0311186
+          ],
+          "Flow Packets/s": [
+            2.516787233,
+            2.889618036,
+            4.722226182
+          ],
+          "Packet Length Mean": [
+            11.48,
+            12.0,
+            88.01851852
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "DDoS",
+        "rows": 19979,
+        "unique_vectors": 19979,
+        "feature_quantiles": {
+          "Flow Duration": [
+            69420.6,
+            1885599.0,
+            81042916.0
+          ],
+          "Total Fwd Packets": [
+            3.0,
+            4.0,
+            8.0
+          ],
+          "Total Length of Fwd Packets": [
+            24.0,
+            26.0,
+            56.0
+          ],
+          "Fwd Packet Length Max": [
+            6.0,
+            20.0,
+            20.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            6.0
+          ],
+          "Fwd Packet Length Mean": [
+            6.0,
+            7.0,
+            8.666666667
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            5755.0,
+            10135.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            3.066316774,
+            159.8529994,
+            149839.12772000008
+          ],
+          "Flow Packets/s": [
+            0.16218056160000002,
+            2.510090564,
+            110.59646914000001
+          ],
+          "Packet Length Mean": [
+            6.0,
+            833.9285714,
+            1453.375
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "DoS",
+        "rows": 19328,
+        "unique_vectors": 19328,
+        "feature_quantiles": {
+          "Flow Duration": [
+            141710.7,
+            86167893.0,
+            100420544.9
+          ],
+          "Total Fwd Packets": [
+            3.0,
+            7.0,
+            9.0
+          ],
+          "Total Length of Fwd Packets": [
+            247.0,
+            356.0,
+            662.0
+          ],
+          "Fwd Packet Length Max": [
+            231.0,
+            346.0,
+            390.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            31.0,
+            54.57142857,
+            114.3333333
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            5792.0,
+            8688.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            118.43610867,
+            125.0955058,
+            1406.2270241999993
+          ],
+          "Flow Packets/s": [
+            0.1197998284,
+            0.149473526,
+            66.830490524
+          ],
+          "Packet Length Mean": [
+            59.0,
+            851.8571429,
+            1000.583333
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "Normal Traffic",
+        "rows": 17251,
+        "unique_vectors": 17251,
+        "feature_quantiles": {
+          "Flow Duration": [
+            193.0,
+            62927.0,
+            69030623.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            2.0,
+            16.0
+          ],
+          "Total Length of Fwd Packets": [
+            12.0,
+            82.0,
+            1380.0
+          ],
+          "Fwd Packet Length Max": [
+            6.0,
+            46.0,
+            630.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            30.0,
+            51.0
+          ],
+          "Fwd Packet Length Mean": [
+            6.0,
+            43.0,
+            116.0
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            116.0,
+            1564.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            48.0,
+            155.0
+          ],
+          "Flow Bytes/s": [
+            21.176863,
+            4511.0569929556,
+            1247311.828
+          ],
+          "Flow Packets/s": [
+            0.379446276,
+            63.8814360547,
+            20408.1632653061
+          ],
+          "Packet Length Mean": [
+            6.0,
+            70.8,
+            334.28
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "Port Scanning",
+        "rows": 956,
+        "unique_vectors": 956,
+        "feature_quantiles": {
+          "Flow Duration": [
+            141.5,
+            799.0,
+            36855696.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            2.0,
+            4.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            0.0,
+            8.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            0.0,
+            6.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            2.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            0.0,
+            4.0
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            6.0,
+            41.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            2.0,
+            6.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            3101.627498,
+            54920.196055
+          ],
+          "Flow Packets/s": [
+            0.108538623,
+            4407.7148369999995,
+            14134.4521
+          ],
+          "Packet Length Mean": [
+            0.0,
+            2.4,
+            5.857142857
+          ]
+        }
+      },
+      {
+        "source": "CICIDS2017",
+        "family": "Web Attacks",
+        "rows": 140,
+        "unique_vectors": 140,
+        "feature_quantiles": {
+          "Flow Duration": [
+            5012147.4,
+            9810998.5,
+            35279925.1
+          ],
+          "Total Fwd Packets": [
+            4.0,
+            7.0,
+            203.0
+          ],
+          "Total Length of Fwd Packets": [
+            383.0,
+            971.0,
+            43951.0
+          ],
+          "Fwd Packet Length Max": [
+            383.0,
+            602.0,
+            602.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            95.75,
+            150.5,
+            216.5073892
+          ],
+          "Bwd Packet Length Max": [
+            364.0,
+            1068.0,
+            1870.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            76.564627011,
+            946.9315771,
+            3504.8588188999997
+          ],
+          "Flow Packets/s": [
+            0.8170534508,
+            2.4295907,
+            9.2491740227
+          ],
+          "Packet Length Mean": [
+            83.66666667,
+            375.91391945,
+            521.8815732800002
+          ]
+        }
+      },
+      {
+        "source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Benign",
+        "rows": 6711,
+        "unique_vectors": 6711,
+        "feature_quantiles": {
+          "Flow Duration": [
+            1276.0,
+            1305172.0,
+            115506152.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            8.0,
+            19.0
+          ],
+          "Total Length of Fwd Packets": [
+            33.0,
+            373.0,
+            1432.0
+          ],
+          "Fwd Packet Length Max": [
+            32.0,
+            194.0,
+            677.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            44.0
+          ],
+          "Fwd Packet Length Mean": [
+            28.0,
+            52.0,
+            142.25
+          ],
+          "Bwd Packet Length Max": [
+            58.0,
+            453.0,
+            1460.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            136.0
+          ],
+          "Flow Bytes/s": [
+            46.87616295,
+            1667.696865,
+            121212.1212
+          ],
+          "Flow Packets/s": [
+            0.379752324,
+            10.92314204,
+            1642.036125
+          ],
+          "Packet Length Mean": [
+            43.4,
+            114.6,
+            306.3684211
+          ]
+        }
+      },
+      {
+        "source": "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Bot",
+        "rows": 4281,
+        "unique_vectors": 4281,
+        "feature_quantiles": {
+          "Flow Duration": [
+            9520.0,
+            11222.0,
+            16463.0
+          ],
+          "Total Fwd Packets": [
+            3.0,
+            3.0,
+            3.0
+          ],
+          "Total Length of Fwd Packets": [
+            326.0,
+            326.0,
+            326.0
+          ],
+          "Fwd Packet Length Max": [
+            326.0,
+            326.0,
+            326.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            108.6666667,
+            108.6666667,
+            108.6666667
+          ],
+          "Bwd Packet Length Max": [
+            112.0,
+            112.0,
+            112.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            27355.44467,
+            40563.43051,
+            47824.25899
+          ],
+          "Flow Packets/s": [
+            440.0855023,
+            626.0060812,
+            739.5668251
+          ],
+          "Packet Length Mean": [
+            56.875,
+            56.875,
+            56.875
+          ]
+        }
+      }
+    ],
+    "ambiguous_groups": 0,
+    "minimum_errors": 0
+  },
+  "validation": {
+    "groups": [
+      {
+        "source": "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Benign",
+        "rows": 446772,
+        "unique_vectors": 445766,
+        "feature_quantiles": {
+          "Flow Duration": [
+            4022309.2,
+            4302297.5,
+            5368722.3
+          ],
+          "Total Fwd Packets": [
+            5.0,
+            5.0,
+            5.0
+          ],
+          "Total Length of Fwd Packets": [
+            935.0,
+            935.0,
+            935.0
+          ],
+          "Fwd Packet Length Max": [
+            935.0,
+            935.0,
+            935.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            187.0,
+            187.0,
+            187.0
+          ],
+          "Bwd Packet Length Max": [
+            305.0,
+            348.0,
+            379.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            240.54819891,
+            300.10773270000004,
+            357.20271957
+          ],
+          "Flow Packets/s": [
+            1.5360862178999999,
+            1.885779958,
+            2.1357824051
+          ],
+          "Packet Length Mean": [
+            129.3,
+            142.3333333,
+            150.4444444
+          ]
+        }
+      },
+      {
+        "source": "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "DoS attacks-Hulk",
+        "rows": 461912,
+        "unique_vectors": 122271,
+        "feature_quantiles": {
+          "Flow Duration": [
+            686.0,
+            13085.0,
+            63102.0
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            2.0,
+            3.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Packets/s": [
+            41.04640981,
+            168.65539515,
+            2919.708029
+          ],
+          "Packet Length Mean": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      {
+        "source": "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "DoS attacks-SlowHTTPTest",
+        "rows": 139890,
+        "unique_vectors": 55,
+        "feature_quantiles": {
+          "Flow Duration": [
+            2.0,
+            3.0,
+            17.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Packets/s": [
+            117647.0588,
+            666666.6667,
+            1000000.0
+          ],
+          "Packet Length Mean": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      {
+        "source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Benign",
+        "rows": 1042594,
+        "unique_vectors": 718326,
+        "feature_quantiles": {
+          "Flow Duration": [
+            86.0,
+            87054.5,
+            86322336.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            2.0,
+            14.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            45.0,
+            1148.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            42.0,
+            677.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            42.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            36.1904761905,
+            112.125
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            97.0,
+            1179.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            115.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            787.73216368985,
+            325259.515570934
+          ],
+          "Flow Packets/s": [
+            0.036963294439999995,
+            51.7598343685,
+            23529.4117647059
+          ],
+          "Packet Length Mean": [
+            0.0,
+            52.3333333333,
+            170.3125
+          ]
+        }
+      },
+      {
+        "source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Brute Force -Web",
+        "rows": 249,
+        "unique_vectors": 225,
+        "feature_quantiles": {
+          "Flow Duration": [
+            33.00000000000001,
+            5005257.0,
+            56859507.6
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            4.0,
+            153.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            646.0,
+            54995.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            646.0,
+            646.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            129.2,
+            359.4444444444
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            364.0,
+            1068.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            201.660766259,
+            2251.5565301431598
+          ],
+          "Flow Packets/s": [
+            1.59733647336,
+            4.5452456925,
+            61714.285714286074
+          ],
+          "Packet Length Mean": [
+            0.0,
+            112.2222222222,
+            494.1317829457
+          ]
+        }
+      },
+      {
+        "source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Brute Force -XSS",
+        "rows": 79,
+        "unique_vectors": 79,
+        "feature_quantiles": {
+          "Flow Duration": [
+            122.8,
+            5015566.0,
+            59249307.6
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            3.0,
+            203.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            0.0,
+            56330.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            0.0,
+            680.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            0.0,
+            277.4876847291
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            0.0,
+            1936.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            0.0,
+            4326.40181871584
+          ],
+          "Flow Packets/s": [
+            5.06227469264,
+            6.0227835034,
+            21202.886928628726
+          ],
+          "Packet Length Mean": [
+            0.0,
+            0.0,
+            799.7902597403
+          ]
+        }
+      },
+      {
+        "source": "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "SQL Injection",
+        "rows": 34,
+        "unique_vectors": 34,
+        "feature_quantiles": {
+          "Flow Duration": [
+            22.3,
+            5007487.5,
+            5672598.699999999
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            4.0,
+            5.699999999999999
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            534.0,
+            1267.7
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            534.0,
+            670.6999999999999
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            118.4,
+            200.61666666669
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            458.0,
+            2003.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            197.83599725865,
+            813.3332354674097
+          ],
+          "Flow Packets/s": [
+            1.59625639642,
+            1.69837613365,
+            89723.32015810275
+          ],
+          "Packet Length Mean": [
+            0.0,
+            110.05555555555,
+            416.4533333333299
+          ]
+        }
+      }
+    ],
+    "ambiguous_groups": 6965,
+    "minimum_errors": 32669
+  },
+  "calibration": {
+    "groups": [
+      {
+        "source": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Benign",
+        "rows": 1042301,
+        "unique_vectors": 712930,
+        "feature_quantiles": {
+          "Flow Duration": [
+            85.0,
+            100022.0,
+            86258988.0
+          ],
+          "Total Fwd Packets": [
+            1.0,
+            2.0,
+            14.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            45.0,
+            1362.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            41.0,
+            677.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            42.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            36.0,
+            110.9230769231
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            95.0,
+            1179.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            111.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            782.6199988718,
+            316455.696202532
+          ],
+          "Flow Packets/s": [
+            0.0368285669,
+            46.9021152854,
+            23809.5238095238
+          ],
+          "Packet Length Mean": [
+            0.0,
+            51.1578947368,
+            170.3125
+          ]
+        }
+      },
+      {
+        "source": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Brute Force -Web",
+        "rows": 362,
+        "unique_vectors": 284,
+        "feature_quantiles": {
+          "Flow Duration": [
+            99.5,
+            56260269.5,
+            89479966.0
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            6.0,
+            153.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            3000.0,
+            54995.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            500.0,
+            646.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            500.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            359.4444444444,
+            500.0
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            0.0,
+            1068.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            33.5271924026,
+            2263.61273586052
+          ],
+          "Flow Packets/s": [
+            0.06705411575,
+            1.59757376475,
+            20104.895104895135
+          ],
+          "Packet Length Mean": [
+            0.0,
+            494.0813953488,
+            500.0
+          ]
+        }
+      },
+      {
+        "source": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "Brute Force -XSS",
+        "rows": 151,
+        "unique_vectors": 148,
+        "feature_quantiles": {
+          "Flow Duration": [
+            114.0,
+            23081627.0,
+            57397913.0
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            6.0,
+            203.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            3000.0,
+            56330.0
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            500.0,
+            680.0
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            269.801980198,
+            277.4876847291
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            0.0,
+            1936.0
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            33.5274157199,
+            4349.0966532856
+          ],
+          "Flow Packets/s": [
+            5.3458175412,
+            5.4575806257,
+            20833.3333333333
+          ],
+          "Packet Length Mean": [
+            0.0,
+            500.0,
+            799.7857142857
+          ]
+        }
+      },
+      {
+        "source": "Friday-23-02-2018_TrafficForML_CICFlowMeter.csv",
+        "family": "SQL Injection",
+        "rows": 53,
+        "unique_vectors": 50,
+        "feature_quantiles": {
+          "Flow Duration": [
+            27.8,
+            5005246.0,
+            5017599.6
+          ],
+          "Total Fwd Packets": [
+            2.0,
+            4.0,
+            5.0
+          ],
+          "Total Length of Fwd Packets": [
+            0.0,
+            445.0,
+            712.2
+          ],
+          "Fwd Packet Length Max": [
+            0.0,
+            399.0,
+            702.4000000000001
+          ],
+          "Fwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Fwd Packet Length Mean": [
+            0.0,
+            89.0,
+            173.80000000000004
+          ],
+          "Bwd Packet Length Max": [
+            0.0,
+            364.0,
+            2008.4000000000005
+          ],
+          "Bwd Packet Length Min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Flow Bytes/s": [
+            0.0,
+            184.2212043596,
+            542.5201073116601
+          ],
+          "Flow Packets/s": [
+            1.59438788642,
+            1.7296529394,
+            72967.03296703302
+          ],
+          "Packet Length Mean": [
+            0.0,
+            102.5555555556,
+            302.02222222222
+          ]
+        }
+      }
+    ],
+    "ambiguous_groups": 188,
+    "minimum_errors": 279
+  },
+  "old_final_score_quantiles": {
+    "Benign": {
+      "count": 1489073,
+      "score_quantiles": [
+        0.00015053957501409297,
+        0.016252432502363755,
+        0.2000926682002262
+      ]
+    },
+    "DoS attacks-SlowHTTPTest": {
+      "count": 139890,
+      "score_quantiles": [
+        0.07996149415463913,
+        0.07996149415463913,
+        0.07996149415463913
+      ]
+    },
+    "DoS attacks-Hulk": {
+      "count": 461912,
+      "score_quantiles": [
+        0.012097850215371308,
+        0.11433779613352717,
+        0.7071699127718425
+      ]
+    },
+    "Brute Force -Web": {
+      "count": 362,
+      "score_quantiles": [
+        0.1178871669001181,
+        0.8364139895306982,
+        0.9998639631747285
+      ]
+    },
+    "Brute Force -XSS": {
+      "count": 151,
+      "score_quantiles": [
+        0.12936731439921395,
+        0.9937258592274786,
+        0.9994177284635146
+      ]
+    },
+    "SQL Injection": {
+      "count": 53,
+      "score_quantiles": [
+        0.08815796185072915,
+        0.8979234550904215,
+        0.9992116268391479
+      ]
+    }
+  },
+  "old_training_composition": {
+    "('CICIDS2017', 'Bots', 1)": 847,
+    "('CICIDS2017', 'Brute Force', 1)": 5031,
+    "('CICIDS2017', 'DDoS', 1)": 9996,
+    "('CICIDS2017', 'DoS', 1)": 9720,
+    "('CICIDS2017', 'Normal Traffic', 0)": 8829,
+    "('CICIDS2017', 'Port Scanning', 1)": 618,
+    "('CICIDS2017', 'Web Attacks', 1)": 146,
+    "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 9505,
+    "('Friday-02-03-2018_TrafficForML_CICFlowMeter.csv', 'Bot', 1)": 1212,
+    "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Benign', 0)": 8033,
+    "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -Web', 1)": 15,
+    "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'Brute Force -XSS', 1)": 16,
+    "('Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv', 'SQL Injection', 1)": 4
+  },
+  "intervals": {
+    "challenger": {
+      "fpr_wilson_iid_only": [
+        0.008915404053921801,
+        0.009289921245832592
+      ],
+      "recall_wilson_iid_only": [
+        0.17031477935574507,
+        0.17679383711610075
+      ]
+    },
+    "incumbent": {
+      "fpr_wilson_iid_only": [
+        0.04355685221476869,
+        0.044365321600500864
+      ],
+      "recall_wilson_iid_only": [
+        0.29921820840911695,
+        0.3070813161393705
+      ]
+    }
+  }
+}

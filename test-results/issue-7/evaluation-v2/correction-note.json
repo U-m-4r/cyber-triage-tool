@@ -1,0 +1,6 @@
+{
+  "reason": "Initial metadata gate required COFF header and excluded model-compatible official vectors. Corrected missing metadata to unknown eligibility; official feature processing/model/threshold unchanged.",
+  "initial_run": "Preserved root metrics/error ledger; not authoritative two-class result",
+  "implementation_sha256": "4a2d4c511254cd43e7066ad27bdb8c7c24bfdec47ea2c1279449e6ea88ad3752",
+  "reuse": "Same disclosed frozen-model test, not a newly independent population; no tuning"
+}

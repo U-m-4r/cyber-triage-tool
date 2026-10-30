@@ -1,0 +1,87 @@
+{
+  "auth_required_source_access": "401 without configured token,200 with token",
+  "saved_cases": [
+    {
+      "case_id": "CASE-E855F07F91D5",
+      "records": 6,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-56540E3BFE9B",
+      "records": 19,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-53730B2651F2",
+      "records": 2,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-0DAA7F525B35",
+      "records": 1,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-9E450E7C0284",
+      "records": 2,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-30E18A99BCF7",
+      "records": 1,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-F0A7D56A1116",
+      "records": 84,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-1F8449428D92",
+      "records": 84,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-6E87BD593EAA",
+      "records": 60,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-6EC4EC7FD19D",
+      "records": 1601,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-F479FBF39DF4",
+      "records": 2000,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-5E161F49F3C1",
+      "records": 2,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-E8634644A6D7",
+      "records": 2,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-FC0E8BDD23D9",
+      "records": 1,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-E042AF39B2C3",
+      "records": 19,
+      "status": "REOPENED"
+    },
+    {
+      "case_id": "CASE-639E1724B463",
+      "records": 19,
+      "status": "REOPENED"
+    }
+  ],
+  "reopening_seconds": 0.1938945000001695,
+  "browser_current": "UNVERIFIED for this continuation: browser.user is unavailable; previously observed browser evidence preserved"
+}

@@ -1,0 +1,71 @@
+{
+  "source": "Frozen Issue7 ordinary Win32/Win64 benchmark, no new model evaluation",
+  "threshold": 0.5,
+  "size_only_counts": {
+    "False": {
+      "rows": 734884,
+      "malicious": 317804,
+      "benign": 417080
+    },
+    "True": {
+      "rows": 225116,
+      "malicious": 162196,
+      "benign": 62920
+    }
+  },
+  "header_size_proxy_metrics": {
+    "False": {
+      "rows": 255364,
+      "metrics": {
+        "samples": 255364,
+        "benign": 86302,
+        "attack": 169062,
+        "confusion_matrix": {
+          "tn": 84378,
+          "fp": 1924,
+          "fn": 6228,
+          "tp": 162834
+        },
+        "accuracy": 0.9680769411506712,
+        "precision": 0.9883222665970697,
+        "recall": 0.9631614437307023,
+        "f1": 0.9755796537055899,
+        "macro_f1": 0.9647496025554201,
+        "roc_auc": 0.9959730232613095,
+        "average_precision": 0.9980133390125477,
+        "specificity": 0.9777061945261987,
+        "false_positive_rate": 0.02229380547380133,
+        "false_negative_rate": 0.03683855626929766,
+        "balanced_accuracy": 0.9704338191284505,
+        "status": "EVALUATED"
+      }
+    },
+    "True": {
+      "rows": 704636,
+      "metrics": {
+        "samples": 704636,
+        "benign": 393698,
+        "attack": 310938,
+        "confusion_matrix": {
+          "tn": 389474,
+          "fp": 4224,
+          "fn": 5634,
+          "tp": 305304
+        },
+        "accuracy": 0.9860097979666097,
+        "precision": 0.9863534155229898,
+        "recall": 0.9818806321517473,
+        "f1": 0.9841119416696483,
+        "macro_f1": 0.9858072861138661,
+        "roc_auc": 0.9988630927768423,
+        "average_precision": 0.998721787651074,
+        "specificity": 0.9892709640384254,
+        "false_positive_rate": 0.010729035961574596,
+        "false_negative_rate": 0.018119367848252743,
+        "balanced_accuracy": 0.9855757980950863,
+        "status": "EVALUATED"
+      }
+    }
+  },
+  "limitations": "Header/size proxy is not raw-byte validation or guaranteed live parse eligibility; no cap increase. Preserve2MiB/20sec worker protection."
+}

@@ -1,0 +1,5 @@
+{
+  "outcome": "EXPLICIT_FAILURE",
+  "reason": "No supported filesystem: OSError('pyewf_handle_read_buffer: unable to read data. libewf_chunk_table_get_segment_file_chunk_group_by_offset: missing segment file for offset: 53953088 (0x03374240).  libewf_chunk_table_get_segment_file_chunk_data_by_offset: unable to retrieve segment file chunk group for offset: 53953088 (0x03374240).  libewf_chunk_table_get_chunk_data_by_offset: unable to retrieve segment file chunk data for offset: 53953088 (0x03374240).  libewf_internal_handle_read_buffer_from_file_io_pool: unable to retrieve chunk data for offset: 53953088 (0x03374240).  libewf_handle_read_buffer: unable to read buffer.')",
+  "scope": "Only first of5segments copied to isolated test directory; original segments unchanged"
+}

@@ -1,0 +1,47 @@
+{
+  "case_id": "CASE-E042AF39B2C3",
+  "source_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+  "status": "COMPLETED",
+  "files_scanned": 19,
+  "matches": 3,
+  "pe": {
+    "benign": 1,
+    "classification_errors": 0,
+    "coverage_status": "COMPLETE",
+    "files_classified": 1,
+    "files_excluded": 0,
+    "malicious": 0,
+    "model": {
+      "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+      "available": true,
+      "default_decision_threshold": 0.5,
+      "dependencies": {
+        "lightgbm": "4.6.0",
+        "numpy": "2.5.4",
+        "pefile": "2024.8.26",
+        "scikit-learn": "1.8.0",
+        "signify": "0.7.1"
+      },
+      "feature_dimensions": 2568,
+      "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+      "license": "Apache-2.0",
+      "model_id": "EMBER2024_PE@425202786349",
+      "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+      "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+      "reason": null,
+      "score_calibrated": false,
+      "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+      "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+      "supported_formats": [
+        "native PE32 I386 EXE/DLL",
+        "native PE32+ AMD64 EXE/DLL"
+      ]
+    },
+    "not_applicable": 18,
+    "pe_files_discovered": 1,
+    "processing_seconds": 2.945978
+  },
+  "seconds": 5.961239099997329,
+  "pdf": ".test-artifacts/final-demo/ntfs-final.pdf",
+  "mongo": 200
+}

@@ -1,0 +1,15 @@
+{
+  "alpine_image": "alpine:3.22@sha256:2e0b81d60597f449baa56dc25d355367869d2dca4cd57e866f1e2b52af3eb55f",
+  "debian_image": "debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3",
+  "ntfs_tools": "2026.2.25-r0",
+  "ewf_tools": "20140813-1+b1",
+  "ewfacquire": "SUCCESS",
+  "ewfverify": "SUCCESS; observed tool output and separately independently recomputed logical hashes",
+  "ewf_wheel": {
+    "path": ".test-artifacts\\issue8\\deps\\libewf_python-20260924-cp314-cp314-win_amd64.whl",
+    "sha256": "a40dc06314a1731337388aeb2e8e3e640a617ef180b9f4a8b0eaee73ac345b37",
+    "distribution": "20260924",
+    "source": "https://pypi.org/project/libewf-python/20260924/"
+  },
+  "generated_only": "No privileged containers; bind only ignored controlled directory. No original evidence mounted."
+}

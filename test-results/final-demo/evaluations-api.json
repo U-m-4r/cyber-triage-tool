@@ -1,0 +1,471 @@
+{
+  "definitions": {
+    "accuracy": "(TP+TN)/N",
+    "false_positive_rate": "FP/(FP+TN)",
+    "precision": "TP/(TP+FP)",
+    "recall": "TP/(TP+FN)"
+  },
+  "evaluations": [
+    {
+      "badge": "HISTORICAL EVALUATION",
+      "entries": [
+        {
+          "badge": "PRODUCTION MODEL",
+          "families": {
+            "Bots": {
+              "attack_prediction_rate": 0.6153846153846154,
+              "rows": 156
+            },
+            "Brute Force": {
+              "attack_prediction_rate": 0.9961059190031153,
+              "rows": 1284
+            },
+            "DDoS": {
+              "attack_prediction_rate": 0.9990620603407847,
+              "rows": 19191
+            },
+            "DoS": {
+              "attack_prediction_rate": 0.9958116995500174,
+              "rows": 28890
+            },
+            "Normal Traffic": {
+              "attack_prediction_rate": 0.0011123127892013252,
+              "rows": 292184
+            },
+            "Port Scanning": {
+              "attack_prediction_rate": 0.9946360153256705,
+              "rows": 3915
+            },
+            "Web Attacks": {
+              "attack_prediction_rate": 0.07352941176470588,
+              "rows": 272
+            }
+          },
+          "metrics": {
+            "accuracy": 0.9976813571866363,
+            "attack": 53708,
+            "benign": 292184,
+            "confusion_matrix": {
+              "fn": 477,
+              "fp": 325,
+              "tn": 291859,
+              "tp": 53231
+            },
+            "f1": 0.9925231205250596,
+            "false_positive_rate": 0.0011123127892013252,
+            "precision": 0.9939315856299947,
+            "recall": 0.9911186415431593,
+            "roc_auc": 0.9999225554347315,
+            "samples": 345892
+          },
+          "model_id": "xgb-bin-12ad91fa39",
+          "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+          "name": "Production XGBoost",
+          "threshold": 0.4343418846451664
+        },
+        {
+          "badge": "PRODUCTION MODEL",
+          "families": {
+            "Bots": {
+              "attack_prediction_rate": 0.02564102564102564,
+              "rows": 156
+            },
+            "Brute Force": {
+              "attack_prediction_rate": 0.002336448598130841,
+              "rows": 1284
+            },
+            "DDoS": {
+              "attack_prediction_rate": 0.633005054452608,
+              "rows": 19191
+            },
+            "DoS": {
+              "attack_prediction_rate": 0.8182069920387678,
+              "rows": 28890
+            },
+            "Normal Traffic": {
+              "attack_prediction_rate": 0.16471127782493222,
+              "rows": 292184
+            },
+            "Port Scanning": {
+              "attack_prediction_rate": 0.5616858237547893,
+              "rows": 3915
+            },
+            "Web Attacks": {
+              "attack_prediction_rate": 0.04044117647058824,
+              "rows": 272
+            }
+          },
+          "metrics": {
+            "accuracy": 0.8154597388780312,
+            "attack": 53708,
+            "benign": 292184,
+            "confusion_matrix": {
+              "fn": 15705,
+              "fp": 48126,
+              "tn": 244058,
+              "tp": 38003
+            },
+            "f1": 0.5435328275063109,
+            "false_positive_rate": 0.16471127782493222,
+            "precision": 0.4412334985893253,
+            "recall": 0.707585462128547,
+            "roc_auc": 0.7567903718584763,
+            "samples": 345892
+          },
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+          "name": "Isolation Forest",
+          "threshold": 0.0
+        }
+      ],
+      "id": "internal",
+      "limitations": [
+        "Feature-group hashing; not independent external validation.",
+        "Internal and external populations differ; comparisons are not controlled cross-dataset trials."
+      ],
+      "provenance": {
+        "dataset": "internal",
+        "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+        "evaluation_script": "scripts/verify_issue3.py",
+        "feature_schema": "Verified ordered11networkflowfeatures",
+        "sha256": "b78e002d4ab446c154a7d36c72abb66be21b80ec240222a6006470c9b2e54959",
+        "source": "test-results/issue-3/evaluation.json"
+      },
+      "source_url": "/api/evaluations/internal",
+      "status": "VERIFIED_SAVED_RESULT",
+      "title": "CICIDS2017 \u2014 internal held-out evaluation"
+    },
+    {
+      "badge": "HISTORICAL EVALUATION",
+      "entries": [
+        {
+          "badge": "PRODUCTION MODEL",
+          "days": [
+            "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+            "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv"
+          ],
+          "families": {},
+          "metrics": {
+            "accuracy": 0.7785498406931608,
+            "attack": 286553,
+            "benign": 1800928,
+            "confusion_matrix": {
+              "fn": 286515,
+              "fp": 175758,
+              "tn": 1625170,
+              "tp": 38
+            },
+            "f1": 0.0001643779915172305,
+            "false_positive_rate": 0.09759301871035375,
+            "precision": 0.00021615963958224304,
+            "recall": 0.0001326107212278357,
+            "roc_auc": 0.7890358240601749,
+            "samples": 2087481
+          },
+          "model_id": "xgb-bin-12ad91fa39",
+          "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+          "name": "supervised",
+          "threshold": 0.4343418846451664
+        },
+        {
+          "badge": "PRODUCTION MODEL",
+          "days": [
+            "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv",
+            "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv"
+          ],
+          "families": {},
+          "metrics": {
+            "accuracy": 0.8030736567183127,
+            "attack": 286553,
+            "benign": 1800928,
+            "confusion_matrix": {
+              "fn": 286379,
+              "fp": 124701,
+              "tn": 1676227,
+              "tp": 174
+            },
+            "f1": 0.0008458345081034835,
+            "false_positive_rate": 0.06924263490822513,
+            "precision": 0.0013933933933933933,
+            "recall": 0.0006072175129906161,
+            "roc_auc": 0.28420514857711304,
+            "samples": 2087481
+          },
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+          "name": "baseline",
+          "threshold": 0
+        }
+      ],
+      "id": "external",
+      "limitations": [
+        "Poor external generalization is retained.",
+        "CICFlowMeter compatibility is conditional; capture days and testbed limit generalization."
+      ],
+      "provenance": {
+        "dataset": "external",
+        "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+        "evaluation_script": "scripts/evaluate_external.py",
+        "feature_schema": "Verified ordered11networkflowfeatures",
+        "sha256": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683",
+        "source": "test-results/issue-4/evaluation.json"
+      },
+      "source_url": "/api/evaluations/external",
+      "status": "VERIFIED_SAVED_RESULT",
+      "title": "CSE-CIC-IDS2018 \u2014 external evaluation"
+    },
+    {
+      "badge": "HISTORICAL EVALUATION",
+      "entries": [
+        {
+          "badge": "PRODUCTION MODEL",
+          "families": {
+            "Benign": {
+              "binary_label": 0,
+              "false_negative": null,
+              "false_positive": 43434,
+              "false_positive_rate": 0.04395931379990891,
+              "recall": null,
+              "samples": 988050,
+              "small_sample": false,
+              "true_positive": null
+            },
+            "DoS attacks-GoldenEye": {
+              "binary_label": 1,
+              "false_negative": 34802,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "recall": 0.1615592175002409,
+              "samples": 41508,
+              "small_sample": false,
+              "true_positive": 6706
+            },
+            "DoS attacks-Slowloris": {
+              "binary_label": 1,
+              "false_negative": 1782,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "recall": 0.837852593266606,
+              "samples": 10990,
+              "small_sample": false,
+              "true_positive": 9208
+            }
+          },
+          "metrics": {
+            "accuracy": 0.9231001356977285,
+            "attack": 52498,
+            "benign": 988050,
+            "confusion_matrix": {
+              "fn": 36584,
+              "fp": 43434,
+              "tn": 944616,
+              "tp": 15914
+            },
+            "f1": 0.28456985497916776,
+            "false_positive_rate": 0.04395931379990892,
+            "precision": 0.26814719956864597,
+            "recall": 0.30313535753743,
+            "roc_auc": 0.9043861022818243,
+            "samples": 1040548
+          },
+          "name": "incumbent",
+          "threshold": 0.4343418846451664
+        },
+        {
+          "badge": "RESEARCH ONLY \u2014 NOT DEPLOYED",
+          "families": {
+            "Benign": {
+              "binary_label": 0,
+              "false_negative": null,
+              "false_positive": 8992,
+              "false_positive_rate": 0.009100754010424573,
+              "recall": null,
+              "samples": 988050,
+              "small_sample": false,
+              "true_positive": null
+            },
+            "DoS attacks-GoldenEye": {
+              "binary_label": 1,
+              "false_negative": 37067,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "recall": 0.10699142334007902,
+              "samples": 41508,
+              "small_sample": false,
+              "true_positive": 4441
+            },
+            "DoS attacks-Slowloris": {
+              "binary_label": 1,
+              "false_negative": 6321,
+              "false_positive": null,
+              "false_positive_rate": null,
+              "recall": 0.4248407643312102,
+              "samples": 10990,
+              "small_sample": false,
+              "true_positive": 4669
+            }
+          },
+          "metrics": {
+            "accuracy": 0.9496611400915671,
+            "attack": 52498,
+            "benign": 988050,
+            "confusion_matrix": {
+              "fn": 43388,
+              "fp": 8992,
+              "tn": 979058,
+              "tp": 9110
+            },
+            "f1": 0.2580736543909348,
+            "false_positive_rate": 0.009100754010424539,
+            "precision": 0.5032593083637167,
+            "recall": 0.17353042020648404,
+            "roc_auc": 0.847234966237332,
+            "samples": 1040548
+          },
+          "name": "challenger",
+          "threshold": 0.8671140670776367
+        }
+      ],
+      "id": "research",
+      "limitations": [
+        "Challenger failed recall-improvement and balanced-accuracy gates; not deployed.",
+        "New capture day, same testbed; no new independent SlowHTTPTest/web/bot claim"
+      ],
+      "provenance": {
+        "dataset": "research",
+        "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+        "evaluation_script": "scripts/issue6b.py",
+        "feature_schema": "Verified ordered11networkflowfeatures",
+        "sha256": "ae9205ee153d6dc948743aaeaa89b3f0b1b619a9d2d9736aa8a8f1216d5cad24",
+        "source": "test-results/issue-6b/final-results.json"
+      },
+      "source_url": "/api/evaluations/research",
+      "status": "VERIFIED_SAVED_RESULT",
+      "title": "Issue6B \u2014 locked February15 research"
+    },
+    {
+      "badge": "HISTORICAL EVALUATION",
+      "entries": [
+        {
+          "architectures": {
+            "Win32": {
+              "accuracy": 0.9804524519853108,
+              "attack": 180000,
+              "benign": 179994,
+              "confusion_matrix": {
+                "fn": 4899,
+                "fp": 2138,
+                "tn": 177856,
+                "tp": 175101
+              },
+              "f1": 0.9803017027816112,
+              "false_positive_rate": 0.011878173716901697,
+              "precision": 0.9879371921529686,
+              "recall": 0.9727833333333333,
+              "roc_auc": 0.9982701674469396,
+              "samples": 359994
+            },
+            "Win64": {
+              "accuracy": 0.9835990432775246,
+              "attack": 60000,
+              "benign": 59993,
+              "confusion_matrix": {
+                "fn": 1032,
+                "fp": 936,
+                "tn": 59057,
+                "tp": 58968
+              },
+              "f1": 0.9835868694955965,
+              "false_positive_rate": 0.01560182021235812,
+              "precision": 0.984375,
+              "recall": 0.9828,
+              "roc_auc": 0.9985481792320215,
+              "samples": 119993
+            }
+          },
+          "badge": "PRODUCTION MODEL",
+          "metrics": {
+            "accuracy": 0.981239075224954,
+            "attack": 240000,
+            "benign": 239987,
+            "confusion_matrix": {
+              "fn": 5931,
+              "fp": 3074,
+              "tn": 236913,
+              "tp": 234069
+            },
+            "f1": 0.9811272511595056,
+            "false_positive_rate": 0.012809027155637587,
+            "precision": 0.9870373572064113,
+            "recall": 0.9752875,
+            "roc_auc": 0.9983209027902206,
+            "samples": 479987
+          },
+          "model_id": "EMBER2024_PE@425202786349",
+          "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+          "name": "Native PE \u2014 unique identities",
+          "threshold": 0.5
+        }
+      ],
+      "id": "pe",
+      "limitations": [
+        "Feature-based benchmark differs from complete disk-image coverage.",
+        "Live PE cap:2MiB; unsupported variants remain excluded.",
+        "Balanced benchmark prevalence is not deployment prevalence; duplicate observations are deduplicated here."
+      ],
+      "provenance": {
+        "dataset": "pe",
+        "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+        "evaluation_script": "scripts/evaluate_pe_test.py",
+        "feature_schema": "EMBERv3 2568float32",
+        "sha256": "a2b7c9ee732b6a371fc4d842b35a01ea67b7a92dda00748d0b80347e98851cb6",
+        "source": "test-results/issue-7/evaluation-v3/metrics.json"
+      },
+      "source_url": "/api/evaluations/pe",
+      "status": "VERIFIED_SAVED_RESULT",
+      "title": "EMBER2024 \u2014 ordinary feature benchmark"
+    },
+    {
+      "badge": "HISTORICAL EVALUATION",
+      "entries": [
+        {
+          "badge": "PRODUCTION MODEL",
+          "metrics": {
+            "attack": 4039,
+            "benign": 0,
+            "confusion_matrix": {
+              "fn": 1309,
+              "fp": null,
+              "tn": null,
+              "tp": 2730
+            },
+            "recall": 0.6759098786828422,
+            "samples": 4039
+          },
+          "model_id": "EMBER2024_PE@425202786349",
+          "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+          "name": "Positive-only malicious challenge evaluation",
+          "positive_only": true,
+          "threshold": 0.5
+        }
+      ],
+      "id": "challenge",
+      "limitations": [
+        "Positive-only: accuracy, precision, specificity and FPR cannot be measured."
+      ],
+      "provenance": {
+        "dataset": "challenge",
+        "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+        "evaluation_script": "scripts/evaluate_pe_challenge.py",
+        "feature_schema": "EMBERv3 2568float32",
+        "sha256": "6da5d68d44df566885f5848850639f14c2d989cc20eab3f31d1301fb725521cf",
+        "source": "test-results/issue-2/evaluation-v1/metrics.json"
+      },
+      "source_url": "/api/evaluations/challenge",
+      "status": "VERIFIED_SAVED_RESULT",
+      "title": "EMBER2024 \u2014 evasive challenge"
+    }
+  ],
+  "schema_version": "presentation-evaluations-v1",
+  "warning": "Historical labeled evaluation is separate from live unlabeled investigation findings. Scores are not calibrated confidence."
+}

@@ -1,0 +1,32 @@
+{
+  "started_at": "2026-10-30T16:44:41.448092+00:00",
+  "protocol_sha256": "1b484ca25fcd07981d30b77892f9ed9d58d67705d1b132205a0a4e0f11da9984",
+  "source_lock_sha256": "c93baadee3726bf642a996ce388846c47c682a560fe77ae06ab2c6cd75748e10",
+  "implementation_sha256": "9731988bb61b94f3400b9e5d8555ba1aa9e075c9e677ff99e0c6076add00dc79",
+  "model": {
+    "model_id": "EMBER2024_PE@425202786349",
+    "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+    "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+    "feature_dimensions": 2568,
+    "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+    "available": true,
+    "reason": null,
+    "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+    "license": "Apache-2.0",
+    "score_calibrated": false,
+    "default_decision_threshold": 0.5,
+    "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+    "dependencies": {
+      "lightgbm": "4.6.0",
+      "pefile": "2024.8.26",
+      "signify": "0.7.1",
+      "numpy": "2.5.4",
+      "scikit-learn": "1.8.0"
+    },
+    "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+    "supported_formats": [
+      "native PE32 I386 EXE/DLL",
+      "native PE32+ AMD64 EXE/DLL"
+    ]
+  }
+}

@@ -1,0 +1,452 @@
+{
+  "files": [
+    {
+      "path": "scripts\\evaluate_pe_test.py",
+      "sha256": "9731988bb61b94f3400b9e5d8555ba1aa9e075c9e677ff99e0c6076add00dc79",
+      "bytes": 10086
+    },
+    {
+      "path": "scripts\\report_pe_test.py",
+      "sha256": "9c3543b566dfe52467d59bdb4ea4d044bb66d044e23d1052bb06d8e3a8ddcf70",
+      "bytes": 12534
+    },
+    {
+      "path": "scripts\\verify_issue7.py",
+      "sha256": "0a4df43764073b789909fb81cca4474f408c3bdecc990d24ffffc04722463215",
+      "bytes": 6965
+    },
+    {
+      "path": "tests\\test_pe_evaluation.py",
+      "sha256": "c0afdec2f89d45c0a5997ce334501adc615076668140d4f49030bdda1458f6ef",
+      "bytes": 934
+    },
+    {
+      "path": "frontend\\scripts\\verify-pe-render.mjs",
+      "sha256": "2d163113efff528336074bf137c32c1868b5aebc734f8ebb323ebcda28097aa0",
+      "bytes": 1682
+    },
+    {
+      "path": "frontend\\src\\components\\case\\CaseArtifacts.jsx",
+      "sha256": "6caf6145da8dd8cb4eea6365cbcccf1239da2a6fdb3bb73a3b4d7afe02139270",
+      "bytes": 7603
+    },
+    {
+      "path": "docs\\pe_malware.md",
+      "sha256": "8f7e00f4a0d15d48b3b723a36d2d2d75d9391b7602ac5566e774ead88da30057",
+      "bytes": 7705
+    },
+    {
+      "path": "test-results\\issue-7\\checkpoint.json",
+      "sha256": "edd2df2d899ca4d6abb13b0eb4f6e6ce8b95bfb86c3c85dddd6855e8eb457867",
+      "bytes": 10695
+    },
+    {
+      "path": "test-results\\issue-7\\corrected-evaluation-v3.txt",
+      "sha256": "bce6eda60c3bc5855782a43742f7615dd9a9a0b225140f9c90e965cd88853130",
+      "bytes": 5028
+    },
+    {
+      "path": "test-results\\issue-7\\curves.json",
+      "sha256": "855c4cdee245ebc587928afddcaf4b7e4b95fb9cc8fc63d4e330e051a8596e4e",
+      "bytes": 148099
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\artifacts.json",
+      "sha256": "9f9e549b95c4e5c3376f335aac2ed3b59b7aab553c27b264057742fb0c13fad3",
+      "bytes": 13985
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\case.json",
+      "sha256": "6b372ad2f6ba4d667859b7b6072bb7dec2fa7c21d1f7909974811107c769a4b2",
+      "bytes": 20472
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\history.json",
+      "sha256": "3b509709534ee76cfcf27ea8053a96d5003447fa5a746e5784be65ba26a0517b",
+      "bytes": 11074
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\pdf-text.txt",
+      "sha256": "6b3536171a006d6954e786dd07e68cb77cfb514b83e25ea9ae5bf898462291b7",
+      "bytes": 11228
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\PE-LICENSE.txt",
+      "sha256": "808e10c8a6ab8deb149ff9b3fb19f447a808094606d712a9ca57fead3552599d",
+      "bytes": 14531
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\summary.json",
+      "sha256": "bd3b794abf832f975bbca677ea7468c5945bdf791926778570439d9ae1aee646",
+      "bytes": 4326
+    },
+    {
+      "path": "test-results\\issue-7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\upload.json",
+      "sha256": "e62a089487d1913dbbee636f2a7395189857c4b8d15a6f0c963c6ab1dea6f812",
+      "bytes": 34653
+    },
+    {
+      "path": "test-results\\issue-7\\demo-log.txt",
+      "sha256": "24b87df2b41737689f9fc903c6b8656b205d9718090b65ed63c779a13d7f1156",
+      "bytes": 6038
+    },
+    {
+      "path": "test-results\\issue-7\\download.txt",
+      "sha256": "0c7747343f69a49998ab9add87869fd5785c44ce29b5cf6d34464342de3f2d1e",
+      "bytes": 50
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-receipt.json",
+      "sha256": "2bb051a4a6e632c730a29981c0b1ff2a80b871b67f0b27f46df91bd11bc4fa23",
+      "bytes": 1354
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v2\\correction-note.json",
+      "sha256": "e0728b39c8cceb3a8bc62a3f481d6a40dcf80ff18728bcf264630337f6a8a78d",
+      "bytes": 500
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v2\\evaluation-receipt.json",
+      "sha256": "751d58db38477bb494cfc5e7834657a981d02adaca1c6b138eac4172f4915daa",
+      "bytes": 1354
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v2\\official-api.json",
+      "sha256": "dd29108495e6facddde408c6e1b13b55ad7024add36d4b98a223d7f78671666d",
+      "bytes": 5428
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v2\\protocol.json",
+      "sha256": "1b484ca25fcd07981d30b77892f9ed9d58d67705d1b132205a0a4e0f11da9984",
+      "bytes": 2276
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v2\\source-lock.json",
+      "sha256": "c93baadee3726bf642a996ce388846c47c682a560fe77ae06ab2c6cd75748e10",
+      "bytes": 297
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\architecture-comparison.png",
+      "sha256": "6e2d54d8afc01741088c32d44e680e90578f9800720be33e07b991e43e844da6",
+      "bytes": 43143
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\benign-score-distributions.png",
+      "sha256": "2fc3effb2027557c7b23875ef4795464cec1a128325d997002740039dc697a78",
+      "bytes": 63541
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\binary-metrics.png",
+      "sha256": "fcb9881219fdafeb55f9835ef177148eb91dddc3b7a8edffae620ec226c7f85e",
+      "bytes": 35964
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\confidence-intervals.json",
+      "sha256": "101e2fc7a682f0d6c37f057ef48c5cfc2f02d9e65f9350db6f1243cbebcd0c44",
+      "bytes": 1424
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\confusion-matrix.png",
+      "sha256": "896b8f2d9ddbc0cd875dcce936d5aa3568384a3dc1edc569f34e28ccdad6e62c",
+      "bytes": 47839
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\correction-note.json",
+      "sha256": "9abd0c2a5bcd0cc48f8995bb686ebd4a2d077e2cadd648b631d6c1551346cc4e",
+      "bytes": 599
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\curves.json",
+      "sha256": "96a2ae89f89a3ae9d8fe1a1f22e978cc273dd6f011c087393c48f1044078e077",
+      "bytes": 135952
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\evaluation-receipt.json",
+      "sha256": "8bed9ee659fa888aa76579fb377f811f6aceb4f0867f586574cf777b6e74e081",
+      "bytes": 1354
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\metrics.json",
+      "sha256": "a2b7c9ee732b6a371fc4d842b35a01ea67b7a92dda00748d0b80347e98851cb6",
+      "bytes": 18068
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\official-api.json",
+      "sha256": "dd29108495e6facddde408c6e1b13b55ad7024add36d4b98a223d7f78671666d",
+      "bytes": 5428
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\ordinary-vs-challenge.png",
+      "sha256": "43758d43cad88b2e369cba7ef38264739bdd42d7cc8170bef65c337f2541bab2",
+      "bytes": 52786
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\protocol.json",
+      "sha256": "1b484ca25fcd07981d30b77892f9ed9d58d67705d1b132205a0a4e0f11da9984",
+      "bytes": 2276
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\REPORT.md",
+      "sha256": "05828079c06442f9f590fdbd2ac54588e7cc1dc4dd8de058124769b2ea0a88f6",
+      "bytes": 7082
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\roc-pr.png",
+      "sha256": "fff43c0ce0a296f861887dddb551747c3fdf67738659b34550885f519fc4cab6",
+      "bytes": 58597
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\source-lock.json",
+      "sha256": "c93baadee3726bf642a996ce388846c47c682a560fe77ae06ab2c6cd75748e10",
+      "bytes": 297
+    },
+    {
+      "path": "test-results\\issue-7\\evaluation-v3\\unique-identity-analysis.json",
+      "sha256": "1ff1bac5812c41041e2c0ec7ae8ce571f0dbec92aebfb874b6d9a2c711be3f51",
+      "bytes": 1780
+    },
+    {
+      "path": "test-results\\issue-7\\feature-compatibility.json",
+      "sha256": "972258751c28362854af2f60aaaa401206098bb9cbf6762e2265677f1dee30f8",
+      "bytes": 2170
+    },
+    {
+      "path": "test-results\\issue-7\\frontend-final.txt",
+      "sha256": "d460e5fd884080ddbfcbeeff438b312e364600ebe030d2eb3e4cb3f333d46cb5",
+      "bytes": 2115
+    },
+    {
+      "path": "test-results\\issue-7\\implementation-note.json",
+      "sha256": "d41217d099040e75aa220ad344b0f209a4f28f86709b8d9273823769bf51499f",
+      "bytes": 318
+    },
+    {
+      "path": "test-results\\issue-7\\initial-evaluation.txt",
+      "sha256": "994164f25ebb6587950a1c0406f113e96180685125e258db5c5454bb49d7eded",
+      "bytes": 6075
+    },
+    {
+      "path": "test-results\\issue-7\\input-limit-analysis.json",
+      "sha256": "ae6cc29189f78e0f91bc2fd5ef252347433e22a6f9d7f36e613c4025b1503120",
+      "bytes": 549
+    },
+    {
+      "path": "test-results\\issue-7\\intermediate-evaluation-v2.txt",
+      "sha256": "aa4bfd994f3c0ea7e210b5cbfb0db8f633d713444a795036ea6c523a263acf69",
+      "bytes": 578
+    },
+    {
+      "path": "test-results\\issue-7\\metrics.json",
+      "sha256": "28bd13380cc593e808c03145e810eac4aeda30e33507d7ccf93c428e32424ccd",
+      "bytes": 17631
+    },
+    {
+      "path": "test-results\\issue-7\\official-api.json",
+      "sha256": "dd29108495e6facddde408c6e1b13b55ad7024add36d4b98a223d7f78671666d",
+      "bytes": 5428
+    },
+    {
+      "path": "test-results\\issue-7\\pdf-pe-summary.png",
+      "sha256": "26303e1a3c1eac93a30555a4545fa52c2413f03981fe1c70505de81211935b48",
+      "bytes": 134833
+    },
+    {
+      "path": "test-results\\issue-7\\pdf-verification.json",
+      "sha256": "62a68c87e59c340ab9c43da8da0bd343f0366cef571bb7b4cd59fa861084d528",
+      "bytes": 400
+    },
+    {
+      "path": "test-results\\issue-7\\protocol.json",
+      "sha256": "1b484ca25fcd07981d30b77892f9ed9d58d67705d1b132205a0a4e0f11da9984",
+      "bytes": 2276
+    },
+    {
+      "path": "test-results\\issue-7\\react-render.txt",
+      "sha256": "e86ef25d992d37e72c325aa8c670e1da645aacaa32d8de6f4b90db0c0820e667",
+      "bytes": 219
+    },
+    {
+      "path": "test-results\\issue-7\\regression-final.txt",
+      "sha256": "e7f0899b602af388e952704fe9a042c2c56adaf54812a2c49000dd7053c8bce0",
+      "bytes": 2784
+    },
+    {
+      "path": "test-results\\issue-7\\regression-final.xml",
+      "sha256": "259eb1deacca86ec72b315f9897fa5667c282b862272d36d5489434b5c2ca160",
+      "bytes": 83924
+    },
+    {
+      "path": "test-results\\issue-7\\regression-initial.txt",
+      "sha256": "e52914fd477e50d63258706459959e963fbf5549788c853be44d14483745ea72",
+      "bytes": 2784
+    },
+    {
+      "path": "test-results\\issue-7\\REPORT.md",
+      "sha256": "290e672c50c5d8f2ada5cef902c8299178d2c61d45b8be9cecb4303ba913780d",
+      "bytes": 6868
+    },
+    {
+      "path": "test-results\\issue-7\\source-lock.json",
+      "sha256": "c93baadee3726bf642a996ce388846c47c682a560fe77ae06ab2c6cd75748e10",
+      "bytes": 297
+    },
+    {
+      "path": "test-results\\issue-7\\static-final.txt",
+      "sha256": "2c43bd4a658cd6f477bd0fca6e1cf94c3c8a010626a01388b0c200959cef9bcf",
+      "bytes": 743
+    },
+    {
+      "path": "test-results\\issue-7\\verification.json",
+      "sha256": "2320dfbb96c0d9f97fc84abaa34a5ae86ce3789a77df85d532ae634f257b9cbe",
+      "bytes": 741
+    }
+  ],
+  "modified_tracked": [
+    "docs/pe_malware.md",
+    "frontend/src/components/case/CaseArtifacts.jsx"
+  ],
+  "ignored_preserved": [
+    {
+      "path": ".test-artifacts\\issue7\\demo-log.txt",
+      "bytes": 12078
+    },
+    {
+      "path": ".test-artifacts\\issue7\\errors.jsonl.gz",
+      "bytes": 1390679
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluated-implementation.py",
+      "bytes": 9006
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v2.txt",
+      "bytes": 1158
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v3.txt",
+      "bytes": 10058
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation.txt",
+      "bytes": 12152
+    },
+    {
+      "path": ".test-artifacts\\issue7\\frontend-final.txt",
+      "bytes": 4104
+    },
+    {
+      "path": ".test-artifacts\\issue7\\frontend.txt",
+      "bytes": 4108
+    },
+    {
+      "path": ".test-artifacts\\issue7\\predictions.jsonl.gz",
+      "bytes": 37898510
+    },
+    {
+      "path": ".test-artifacts\\issue7\\react-artifacts.html",
+      "bytes": 8433
+    },
+    {
+      "path": ".test-artifacts\\issue7\\react-render.txt",
+      "bytes": 440
+    },
+    {
+      "path": ".test-artifacts\\issue7\\regression-final.txt",
+      "bytes": 5570
+    },
+    {
+      "path": ".test-artifacts\\issue7\\regression-final.xml",
+      "bytes": 83924
+    },
+    {
+      "path": ".test-artifacts\\issue7\\regression.txt",
+      "bytes": 5570
+    },
+    {
+      "path": ".test-artifacts\\issue7\\regression.xml",
+      "bytes": 83790
+    },
+    {
+      "path": ".test-artifacts\\issue7\\report-v3.txt",
+      "bytes": 0
+    },
+    {
+      "path": ".test-artifacts\\issue7\\static-complete.txt",
+      "bytes": 1488
+    },
+    {
+      "path": ".test-artifacts\\issue7\\static-final.txt",
+      "bytes": 1488
+    },
+    {
+      "path": ".test-artifacts\\issue7\\static.txt",
+      "bytes": 1488
+    },
+    {
+      "path": ".test-artifacts\\issue7\\Win32_test.zip",
+      "bytes": 2593425203
+    },
+    {
+      "path": ".test-artifacts\\issue7\\Win64_test.zip",
+      "bytes": 1176459716
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v2\\errors.jsonl.gz",
+      "bytes": 118551
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v2\\predictions.jsonl.gz",
+      "bytes": 8767193
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v3\\errors.jsonl.gz",
+      "bytes": 38
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v3\\evaluated-implementation.py",
+      "bytes": 10086
+    },
+    {
+      "path": ".test-artifacts\\issue7\\evaluation-v3\\predictions.jsonl.gz",
+      "bytes": 75822125
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\forensic-report.pdf",
+      "bytes": 12594
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\harmless-fat12.img",
+      "bytes": 1474560
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\page-1.png",
+      "bytes": 5691
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\page-2.png",
+      "bytes": 8526
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\page-3.png",
+      "bytes": 17893
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\page-4.png",
+      "bytes": 17690
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\page-5.png",
+      "bytes": 17291
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\PE-LICENSE.txt",
+      "bytes": 14531
+    },
+    {
+      "path": ".test-artifacts\\issue7\\demo\\6fd8319c3c0d4b619e97bdc508873448\\rules\\marker.yar",
+      "bytes": 183
+    }
+  ],
+  "issue6b_preserved": true,
+  "private_evidence": "dfr-01-ntfs.dd/ untouched; never inspected or included"
+}

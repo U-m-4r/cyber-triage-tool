@@ -1,0 +1,13 @@
+.evaluation-page { max-width: 1200px; margin: auto; padding: 24px; }
+.evaluation-card { margin: 24px 0; padding: 24px; background: #141820; color: #edf2f7; border: 1px solid #465064; border-radius: 12px; }
+.evaluation-card article { margin: 24px 0; padding-top: 12px; border-top: 1px solid #d5dce5; }
+.evaluation-badge { font-weight: 700; letter-spacing: .04em; color: #ffac75; }
+.evaluation-card table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.evaluation-card th,.evaluation-card td { text-align: left; padding: 10px; border-bottom: 1px solid #d5dce5; }
+.evaluation-card caption { text-align: left; font-weight: 600; }
+.evaluation-bars { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+.evaluation-bars meter { display: block; width: 100%; height: 20px; }
+.evaluation-card pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.evaluation-source { margin: 12px 0; }
+.evaluation-source button { padding: 10px 14px; border: 1px solid #637188; border-radius: 6px; background: #222b38; color: #edf2f7; cursor: pointer; }
+.evaluation-source pre { max-height: 480px; overflow: auto; padding: 12px; background: #0b1018; }

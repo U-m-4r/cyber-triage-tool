@@ -1,0 +1,93 @@
+{
+  "internal": {
+    "source": "test-results/issue-3/evaluation.json",
+    "sha256": "b78e002d4ab446c154a7d36c72abb66be21b80ec240222a6006470c9b2e54959",
+    "dataset": "internal",
+    "evaluation_script": "scripts/verify_network_models.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "external": {
+    "source": "test-results/issue-4/evaluation.json",
+    "sha256": "5a6c5ee5682b286e0291600b3b78d7783e63c01a05e17e888d7a20cd93a3a683",
+    "dataset": "external",
+    "evaluation_script": "scripts/evaluate_external_network.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "research": {
+    "source": "test-results/issue-6b/final-results.json",
+    "sha256": "ae9205ee153d6dc948743aaeaa89b3f0b1b619a9d2d9736aa8a8f1216d5cad24",
+    "dataset": "research",
+    "evaluation_script": "scripts/issue6b.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "Verified ordered11networkflowfeatures"
+  },
+  "pe": {
+    "source": "test-results/issue-7/evaluation-v3/metrics.json",
+    "sha256": "a2b7c9ee732b6a371fc4d842b35a01ea67b7a92dda00748d0b80347e98851cb6",
+    "dataset": "pe",
+    "evaluation_script": "scripts/evaluate_pe_test.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "pe-types": {
+    "source": "test-results/issue-7/evaluation-v3/unique-identity-analysis.json",
+    "sha256": "1ff1bac5812c41041e2c0ec7ae8ce571f0dbec92aebfb874b6d9a2c711be3f51",
+    "dataset": "pe-types",
+    "evaluation_script": "scripts/report_pe_test.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "challenge": {
+    "source": "test-results/issue-2/evaluation-v1/metrics.json",
+    "sha256": "6da5d68d44df566885f5848850639f14c2d989cc20eab3f31d1301fb725521cf",
+    "dataset": "challenge",
+    "evaluation_script": "scripts/evaluate_pe_challenge.py",
+    "date_provenance": "Original versioned report/receipt; filesystem timestamps are not evaluation dates",
+    "feature_schema": "EMBERv3 2568float32"
+  },
+  "research-selection": {
+    "source": "test-results/issue-6b/selection.json",
+    "sha256": "21ca1164330c641cba16b3a05fa5fb9167e37794ec841e93659ca7876c3bfb78",
+    "feature_schema": "identity-float32 ordered11features",
+    "evaluation_script": "scripts/issue6b.py",
+    "date_provenance": "Local sealed selection timestamp; not authenticated externally"
+  },
+  "internal-split": {
+    "source": "test-results/issue-3/split-audit.json",
+    "sha256": "4ac3f56ebde5b1a3e3bd4c1c50642298cb1920a72ba079df287c5ece1ac6bcd7",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  },
+  "external-manifest": {
+    "source": "test-results/issue-4/dataset-manifest.json",
+    "sha256": "aedafcbec5cbe8ec5c896a8d47c634a7c5c280b90079f3a696f0fa7a84b0c9d9",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  },
+  "research-test-lock": {
+    "source": "test-results/issue-6b/locked-test.json",
+    "sha256": "80bd16c86ab0148caa4cb55a93d8a0a63c58b20afa8e86b99a5046a982395fa9",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  },
+  "research-receipt": {
+    "source": "test-results/issue-6b/final-test-receipt.json",
+    "sha256": "09eb1f9970595c60d013fb64e41c62121cee7f416a3d6b3712eb2a23ca342afb",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  },
+  "pe-source-lock": {
+    "source": "test-results/issue-7/evaluation-v3/source-lock.json",
+    "sha256": "c93baadee3726bf642a996ce388846c47c682a560fe77ae06ab2c6cd75748e10",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  },
+  "pe-receipt": {
+    "source": "test-results/issue-7/evaluation-v3/evaluation-receipt.json",
+    "sha256": "8bed9ee659fa888aa76579fb377f811f6aceb4f0867f586574cf777b6e74e081",
+    "purpose": "Supporting saved provenance; not a new evaluation",
+    "date_provenance": "Original local artifact, not an authenticated timestamp"
+  }
+}

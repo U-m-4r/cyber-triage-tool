@@ -1,0 +1,232 @@
+{
+  "new_files": [
+    {
+      "path": "scripts\\issue6b.py",
+      "sha256": "c375b7b9dd293db753b7643756dce7bc6c87a187b8d07d2957498e9c47a8f0dc",
+      "bytes": 15829
+    },
+    {
+      "path": "scripts\\report_issue6b.py",
+      "sha256": "9cd2fb3026093bd17e96b88a1b1303b831198a4017d992e1fb667302bb6a19f6",
+      "bytes": 9335
+    },
+    {
+      "path": "tests\\test_issue6b.py",
+      "sha256": "5c81537051476e844e9a666d37ed67ea29481a2a3cf370d3fbad7dceed687aab",
+      "bytes": 1045
+    },
+    {
+      "path": "test-results\\issue-6b\\availability-and-stability.json",
+      "sha256": "d7c9e01c2b8f154d11ddcea2db891797fcb793bde50659b639ddce2496f0b024",
+      "bytes": 1440
+    },
+    {
+      "path": "test-results\\issue-6b\\checkpoint.json",
+      "sha256": "3e64f509d93dbc6b03c2840d2fc58bac8e31fdfa69e5da06b53e61fe0d5a3654",
+      "bytes": 7896
+    },
+    {
+      "path": "test-results\\issue-6b\\comparison.png",
+      "sha256": "37de2c933aafebde955151df8ea78a05c4bf715391019b43fcc5ba8227ecb120",
+      "bytes": 46224
+    },
+    {
+      "path": "test-results\\issue-6b\\confusion-matrices.png",
+      "sha256": "e717a0995fbe4dca96456b1c867af3086af41433d66eafd9c8baec966f95eab3",
+      "bytes": 47787
+    },
+    {
+      "path": "test-results\\issue-6b\\curves.json",
+      "sha256": "2e04df9dd26dda56f1d0ebf1b2a38b2f1f4b8bbad00253deedc92737fc5405ea",
+      "bytes": 306797
+    },
+    {
+      "path": "test-results\\issue-6b\\development-sources.json",
+      "sha256": "3fa6404c148ffcfe2bc2b67c524ce3402fce5eabf430dc9fb3157ded180986a1",
+      "bytes": 977
+    },
+    {
+      "path": "test-results\\issue-6b\\diagnostics.json",
+      "sha256": "3df8de18601072f1aa628819911a3e0f344c6440781edbbab11085548fad8f47",
+      "bytes": 31747
+    },
+    {
+      "path": "test-results\\issue-6b\\final-results.json",
+      "sha256": "ae9205ee153d6dc948743aaeaa89b3f0b1b619a9d2d9736aa8a8f1216d5cad24",
+      "bytes": 7337
+    },
+    {
+      "path": "test-results\\issue-6b\\final-test-receipt.json",
+      "sha256": "09eb1f9970595c60d013fb64e41c62121cee7f416a3d6b3712eb2a23ca342afb",
+      "bytes": 281
+    },
+    {
+      "path": "test-results\\issue-6b\\final.txt",
+      "sha256": "6679b203e3d294eff35420a93631b3cdb1dc10a2535a4a4428a16f7168869b1b",
+      "bytes": 25977
+    },
+    {
+      "path": "test-results\\issue-6b\\frontend.txt",
+      "sha256": "b4a4fa2dc57b76f424cbdec2df085bb4476f65bd837c48a10db0d80e23149178",
+      "bytes": 2161
+    },
+    {
+      "path": "test-results\\issue-6b\\implementation-seal.json",
+      "sha256": "2b1c409284ecd1a2b36d65d6207eb204f16517d427acbd6761c67f628856a93d",
+      "bytes": 252
+    },
+    {
+      "path": "test-results\\issue-6b\\locked-test.json",
+      "sha256": "80bd16c86ab0148caa4cb55a93d8a0a63c58b20afa8e86b99a5046a982395fa9",
+      "bytes": 534
+    },
+    {
+      "path": "test-results\\issue-6b\\preparation.txt",
+      "sha256": "9272d245911c27b301bd2dbca2561c3557aa41ee4cfdc6a1af8b0ea07b599059",
+      "bytes": 317
+    },
+    {
+      "path": "test-results\\issue-6b\\prepared.json",
+      "sha256": "b45fbe204d203050b4b552ff6fa66c785f2e59a920e07db1a39f1e97469c36b3",
+      "bytes": 2651
+    },
+    {
+      "path": "test-results\\issue-6b\\protocol.json",
+      "sha256": "19fc9e130734596d2ef304a7eed0943aa673d4a8cd02fd22e5596467b2cbcdfe",
+      "bytes": 2214
+    },
+    {
+      "path": "test-results\\issue-6b\\regression.txt",
+      "sha256": "4565311512e07cccc4c2fe587c9a8a570d57318cbc03bca5a5967ca5df95f5b0",
+      "bytes": 2817
+    },
+    {
+      "path": "test-results\\issue-6b\\regression.xml",
+      "sha256": "1033cc98cff53a8580a72a8799ae5f24e559c5a07762f27ae445a3952dc3e36b",
+      "bytes": 83444
+    },
+    {
+      "path": "test-results\\issue-6b\\REPORT.md",
+      "sha256": "e252abec8e9192007edf73c100ee8fe0d8a693bdf257dbeaaac4defd9401b7fa",
+      "bytes": 14061
+    },
+    {
+      "path": "test-results\\issue-6b\\roc-pr.png",
+      "sha256": "29ab9a22b01523508cc2c72315127f6a5560f542373b8b64b33d348c97666562",
+      "bytes": 94692
+    },
+    {
+      "path": "test-results\\issue-6b\\selection.json",
+      "sha256": "21ca1164330c641cba16b3a05fa5fb9167e37794ec841e93659ca7876c3bfb78",
+      "bytes": 16845
+    },
+    {
+      "path": "test-results\\issue-6b\\static.txt",
+      "sha256": "30fa5a3dd19e8ecefa0fe89f7cb583c42337ec6d8a918509cc83220e8c69d373",
+      "bytes": 753
+    },
+    {
+      "path": "test-results\\issue-6b\\training.txt",
+      "sha256": "eac92045cdab0113f4b031dd9e5e30d931d5826a7913568839849dd86f1147ec",
+      "bytes": 3788
+    },
+    {
+      "path": "test-results\\issue-6b\\validation.json",
+      "sha256": "b3a6914b09a3fcf3524a6cb32504b2804bf5ca8e7c608aac27b0bece5e924339",
+      "bytes": 62948
+    },
+    {
+      "path": "test-results\\issue-6b\\verification.json",
+      "sha256": "21aa1810f333635646abe7fb526a61ff005f4eb23291c51e504e31e7c8cb4c1d",
+      "bytes": 524
+    }
+  ],
+  "tracked_files_modified": [],
+  "ignored_preserved": [
+    {
+      "path": ".test-artifacts\\issue6b\\calibration.npz",
+      "bytes": 26550100
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\final-predictions.npz",
+      "bytes": 4581342
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\final.txt",
+      "bytes": 51196
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Friday-02-03-2018_TrafficForML_CICFlowMeter-excluded.jsonl.gz",
+      "bytes": 16018
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Friday-16-02-2018_TrafficForML_CICFlowMeter-excluded.jsonl.gz",
+      "bytes": 154
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Friday-23-02-2018_TrafficForML_CICFlowMeter-excluded.jsonl.gz",
+      "bytes": 22521
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\frontend.txt",
+      "bytes": 4098
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\lightgbm-42.model",
+      "bytes": 290076
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\lightgbm-43.model",
+      "bytes": 287467
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\preparation.txt",
+      "bytes": 628
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\regression.txt",
+      "bytes": 5568
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\regression.xml",
+      "bytes": 83444
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\static.txt",
+      "bytes": 1488
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Thursday-15-02-2018_TrafficForML_CICFlowMeter-excluded.jsonl.gz",
+      "bytes": 30789
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv",
+      "bytes": 375945899
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\Thursday-22-02-2018_TrafficForML_CICFlowMeter-excluded.jsonl.gz",
+      "bytes": 22169
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\train.npz",
+      "bytes": 2280914
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\training.txt",
+      "bytes": 7524
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\validation.npz",
+      "bytes": 46656062
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\xgboost-42.ubj",
+      "bytes": 265511
+    },
+    {
+      "path": ".test-artifacts\\issue6b\\xgboost-43.ubj",
+      "bytes": 268096
+    }
+  ],
+  "private_evidence": "dfr-01-ntfs.dd/ untouched; excluded from manifest and research"
+}

@@ -1,0 +1,189 @@
+Processed 10000 elapsed 10
+Processed 20000 elapsed 19
+Processed 30000 elapsed 28
+Processed 40000 elapsed 30
+Processed 50000 elapsed 33
+Processed 60000 elapsed 35
+Processed 70000 elapsed 44
+Processed 80000 elapsed 53
+Processed 90000 elapsed 62
+Processed 100000 elapsed 64
+Processed 110000 elapsed 67
+Processed 120000 elapsed 69
+Processed 130000 elapsed 78
+Processed 140000 elapsed 87
+Processed 150000 elapsed 97
+Processed 160000 elapsed 99
+Processed 170000 elapsed 101
+Processed 180000 elapsed 104
+Processed 190000 elapsed 113
+Processed 200000 elapsed 122
+Processed 210000 elapsed 131
+Processed 220000 elapsed 134
+Processed 230000 elapsed 136
+Processed 240000 elapsed 138
+Processed 250000 elapsed 148
+Processed 260000 elapsed 157
+Processed 270000 elapsed 166
+Processed 280000 elapsed 168
+Processed 290000 elapsed 170
+Processed 300000 elapsed 173
+Processed 310000 elapsed 182
+Processed 320000 elapsed 194
+Processed 330000 elapsed 204
+Processed 340000 elapsed 206
+Processed 350000 elapsed 209
+Processed 360000 elapsed 211
+Processed 370000 elapsed 221
+Processed 380000 elapsed 230
+Processed 390000 elapsed 239
+Processed 400000 elapsed 241
+Processed 410000 elapsed 244
+Processed 420000 elapsed 246
+Processed 430000 elapsed 256
+Processed 440000 elapsed 265
+Processed 450000 elapsed 276
+Processed 460000 elapsed 280
+Processed 470000 elapsed 284
+Processed 480000 elapsed 288
+Processed 490000 elapsed 304
+Processed 500000 elapsed 315
+Processed 510000 elapsed 327
+Processed 520000 elapsed 332
+Processed 530000 elapsed 335
+Processed 540000 elapsed 339
+Processed 550000 elapsed 355
+Processed 560000 elapsed 366
+Processed 570000 elapsed 376
+Processed 580000 elapsed 379
+Processed 590000 elapsed 382
+Processed 600000 elapsed 385
+Processed 610000 elapsed 395
+Processed 620000 elapsed 406
+Processed 630000 elapsed 417
+Processed 640000 elapsed 419
+Processed 650000 elapsed 422
+Processed 660000 elapsed 425
+Processed 670000 elapsed 436
+Processed 680000 elapsed 447
+Processed 690000 elapsed 465
+Processed 700000 elapsed 469
+Processed 710000 elapsed 472
+Processed 720000 elapsed 475
+Processed 730000 elapsed 491
+Processed 740000 elapsed 494
+Processed 750000 elapsed 506
+Processed 760000 elapsed 509
+Processed 770000 elapsed 521
+Processed 780000 elapsed 524
+Processed 790000 elapsed 536
+Processed 800000 elapsed 540
+Processed 810000 elapsed 552
+Processed 820000 elapsed 555
+Processed 830000 elapsed 567
+Processed 840000 elapsed 570
+Processed 850000 elapsed 581
+Processed 860000 elapsed 585
+Processed 870000 elapsed 596
+Processed 880000 elapsed 600
+Processed 890000 elapsed 611
+Processed 900000 elapsed 614
+Processed 910000 elapsed 626
+Processed 920000 elapsed 629
+Processed 930000 elapsed 640
+Processed 940000 elapsed 644
+Processed 950000 elapsed 655
+Processed 960000 elapsed 658
+{
+  "overall": {
+    "samples": 479856,
+    "benign": 239860,
+    "attack": 239996,
+    "confusion_matrix": {
+      "tn": 236789,
+      "fp": 3071,
+      "fn": 5930,
+      "tp": 234066
+    },
+    "accuracy": 0.9812422893534727,
+    "precision": 0.9870496801427023,
+    "recall": 0.9752912548542476,
+    "f1": 0.981135239021405,
+    "macro_f1": 0.9812416853113279,
+    "roc_auc": 0.9983211661969429,
+    "average_precision": 0.9984539165498953,
+    "specificity": 0.9871966980738764,
+    "false_positive_rate": 0.012803301926123556,
+    "false_negative_rate": 0.024708745145752387,
+    "balanced_accuracy": 0.981243976464062,
+    "status": "EVALUATED"
+  },
+  "per_type": {
+    "Win32": {
+      "samples": 359872,
+      "benign": 179876,
+      "attack": 179996,
+      "confusion_matrix": {
+        "tn": 177741,
+        "fp": 2135,
+        "fn": 4898,
+        "tp": 175098
+      },
+      "accuracy": 0.9804569402454206,
+      "precision": 0.9879537106520795,
+      "recall": 0.972788284184093,
+      "f1": 0.9803123486615029,
+      "macro_f1": 0.9804558860668176,
+      "roc_auc": 0.998270522042768,
+      "average_precision": 0.9984097282409461,
+      "specificity": 0.9881307122684516,
+      "false_positive_rate": 0.011869287731548384,
+      "false_negative_rate": 0.02721171581590698,
+      "balanced_accuracy": 0.9804594982262723,
+      "status": "EVALUATED"
+    },
+    "Win64": {
+      "samples": 119984,
+      "benign": 59984,
+      "attack": 60000,
+      "confusion_matrix": {
+        "tn": 59048,
+        "fp": 936,
+        "fn": 1032,
+        "tp": 58968
+      },
+      "accuracy": 0.9835978130417389,
+      "precision": 0.984375,
+      "recall": 0.9828,
+      "f1": 0.9835868694955965,
+      "macro_f1": 0.9835978057499304,
+      "roc_auc": 0.9985482870432114,
+      "average_precision": 0.998671850084975,
+      "specificity": 0.9843958388903707,
+      "false_positive_rate": 0.015604161109629255,
+      "false_negative_rate": 0.017199999999999993,
+      "balanced_accuracy": 0.9835979194451854,
+      "status": "EVALUATED"
+    }
+  },
+  "counts": {
+    "total": 960000,
+    "errors": 480144
+  }
+}
+python.exe : Traceback (most recent call last):
+At line:1 char:1
++ & .venv/Scripts/python.exe -m scripts.evaluate_pe_test evaluate *> .t ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\evaluate_pe_test.py", line 137, in <module>
+    'application_scope_proxy':scope,'over_2mib':size,'elapsed_seconds':time.perf_counter()-start,
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\scripts\evaluate_pe_test.py", line 131, in evaluate
+    write_once(OUT/'curves.json',curves(frame.label.to_numpy(),frame.score.to_numpy()))
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: Evaluation incomplete; see explicit error ledger

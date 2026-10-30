@@ -1,0 +1,20 @@
+{
+  "unique_files": 479987,
+  "cap_bytes": 2097152,
+  "over_cap": {
+    "False": {
+      "files": 367431,
+      "malicious": 158902,
+      "benign": 208529
+    },
+    "True": {
+      "files": 112556,
+      "malicious": 81098,
+      "benign": 31458
+    }
+  },
+  "header_proxy_applicable": 462258,
+  "header_and_size_proxy_applicable": 352318,
+  "over_cap_fraction": 0.2344980176546448,
+  "decision": "Preserve cap/timeout; feature-only inference does not verify safe raw-byte extraction costs. No skipped file is labeled benign."
+}

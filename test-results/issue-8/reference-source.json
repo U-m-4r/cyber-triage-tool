@@ -1,0 +1,9 @@
+{
+  "url": "https://cfreds-archive.nist.gov/dfr-images/dfr-01-ntfs.dd.bz2",
+  "compressed_bytes": 2257102,
+  "compressed_sha256": "9625d8946bc7712953d0ca7e73e4eaeff26381006951d3f7603d1797b50d19e0",
+  "image": ".test-artifacts\\issue8\\dfr-01-ntfs.dd",
+  "image_bytes": 1073742336,
+  "image_sha256": "c863ccad01804b840a6dfa623a94996ca876e15ded41c6c0d8ae148620eb6493",
+  "purpose": "NIST DFR-01 deleted-recovery reference; allocated-only analysis, no recovery claim"
+}

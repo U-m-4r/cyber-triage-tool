@@ -1,0 +1,432 @@
+{
+  "activity": [
+    {
+      "actor": "Workspace operator",
+      "at": "2026-10-30T16:32:53.024099+00:00",
+      "caseId": "CASE-0B8976F917BE",
+      "id": "EV-15874fa852ec42af826286bab9f1ad9f",
+      "kind": "ingest",
+      "message": "Ingested harmless-fat12.img: 6 records (disk_image).",
+      "severity": "INFO"
+    },
+    {
+      "actor": "Workspace operator",
+      "at": "2026-10-30T16:32:44.421559+00:00",
+      "caseId": "CASE-0B8976F917BE",
+      "id": "EV-c26d837e0a6443dc9912f969b9e8d7fa",
+      "kind": "note",
+      "message": "Investigation created.",
+      "severity": "INFO"
+    }
+  ],
+  "artifactPriorities": [
+    {
+      "count": 5,
+      "severity": "LOW"
+    },
+    {
+      "count": 1,
+      "severity": "MEDIUM"
+    }
+  ],
+  "counts": {
+    "artifacts": 6,
+    "criticalFindings": 0,
+    "evidence": 1,
+    "iocs": 1
+  },
+  "custody": [
+    {
+      "algorithm": "SHA-256",
+      "ingested_at": "2026-10-30T16:32:44.516029+00:00",
+      "original_filename": "harmless-fat12.img",
+      "sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+      "size_bytes": 1474560
+    }
+  ],
+  "dataMode": "live",
+  "evidence": {
+    "pending": [],
+    "sources": [
+      {
+        "acquiredAt": "2026-10-30T16:32:44.516029+00:00",
+        "detail": "COMPLETE: 6 scanned; 0 unscanned; 5 non-file entries ignored; 1 matched. ",
+        "disk_scan": {
+          "bytes_read": 210012,
+          "directories_discovered": 0,
+          "entries_discovered": 11,
+          "enumeration_complete": true,
+          "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+          "files_failed": 0,
+          "files_scanned": 6,
+          "files_skipped": 0,
+          "files_skipped_limits": 0,
+          "files_with_yara_matches": 1,
+          "limits": {
+            "max_depth": 64,
+            "max_entries": 20000,
+            "max_file_bytes": 33554432,
+            "max_files": 10000,
+            "max_seconds": 120,
+            "max_total_bytes": 268435456,
+            "yara_timeout": 5
+          },
+          "matched_rules": 1,
+          "metadata_entries_ignored": 1,
+          "non_file_entries_ignored": 5,
+          "pe_ml": {
+            "benign": 2,
+            "classification_errors": 0,
+            "coverage_status": "COMPLETE",
+            "files_classified": 2,
+            "files_excluded": 0,
+            "malicious": 0,
+            "model": {
+              "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+              "available": true,
+              "default_decision_threshold": 0.5,
+              "dependencies": {
+                "lightgbm": "4.6.0",
+                "numpy": "2.5.4",
+                "pefile": "2024.8.26",
+                "scikit-learn": "1.8.0",
+                "signify": "0.7.1"
+              },
+              "feature_dimensions": 2568,
+              "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "license": "Apache-2.0",
+              "model_id": "EMBER2024_PE@425202786349",
+              "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+              "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+              "reason": null,
+              "score_calibrated": false,
+              "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+              "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+              "supported_formats": [
+                "native PE32 I386 EXE/DLL",
+                "native PE32+ AMD64 EXE/DLL"
+              ]
+            },
+            "not_applicable": 4,
+            "pe_files_discovered": 2,
+            "processing_seconds": 8.406781
+          },
+          "processing_seconds": 8.4201,
+          "regular_files_discovered": 6,
+          "ruleset_id": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+          "scan_status": "COMPLETE",
+          "timings": {
+            "backend_analysis_seconds": 8.474279,
+            "disk_analysis_seconds": 8.4201,
+            "file_read_hash_seconds": 0.000455,
+            "filesystem_enumeration_seconds": 0.006064,
+            "pe_ml_seconds": 8.406781,
+            "rules_compilation_seconds": 0.005248,
+            "yara_execution_seconds": 0.001552
+          },
+          "total_eligible_files": 6,
+          "total_files_discovered": 6,
+          "virtual_entries_ignored": 4,
+          "warnings": [],
+          "yara_status": "READY"
+        },
+        "id": "IN-0206cb7f0fc6490c931e630ea4739c2b",
+        "integrity": "SHA-256 recorded",
+        "kind": "disk_image",
+        "label": "harmless-fat12.img",
+        "screening_result": {
+          "coverage": {
+            "disk": {
+              "enumeration_complete": true,
+              "files_scanned": 6,
+              "files_skipped": 0,
+              "total_eligible_files": 6,
+              "total_files_discovered": 6
+            },
+            "findings_returned": 1,
+            "findings_total": 1,
+            "findings_truncated": false,
+            "parsing": {
+              "enumeration_complete": true,
+              "reason": null,
+              "skipped": 0,
+              "skipped_count_exact": true,
+              "status": "COMPLETED"
+            },
+            "records_examined": 6,
+            "scope": "Parsed allocated/default streams and supported records; no universal clean verdict"
+          },
+          "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+          "evidence_type": "disk_image",
+          "findings": [
+            {
+              "artifact": {
+                "FilePath": "/POSITIVE.TXT",
+                "artifact_location": "volume:0:inode:4:/POSITIVE.TXT",
+                "inode": 4,
+                "record_id": 0,
+                "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+                "volume_offset": 0
+              },
+              "detection_sources": [
+                "yara"
+              ],
+              "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+              "forensic_rule_matches": [],
+              "matched_rules": "YARA: Harmless_File_Marker",
+              "network_ml": {},
+              "pe_ml": {
+                "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+                "file_type": "non-PE",
+                "model_id": "EMBER2024_PE@425202786349",
+                "model_score": null,
+                "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+                "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+                "prediction": null,
+                "processing_seconds": 2.7e-05,
+                "reason": "Not a DOS/PE image",
+                "score_calibrated": false,
+                "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+                "status": "NOT_APPLICABLE",
+                "threshold": 0.5
+              },
+              "priority": "MEDIUM",
+              "risk_explanation": "Existing evidence rules; no network anomaly model applied.",
+              "risk_score": 25.0,
+              "yara_matches": [
+                {
+                  "matched_strings": [
+                    "$a"
+                  ],
+                  "meta": {
+                    "description": "Harmless integration marker",
+                    "severity": "informational"
+                  },
+                  "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+                  "rule": "Harmless_File_Marker",
+                  "tags": [],
+                  "target": "volume:0:inode:4:/POSITIVE.TXT"
+                }
+              ]
+            }
+          ],
+          "iocs": [
+            {
+              "artifact_location": "volume:0:inode:4:/POSITIVE.TXT",
+              "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+              "input_scope": "embedded_file_bytes",
+              "matched_strings": [
+                "$a"
+              ],
+              "meta": {
+                "description": "Harmless integration marker",
+                "severity": "informational"
+              },
+              "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+              "rule": "Harmless_File_Marker",
+              "sha256": "abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40",
+              "tags": [],
+              "target": "volume:0:inode:4:/POSITIVE.TXT"
+            }
+          ],
+          "orchestration_seconds": 0.003314,
+          "overall_scan_status": "COMPLETED",
+          "risk_policy": "Existing source-specific risk; PE malicious max floor; supplementary container YARA floor 25; risk bands are project policy, not CVSS",
+          "schema_version": "unified-screening-v1",
+          "screening": {
+            "forensic_rules": {
+              "applicable": true,
+              "examined": 6,
+              "findings": 0,
+              "findings_unit": "flagged_records",
+              "identifier": "d2b02363676ef5c57b2bb13dadaaa83fdc52d0b461bdb5a7c0ced7441a8fed53",
+              "input_scope": "parsed_records",
+              "processing_seconds": 0.000246,
+              "reason": null,
+              "scanner": "Forensic rules",
+              "scanner_version": "unified-screening-v1",
+              "skipped": 0,
+              "skipped_count_exact": true,
+              "status": "COMPLETED"
+            },
+            "network_ml": {
+              "applicable": false,
+              "examined": 0,
+              "findings": 0,
+              "findings_unit": "attack_or_anomaly_decisions",
+              "identifier": null,
+              "input_scope": "none",
+              "processing_seconds": 0,
+              "reason": "Not applicable to this evidence representation",
+              "scanner": "network_ml",
+              "scanner_version": "unified-screening-v1",
+              "skipped": 0,
+              "status": "NOT_APPLICABLE"
+            },
+            "pe_ml": {
+              "applicable": true,
+              "examined": 2,
+              "findings": 0,
+              "findings_unit": "malicious_predictions",
+              "identifier": "EMBER2024_PE@425202786349",
+              "input_scope": "individual_file_bytes",
+              "model": {
+                "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+                "model_id": "EMBER2024_PE@425202786349",
+                "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+                "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+                "threshold": null
+              },
+              "prediction_counts": {
+                "benign": 2,
+                "malicious": 0
+              },
+              "processing_seconds": 8.406781,
+              "reason": null,
+              "scanner": "PE malware ML",
+              "scanner_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+              "skipped": 0,
+              "status": "COMPLETED"
+            },
+            "yara": {
+              "applicable": true,
+              "examined": 6,
+              "findings": 1,
+              "findings_unit": "matched_rules",
+              "identifier": "b29717d71fcef3cbccebe94bad078d277a50c4252923f29625d389f06c0e8df1",
+              "input_scope": "embedded_file_bytes",
+              "processing_seconds": 0.001552,
+              "reason": null,
+              "scanner": "YARA",
+              "scanner_version": "4.5.4",
+              "skipped": 0,
+              "status": "COMPLETED"
+            }
+          },
+          "warnings": []
+        },
+        "sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+        "size": "1474560 bytes",
+        "state": "COMPLETED"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-2d93f0c46e57478db759868252fbba5e",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 25.0. Matched rules: YARA: Harmless_File_Marker. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: NOT_APPLICABLE; prediction: None; model score: None (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: Not a DOS/PE image. Existing evidence rules; no network anomaly model applied. Content scan: MATCHED; Complete default file stream scanned. SHA-256: abb26cde86c7719c4a35bb534535db20249d1c962c4c5676d9e4edfb6469be40. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 4. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 25.0,
+      "severity": "MEDIUM",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/POSITIVE.TXT: YARA: Harmless_File_Marker"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-d09988cc7f4343f181db7a5437a82b0a",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: NOT_APPLICABLE; prediction: None; model score: None (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: Not a DOS/PE image. Existing evidence rules; no network anomaly model applied. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: 70789bbc67cd6e67f207af19403412416a2b6a8d7aa62a1be396febf0a770c83. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 5. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/NEGATIVE.TXT (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-f505664f08644f05add8d36a077e117a",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: NOT_APPLICABLE; prediction: None; model score: None (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: Not a DOS/PE image. Existing evidence rules; no network anomaly model applied. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 6. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/EMPTY.TXT (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-01a54868936b428995b53b5cfc64f5a0",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: NOT_APPLICABLE; prediction: None; model score: None (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: Not a DOS/PE image. Existing evidence rules; no network anomaly model applied. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: 6896d9ea3f73a4434f5832bc65714e7d066f177373f36f34dc8a6f735daa41b1. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 7. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/LARGE.BIN (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-ba710052b81545c38cfcf0b2c4c2461a",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: CLASSIFIED; prediction: benign; model score: 0.012141118467631745 (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: . PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: 81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 8. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/LAUNCH64.BIN (No rule match)"
+    },
+    {
+      "artifactType": "file",
+      "confidence": null,
+      "host": null,
+      "id": "ART-279cfbda11624ca8ab3f31b87424e50c",
+      "observedAt": "2026-10-30T16:32:52.974522+00:00",
+      "rationale": "Rule score: 0.0. No configured rules matched. Network ML anomaly: not applicable to this evidence type; the network model requires flows. PE ML: CLASSIFIED; prediction: benign; model score: 0.015420592563593584 (not calibrated confidence); threshold: 0.5; model: EMBER2024_PE@425202786349; feature version: EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d; reason: . PE model predicts benign; existing forensic rule risk is retained. No guarantee of safety. Content scan: SCANNED_NO_MATCH; Complete default file stream scanned. SHA-256: 6b4195e640a85ac32eb6f9628822a622057df1e459df7c17a12f97aeabc9415b. YARA indicators require investigation, not proof of malware. Volume offset: 0; inode: 9. Evidence SHA-256: b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e.",
+      "reviewed": false,
+      "riskScore": 0.0,
+      "severity": "LOW",
+      "source": "harmless-fat12.img",
+      "technique": null,
+      "title": "/LAUNCH32.EXE (No rule match)"
+    }
+  ],
+  "id": "CASE-0B8976F917BE",
+  "iocs": [
+    {
+      "evidence_sha256": "b91468e88a32875ef246cefb180cb37b9b8946fa2fa7d48702dbd4d68d0ea22e",
+      "matched_strings": [
+        "$a"
+      ],
+      "meta": {
+        "description": "Harmless integration marker",
+        "severity": "informational"
+      },
+      "namespace": "rules_060fe06fdbd0c843b69667411127de69703ff73ac9627d7c2847eef50e02bdb6",
+      "rule": "Harmless_File_Marker",
+      "tags": [],
+      "target": "volume:0:inode:4:/POSITIVE.TXT"
+    }
+  ],
+  "lastActivity": {
+    "at": "2026-10-30T16:32:53.024099+00:00",
+    "label": "Ingested harmless-fat12.img: 6 records (disk_image)."
+  },
+  "notes": [],
+  "openedAt": "2026-10-30T16:32:44.419971+00:00",
+  "scoredAt": "2026-10-30T16:32:52.974522+00:00",
+  "severity": "MEDIUM",
+  "status": "INGESTING",
+  "summary": {
+    "facts": [],
+    "narrative": ""
+  },
+  "threatScore": 25.0,
+  "title": "Issue 2 real PE + YARA demonstration"
+}

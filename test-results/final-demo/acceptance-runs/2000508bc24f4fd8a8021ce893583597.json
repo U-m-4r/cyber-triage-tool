@@ -1,0 +1,249 @@
+{
+  "run": "2000508bc24f4fd8a8021ce893583597",
+  "started_at_utc": "2026-10-30T18:56:07.288037+00:00",
+  "operation": "Read-only acceptance; no inference/ingestion/database writes",
+  "checks": [
+    {
+      "name": "owned_mongodb",
+      "status": "PASS",
+      "details": {
+        "database": "cyber_triage_test_f81c246a5f5c413aa1c951c45cd24423",
+        "ownership_marker": true
+      }
+    },
+    {
+      "name": "backend_health",
+      "status": "PASS",
+      "details": {
+        "status": "ok"
+      }
+    },
+    {
+      "name": "frontend",
+      "status": "PASS",
+      "details": {
+        "http": 200
+      }
+    },
+    {
+      "name": "saved_evaluation_provenance",
+      "status": "PASS",
+      "details": {
+        "groups": 5,
+        "supporting_sources": 8
+      }
+    },
+    {
+      "name": "disk",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-E855F07F91D5",
+        "records": 6,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "52e1ab55fc5bc3b96b542c4f4f16b3d47f908699c5af703b484024fc014395f3",
+        "mongo_roundtrip": true,
+        "pdf_pages": 6,
+        "pdf_sha256": "bde7faf2dc4636cc4eff4df9b74a9665c53b09e27b9135a4e8dcdb36aa82118e"
+      }
+    },
+    {
+      "name": "ntfs",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-56540E3BFE9B",
+        "records": 19,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+        "mongo_roundtrip": true,
+        "pdf_pages": 10,
+        "pdf_sha256": "6f99eff872432addb0e8c2edee4711c0f15212e35d240d3ae5b0b4ad88ab247a"
+      }
+    },
+    {
+      "name": "file-inventory",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-53730B2651F2",
+        "records": 2,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "a1a1f51d4e053fac923c6f2d4131c16bfdebf021643f96f546f06be05c80a539"
+      }
+    },
+    {
+      "name": "partial",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-0DAA7F525B35",
+        "records": 1,
+        "scan_status": "PARTIAL",
+        "evidence_sha256": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "dff99449fdfd18cd4c68a4ab905e1c9fd528ed60b213c59f0ff141dedd2c77ed"
+      }
+    },
+    {
+      "name": "unavailable",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-9E450E7C0284",
+        "records": 2,
+        "scan_status": "PARTIAL",
+        "evidence_sha256": "358c8633a79cbb27dd4991d37f53553e9fc6e648720db934e4f378bb450debf2",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "5b11ad953fc1da82c16281d9d3831f67d3498a5725e02d3e38de61290adb6c9a"
+      }
+    },
+    {
+      "name": "standalone-pe",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-30E18A99BCF7",
+        "records": 1,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "81a618f21cb87db9076134e70388b6e9cb7c2106739011b6a51772d22cae06b7",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "a7ae3b514d70d532119ac72fb49e51d9e53cbc00ba8ce1a6ca9e9fbd4d97aa24"
+      }
+    },
+    {
+      "name": "cicids2017-xgb",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-F0A7D56A1116",
+        "records": 84,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+        "mongo_roundtrip": true,
+        "pdf_pages": 30,
+        "pdf_sha256": "41a0d833d7bd2b0c42e79ef7afc54b7cd46fc07e94644312f0167957331b3465"
+      }
+    },
+    {
+      "name": "cicids2017-iforest",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-1F8449428D92",
+        "records": 84,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+        "mongo_roundtrip": true,
+        "pdf_pages": 29,
+        "pdf_sha256": "5d5c267b4f425fd47834f229ed4e9a6d0c7ba01a3fa31ea69ec9fe3c7518f172"
+      }
+    },
+    {
+      "name": "external-csv",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-6E87BD593EAA",
+        "records": 60,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "ea02d2e08195e16fa5d88e2bcd61f59ac85e9d8057a8075cc39ddf45e47921e8",
+        "mongo_roundtrip": true,
+        "pdf_pages": 23,
+        "pdf_sha256": "0f40fcb8842c7c3c7e7447e50ad56424808e3bed7341db0117b85548ddd8a3c7"
+      }
+    },
+    {
+      "name": "native-evtx",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-6EC4EC7FD19D",
+        "records": 1601,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "ccb83cfefc9038017224cd97b800b66e248fe14529649ddf47907e5a2021449e",
+        "mongo_roundtrip": true,
+        "pdf_pages": 32,
+        "pdf_sha256": "19362e70888c9cb331b3dce804f38f0b4c9511bcd19b6bde840e716e4210c59a"
+      }
+    },
+    {
+      "name": "native-registry",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-F479FBF39DF4",
+        "records": 2000,
+        "scan_status": "PARTIAL",
+        "evidence_sha256": "6b5ef3ad32ddd095b2d40671f5d1815d6563a40d3eb9d9ba3d8e93b0c444ad6b",
+        "mongo_roundtrip": true,
+        "pdf_pages": 38,
+        "pdf_sha256": "a43b1ac0ea93823a5bc04b892b0bdcefc871f6cfc8d413419baa5e8b2c072663"
+      }
+    },
+    {
+      "name": "event-export",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-5E161F49F3C1",
+        "records": 2,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "5df4cecce872ddbf849d522cfcf43109a13aa06f44bad65e8d592f91e343bc68",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "25b00f05625bd282cc4bdef15d6234c34c47a5d226bda8ef8c5d32c0694d060c"
+      }
+    },
+    {
+      "name": "registry-export",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-E8634644A6D7",
+        "records": 2,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "5210ee6e4fd2b9e2593f83611e0051e36a22dcc576988d6fea585d0034fa9c2a",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "abb871a3f9bacd60e6b275c87a99ebf6f1a6ebddfb586a3e996bdfefc86cfcbc"
+      }
+    },
+    {
+      "name": "pcap",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-FC0E8BDD23D9",
+        "records": 1,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "24a98b71ca8feb9dc510bfd17b4e24ed60510f6b81f189b5d2299b356c5afd54",
+        "mongo_roundtrip": true,
+        "pdf_pages": 3,
+        "pdf_sha256": "02e515687416f0ad8a0ce6ad55e32b320725efac1e644313bb013226f0101353"
+      }
+    },
+    {
+      "name": "ntfs-final",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-E042AF39B2C3",
+        "records": 19,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "18defdcac463750fdcb0ef8070b1e7f3411d21efb54c41354b3a7c5e2de8ecf1",
+        "mongo_roundtrip": true,
+        "pdf_pages": 10,
+        "pdf_sha256": "3e75ff75a69719e82bbafbf6649c5c5fc8e5aca02c3d17a8b3ee6c838ca1574e"
+      }
+    },
+    {
+      "name": "local-ewf",
+      "status": "PASS",
+      "details": {
+        "case_id": "CASE-639E1724B463",
+        "records": 19,
+        "scan_status": "COMPLETED",
+        "evidence_sha256": "b3c279ee41c14b595b0f38d335e50e636c23d31b5b2037a88622ec843c1342f9",
+        "mongo_roundtrip": true,
+        "pdf_pages": 10,
+        "pdf_sha256": "55a94985895f584d4d3afa8a15126fe479c6fa98382a8e55b9f7e2a31c0e1388"
+      }
+    }
+  ],
+  "status": "PASS",
+  "case_count": 16,
+  "pdf_pages_checked": 209,
+  "processing_seconds": 3.036972900001274
+}

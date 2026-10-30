@@ -8,9 +8,10 @@ import AppShell from './components/dashboard/AppShell.jsx'
 import CasesPage from './routes/CasesPage.jsx'
 import WorkspaceModule from './routes/WorkspaceModule.jsx'
 import { NAV_ITEMS } from './data/navigation.js'
+import EvaluationPage from './routes/EvaluationPage.jsx'
 
 export default function App() {
-  const laterModules = NAV_ITEMS.filter((item) => !['/dashboard', '/cases'].includes(item.path))
+  const laterModules = NAV_ITEMS.filter((item) => !['/dashboard', '/cases', '/evaluations'].includes(item.path))
 
   return (
     <Routes>
@@ -20,6 +21,7 @@ export default function App() {
       <Route element={<AppShell />}>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/cases" element={<CasesPage />} />
+        <Route path="/evaluations" element={<EvaluationPage />} />
         <Route path="/cases/:caseId" element={<CaseWorkspacePage />} />
         {laterModules.map((item) => (
           <Route

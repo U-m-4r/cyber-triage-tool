@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-10-30T16:31:52.786048+00:00",
+  "model": {
+    "model_id": "EMBER2024_PE@425202786349",
+    "model_version": "e5b945dd90e1a1a1ec0cc07b3a17b52e9ba2d0c2",
+    "feature_extractor_version": "EMBER2024-v3-0ef753e81d98bf209f71b03cd331dfc190b5b54d",
+    "feature_dimensions": 2568,
+    "model_sha256": "4252027863492ac138785c8c18576f43dad77d00faddc14e8c0072e8db419f99",
+    "available": true,
+    "reason": null,
+    "source": "https://huggingface.co/joyce8/EMBER2024-benchmark-models",
+    "license": "Apache-2.0",
+    "score_calibrated": false,
+    "default_decision_threshold": 0.5,
+    "score_kind": "Binary LightGBM sigmoid output; not calibrated confidence",
+    "dependencies": {
+      "lightgbm": "4.6.0",
+      "pefile": "2024.8.26",
+      "signify": "0.7.1",
+      "numpy": "2.5.4",
+      "scikit-learn": "1.8.0"
+    },
+    "availability_scope": "Artifact/dependency checks; runtime load errors remain explicit",
+    "supported_formats": [
+      "native PE32 I386 EXE/DLL",
+      "native PE32+ AMD64 EXE/DLL"
+    ]
+  },
+  "threshold": 0.5,
+  "revision": "3d23efef7c0f0b702c5024400cfff4c3744a3832",
+  "population": "Every record in official Win32_test.zip and Win64_test.zip, all12testweeks; no sampling",
+  "scope": "Benchmark native categories; separate header-based application eligibility proxy and <=2MiB subset; no raw-byte validation claim",
+  "no_training_or_tuning": true,
+  "batch_size": 256,
+  "sources": [
+    {
+      "rfilename": "Win32_test.zip",
+      "blobId": "899149a8a6e35bec868c3532981e7ea5befc8947",
+      "size": 2593425203,
+      "lfs": {
+        "sha256": "c05f6562dee3ace4195087be918eb00181e33bc31464c671fb5ba00c9dd5dfdb",
+        "size": 2593425203,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "Win64_test.zip",
+      "blobId": "6af6d378efec652964a08804478ec83c23b0c5ae",
+      "size": 1176459716,
+      "lfs": {
+        "sha256": "52a5a05c1bfa5bb021bb8b44c2e0afcf8983dfa1c6c0a9d76db393e5c682ce10",
+        "size": 1176459716,
+        "pointerSize": 135
+      }
+    }
+  ],
+  "resources": {
+    "ram_available": 863514624,
+    "disk_free": 50513195008
+  },
+  "timestamp": "Local write-once receipt, no independent timestamp authentication"
+}

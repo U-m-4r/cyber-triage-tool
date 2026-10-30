@@ -1,0 +1,13 @@
+{
+  "NTFS": "PASS declared allocated default streams",
+  "E01": "PASS local complete5segment set; segmentedHTTPupload unsupported",
+  "backend": "418passed46skipped0failures/errors",
+  "frontend": "19passed buildPASS actualcomponentPASS",
+  "pdf": "PASS content/allpagesrendered/geometry;summary visually inspected",
+  "browser": "UNVERIFIED: Local browser use is disabled in Work settings.",
+  "historical_files_preserved": 87,
+  "historical_changes": [],
+  "segment_and_raw_and_reference_hashes": "All unchanged",
+  "head": "dd3fcdddb99910317076cfac7b30547a823b9278",
+  "publication": "NONE; local work only"
+}
