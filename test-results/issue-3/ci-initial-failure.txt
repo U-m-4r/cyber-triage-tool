@@ -1,0 +1,216 @@
+checks	Run .venv/bin/python scripts/check.py --all --no-training	﻿2026-10-30T12:12:20.4158502Z ##[group]Run .venv/bin/python scripts/check.py --all --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4159420Z ^[[36;1m.venv/bin/python scripts/check.py --all --no-training^[[0m
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4189404Z shell: /usr/bin/bash -e {0}
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4189850Z env:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4190313Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4191121Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.9/x64/lib/pkgconfig
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4191914Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4192632Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4193400Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.9/x64
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4194159Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.9/x64/lib
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.4194801Z ##[endgroup]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.6800278Z Python syntax: 87 files passed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.6801013Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m pip check
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.9349985Z No broken requirements found.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:20.9653380Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m ruff check .
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:21.0064547Z All checks passed!
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:21.0075512Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m ruff format --check backend/config.py tests/test_foundation.py scripts/check.py
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:21.0322301Z 3 files already formatted
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:21.0323536Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m flask --app backend.app check-config
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:23.4255193Z Configuration valid: environment=development, database=mongo, auth=disabled
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:23.6516034Z Running: git diff --check
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:23.6900261Z Running: /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python -m pytest -q --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:27.6085145Z sssssssss.ssssssssss.s..s..sssssss.......ssssssssss...ss...s............ [ 18%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:29.5974818Z .....................s.................................................. [ 36%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:30.7593508Z ..............................................ssssssssssssss...ss....... [ 55%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:31.7985865Z ..sss.........s......................s.................................. [ 73%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:33.3076603Z s..................s.s.............sss.................s.s....ssFFFFF... [ 92%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1678026Z ...............................                                          [100%]
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1678989Z =================================== FAILURES ===================================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1679971Z _____________ test_cross_platform_semantic_fingerprint_invariance ______________
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1680560Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1680943Z     def test_cross_platform_semantic_fingerprint_invariance():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1682011Z         """Requirement 1: Equivalent cleaning records from different platforms match."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1683074Z >       rec = load_cleaning_record(DEFAULT_RECORD_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1683750Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1684125Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1684465Z tests/test_provenance_reconciliation.py:56:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1685072Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1685387Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1686336Z record_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1686955Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1687204Z     def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1687682Z         record_path = Path(record_path)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1688106Z         if not record_path.is_file():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1688673Z >           raise CleaningError(f'Cleaning record not found: {record_path}. '
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1689628Z                                 'Run scripts/clean_dataset.py first.', 'RECORD_MISSING')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1691266Z E           ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1692194Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1692378Z ml/cleaning.py:508: CleaningError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1692974Z _____ test_substantive_field_changes_alter_fingerprint_and_fail_validation _____
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1693382Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1693707Z     def test_substantive_field_changes_alter_fingerprint_and_fail_validation():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1694475Z         """Requirement 2: Substantive alterations change fingerprint and fail validation."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1695133Z >       rec = load_cleaning_record(DEFAULT_RECORD_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1695511Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1695953Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1696156Z tests/test_provenance_reconciliation.py:86:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1696609Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1696858Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1697389Z record_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1697873Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1698081Z     def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1698478Z         record_path = Path(record_path)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1698797Z         if not record_path.is_file():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1699262Z >           raise CleaningError(f'Cleaning record not found: {record_path}. '
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1699795Z                                 'Run scripts/clean_dataset.py first.', 'RECORD_MISSING')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1700941Z E           ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1701681Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1701830Z ml/cleaning.py:508: CleaningError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1702324Z _______ test_retained_old_fingerprint_cannot_pass_substantive_tampering ________
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1702647Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1702889Z     def test_retained_old_fingerprint_cannot_pass_substantive_tampering():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1703546Z         """Requirement 3: Modifying substantive fields cannot pass validation with an old fingerprint."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1704134Z >       rec = load_cleaning_record(DEFAULT_RECORD_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1704490Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1704686Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1704878Z tests/test_provenance_reconciliation.py:129:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1705327Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1705781Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1706323Z record_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1706819Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1707024Z     def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1707411Z         record_path = Path(record_path)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1707762Z         if not record_path.is_file():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1708251Z >           raise CleaningError(f'Cleaning record not found: {record_path}. '
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1708795Z                                 'Run scripts/clean_dataset.py first.', 'RECORD_MISSING')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1709933Z E           ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1710678Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1710840Z ml/cleaning.py:508: CleaningError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1711334Z __ test_raw_json_file_hashes_differ_while_semantic_fingerprints_remain_equal ___
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1711663Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1712562Z tmp_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/.test-artifacts/pytest-ec5264d174cc4b5ab1f537a6d339297f/test_raw_json_file_hashes_diff0')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1713342Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1713665Z     def test_raw_json_file_hashes_differ_while_semantic_fingerprints_remain_equal(tmp_path):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1714344Z         """Requirement 4: Raw file SHA-256 differs while semantic fingerprints are identical."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1714906Z >       rec = load_cleaning_record(DEFAULT_RECORD_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1715278Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1715471Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1715964Z tests/test_provenance_reconciliation.py:146:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1716439Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1716695Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1717229Z record_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1717729Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1717935Z     def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1718340Z         record_path = Path(record_path)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1718664Z         if not record_path.is_file():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1719130Z >           raise CleaningError(f'Cleaning record not found: {record_path}. '
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1719658Z                                 'Run scripts/clean_dataset.py first.', 'RECORD_MISSING')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1721272Z E           ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1722019Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1722177Z ml/cleaning.py:508: CleaningError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1722661Z ___________ test_existing_model_bundle_compatibility_and_evaluation ____________
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1722970Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1723195Z     def test_existing_model_bundle_compatibility_and_evaluation():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1723866Z         """Requirement 5: Existing supported model bundle is valid and handled cleanly."""
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1724388Z         assert BASELINE_PATH.is_file()
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1724727Z         bundle = load_baseline(BASELINE_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1725076Z         assert bundle["bundle_version"] == 1
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1725511Z         assert bundle["provenance"]["model_id"] == EXPECTED_CURRENT_MODEL_ID
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1726483Z         assert bundle["provenance"]["dataset_id"] == "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed"
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1726991Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1727282Z         # Bundle validates under updated validate_bundle
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1727654Z         validated = validate_bundle(bundle)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1727989Z         assert validated is bundle
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1728248Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1728505Z         # Test compatibility evaluation path:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1728985Z         # If evaluating with allow_semantic_record=True, it succeeds even if a record
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1729559Z         # from another host is supplied (as long as substantive fields match).
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1730063Z >       rec = load_cleaning_record(DEFAULT_RECORD_PATH)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1730547Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1730759Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1730960Z tests/test_provenance_reconciliation.py:191:
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1731422Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1731678Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1732214Z record_path = PosixPath('/home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1732704Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1732941Z     def load_cleaning_record(record_path=DEFAULT_RECORD_PATH):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1733346Z         record_path = Path(record_path)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1733672Z         if not record_path.is_file():
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1734201Z >           raise CleaningError(f'Cleaning record not found: {record_path}. '
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1735443Z                                 'Run scripts/clean_dataset.py first.', 'RECORD_MISSING')
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1737600Z E           ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1738368Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1738538Z ml/cleaning.py:508: CleaningError
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1738984Z =============================== warnings summary ===============================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1739682Z tests/test_supervised_detector.py::test_infer_reorders_shuffled_features_correctly
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1740363Z tests/test_supervised_detector.py::test_infer_handles_or_rejects_non_finite_values
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1740970Z tests/test_supervised_detector.py::test_score_and_decision_semantics
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1741526Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1742079Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1742630Z tests/test_supervised_detector.py::test_threshold_override_behavior
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1743325Z tests/test_supervised_detector.py::test_api_analyze_with_supervised_detector
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1744470Z   /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1745369Z     warnings.warn(
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1745513Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1746214Z tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1746906Z tests/test_supervised_detector.py::test_isolation_forest_score_direction_and_labels
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1748094Z   /home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but IsolationForest was fitted with feature names
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1749021Z     warnings.warn(
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1749165Z
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1749473Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1750059Z =========================== short test summary info ============================
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1750767Z SKIPPED [11] tests/test_attack_family.py: Synthetic RandomForest/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1751639Z SKIPPED [8] tests/test_attack_family.py:98: Synthetic RandomForest/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1752388Z SKIPPED [9] tests/test_baseline.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1753061Z SKIPPED [6] tests/test_baseline.py:73: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1753745Z SKIPPED [3] tests/test_baseline.py:179: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1754430Z SKIPPED [3] tests/test_baseline.py:216: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1755131Z SKIPPED [1] tests/test_chain_of_custody.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1756056Z SKIPPED [1] tests/test_cleaning.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1756720Z SKIPPED [1] tests/test_disk_file_yara.py:19: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1757357Z SKIPPED [1] tests/test_disk_file_yara.py:41: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1757975Z SKIPPED [1] tests/test_disk_file_yara.py:60: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1758596Z SKIPPED [1] tests/test_disk_file_yara.py:71: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1759221Z SKIPPED [4] tests/test_disk_file_yara.py:97: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1759853Z SKIPPED [1] tests/test_disk_file_yara.py:111: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1760865Z SKIPPED [1] tests/test_disk_file_yara.py:118: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1761509Z SKIPPED [1] tests/test_disk_file_yara.py:128: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1762261Z SKIPPED [2] tests/test_disk_file_yara.py:137: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1762883Z SKIPPED [1] tests/test_disk_file_yara.py:145: Requires real pytsk3 and yara-python
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1763619Z SKIPPED [2] tests/test_endpoints.py: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1764290Z SKIPPED [1] tests/test_forensics.py:75: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1764839Z SKIPPED [1] tests/test_forensics.py:99: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1765373Z SKIPPED [1] tests/test_forensics.py:111: yara-python not installed
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1766586Z SKIPPED [1] tests/test_forensics.py:267: Primary forensic disk image not present locally; run scripts/acquire_forensic_image.py
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1767456Z SKIPPED [1] tests/test_foundation.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1768139Z SKIPPED [1] tests/test_holdout.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1768927Z SKIPPED [1] tests/test_integration_views.py:130: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1769671Z SKIPPED [1] tests/test_ml_core.py: Model/scaler fitting prohibited by --no-training
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1770457Z SKIPPED [2] tests/test_network_reliability.py:71: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1771203Z SKIPPED [1] tests/test_network_reliability.py:105: Real held-out CSV fixture absent
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1771972Z SKIPPED [1] tests/test_pe_malware.py:62: Official model/dependencies not installed; real inference unverified
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1772658Z SKIPPED [1] tests/test_pe_malware.py:82: Official model unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1773355Z SKIPPED [1] tests/test_pe_malware.py:112: Requires --run-integration and dedicated MongoDB on port 27018
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1774033Z SKIPPED [1] tests/test_pe_malware.py:144: Real parser/model unavailable
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1775939Z FAILED tests/test_provenance_reconciliation.py::test_cross_platform_semantic_fingerprint_invariance - ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1778439Z FAILED tests/test_provenance_reconciliation.py::test_substantive_field_changes_alter_fingerprint_and_fail_validation - ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1780937Z FAILED tests/test_provenance_reconciliation.py::test_retained_old_fingerprint_cannot_pass_substantive_tampering - ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1783491Z FAILED tests/test_provenance_reconciliation.py::test_raw_json_file_hashes_differ_while_semantic_fingerprints_remain_equal - ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1786170Z FAILED tests/test_provenance_reconciliation.py::test_existing_model_bundle_compatibility_and_evaluation - ml.cleaning.CleaningError: Cleaning record not found: /home/runner/work/cyber-triage-tool/cyber-triage-tool/data/provenance/cicids2017_cleaning.json. Run scripts/clean_dataset.py first.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.1787491Z 5 failed, 313 passed, 73 skipped, 9 warnings in 9.85s
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5717027Z Traceback (most recent call last):
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5724194Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 59, in <module>
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5726017Z     main()
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5726360Z     ~~~~^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5727399Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 51, in main
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5728551Z     run([sys.executable, "-m", "pytest", "-q", *(["--no-training"] if args.no_training else [])])
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5729445Z     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5730427Z   File "/home/runner/work/cyber-triage-tool/cyber-triage-tool/scripts/check.py", line 15, in run
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5731400Z     subprocess.run(command, cwd=ROOT, check=True)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5732015Z     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5732895Z   File "/opt/hostedtoolcache/Python/3.14.9/x64/lib/python3.14/subprocess.py", line 578, in run
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5733795Z     raise CalledProcessError(retcode, process.args,
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5734422Z                              output=stdout, stderr=stderr)
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5736318Z subprocess.CalledProcessError: Command '['/home/runner/work/cyber-triage-tool/cyber-triage-tool/.venv/bin/python', '-m', 'pytest', '-q', '--no-training']' returned non-zero exit status 1.
+checks	Run .venv/bin/python scripts/check.py --all --no-training	2026-10-30T12:12:34.5833569Z ##[error]Process completed with exit code 1.
