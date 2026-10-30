@@ -1,0 +1,20 @@
+{
+  "supervised": {
+    "pages": 34,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "coverage_pages": [
+      26
+    ],
+    "visual_review": "Sampled coverage page and large-report contact layout inspected; all pages rendered and geometry checked; not every page individually inspected"
+  },
+  "baseline": {
+    "pages": 31,
+    "all_pages_rendered": true,
+    "out_of_page_text": [],
+    "coverage_pages": [
+      26
+    ],
+    "visual_review": "Sampled coverage page and large-report contact layout inspected; all pages rendered and geometry checked; not every page individually inspected"
+  }
+}

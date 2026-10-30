@@ -1,0 +1,9 @@
+{
+  "selection_sha256": "226679afca4f289c7d9116d18946d3368a2b74e7a5a508681004ee8361cabdae",
+  "protocol_sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3",
+  "locked_test_sha256": "bce4fb91e4eafcbbbc1cb0d506f09cd3bb23029cab30805d7280f02d6a520d56",
+  "started_at": "2026-10-30T15:36:01.313526+00:00",
+  "policy": "One final-label evaluation; no model changes after this receipt",
+  "model_sha256": "51b83bd3bc4f94ff83582086df9ad312cc69ca6d2ff7bff85be7bbc71582032f",
+  "selected_threshold": 0.1372658878286815
+}

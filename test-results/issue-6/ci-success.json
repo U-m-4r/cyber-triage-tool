@@ -1,0 +1,12 @@
+{
+  "run": 41085896071,
+  "conclusion": "success",
+  "commit": "b7cc56847cca676f95d62c922a2f34cf231d9d78",
+  "backend": [
+    "369",
+    "85"
+  ],
+  "native_extras_absent_in_ci": true,
+  "local_native_result": "408 passed, 46 skipped, zero failures/errors",
+  "frontend": "19 passed and build passed"
+}

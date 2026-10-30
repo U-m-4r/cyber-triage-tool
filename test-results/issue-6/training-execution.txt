@@ -1,0 +1,29 @@
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+{
+  "winner": "lightgbm",
+  "ranking": [
+    {
+      "name": "xgboost",
+      "macro_family_recall": 1.0,
+      "average_precision": 0.999949125947922,
+      "fpr": 0.04575252663206775
+    },
+    {
+      "name": "lightgbm",
+      "macro_family_recall": 1.0,
+      "average_precision": 0.9999555486387297,
+      "fpr": 0.026290630975143392
+    }
+  ],
+  "resources": {
+    "xgboost": {
+      "wall_seconds": 9.83133369999996,
+      "peak_worker_rss_bytes": 3883008
+    },
+    "lightgbm": {
+      "wall_seconds": 7.432929800001148,
+      "peak_worker_rss_bytes": 3883008
+    }
+  }
+}

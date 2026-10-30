@@ -1,0 +1,334 @@
+INFO:backend.db:MongoDB indexes ensured on database 'cyber_triage_test_d581b403c70d4964920d10875710ec37'
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:41] "GET /api/model HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:41] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:41] "POST /api/analyze HTTP/1.1" 200 -
+C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Lib\site-packages\sklearn\utils\validation.py:2684: UserWarning: X has feature names, but StandardScaler was fitted without feature names
+  warnings.warn(
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:41] "GET /api/artifacts?case_id=CASE-87934C83D864&limit=100 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:41] "GET /api/cases/CASE-87934C83D864 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-87934C83D864 (62909 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:42] "GET /api/report/CASE-87934C83D864 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:44] "[35m[1mPOST /api/cases HTTP/1.1[0m" 201 -
+INFO:backend.app:Attack family triage omitted during analyze: Attack family model bundle not found at C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\models\attack_family_bundle.joblib. Train it with scripts/train_attack_family.py using the approved dataset.
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:44] "POST /api/analyze HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:44] "GET /api/artifacts?case_id=CASE-584157EF1469&limit=100 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:44] "GET /api/cases/CASE-584157EF1469 HTTP/1.1" 200 -
+INFO:backend.report_generator:Generated PDF report for case CASE-584157EF1469 (58481 bytes)
+INFO:werkzeug:127.0.0.1 - - [30/Oct/2026 21:09:45] "GET /api/report/CASE-584157EF1469 HTTP/1.1" 200 -
+{
+  "run": "d581b403c70d4964920d10875710ec37",
+  "database": "cyber_triage_test_d581b403c70d4964920d10875710ec37",
+  "source_sha256_before": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+  "source_sha256_after": "31c035c083f80f6b3d9c82f17626da0255ca131a307b6e895db58ef5ae77406e",
+  "source_selection": "Published first 12 source-order held-out rows per 2017 class, no prediction selection; not performance evaluation",
+  "results": {
+    "supervised": {
+      "case_id": "CASE-87934C83D864",
+      "summary": {
+        "classified_attacks": 55,
+        "classified_benign": 29,
+        "critical": 19,
+        "high": 35,
+        "low": 24,
+        "medium": 6,
+        "total_records": 84
+      },
+      "model_id": "xgb-bin-12ad91fa39",
+      "threshold": 0.4343418846451664,
+      "direct_inference_consistency": "PASS",
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_sha256": "cc2dced06de65ca62f2ccd5c481d45d65639d34a9480b9375be6b38bb65cad27",
+      "http_seconds": 0.25870690000010654,
+      "screening": "COMPLETED"
+    },
+    "baseline": {
+      "case_id": "CASE-584157EF1469",
+      "summary": {
+        "classified_attacks": 16,
+        "classified_benign": 68,
+        "critical": 2,
+        "high": 16,
+        "low": 55,
+        "medium": 11,
+        "total_records": 84
+      },
+      "model_id": "iforest-65dd0b57a2b1a2020a0b",
+      "threshold": 0.0,
+      "direct_inference_consistency": "PASS",
+      "mongo_roundtrip": "PASS",
+      "pdf": "PASS",
+      "pdf_sha256": "adfa0b8ce1eff1f7b40b273bbcd8b5c9d82255fa4424fe42f819c2ee547174c3",
+      "http_seconds": 0.24207769999702577,
+      "screening": "COMPLETED"
+    }
+  },
+  "retained_incumbents": true,
+  "challenger_deployed": false,
+  "browser": "UNVERIFIED: Local browser use is disabled in Work settings; no workaround or screenshot claim",
+  "inventory": {
+    "active_model_available": true,
+    "available": true,
+    "baseline": {
+      "bundle_version": 1,
+      "feature_schema": {
+        "artifact_type": "network",
+        "columns": [
+          "Flow Duration",
+          "Total Fwd Packets",
+          "Total Length of Fwd Packets",
+          "Fwd Packet Length Max",
+          "Fwd Packet Length Min",
+          "Fwd Packet Length Mean",
+          "Bwd Packet Length Max",
+          "Bwd Packet Length Min",
+          "Flow Bytes/s",
+          "Flow Packets/s",
+          "Packet Length Mean"
+        ],
+        "dtype": "float64",
+        "flow_duration_unit": "microseconds",
+        "version": 1
+      },
+      "provenance": {
+        "cleaning": {
+          "exclusions": {
+            "by_reason": {
+              "duplicate_row": 161,
+              "label_conflict": 219323,
+              "negative_measurements": 107
+            },
+            "input_rows": 2520751,
+            "invariant": "input_rows == retained_rows + unique_rows",
+            "overlaps": {
+              "pairs": {
+                "duplicate_row & label_conflict": 78,
+                "negative_measurements & duplicate_row": 1
+              },
+              "rows_with_multiple_reasons": 79
+            },
+            "retained_rows": 2301239,
+            "unique_rows": 219512
+          },
+          "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+          "policy_id": "cicids2017-offline-cleaning",
+          "policy_version": "1.0.0",
+          "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+        },
+        "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+        "dataset_path": "data/cicids2017_cleaned.csv",
+        "dataset_version": "local-manual",
+        "decision_threshold": 0.0,
+        "dropped_benign_duplicates": 310489,
+        "dropped_invalid_rows": 0,
+        "excluded_non_benign_rows": 363117,
+        "input_rows": 2301239,
+        "label_column": "Attack Type",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_parameters": {
+          "bootstrap": false,
+          "contamination": 0.1,
+          "max_features": 1.0,
+          "max_samples": "auto",
+          "n_estimators": 100,
+          "n_jobs": -1,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "score_samples_threshold": -0.47321778481357596,
+        "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+        "size_bytes": 717247573,
+        "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+        "split": {
+          "method": "numeric-feature-group-hash-v1",
+          "partitions": {
+            "test": {
+              "rows": 345892,
+              "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+            },
+            "train": {
+              "rows": 1612277,
+              "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+            },
+            "validation": {
+              "rows": 343070,
+              "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+            }
+          },
+          "seed": 42,
+          "test_percent": 15,
+          "train_percent": 70,
+          "validation_percent": 15
+        },
+        "trained_at": "2026-10-27T07:59:07.227722+00:00",
+        "training_policy": "benign_only",
+        "training_rows": 1051117,
+        "valid_rows": 2301239
+      }
+    },
+    "default_detector": "baseline",
+    "models": {
+      "baseline": {
+        "active_threshold": 0.0,
+        "available": true,
+        "calibrated": false,
+        "detector_type": "anomaly_baseline",
+        "model_id": "iforest-65dd0b57a2b1a2020a0b",
+        "model_sha256": "8602d9e6f57d347a10ebbca7290ad2bc75892f9c7f8b29dcc97c2fea20035c0d",
+        "model_version": 1,
+        "name": "Isolation Forest \u2014 Unsupervised Anomaly Detection",
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_path": "data/cicids2017_cleaned.csv",
+          "dataset_version": "local-manual",
+          "decision_threshold": 0.0,
+          "dropped_benign_duplicates": 310489,
+          "dropped_invalid_rows": 0,
+          "excluded_non_benign_rows": 363117,
+          "input_rows": 2301239,
+          "label_column": "Attack Type",
+          "model_id": "iforest-65dd0b57a2b1a2020a0b",
+          "model_parameters": {
+            "bootstrap": false,
+            "contamination": 0.1,
+            "max_features": 1.0,
+            "max_samples": "auto",
+            "n_estimators": 100,
+            "n_jobs": -1,
+            "random_state": 42,
+            "verbose": 0,
+            "warm_start": false
+          },
+          "score_samples_threshold": -0.47321778481357596,
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "size_bytes": 717247573,
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T07:59:07.227722+00:00",
+          "training_policy": "benign_only",
+          "training_rows": 1051117,
+          "valid_rows": 2301239
+        },
+        "score_interpretation": "Isolation Forest decision function; negative indicates anomaly, positive indicates normal"
+      },
+      "supervised": {
+        "active_threshold": 0.4343418846451664,
+        "available": true,
+        "calibrated": false,
+        "detector_type": "supervised_binary",
+        "model_id": "xgb-bin-12ad91fa39",
+        "model_sha256": "ee4bc46fee3d1957bd080246c84bf6dedee246b25d29c1ecd6dfaf63d2100e3f",
+        "model_version": 1,
+        "name": "XGBoost \u2014 Supervised Intrusion Detection",
+        "provenance": {
+          "cleaning": {
+            "exclusions": {
+              "by_reason": {
+                "duplicate_row": 161,
+                "label_conflict": 219323,
+                "negative_measurements": 107
+              },
+              "input_rows": 2520751,
+              "invariant": "input_rows == retained_rows + unique_rows",
+              "overlaps": {
+                "pairs": {
+                  "duplicate_row & label_conflict": 78,
+                  "negative_measurements & duplicate_row": 1
+                },
+                "rows_with_multiple_reasons": 79
+              },
+              "retained_rows": 2301239,
+              "unique_rows": 219512
+            },
+            "ledger_sha256": "b6221758be8c0febced43df021e62d80ac94a8ab4361da7d74199b3f236b9460",
+            "policy_id": "cicids2017-offline-cleaning",
+            "policy_version": "1.0.0",
+            "record_sha256": "77a22f9643990bcaf8a079f4babb49422dfdb2f0c9dfa386dc10eeac86a9205f"
+          },
+          "dataset_id": "ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "dataset_version": "1.0",
+          "fit_duration_seconds": 20.111487,
+          "label_column": "Attack Type",
+          "model_id": "xgb-bin-12ad91fa39",
+          "negative_class": "BENIGN",
+          "positive_class": "ATTACK",
+          "sha256": "0ce5a39edffcde3fce59d0dc4aabc9b1f6acab2c626fd7163be9c694f224c292",
+          "source_url": "https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed",
+          "split": {
+            "method": "numeric-feature-group-hash-v1",
+            "partitions": {
+              "test": {
+                "rows": 345892,
+                "source_indices_sha256": "e61f94132b8d16e3cb2ab6fcb853ed2f10db583dfe95187123b875ac45b3c3a4"
+              },
+              "train": {
+                "rows": 1612277,
+                "source_indices_sha256": "96b6f1d6df49e9a80a2f95cae46a3f5e742b788ec8405f9c7a0a84d85d84758e"
+              },
+              "validation": {
+                "rows": 343070,
+                "source_indices_sha256": "8df1b3082788f555de007e9981af53c166389a898a0a406f392ab1127f8e07af"
+              }
+            },
+            "seed": 42,
+            "test_percent": 15,
+            "train_percent": 70,
+            "validation_percent": 15
+          },
+          "trained_at": "2026-10-27T09:45:55.376787+00:00",
+          "training_rows": 1612277,
+          "validation_rows": 343070
+        },
+        "score_interpretation": "Uncalibrated tree score; higher indicates attack"
+      }
+    }
+  }
+}

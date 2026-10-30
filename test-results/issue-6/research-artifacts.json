@@ -1,0 +1,48 @@
+{
+  "tag": "issue-6-research-v1",
+  "prerelease": true,
+  "deployment_allowed": false,
+  "name": "issue-6-rejected-research-models.zip",
+  "size_bytes": 477594,
+  "sha256": "855b2aac38d61bfeab4c0d2d60bb6395438da35ab0a56f568f88247f6e8dbb10",
+  "url": "https://github.com/U-m-4r/cyber-triage-tool/releases/download/issue-6-research-v1/issue-6-rejected-research-models.zip",
+  "contents": [
+    {
+      "member": "xgboost/metadata.json",
+      "sha256": "5ace400352926f2943b0b4fbb84c75bc981017bacdc0b3e31f133ef152325f43"
+    },
+    {
+      "member": "xgboost/model.ubj",
+      "sha256": "b351853eb0389cc81b09f66eb3ff74358c0f9a4715ff1bdb55fefa89a022a711"
+    },
+    {
+      "member": "lightgbm/metadata.json",
+      "sha256": "8b66cb212ec88d2fb193cca9d77597861f913922b4ad7d66aade36c6d9b6f397"
+    },
+    {
+      "member": "lightgbm/model.txt",
+      "sha256": "51b83bd3bc4f94ff83582086df9ad312cc69ca6d2ff7bff85be7bbc71582032f"
+    },
+    {
+      "member": "protocol/PROTOCOL.md",
+      "sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3"
+    },
+    {
+      "member": "protocol/selection.json",
+      "sha256": "226679afca4f289c7d9116d18946d3368a2b74e7a5a508681004ee8361cabdae"
+    },
+    {
+      "member": "protocol/locked-test.json",
+      "sha256": "bce4fb91e4eafcbbbc1cb0d506f09cd3bb23029cab30805d7280f02d6a520d56"
+    },
+    {
+      "member": "protocol/prepared.json",
+      "sha256": "750fe9a18604bd791a5b46c66ca1c4956c414baa297abbbb72c73060960ea501"
+    },
+    {
+      "member": "protocol/final-results.json",
+      "sha256": "cfd66261992993179d81eb55aa34041d63513482ae2cc3aca079486d25cfd47a"
+    }
+  ],
+  "scope": "Research reproducibility only; final false-positive and family gates failed"
+}

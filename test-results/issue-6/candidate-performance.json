@@ -1,0 +1,26 @@
+{
+  "xgboost": {
+    "candidate": "xgboost",
+    "population": "Already used validation only; no final evaluation",
+    "rows": 24722,
+    "loading_seconds": 0.3073984000002383,
+    "inference_seconds": 0.06280980000155978,
+    "rows_per_second": 393600.9985605124,
+    "observed_peak_inference_process_rss_bytes": 267550720,
+    "poll_seconds": 0.005,
+    "archive_score_consistency": "PASS",
+    "training_peak_memory": "NOT_MEASURED: initial launcher observer limitation documented separately"
+  },
+  "lightgbm": {
+    "candidate": "lightgbm",
+    "population": "Already used validation only; no final evaluation",
+    "rows": 24722,
+    "loading_seconds": 0.3835822000000917,
+    "inference_seconds": 0.2708645999991859,
+    "rows_per_second": 91270.69391893332,
+    "observed_peak_inference_process_rss_bytes": 169172992,
+    "poll_seconds": 0.005,
+    "archive_score_consistency": "PASS",
+    "training_peak_memory": "NOT_MEASURED: initial launcher observer limitation documented separately"
+  }
+}

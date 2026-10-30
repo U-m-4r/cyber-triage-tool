@@ -1,0 +1,18 @@
+Python syntax: 125 files passed
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m pip check
+No broken requirements found.
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m ruff check .
+All checks passed!
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m ruff format --check backend/config.py tests/test_foundation.py scripts/check.py
+3 files already formatted
+Running: C:\Users\aumar\OneDrive\Desktop\Projects\cyber-triage-tool\.venv\Scripts\python.exe -m flask --app backend.app check-config
+Configuration valid: environment=development, database=mongo, auth=disabled
+Running: git diff --check
+warning: in the working copy of 'ml/network_experiment.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/acquire_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/diagnose_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/evaluate_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/plot_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/prepare_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/train_issue6.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tests/test_network_experiment.py', LF will be replaced by CRLF the next time Git touches it

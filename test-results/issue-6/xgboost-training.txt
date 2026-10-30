@@ -1,0 +1,325 @@
+{
+  "threshold": 0.09224048256874084,
+  "overall": {
+    "samples": 24722,
+    "benign": 14644,
+    "attack": 10078,
+    "confusion_matrix": {
+      "tn": 13974,
+      "fp": 670,
+      "fn": 0,
+      "tp": 10078
+    },
+    "accuracy": 0.9728986327966993,
+    "precision": 0.9376628209899516,
+    "recall": 1.0,
+    "f1": 0.9678286756938442,
+    "macro_f1": 0.9722084184954649,
+    "roc_auc": 0.9999645180864319,
+    "average_precision": 0.999949125947922,
+    "specificity": 0.9542474733679323,
+    "false_positive_rate": 0.04575252663206775,
+    "false_negative_rate": 0.0,
+    "balanced_accuracy": 0.9771237366839661,
+    "status": "EVALUATED"
+  },
+  "per_family": {
+    "Benign": {
+      "samples": 14644,
+      "binary_label": 0,
+      "true_positive": null,
+      "false_negative": null,
+      "recall": null,
+      "false_positive": 670,
+      "false_positive_rate": 0.04575252663206774,
+      "small_sample": false
+    },
+    "Bot": {
+      "samples": 10016,
+      "binary_label": 1,
+      "true_positive": 10016,
+      "false_negative": 0,
+      "recall": 1.0,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": false
+    },
+    "Brute Force -Web": {
+      "samples": 28,
+      "binary_label": 1,
+      "true_positive": 28,
+      "false_negative": 0,
+      "recall": 1.0,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    },
+    "Brute Force -XSS": {
+      "samples": 20,
+      "binary_label": 1,
+      "true_positive": 20,
+      "false_negative": 0,
+      "recall": 1.0,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    },
+    "SQL Injection": {
+      "samples": 14,
+      "binary_label": 1,
+      "true_positive": 14,
+      "false_negative": 0,
+      "recall": 1.0,
+      "false_positive": null,
+      "false_positive_rate": null,
+      "small_sample": true
+    }
+  },
+  "top_k": [
+    {
+      "fraction": 0.001,
+      "k": 24,
+      "boundary_score": 0.9991068243980408,
+      "tie_group_size": 4,
+      "certain_true_positives": 23,
+      "recall_lower_bound": 0.0023814248858900575,
+      "recall_upper_bound": 0.0023814248858900575
+    },
+    {
+      "fraction": 0.01,
+      "k": 247,
+      "boundary_score": 0.9990259408950806,
+      "tie_group_size": 5051,
+      "certain_true_positives": 166,
+      "recall_lower_bound": 0.024508831117285176,
+      "recall_upper_bound": 0.024508831117285176
+    },
+    {
+      "fraction": 0.05,
+      "k": 1236,
+      "boundary_score": 0.9990259408950806,
+      "tie_group_size": 5051,
+      "certain_true_positives": 166,
+      "recall_lower_bound": 0.12264338162333796,
+      "recall_upper_bound": 0.12264338162333796
+    },
+    {
+      "fraction": 0.1,
+      "k": 2472,
+      "boundary_score": 0.9990259408950806,
+      "tie_group_size": 5051,
+      "certain_true_positives": 166,
+      "recall_lower_bound": 0.24528676324667592,
+      "recall_upper_bound": 0.24528676324667592
+    },
+    {
+      "fraction": 0.2,
+      "k": 4944,
+      "boundary_score": 0.9990259408950806,
+      "tie_group_size": 5051,
+      "certain_true_positives": 166,
+      "recall_lower_bound": 0.49057352649335184,
+      "recall_upper_bound": 0.49057352649335184
+    }
+  ],
+  "model": {
+    "estimator": "xgboost",
+    "filename": "model.ubj",
+    "sha256": "b351853eb0389cc81b09f66eb3ff74358c0f9a4715ff1bdb55fefa89a022a711",
+    "feature_schema": {
+      "version": "network-generalization-11-v1",
+      "columns": [
+        "Flow Duration",
+        "Total Fwd Packets",
+        "Total Length of Fwd Packets",
+        "Fwd Packet Length Max",
+        "Fwd Packet Length Min",
+        "Fwd Packet Length Mean",
+        "Bwd Packet Length Max",
+        "Bwd Packet Length Min",
+        "Flow Bytes/s",
+        "Flow Packets/s",
+        "Packet Length Mean"
+      ],
+      "preprocessing": "identity-float32-no-fit",
+      "duration_unit": "microseconds",
+      "counts_unit": "packets",
+      "lengths_unit": "bytes",
+      "rates_unit": "per-second",
+      "calibrated": false
+    },
+    "model_id": "issue6-xgboost-b351853eb038",
+    "version": "issue6-protocol-v1",
+    "parameters": {
+      "n_estimators": 300,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "colsample_bytree": 0.9,
+      "reg_lambda": 10,
+      "random_state": 42,
+      "n_jobs": 2,
+      "max_depth": 5,
+      "min_child_weight": 10,
+      "tree_method": "hist",
+      "max_bin": 128,
+      "early_stopping_rounds": 30,
+      "eval_metric": "logloss"
+    },
+    "best_iteration": 299,
+    "fit_seconds": 4.306868800002121,
+    "training_rows": 53972,
+    "validation_rows": 24722,
+    "training_only_preprocessing": "identity, no fitted statistics",
+    "prepared_sha256": "750fe9a18604bd791a5b46c66ca1c4956c414baa297abbbb72c73060960ea501",
+    "protocol_sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3",
+    "training_groups": {
+      "CICIDS2017|Bots": {
+        "count": 847,
+        "per_record_weight": 4.90164381073472
+      },
+      "CICIDS2017|Brute Force": {
+        "count": 5031,
+        "per_record_weight": 0.8252220846138556
+      },
+      "CICIDS2017|DDoS": {
+        "count": 9996,
+        "per_record_weight": 0.41533536491519685
+      },
+      "CICIDS2017|DoS": {
+        "count": 9720,
+        "per_record_weight": 0.42712883823994935
+      },
+      "CICIDS2017|Normal Traffic": {
+        "count": 8829,
+        "per_record_weight": 0.47023358338343046
+      },
+      "CICIDS2017|Port Scanning": {
+        "count": 618,
+        "per_record_weight": 6.717948717948718
+      },
+      "CICIDS2017|Web Attacks": {
+        "count": 146,
+        "per_record_weight": 28.436248682824026
+      },
+      "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv|Benign": {
+        "count": 9505,
+        "per_record_weight": 0.4367903532553717
+      },
+      "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv|Bot": {
+        "count": 1212,
+        "per_record_weight": 3.4254887027164256
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv|Benign": {
+        "count": 8033,
+        "per_record_weight": 0.5168296162943243
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv|Brute Force -Web": {
+        "count": 15,
+        "per_record_weight": 276.7794871794872
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv|Brute Force -XSS": {
+        "count": 16,
+        "per_record_weight": 259.4807692307692
+      },
+      "Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv|SQL Injection": {
+        "count": 4,
+        "per_record_weight": 1037.923076923077
+      }
+    },
+    "versions": {
+      "xgboost": "3.4.1",
+      "lightgbm": "4.6.0",
+      "numpy": "2.5.4",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.8.0"
+    },
+    "created_at": "2026-10-30T15:34:20.117722+00:00"
+  },
+  "operating_points": {
+    "0.01": {
+      "threshold": 0.6565953493118286,
+      "constraint": 0.01,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 14506,
+          "fp": 138,
+          "fn": 10,
+          "tp": 10068
+        },
+        "accuracy": 0.9940134293341962,
+        "precision": 0.9864785420340976,
+        "recall": 0.9990077396308792,
+        "f1": 0.9927036087556695,
+        "macro_f1": 0.9938140814697415,
+        "roc_auc": 0.9999645180864319,
+        "average_precision": 0.999949125947922,
+        "specificity": 0.9905763452608577,
+        "false_positive_rate": 0.009423654739142306,
+        "false_negative_rate": 0.000992260369120812,
+        "balanced_accuracy": 0.9947920424458685,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    },
+    "0.05": {
+      "threshold": 0.09224048256874084,
+      "constraint": 0.05,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 13974,
+          "fp": 670,
+          "fn": 0,
+          "tp": 10078
+        },
+        "accuracy": 0.9728986327966993,
+        "precision": 0.9376628209899516,
+        "recall": 1.0,
+        "f1": 0.9678286756938442,
+        "macro_f1": 0.9722084184954649,
+        "roc_auc": 0.9999645180864319,
+        "average_precision": 0.999949125947922,
+        "specificity": 0.9542474733679323,
+        "false_positive_rate": 0.04575252663206775,
+        "false_negative_rate": 0.0,
+        "balanced_accuracy": 0.9771237366839661,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    },
+    "0.1": {
+      "threshold": 0.09224048256874084,
+      "constraint": 0.1,
+      "metrics": {
+        "samples": 24722,
+        "benign": 14644,
+        "attack": 10078,
+        "confusion_matrix": {
+          "tn": 13974,
+          "fp": 670,
+          "fn": 0,
+          "tp": 10078
+        },
+        "accuracy": 0.9728986327966993,
+        "precision": 0.9376628209899516,
+        "recall": 1.0,
+        "f1": 0.9678286756938442,
+        "macro_f1": 0.9722084184954649,
+        "roc_auc": 0.9999645180864319,
+        "average_precision": 0.999949125947922,
+        "specificity": 0.9542474733679323,
+        "false_positive_rate": 0.04575252663206775,
+        "false_negative_rate": 0.0,
+        "balanced_accuracy": 0.9771237366839661,
+        "status": "EVALUATED"
+      },
+      "selection_population": "validation only; maximize recall then precision then threshold"
+    }
+  },
+  "serialization_roundtrip": "PASS"
+}

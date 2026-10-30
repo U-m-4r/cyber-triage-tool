@@ -1,0 +1,37 @@
+{
+  "selected": "lightgbm",
+  "threshold": 0.1372658878286815,
+  "model_id": "issue6-lightgbm-51b83bd3bc4f",
+  "model_sha256": "51b83bd3bc4f94ff83582086df9ad312cc69ca6d2ff7bff85be7bbc71582032f",
+  "candidate_metadata_sha256": "8b66cb212ec88d2fb193cca9d77597861f913922b4ad7d66aade36c6d9b6f397",
+  "protocol_sha256": "b8e939dd45c67bac289076bd90a504a44326dbe81a7312ef23e241d4fd8211f3",
+  "lock_sha256": "bce4fb91e4eafcbbbc1cb0d506f09cd3bb23029cab30805d7280f02d6a520d56",
+  "prepared_sha256": "750fe9a18604bd791a5b46c66ca1c4956c414baa297abbbb72c73060960ea501",
+  "ranking": [
+    {
+      "name": "xgboost",
+      "macro_family_recall": 1.0,
+      "average_precision": 0.999949125947922,
+      "fpr": 0.04575252663206775
+    },
+    {
+      "name": "lightgbm",
+      "macro_family_recall": 1.0,
+      "average_precision": 0.9999555486387297,
+      "fpr": 0.026290630975143392
+    }
+  ],
+  "resources": {
+    "xgboost": {
+      "wall_seconds": 9.83133369999996,
+      "peak_worker_rss_bytes": 3883008
+    },
+    "lightgbm": {
+      "wall_seconds": 7.432929800001148,
+      "peak_worker_rss_bytes": 3883008
+    }
+  },
+  "sealed_at": "2026-10-30T15:34:48.351642+00:00",
+  "final_labels_accessed": false,
+  "selected_by": "validation macro attack-family recall under empirical FPR <=5%, tie AP then FPR then name"
+}

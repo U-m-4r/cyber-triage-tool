@@ -1,0 +1,9 @@
+{
+  "training_rss_status": "UNVERIFIED: initial monitor observed Windows venv launcher RSS only, not child worker; selection.json peak_worker_rss_bytes is mislabeled and must not be cited as training model memory",
+  "correction": "Future monitor now sums recursive worker children; no candidate was refitted to repair measurement",
+  "valid_measurements": [
+    "fit_seconds measured inside training workers",
+    "wall_seconds",
+    "final inference process RSS measured within actual worker"
+  ]
+}
